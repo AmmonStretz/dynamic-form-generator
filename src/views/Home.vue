@@ -1,18 +1,43 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <WizzardComponent v-bind:dto="dto"></WizzardComponent>
+    <!-- <A v-bind:i="10"></A> -->
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+// import { JsonParser } from "@/shared/DynamicForm/parser";
+import { Field } from "@/shared/DynamicForm/Field/Field.dto";
+import { Form } from "@/shared/DynamicForm/Form/Form.dto";
+import WizzardComponent from "@/shared/DynamicForm/Wizzard/Wizzard.vue";
+import { Wizzard } from "@/shared/DynamicForm/Wizzard/Wizzard.dto";
+import { config } from "./wizzard.config";
+import A from "@/shared/recursion/A.vue";
 
-export default {
-  name: 'Home',
+@Component({
   components: {
-    HelloWorld,
+    WizzardComponent,
+    A
   },
-};
+})
+export default class Home extends Vue {
+
+  public dto: Wizzard = config
+  statusChange(status: any) {
+    console.log(status);
+  }
+  mounted() {
+    console.log(this.dto);
+  }
+  cancel() {
+    console.log("cancel");
+  }
+  submit(status: any) {
+    console.log("submit", status);
+  }
+}
 </script>
+
+<style scoped lang="scss">
+</style>
