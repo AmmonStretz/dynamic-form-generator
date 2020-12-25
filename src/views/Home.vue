@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <WizzardComponent v-bind:dto="dto"></WizzardComponent>
-    <!-- <A v-bind:i="10"></A> -->
   </div>
 </template>
 
@@ -13,12 +12,10 @@ import { Form } from "@/shared/DynamicForm/Form/Form.dto";
 import WizzardComponent from "@/shared/DynamicForm/Wizzard/Wizzard.vue";
 import { Wizzard } from "@/shared/DynamicForm/Wizzard/Wizzard.dto";
 import { config } from "./wizzard.config";
-import A from "@/shared/recursion/A.vue";
 
 @Component({
   components: {
-    WizzardComponent,
-    A
+    WizzardComponent
   },
 })
 export default class Home extends Vue {

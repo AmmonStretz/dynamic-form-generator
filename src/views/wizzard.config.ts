@@ -1,6 +1,8 @@
 import { Wizzard } from './../shared/DynamicForm/Wizzard/Wizzard.dto';
 import { WizzardParser } from '@/shared/DynamicForm/Wizzard/Wizzard.parser';
 
+//TODO: This config will be stored outside the ui
+
 export const config: Wizzard = WizzardParser.parseFromJSON({
   forms: [
     {
