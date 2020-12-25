@@ -1,4 +1,4 @@
-import {ValueField, ValueFieldConfig} from '../Field.dto';
+import { ValueField, ValueFieldConfig, FieldTypes } from '../Field.dto';
 import { Validator } from '../../Validators/validators.class';
 
 export class Checkbox extends ValueField<boolean> {
@@ -7,8 +7,7 @@ export class Checkbox extends ValueField<boolean> {
     public config: ValueFieldConfig<boolean>,
     public validators: Validator<boolean>[] = [],
   ) {
-    super(config, validators);
-    this.type = 'Checkbox'
+    super(FieldTypes.CHECKBOX, config, validators);
   }
 
   public toJson() {

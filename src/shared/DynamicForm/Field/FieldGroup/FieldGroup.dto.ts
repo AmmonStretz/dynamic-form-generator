@@ -1,26 +1,25 @@
 import { ValueFieldConfig } from './../Field.dto';
-import {ValueField} from '../Field.dto';
+import { ValueField, FieldTypes } from '../Field.dto';
 import { Validator } from '../../Validators/validators.class';
 import { Field } from "../Field.dto";
 
-export interface FieldGroupConfig extends ValueFieldConfig<{[key: string]: any}> {
+export interface FieldGroupConfig extends ValueFieldConfig<{ [key: string]: any }> {
   title?: string,
   horizontal?: boolean;
 }
 
-export class FieldGroup extends ValueField<{[key: string]: any}> {
+export class FieldGroup extends ValueField<{ [key: string]: any }> {
   constructor(
     public key: string,
     public fields: Field[],
     public config: FieldGroupConfig,
-    public validators: Validator<{[key: string]: any}>[] = [],
+    public validators: Validator<{ [key: string]: any }>[] = [],
   ) {
-    super(config, validators);
-    this.type = 'FieldGroup'
+    super(FieldTypes.FIELD_GROUP, config, validators);
   }
-  
+
   public toJson() {
-    
+
     let validators: any[] = [];
     this.validators.forEach(validator => {
       validators.push(validator.toJson())

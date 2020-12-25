@@ -44,7 +44,7 @@ export default class WizzardComponent extends Vue {
 
   submit() {
     this.service.submit();
-    if (this.status.values[this.status.index].isValide) {
+    if (this.status.values[this.status.index].isValid) {
       if (this.status.index < this.dto.forms.length - 1) {
         this.status.index++;
       } else if (this.status.index == this.dto.forms.length - 1) {

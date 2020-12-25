@@ -1,31 +1,31 @@
 <template>
   <div class="field">
     <NumberInputComponent
-      v-if="dto.type == 'NumberInput'"
+      v-if="dto.type == 'numberInput'"
       v-bind:dto="dto"
       v-bind:service="service"
       v-on:change="onChange"
     ></NumberInputComponent>
     <NumberRangeComponent
-      v-if="dto.type == 'NumberRange'"
+      v-if="dto.type == 'numberRange'"
       v-bind:dto="dto"
       v-bind:service="service"
       v-on:change="onChange"
     ></NumberRangeComponent>
     <CheckboxComponent
-      v-if="dto.type == 'Checkbox'"
+      v-if="dto.type == 'checkbox'"
       v-bind:dto="dto"
       v-bind:service="service"
       v-on:change="onChange"
     ></CheckboxComponent>
     <FieldGroupComponent
-      v-if="dto.type == 'FieldGroup'"
+      v-if="dto.type == 'fieldGroup'"
       v-bind:dto="dto"
       v-bind:service="service"
       v-on:change="onChange"
     ></FieldGroupComponent>
     <TextFieldComponent
-      v-if="dto.type == 'TextField'"
+      v-if="dto.type == 'textField'"
       v-bind:dto="dto"
     ></TextFieldComponent>
     <p class="error" v-if="message">Error: {{ message }}</p>
@@ -60,7 +60,7 @@ export default class FieldComponent extends Vue {
   public message: string = "";
 
   @Emit("change")
-  onChange(status: FieldStatus<any>) {
+  onChange(status: FieldStatus<any>) {    
     this.message = !status.isValid && status.show ? status.errors[0].message : "";
     return status;
   }
@@ -68,7 +68,4 @@ export default class FieldComponent extends Vue {
 </script>
 
 <style scoped lang="scss">
-// input.show:not(.valid) {
-//   background-color: red;
-// }
 </style>

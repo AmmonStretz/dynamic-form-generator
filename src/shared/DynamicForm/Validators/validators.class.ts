@@ -1,3 +1,5 @@
+import { MaxNumber } from "./number/MaxNumber.validator";
+
 export enum ValidatorTypes {
   REQUIRED = 'required',
   MAX_NUMBER = 'maxNumber',
@@ -8,12 +10,12 @@ export abstract class Validator<T> {
     public type: string,
     public message: string,
   ) { }
-  public abstract isValide(value: T): boolean;
+  public abstract isValid(value: T): boolean;
 
   public static checkFieldValidity(value: any, validators: Validator<any>[]) {
     let errors: {type: string, message: string}[] = [];
     validators.forEach(validator => {
-      if (!validator.isValide(value)) {
+      if (!validator.isValid(value)) {
         errors.push({
           type: validator.type,
           message: validator.message,
@@ -24,7 +26,4 @@ export abstract class Validator<T> {
   }
 
   public abstract toJson(): any;
-  public static fromJson(): Validator<any> {
-
-  }
 }

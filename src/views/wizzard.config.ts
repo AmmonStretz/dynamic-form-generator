@@ -1,59 +1,67 @@
-import { Required } from '../shared/DynamicForm/Validators/index';
-import { NumberInput } from '@/shared/DynamicForm/Field/NumberInput/NumberInput.dto';
-import { NumberRange } from '@/shared/DynamicForm/Field/NumberRange/NumberRange.dto';
-import { Checkbox } from '@/shared/DynamicForm/Field/Checkbox/Checkbox.dto';
-import { TextField } from '@/shared/DynamicForm/Field/TextField/TextField.dto';
-import { Form } from '@/shared/DynamicForm/Form/Form.dto';
 import { Wizzard } from './../shared/DynamicForm/Wizzard/Wizzard.dto';
-import { FieldGroup } from '@/shared/DynamicForm/Field/FieldGroup/FieldGroup.dto';
+import { WizzardParser } from '@/shared/DynamicForm/Wizzard/Wizzard.parser';
 
-export const config: Wizzard = new Wizzard([
-  new Form([
-    new Checkbox('Key00', {
-      description: '(Personengesellschaft vs. Kapitalgesellschaft Erklärung)',
-      name: 'Handelt es sich bei dem Unternehmen um eine Kapitalgesellschaft?'
-    }, [])
-  ], {
-    title: 'Gesellschaftsform'
-  }),
-  new Form([
-    new NumberInput('Key01', {
-      description: 'Hier tragen Sie den aufsummierten Kontostand aller Girokonten Ihres Unternehmens am Tag der Erstellung der Liquiditätsplanung ein.',
-      name: 'Kontostand (in Tsd Eur)',
-      unit: 'x 1000€'
-    }, []),
-    new NumberInput('Key02', {
-      description: 'Eintragen einer oder mehrerer KK-Linien mit dem jeweiligen Zinssatz. Bei Mehreren bitte aufsummieren.',
-      name: 'Kontokorrentlinien'
-    },
-      [
-        new Required('Test')
-      ]),
-    new NumberRange('Key03', {
-      min: 0,
-      max: 100,
-      step: 1,
-      default: 50,
-      unit: '%',
-      name: 'Kontokorrentlinien Zinssatz'
-    },
-      [
-        new Required('Test')
-      ])
-  ], {
-    title: 'Finanzbestände'
-  }),
-  new Form([
-    new NumberInput('Key04', {
-      description: `
+export const config: Wizzard = WizzardParser.parseFromJSON({
+  forms: [
+    {
+      fields: [
+        {
+          type: 'checkbox', key: 'Key00', config: {
+            description: '(Personengesellschaft vs. Kapitalgesellschaft Erklärung)',
+            name: 'Handelt es sich bei dem Unternehmen um eine Kapitalgesellschaft?'
+          }, validators: []
+        }
+      ],
+      config: {
+        title: 'Gesellschaftsform'
+      }
+    }, {
+      fields: [
+        {
+          type: 'numberInput', key: 'Key01', config: {
+            description: 'Hier tragen Sie den aufsummierten Kontostand aller Girokonten Ihres Unternehmens am Tag der Erstellung der Liquiditätsplanung ein.',
+            name: 'Kontostand (in Tsd Eur)',
+            unit: 'x 1000€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key02', config: {
+            description: 'Eintragen einer oder mehrerer KK-Linien mit dem jeweiligen Zinssatz. Bei Mehreren bitte aufsummieren.',
+            name: 'Kontokorrentlinien'
+          }, validators: [{
+            type: 'required',
+            message: 'Dieses Feld muss ausgefüllt werden'
+          }]
+        },
+        {
+          type: 'numberRange', key: 'Key03', config: {
+            min: 0,
+            max: 100,
+            step: 1,
+            default: 50,
+            unit: '%',
+            name: 'Kontokorrentlinien Zinssatz'
+          }, validators: []
+        }
+      ],
+      config: {
+        title: 'Finanzbestände'
+      }
+    }, {
+      fields: [
+        {
+          type: 'numberInput', key: 'Key04', config: {
+            description: `
         Summe der Waren und/oder Dienstleistungen, für die Sie in der jeweiligen Woche einen Zahlungseingang erwarten.
         Es ist der Bruttobetrag einzutragen inkl. Umsatzsteuer.
       `,
-      name: 'Kundenforderungen aus Umsatz',
-      unit: '€'
-    }, []),
-    new NumberInput('Key05', {
-      description: `
+            name: 'Kundenforderungen aus Umsatz',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key05', config: {
+            description: `
         Haben Sie vor innerhalb des Betrachtungszeitraumes, Geld
         aus Ihrem privaten Vermögen zum Beispiel in die Kasse oder auf ein Bankkonto
         einzuzahlen? Haben Sie vor Anlagevermögen (z.B. Tische, Maschinen, etc.. ) zu
@@ -65,25 +73,30 @@ export const config: Wizzard = new Wizzard([
         werden oder Einzahlungen von Stammkapital oder Kapitalbeteiligungen. Bitte tragen
         Sie die Beträge für die Woche ein, in der Sie den Zahlungseingang erwarten.
       `,
-      name: 'Sonstige Einzahlungen',
-      unit: '€'
-    }, []),
-  ], {
-    title: 'Einzahlungen'
-  }),
-  new Form([
-    new NumberInput('Key06', {
-      description: `
+            name: 'Sonstige Einzahlungen',
+            unit: '€'
+          }, validators: []
+        },
+      ], config: {
+        title: 'Einzahlungen'
+      }
+    }, {
+      fields: [
+        {
+          type: 'numberInput', key: 'Key06', config: {
+            description: `
         Haben Sie vor in einem der Monate Investitionen in Gegenstände
         zu tätigen, die dem Unternehmen “dauerhaft dienen sollen”? Das könnten zum
         Beispiel Maschinen im Fall einer Schreinerei sein oder ein neuer Spiegel im Fall einer
         Tanzschule.
       `,
-      name: 'Anlagevermögen',
-      unit: '€'
-    }, []),
-    new NumberInput('Key07', {
-      description: `
+            name: 'Anlagevermögen',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key07', config: {
+            description: `
         Diese enthalten die Löhne und Gehälter der Angestellten des
         Unternehmens sowie alle liquiditätswirksamen Lohnnebenkosten. Diese sind unter
         anderem die Sozialabgaben mit einzubeziehen (also Arbeitgeberbeiträge zu
@@ -93,11 +106,13 @@ export const config: Wizzard = new Wizzard([
         oder Tantiemen monatlich einbuchen, sind nicht liquiditätswirksam und dürfen hier
         nicht mit aufgeführt werden.
       `,
-      name: 'Personal',
-      unit: '€'
-    }, []),
-    new NumberInput('Key08', {
-      description: `
+            name: 'Personal',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key08', config: {
+            description: `
         In dieser Zeile tragen Sie wochengenau Ihre
         Lieferantenverbindlichkeiten ein, die Sie für alle Vorleistungen Ihrer eigenen Produkte
         oder Dienstleistungen in der Woche bezahlen. Auch hier tragen Sie die Bruttobeträge
@@ -109,35 +124,49 @@ export const config: Wizzard = new Wizzard([
         Für ein Cafe wäre das zum Beispiel die Kaffeebohnen, die eingekauft werden
         müssen.
       `,
-      name: 'Material/Waren/Fremdleistungen',
-      unit: '€'
-    }, []),
-    new NumberInput('Key09', {
-      name: 'Miete',
-      unit: '€'
-    }, []),
-    new NumberInput('Key10', {
-      name: 'Mietnebenkosten',
-      unit: '€'
-    }, []),
-    new NumberInput('Key11', {
-      name: 'Versicherungen',
-      unit: '€'
-    }, []),
-    new NumberInput('Key12', {
-      name: 'Telekommunikationskosten',
-      unit: '€'
-    }, []),
-    new NumberInput('Key13', {
-      name: 'IT-Kosten',
-      unit: '€'
-    }, []),
-    new NumberInput('Key14', {
-      name: 'Leasingraten',
-      unit: '€'
-    }, []),
-    new NumberInput('Key15', {
-      description: `
+            name: 'Material/Waren/Fremdleistungen',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key09', config: {
+            name: 'Miete',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key10', config: {
+            name: 'Mietnebenkosten',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key11', config: {
+            name: 'Versicherungen',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key12', config: {
+            name: 'Telekommunikationskosten',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key13', config: {
+            name: 'IT-Kosten',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key14', config: {
+            name: 'Leasingraten',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key15', config: {
+            description: `
         Haben Sie einen Kredit aufgenommen, so ist ihre
         monatliche Zahlung an die Bank in zwei Teile aufgeteilt: Die Tilgung und die
         Zinszahlung.
@@ -150,11 +179,13 @@ export const config: Wizzard = new Wizzard([
         quartalsweise oder halbjährliche Zahlungen leisten
         Screenreader-Unterstützung aktiviert.      
       `,
-      name: 'Kredittilgung und Zinszahlungen',
-      unit: '€'
-    }, []),
-    new NumberInput('Key16', {
-      description: `
+            name: 'Kredittilgung und Zinszahlungen',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key16', config: {
+            description: `
         Üblicherweise geben Unternehmen ihre
         Umsatzsteuervoranmeldung monatlich ab. Dabei ist zu beachten, ob Sie eine
         Fristverlängerung beantragt haben oder nicht. Haben Sie keine Fristverlängerung
@@ -172,44 +203,56 @@ export const config: Wizzard = new Wizzard([
         aufgehoben wird.
         Screenreader-Unterstützung aktiviert.      
       `,
-      name: 'Umsatzsteuer/Vorsteuer',
-      unit: '€'
-    }, []),
-    new NumberInput('Key17', {
-      description: `
+            name: 'Umsatzsteuer/Vorsteuer',
+            unit: '€'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key17', config: {
+            description: `
         Die Einkommen-, Gewerbe
         und Körperschaftsteuer werden auf das voraussichtliche zu versteuernde kumulierte
         Ergebnis berechnet. Da der Zeithorizont der Liquiditätsplanung lediglich 13 Wochen
         beträgt, sind hier üblicherweise nur die regelmäßig zu leistenden Vorauszahlungen
         einzutragen oder Abschlusszahlungen, sobald ein Bescheid ergangen ist.
       `,
-      name: 'Einkommensteuer/ Gewerbesteuer/ Körperschaftsteuer'
-    }, []),
-    new NumberInput('Key18', {
-      description: `
+            name: 'Einkommensteuer/ Gewerbesteuer/ Körperschaftsteuer'
+          }, validators: []
+        },
+        {
+          type: 'numberInput', key: 'Key18', config: {
+            description: `
         Freie Entnahmen, Zahlungen von Krankenversicherung und
         weiteren privat veranlassten Kosten.
       `,
-      name: 'Privatentnahmen:',
-      unit: '€'
-    }, []),
-  ], {
-    title: 'Auszahlungen'
-  }),
-  new Form([
-    new NumberInput('Key19', {
-      description: `
+            name: 'Privatentnahmen:',
+            unit: '€'
+          }, validators: []
+        },
+      ], config: {
+        title: 'Auszahlungen'
+      }
+    },
+    {
+      fields: [
+        {
+          type: 'numberInput', key: 'Key19', config: {
+            description: `
         Hier können Sie in die einzelnen Wochen zusätzlich vorhandene Finanzmittel
         eintragen. Dies kann beispielsweise ein bereits vereinbarter Saisonkredit sein, den
         Sie für einen Monat erhalten oder eine Kreditlinie, die Ihnen nur noch einige Wochen
         zur Verfügung steht und nicht über die gesamte Periode der 13 Wochen hinweg.
       `,
-      name: 'Korrekturfaktor Finanzmittel',
-      unit: '€'
-    }, []),
-  ], {
-    title: 'Korrekturfaktoren'
-  })
-], {
-  title: 'Gaas'
-})
+            name: 'Korrekturfaktor Finanzmittel',
+            unit: '€'
+          }, validators: []
+        },
+      ], config: {
+        title: 'Korrekturfaktoren'
+      }
+    }
+  ], config: {
+    title: 'Gaas'
+  }
+}
+)

@@ -1,11 +1,10 @@
-import {Field} from '../Field.dto';
+import {Field, FieldTypes} from '../Field.dto';
 
 export class TextField extends Field {
   constructor(
     public text: string,
   ) {
-    super({});
-    this.type = 'TextField'
+    super(FieldTypes.TEXT_FIELD,{});
   }
   
   public toJson() {

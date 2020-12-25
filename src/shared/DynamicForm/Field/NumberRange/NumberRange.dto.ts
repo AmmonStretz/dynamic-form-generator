@@ -1,5 +1,5 @@
 import { ValueFieldConfig } from './../Field.dto';
-import {ValueField} from '../Field.dto';
+import { ValueField, FieldTypes } from '../Field.dto';
 import { Validator } from '../../Validators/validators.class';
 
 export interface NumberRangeConfig extends ValueFieldConfig<number> {
@@ -15,12 +15,11 @@ export class NumberRange extends ValueField<number> {
     public config: NumberRangeConfig,
     public validators: Validator<number>[] = [],
   ) {
-    super(config, validators);
-    this.type = 'NumberRange'
+    super(FieldTypes.NUMBER_RANGE, config, validators);
   }
-  
+
   public toJson() {
-    
+
     let validators: any[] = [];
     this.validators.forEach(validator => {
       validators.push(validator.toJson())

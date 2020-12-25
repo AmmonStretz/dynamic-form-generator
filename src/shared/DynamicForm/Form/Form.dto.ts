@@ -2,19 +2,17 @@ import { Field } from '../Field/Field.dto';
 
 export interface FormStatus {
   values: { [key: string]: any };
-  isValide?: boolean;
+  isValid?: boolean;
 }
 
 export class Form {
-  private type: string;
+  private type: string = 'Form';
   constructor(
     public fields: Field[],
     public config?: {
       title?: string
     }
-  ) {
-    this.type = 'Form';
-  }
+  ) {}
 
   public toJson() {
     let fields: any[] = [];

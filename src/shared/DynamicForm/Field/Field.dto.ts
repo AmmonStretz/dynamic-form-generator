@@ -1,6 +1,14 @@
 // import NumberInput from './NumberInput/dto.class';
 import { Validator } from '../Validators/validators.class';
 
+export enum FieldTypes {
+  CHECKBOX= 'checkbox',
+  FIELD_GROUP= 'fieldGroup',
+  NUMBER_INPUT = 'numberInput',
+  NUMBER_RANGE = 'numberRange',
+  TEXT_FIELD = 'textField'
+}
+
 export interface FieldStatus<T> {
   key: string,
   value: T,
@@ -21,9 +29,8 @@ export interface ValueFieldConfig<T> extends FieldConfig {
 
 export abstract class Field {
 
-  public type!: string;
-
   constructor(
+    public type: FieldTypes,
     public config?: FieldConfig,
   ) { }
 
@@ -31,13 +38,12 @@ export abstract class Field {
 }
 export abstract class ValueField<T> extends Field {
 
-  public type!: string;
-
   constructor(
+    public type: FieldTypes,
     public config?: ValueFieldConfig<T>,
     public validators: Validator<T>[] = [],
   ) {
-    super();
+    super(type, config);
   }
 
   abstract toJson(): any;

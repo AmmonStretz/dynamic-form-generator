@@ -32,7 +32,7 @@ export default class FormComponent extends Vue {
   @Emit("change")
   onChange(status: FieldStatus<any>) {
     this.status.values[status.key] = status;
-    this.status.isValide = this.checkValidity();
+    this.status.isValid = this.checkValidity();
     return this.status;
   }
 
