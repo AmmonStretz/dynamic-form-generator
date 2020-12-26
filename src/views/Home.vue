@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <WizzardComponent v-bind:dto="dto"></WizzardComponent>
+    <WizzardComponent v-bind:dto="dto" v-on:change="statusChange"></WizzardComponent>
   </div>
 </template>
 

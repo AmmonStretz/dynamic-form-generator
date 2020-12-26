@@ -35,11 +35,12 @@ export default class WizzardComponent extends Vue {
   public status: WizzardStatus = {
     values: [],
     index: 0
-  } ;
+  };
 
   @Emit("change")
   onChange(status: any) {
     this.status.values[this.status.index] = status;
+    return this.status;
   }
 
   submit() {
