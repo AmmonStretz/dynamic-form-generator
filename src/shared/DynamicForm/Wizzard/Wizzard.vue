@@ -20,7 +20,6 @@
         <FormComponent
           v-if="i == currentStatus.index"
           v-bind:dto="form"
-          v-bind:service="service"
           v-bind:status="status.values[i]"
           v-on:change="onChange"
           :ref="'form'+i"
@@ -49,7 +48,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { FormService } from "../services/Form.service";
 import FormComponent from "../Form/Form.vue";
 import { Wizzard, WizzardStatus } from "./Wizzard.dto";
 import { FormStatus } from "../Form/Form.dto";
@@ -60,7 +58,6 @@ import { FormStatus } from "../Form/Form.dto";
   },
 })
 export default class WizzardComponent extends Vue {
-  public service: FormService = new FormService();
 
   @Prop() public dto!: Wizzard;
   public status: WizzardStatus = this.dto.generateStatus();
@@ -76,7 +73,6 @@ export default class WizzardComponent extends Vue {
   }
 
   next() {
-    this.service.submit();
     if (
       this.dto.forms[this.status.index].fields.length == 0 ||
       this.status.values[this.status.index].isValid
@@ -89,13 +85,12 @@ export default class WizzardComponent extends Vue {
 
   @Emit("submit")
   submit() {
-    this.service.submit();
     if (
       this.dto.forms[this.status.index].fields.length == 0 ||
       this.status.values[this.status.index].isValid
-    ) {
+    ) {      
       return this.status;
-    }
+      }
   }
   cancel(status: any) {
     if (this.status.index > 0) {

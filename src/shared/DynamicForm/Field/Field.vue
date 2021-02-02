@@ -3,28 +3,24 @@
     <NumberInputComponent
       v-if="dto.type == 'numberInput'"
       v-bind:dto="dto"
-      v-bind:service="service"
       v-bind:status="status"
       v-on:change="onChange"
     ></NumberInputComponent>
     <NumberRangeComponent
       v-if="dto.type == 'numberRange'"
       v-bind:dto="dto"
-      v-bind:service="service"
       v-bind:status="status"
       v-on:change="onChange"
     ></NumberRangeComponent>
     <CheckboxComponent
       v-if="dto.type == 'checkbox'"
       v-bind:dto="dto"
-      v-bind:service="service"
       v-bind:status="status"
       v-on:change="onChange"
     ></CheckboxComponent>
     <FieldGroupComponent
       v-if="dto.type == 'fieldGroup'"
       v-bind:dto="dto"
-      v-bind:service="service"
       v-bind:status="status"
       v-on:change="onChange"
     ></FieldGroupComponent>
@@ -35,7 +31,6 @@
     <SelectComponent
       v-if="dto.type == 'select'"
       v-bind:dto="dto"
-      v-bind:service="service"
       v-bind:status="status"
       v-on:change="onChange"
     ></SelectComponent>
@@ -55,7 +50,6 @@ import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
 import TextFieldComponent from "./TextField/TextField.vue";
 import SelectComponent from "./Select/Select.vue";
 import { Field, FieldStatus, ValueField } from "./Field.dto";
-import { FormService } from "../services/Form.service";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -70,7 +64,6 @@ import { FormService } from "../services/Form.service";
 })
 export default class FieldComponent extends Vue {
   @Prop() private dto!: Field;
-  @Prop() public service!: FormService;
 
   @Prop()
   public status: FieldStatus<any>;

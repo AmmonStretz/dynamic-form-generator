@@ -25,8 +25,6 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { NumberRange } from "./NumberRange.dto";
 import { Validator } from "../../Validators/validators.class";
-import { FormService } from '../../services/Form.service';
-import { FinderService } from '../../services/Finder.service';
 import { FieldStatus } from "../Field.dto";
 
 @Component({
@@ -35,31 +33,17 @@ import { FieldStatus } from "../Field.dto";
 export default class NumberRangeComponent extends Vue {
 
   @Prop() private dto!: NumberRange;
-  @Prop() public service!: FormService;
   
   @Prop()
   public status!: FieldStatus<number>;
   public $refs: any;
 
   mounted() {
-    if(this.dto.key in FinderService.values){
-      this.status.value = FinderService.values[this.dto.key];
-    } else if ("default" in this.dto.config) {
+    if ("default" in this.dto.config) {
       this.status.value = this.dto.config.default;
     } else {
       this.status.value = this.dto.config.min;
     }
-    if(!!this.service){
-      this.service.addSubmitListener(()=>{
-        this.status.show = true;
-        this.updateStatus();
-      })
-      
-    }
-    this.updateStatus();
-  }
-  @Watch("value")
-  valueChanged(newVal: any) {
     this.updateStatus();
   }
   setFocus() {
@@ -76,9 +60,6 @@ export default class NumberRangeComponent extends Vue {
   updateStatus(): FieldStatus<number> {
     let errors = Validator.checkFieldValidity(this.status.value, this.dto.validators);
     this.status.isValid = errors.length == 0;
-    // if(this.status.isValid){
-    //   FinderService.values[this.dto.key] = this.status.value;
-    // }
     return this.status;
   }
 }

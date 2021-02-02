@@ -18,7 +18,6 @@ export class Required extends Validator<any> {
   }
   public static fromJson(json: {message: string}): Required {
     let val = Object.create(Required.prototype);
-    console.log(val);
     return Object.assign(val, json, {})
   }
 }

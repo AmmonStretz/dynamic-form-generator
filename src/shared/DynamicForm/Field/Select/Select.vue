@@ -38,8 +38,6 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { Select } from "./Select.dto";
 import { Validator } from "../../Validators/validators.class";
-import { FormService } from "../../services/Form.service";
-import { FinderService } from "../../services/Finder.service";
 import { FieldStatus } from "../Field.dto";
 
 @Component({
@@ -47,7 +45,6 @@ import { FieldStatus } from "../Field.dto";
 })
 export default class SelectComponent extends Vue {
   @Prop() private dto!: Select;
-  @Prop() public service!: FormService;
   
   @Prop()
   public status!: FieldStatus<number>;
@@ -55,21 +52,6 @@ export default class SelectComponent extends Vue {
 
   mounted() {
     this.status.key = this.dto.key;
-    if (this.dto.key in FinderService.values) {
-      this.status.value = FinderService.values[this.dto.key];
-    } else if ("default" in this.dto.config) {
-      this.status.value = this.dto.config.default;
-    }
-    if (!!this.service) {
-      this.service.addSubmitListener(() => {
-        this.status.show = true;
-        this.updateStatus();
-      });
-    }
-    this.updateStatus();
-  }
-  @Watch("value")
-  valueChanged(newVal: any) {
     this.updateStatus();
   }
   setFocus() {
@@ -89,9 +71,6 @@ export default class SelectComponent extends Vue {
       this.dto.validators
     );
     this.status.isValid = this.status.errors.length == 0;
-    if (this.status.isValid) {
-      FinderService.values[this.dto.key] = this.status.value;
-    }
     return this.status;
   }
 }

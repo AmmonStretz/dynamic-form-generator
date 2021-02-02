@@ -19,11 +19,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { Checkbox } from "./Checkbox.dto";
 import { Validator } from "../../Validators/validators.class";
-import { FormService } from "../../services/Form.service";
-import { FinderService } from "../../services/Finder.service";
 import { FieldStatus } from "../Field.dto";
 
 @Component({
@@ -31,7 +29,6 @@ import { FieldStatus } from "../Field.dto";
 })
 export default class CheckboxComponent extends Vue {
   @Prop() private dto!: Checkbox;
-  @Prop() public service!: FormService;
 
   @Prop()
   public status: FieldStatus<boolean>;
@@ -41,24 +38,6 @@ export default class CheckboxComponent extends Vue {
   public valid: boolean = false;
   public $refs: any;
 
-  mounted() {
-    if (this.dto.key in FinderService.values) {
-      this.status.value = FinderService.values[this.dto.key];
-    } else if ("default" in this.dto.config) {
-      this.status.value = this.dto.config.default;
-    }
-    if (!!this.service) {
-      this.service.addSubmitListener(() => {
-        this.status.show = true;
-        this.updateStatus();
-      });
-    }
-    this.updateStatus();
-  }
-  @Watch("value")
-  valueChanged(newVal: any) {
-    this.updateStatus();
-  }
   setFocus() {
     this.status.show = false;
     this.updateStatus();
@@ -76,9 +55,6 @@ export default class CheckboxComponent extends Vue {
       this.dto.validators
     );
     this.status.isValid = this.status.errors.length == 0;
-    // if (this.status.isValid) {
-    //   FinderService.values[this.dto.key] = this.status.value;
-    // }
     return this.status;
   }
 }

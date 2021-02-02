@@ -5,7 +5,6 @@
       v-for="(field, index) in dto.fields"
       :key="index"
       v-bind:dto="field"
-      v-bind:service="service"
       v-bind:status="status.fields[dto.fields[index].key]"
       v-on:change="onChange"
     ></FieldComponent>
@@ -17,7 +16,6 @@
 import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import FieldComponent from "../Field/Field.vue";
 import { Form, FormStatus } from "./Form.dto";
-import { FormService } from "../services/Form.service";
 import { FieldStatus } from '../Field/Field.dto';
 
 @Component({
@@ -30,7 +28,6 @@ export default class FormComponent extends Vue {
 
   @Prop()
   public status: FormStatus;
-  @Prop() public service!: FormService;
 
   @Emit("change")
   onChange(status: FieldStatus<any>): FormStatus {
@@ -47,11 +44,6 @@ export default class FormComponent extends Vue {
       }
     }
     return true;
-  }
-
-  public showAllErrors() {
-    console.log('error');
-    
   }
 }
 </script>

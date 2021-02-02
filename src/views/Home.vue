@@ -46,7 +46,7 @@ export default class Home extends Vue {
   }
   submit(status: WizzardStatus) {
     (this as any).$store.dispatch("changeStatus", status);
-    console.log((this as any).$router.push('results'));
+    (this as any).$router.push('results');
     // console.log("submit", status);
   }
 }

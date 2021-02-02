@@ -42,8 +42,6 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { NumberInput } from "./NumberInput.dto";
 import { Validator } from "../../Validators/validators.class";
-import { FormService } from '../../services/Form.service';
-import { FinderService } from '../../services/Finder.service';
 import { FieldStatus } from '../Field.dto';
 
 @Component({
@@ -51,28 +49,11 @@ import { FieldStatus } from '../Field.dto';
 })
 export default class NumberInputComponent extends Vue {
   @Prop() private dto!: NumberInput;
-  @Prop() public service!: FormService;
 
   @Prop()
   public status: FieldStatus<number>;
   public $refs: any;
 
-  mounted() {
-    this.status.key = this.dto.key;
-    if(this.dto.key in FinderService.values){
-      this.status.value = FinderService.values[this.dto.key];
-    } else if ("default" in this.dto.config) {
-      this.status.value = this.dto.config.default;
-    }
-    // if(!!this.service){
-    //   this.service.addSubmitListener(()=>{
-    //     this.status.show = true;
-    //     this.updateStatus();
-    //   })
-      
-    // }
-    this.updateStatus();
-  }
   setFocus() {
     this.status.show = false;
     this.updateStatus();
@@ -87,9 +68,6 @@ export default class NumberInputComponent extends Vue {
   updateStatus(): FieldStatus<number> {
     this.status.errors = Validator.checkFieldValidity(this.status.value, this.dto.validators);
     this.status.isValid = this.status.errors.length == 0;
-    // if(this.status.isValid){
-      //   FinderService.values[this.dto.key] = this.status.value;
-    // }
     return this.status;
   }
 }

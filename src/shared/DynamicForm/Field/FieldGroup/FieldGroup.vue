@@ -7,7 +7,6 @@
       v-for="(field, index) in dto.fields"
       :key="index"
       v-bind:dto="field"
-      v-bind:service="service"
       v-bind:status="status.value[Object.keys(status.value)[index]]"
       v-on:change="onChange"
     ></FieldComponent>
@@ -19,7 +18,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { FormService } from "../../services/Form.service";
 import { FieldStatus } from '../Field.dto';
 import { FieldGroup } from "./FieldGroup.dto";
 // import FieldComponent from "../Field.vue";
@@ -36,7 +34,6 @@ export default class FieldGroupComponent extends Vue {
 
   @Prop()
   public status: FieldStatus<{[key:string]: any}>;
-  @Prop() public service!: FormService;
 
   constructor(){
     super();
@@ -45,14 +42,8 @@ export default class FieldGroupComponent extends Vue {
 
   @Emit("change")
   onChange(status: FieldStatus<any>): FieldStatus<{[key:string]: any}> {
-    console.log(status);
-    console.log(this.status.value[status.key]);
-    
-    
     this.status.value[status.key] = status;
     this.status.isValid = this.checkValidity();
-    
-    
     return this.status;
   }
 
