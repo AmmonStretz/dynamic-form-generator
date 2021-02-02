@@ -1,4 +1,5 @@
 import { FieldParser } from "../Field/Field.parser";
+import { BooleanObjectParser } from "../math-logic/parsers/boolean.class";
 import { Form } from "./Form.dto";
 
 export class FormParser {
@@ -10,9 +11,11 @@ export class FormParser {
     return result;
   }
   public static parseFromJSON(json: any): Form {
+    if(!json.visible) json.visible = {key: "boolean-const", value: true};
     return new Form(
         FieldParser.parseFromJSONArray(json.fields),
-        json.config
+        json.config,
+        BooleanObjectParser.fromJson(json.visible)
     );
   }
 }

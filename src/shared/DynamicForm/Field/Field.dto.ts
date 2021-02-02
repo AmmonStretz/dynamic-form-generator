@@ -1,20 +1,26 @@
-// import NumberInput from './NumberInput/dto.class';
+import { BooleanObject } from '../math-logic/math-object.class';
 import { Validator } from '../Validators/validators.class';
 
 export enum FieldTypes {
-  CHECKBOX= 'checkbox',
-  FIELD_GROUP= 'fieldGroup',
+  CHECKBOX = 'checkbox',
+  FIELD_GROUP = 'fieldGroup',
   NUMBER_INPUT = 'numberInput',
   NUMBER_RANGE = 'numberRange',
-  TEXT_FIELD = 'textField'
+  TEXT_FIELD = 'textField',
+  SELECT = 'select'
 }
 
-export interface FieldStatus<T> {
-  key: string,
-  value: T,
-  isValid?: boolean,
-  show?: boolean,
-  errors?: {message: string, type: string}[],
+export class FieldStatus<T> {
+  constructor(
+    public key: string,
+    public value: T,
+    public isValid?: boolean,
+    public show?: boolean,
+    public errors?: { message: string, type: string }[]) {}
+
+    public showAllErrors(): void {
+      this.show = true;
+    }
 }
 
 export interface FieldConfig {
@@ -31,7 +37,8 @@ export abstract class Field {
 
   constructor(
     public type: FieldTypes,
-    public config?: FieldConfig,
+    public config: FieldConfig,
+    public visible: BooleanObject,
   ) { }
 
   abstract toJson(): any;
@@ -39,12 +46,16 @@ export abstract class Field {
 export abstract class ValueField<T> extends Field {
 
   constructor(
+    public key: string,
     public type: FieldTypes,
-    public config?: ValueFieldConfig<T>,
+    public config: ValueFieldConfig<T>,
     public validators: Validator<T>[] = [],
+    public visible: BooleanObject,
   ) {
-    super(type, config);
+    super(type, config, visible);
   }
+
+  abstract generateStatus(): FieldStatus<T>;
 
   abstract toJson(): any;
 }

@@ -13,9 +13,8 @@
       @focus="setFocus()"
       @blur="setBlur()"
       :class="{ show: status.show, valid: status.isValid }"
-    />
-    <br />
-    <p if="dto.config.description">{{ dto.config.description }}</p>
+    /><br>
+    <div v-if="status.show && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -34,11 +33,8 @@ export default class CheckboxComponent extends Vue {
   @Prop() private dto!: Checkbox;
   @Prop() public service!: FormService;
 
-  public status: FieldStatus<boolean> = {
-    key: this.dto.key,
-    value: null,
-    show: false,
-  };
+  @Prop()
+  public status: FieldStatus<boolean>;
 
   public value: boolean = false;
   public show: boolean = false;
@@ -64,24 +60,25 @@ export default class CheckboxComponent extends Vue {
     this.updateStatus();
   }
   setFocus() {
+    this.status.show = false;
     this.updateStatus();
   }
 
-  setBlur() {
+  setBlur() {    
     this.status.show = true;
     this.updateStatus();
   }
 
   @Emit("change")
-  updateStatus():FieldStatus<boolean> {
+  updateStatus(): FieldStatus<boolean> {
     this.status.errors = Validator.checkFieldValidity(
       this.value,
       this.dto.validators
     );
     this.status.isValid = this.status.errors.length == 0;
-    if (this.status.isValid) {
-      FinderService.values[this.dto.key] = this.status.value;
-    }
+    // if (this.status.isValid) {
+    //   FinderService.values[this.dto.key] = this.status.value;
+    // }
     return this.status;
   }
 }

@@ -8,9 +8,12 @@
       :key="index"
       v-bind:dto="field"
       v-bind:service="service"
+      v-bind:status="status.value[Object.keys(status.value)[index]]"
       v-on:change="onChange"
     ></FieldComponent>
     </div>
+    <br>
+    <p if="dto.config.description">{{dto.config.description}}</p>
   </div>
 </template>
 
@@ -31,7 +34,8 @@ import { FieldGroup } from "./FieldGroup.dto";
 export default class FieldGroupComponent extends Vue {
   @Prop() public dto!: FieldGroup;
 
-  public status: FieldStatus<{[key:string]: any}> = { key: null, value: {} }; //any
+  @Prop()
+  public status: FieldStatus<{[key:string]: any}>;
   @Prop() public service!: FormService;
 
   constructor(){
@@ -40,9 +44,15 @@ export default class FieldGroupComponent extends Vue {
   }
 
   @Emit("change")
-  onChange(status: any) {
+  onChange(status: FieldStatus<any>): FieldStatus<{[key:string]: any}> {
+    console.log(status);
+    console.log(this.status.value[status.key]);
+    
+    
     this.status.value[status.key] = status;
     this.status.isValid = this.checkValidity();
+    
+    
     return this.status;
   }
 

@@ -1,8 +1,14 @@
 import { Form, FormStatus } from '../Form/Form.dto';
 
-export interface WizzardStatus {
-  values: FormStatus[];
-  index: number;
+export class WizzardStatus {
+  constructor(
+    public values: FormStatus[],
+    public index: number,
+  ) { }
+
+  showErrorOfIndex() {
+    this.values[this.index].showAllErrors();
+  }
 };
 
 export class Wizzard {
@@ -11,9 +17,26 @@ export class Wizzard {
     public forms: Form[],
     public config?: {
       title?: string,
-    }
+      submitButtonText?: string,
+      prevButtonText?: string,
+      nextButtonText?: string,
+    },
+    public status?: WizzardStatus,
   ) {
     this.type = 'Wizzard'
+    if (!status) {
+
+    }
+  }
+
+  public generateStatus(): WizzardStatus {
+    let values: FormStatus[] = [];
+    this.forms.forEach(form => {
+      values.push(form.generateStatus());
+    });
+    // console.log('', values);
+
+    return new WizzardStatus(values, 0);
   }
 
   public toJson() {

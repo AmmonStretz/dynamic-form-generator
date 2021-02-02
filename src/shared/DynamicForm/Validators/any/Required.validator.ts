@@ -7,7 +7,7 @@ export class Required extends Validator<any> {
     super(ValidatorTypes.REQUIRED, message);
   }
   public isValid(value: any): boolean {
-    return value != null && value != undefined;
+    return value != null && value != undefined && value != "";
   }
 
   public toJson() {

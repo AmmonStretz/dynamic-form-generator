@@ -1,6 +1,8 @@
-import { ValueFieldConfig } from './../Field.dto';
+import { FieldStatus, ValueFieldConfig } from './../Field.dto';
 import { ValueField, FieldTypes } from '../Field.dto';
 import { Validator } from '../../Validators/validators.class';
+import { BooleanObject } from '../../math-logic/math-object.class';
+import { BooleanConst } from '../../math-logic/objects/boolean/const';
 
 export interface NumberRangeConfig extends ValueFieldConfig<number> {
   unit?: string,
@@ -14,8 +16,16 @@ export class NumberRange extends ValueField<number> {
     public key: string,
     public config: NumberRangeConfig,
     public validators: Validator<number>[] = [],
+    public visible: BooleanObject = new BooleanConst(true),
   ) {
-    super(FieldTypes.NUMBER_RANGE, config, validators);
+    super(key, FieldTypes.NUMBER_RANGE, config, validators, visible);
+  }
+
+  public generateStatus(): FieldStatus<number> {
+    return new FieldStatus<number> (
+      this.key,
+      this.config.default? this.config.default: null,
+    )
   }
 
   public toJson() {

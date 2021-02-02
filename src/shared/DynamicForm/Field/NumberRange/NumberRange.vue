@@ -6,19 +6,18 @@
       ref="input"
       :id="dto.key"
       :placeholder="dto.config.placeholder"
-      v-model.number="value"
+      v-model.number="status.value"
       @focus="setFocus()"
       @blur="setBlur()"
-      :class="{'show': show, 'valid': valid}"
+      :class="{'show': status.show, 'valid': status.isValid}"
       :min="dto.config.min"
       :max="dto.config.max"
       :step="dto.config.step"
     />
-    {{value}}
+    {{status.value}}
     <span class="unit" v-if="!!dto.config.unit">{{dto.config.unit}}</span>
-    
     <br>
-    <p if="dto.config.description">{{dto.config.description}}</p>
+    <div v-if="status.show && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -28,6 +27,7 @@ import { NumberRange } from "./NumberRange.dto";
 import { Validator } from "../../Validators/validators.class";
 import { FormService } from '../../services/Form.service';
 import { FinderService } from '../../services/Finder.service';
+import { FieldStatus } from "../Field.dto";
 
 @Component({
   name: 'NumberRangeComponent'
@@ -37,24 +37,21 @@ export default class NumberRangeComponent extends Vue {
   @Prop() private dto!: NumberRange;
   @Prop() public service!: FormService;
   
-  public value: any = null;
-  public show: boolean = false;
-  public valid: boolean = false;
+  @Prop()
+  public status!: FieldStatus<number>;
   public $refs: any;
 
   mounted() {
     if(this.dto.key in FinderService.values){
-      console.log(FinderService.values[this.dto.key]);
-      
-      this.value = FinderService.values[this.dto.key];
+      this.status.value = FinderService.values[this.dto.key];
     } else if ("default" in this.dto.config) {
-      this.value = this.dto.config.default;
+      this.status.value = this.dto.config.default;
     } else {
-      this.value = this.dto.config.min;
+      this.status.value = this.dto.config.min;
     }
     if(!!this.service){
       this.service.addSubmitListener(()=>{
-        this.show = true;
+        this.status.show = true;
         this.updateStatus();
       })
       
@@ -66,28 +63,23 @@ export default class NumberRangeComponent extends Vue {
     this.updateStatus();
   }
   setFocus() {
+    this.status.show = false;
     this.updateStatus();
   }
 
-  setBlur() {
-    this.show = true;
+  setBlur() {    
+    this.status.show = true;
     this.updateStatus();
   }
 
   @Emit("change")
-  updateStatus() {
-    let errors = Validator.checkFieldValidity(this.value, this.dto.validators);
-    this.valid = errors.length == 0;
-    if(this.valid){
-      FinderService.values[this.dto.key] = this.value;
-    }
-    return {
-      key: this.dto.key,
-      value: this.value,
-      isValid: this.valid,
-      show: this.show,
-      errors,
-    };
+  updateStatus(): FieldStatus<number> {
+    let errors = Validator.checkFieldValidity(this.status.value, this.dto.validators);
+    this.status.isValid = errors.length == 0;
+    // if(this.status.isValid){
+    //   FinderService.values[this.dto.key] = this.status.value;
+    // }
+    return this.status;
   }
 }
 </script>
