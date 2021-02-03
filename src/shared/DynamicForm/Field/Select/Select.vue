@@ -20,7 +20,7 @@
       v-model.number="status.value"
       @focus="setFocus()"
       @blur="setBlur()"
-      :class="{ show: status.show, valid: status.isValid }"
+      :class="{ show: status.showErrors, valid: status.isValid }"
     >
       <option
         v-for="(option, index) of dto.options"
@@ -30,7 +30,7 @@
         {{ option.name }}
       </option>
     </select><br>
-    <div v-if="status.show && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
+    <div v-if="status.showErrors && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -55,12 +55,12 @@ export default class SelectComponent extends Vue {
     this.updateStatus();
   }
   setFocus() {
-    this.status.show = false;
+    this.status.showErrors = false;
     this.updateStatus();
   }
 
   setBlur() {    
-    this.status.show = true;
+    this.status.showErrors = true;
     this.updateStatus();
   }
 

@@ -26,7 +26,13 @@ export default class Home extends Vue {
 
   }
   mounted() {
-    // console.log(new BooleanConst(true).toJson());
+    console.clear();
+    console.log('----------------');
+    console.log(new BooleanVar('A').toJson());
+    
+    console.log(
+      new BooleanVar('A').calc({A: false})
+    );
     // console.log(new BooleanVar('Key00').toJson());
     // console.log(123);
     // console.log(MathParser.fromJson({key: "boolean-const", name: true, value: true}));

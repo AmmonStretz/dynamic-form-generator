@@ -36,7 +36,7 @@
     ></SelectComponent>
     <p if="dto.config.description">{{ dto.config.description }}</p>
     <!-- {{status}} -->
-    <!-- <p class="error" v-if="!status.isValid && status.show">Error: {{ errorMessage }}</p> -->
+    <!-- <p class="error" v-if="!status.isValid && status.showErrors">Error: {{ errorMessage }}</p> -->
   </div>
 </template>
 

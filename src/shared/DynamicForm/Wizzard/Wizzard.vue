@@ -62,6 +62,11 @@ export default class WizzardComponent extends Vue {
   @Prop() public dto!: Wizzard;
   public status: WizzardStatus = this.dto.generateStatus();
 
+  mounted() {
+    console.log(this.dto);
+    
+  }
+
   public get currentStatus() {
     return this.status;
   }

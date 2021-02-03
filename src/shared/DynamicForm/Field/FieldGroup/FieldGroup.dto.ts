@@ -9,9 +9,9 @@ export class FieldGroupStatus extends FieldStatus<{ [key: string]: FieldStatus<a
     public key: string,
     public value: { [key: string]: FieldStatus<any> },
     public isValid?: boolean,
-    public show?: boolean,
+    public showErrors?: boolean,
     public errors?: { message: string, type: string }[]) {
-      super(key, value, isValid, show, errors);
+      super(key, value, isValid, showErrors, errors);
     }
     public showAllErrors(): void {
       for (const key in this.value) {

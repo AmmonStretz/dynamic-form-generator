@@ -1,26 +1,5 @@
 <template>
   <div class="number-input">
-    <!-- start
-    focus
-    enter valid
-    blur
-    focus
-    enter invalid
-    blur => show Error
-    focus => show Error
-    enter valid
-    blur
-    end
-
-    start
-    focus
-    enter invalid
-    blur => show Error
-    focus => show Error
-    enter invalid => show Error
-    enter valid
-    blur
-    end -->
     <label v-if="dto.config && dto.config.name" :for="dto.key">{{dto.config.name}}</label>
     <input
       v-if="status"
@@ -31,10 +10,10 @@
       v-model.number="status.value"
       @focus="setFocus()"
       @blur="setBlur()"
-      :class="{'show': status.show, 'valid': status.isValid}"
+      :class="{'show': status.showErrors, 'valid': status.isValid}"
     />
     <span v-if="dto.config.unit">{{dto.config.unit}}</span><br>
-    <div v-if="status.show && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
+    <div v-if="status.showErrors && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -54,13 +33,17 @@ export default class NumberInputComponent extends Vue {
   public status: FieldStatus<number>;
   public $refs: any;
 
+  mounted() {
+    this.updateStatus();
+  }
+
   setFocus() {
-    this.status.show = false;
+    this.status.showErrors = false;
     this.updateStatus();
   }
 
   setBlur() {    
-    this.status.show = true;
+    this.status.showErrors = true;
     this.updateStatus();
   }
 

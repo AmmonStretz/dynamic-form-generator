@@ -15,12 +15,14 @@ export class FieldStatus<T> {
     public key: string,
     public value: T,
     public isValid?: boolean,
-    public show?: boolean,
-    public errors?: { message: string, type: string }[]) {}
+    public showErrors?: boolean,
+    public errors?: { message: string, type: string }[],
+    public visible: boolean = true,
+  ) { }
 
-    public showAllErrors(): void {
-      this.show = true;
-    }
+  public showAllErrors(): void {
+    this.showErrors = true;
+  }
 }
 
 export interface FieldConfig {

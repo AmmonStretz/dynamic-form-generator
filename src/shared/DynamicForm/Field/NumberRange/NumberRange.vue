@@ -9,7 +9,7 @@
       v-model.number="status.value"
       @focus="setFocus()"
       @blur="setBlur()"
-      :class="{'show': status.show, 'valid': status.isValid}"
+      :class="{'show': status.showErrors, 'valid': status.isValid}"
       :min="dto.config.min"
       :max="dto.config.max"
       :step="dto.config.step"
@@ -17,7 +17,7 @@
     {{status.value}}
     <span class="unit" v-if="!!dto.config.unit">{{dto.config.unit}}</span>
     <br>
-    <div v-if="status.show && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
+    <div v-if="status.showErrors && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -47,12 +47,12 @@ export default class NumberRangeComponent extends Vue {
     this.updateStatus();
   }
   setFocus() {
-    this.status.show = false;
+    this.status.showErrors = false;
     this.updateStatus();
   }
 
   setBlur() {    
-    this.status.show = true;
+    this.status.showErrors = true;
     this.updateStatus();
   }
 
