@@ -2,7 +2,7 @@
  * defines the names of the types inside the json structure
  */
 
-export enum NumberObjectKey {
+export enum NumberObjectType {
   VAR = "number-var",
   CONST = "number-const",
   ADD = "number-add",
@@ -12,7 +12,7 @@ export enum NumberObjectKey {
   STRING_LENGTH = "string-length"
 }
 
-export enum BooleanObjectKey {
+export enum BooleanObjectType {
   VAR = "boolean-var",
   CONST = "boolean-const",
   NOT = "boolean-not",
@@ -27,7 +27,7 @@ export enum BooleanObjectKey {
   NE = "NE"
 }
 
-export enum StringObjectKey {
+export enum StringObjectType {
   VAR = "string-var",
   CONST = "string-const"
 }

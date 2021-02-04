@@ -1,9 +1,10 @@
-import { BooleanObjectKey } from '../../math-naming.class';
+import { BooleanObjectType } from '../../math-naming.class';
 import { BooleanObject } from '../../math-object.class';
 
-export class Or implements BooleanObject {
+export class Or extends BooleanObject {
   public operators: BooleanObject[];
   constructor(operators: BooleanObject[]) {
+    super(BooleanObjectType.OR);
     this.operators = operators;
   }
   calc(params: { [key: string]: any }) {
@@ -19,7 +20,7 @@ export class Or implements BooleanObject {
       operators.push(s.toJson());
     });
     return {
-      key: BooleanObjectKey.OR,
+      type: this.type,
       operators: operators
     };
   }

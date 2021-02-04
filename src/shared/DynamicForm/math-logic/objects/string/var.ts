@@ -1,8 +1,10 @@
-import { StringObjectKey } from '../../math-naming.class';
+import { StringObjectType } from '../../math-naming.class';
 import { StringObject } from '../../math-object.class';
 
-export class StringVar implements StringObject {
-  constructor(public name: string) {}
+export class StringVar extends StringObject {
+  constructor(public name: string) {
+    super(StringObjectType.VAR);
+  }
   calc(params: { [key: string]: any }): string {
     if (!(this.name in params)) throw new Error("var does not exist");
     if (typeof params[this.name] != "string")
@@ -11,7 +13,7 @@ export class StringVar implements StringObject {
   }
   toJson() {
     return {
-      key: StringObjectKey.VAR,
+      type: StringObjectType.VAR,
       name: this.name
     };
   }

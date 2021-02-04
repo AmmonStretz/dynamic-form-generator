@@ -23,7 +23,7 @@ export const config: Wizzard = WizzardParser.parseFromJSON({
             name: 'Name des NumberInputs',
             unit: '€'
           }, validators: [],
-          visible: { key: "boolean-var", name: "checkboxKey" }
+          visible: { type: "boolean-var", name: "checkboxKey" }
         }, {
           type: 'fieldGroup',
           key: 'groupKey',

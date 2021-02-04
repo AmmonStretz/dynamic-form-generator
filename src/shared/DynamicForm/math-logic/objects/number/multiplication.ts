@@ -1,11 +1,10 @@
 
-import { NumberObjectKey } from '../../math-naming.class';
+import { NumberObjectType } from '../../math-naming.class';
 import { NumberObject } from '../../math-object.class';
 
-export class Multiplication implements NumberObject {
-  public factors: NumberObject[];
-  constructor(factors: NumberObject[]) {
-    this.factors = factors;
+export class Multiplication extends NumberObject {
+  constructor(public factors: NumberObject[]) {
+    super(NumberObjectType.MULT);
   }
   calc(params: { [key: string]: any }) {
     let product = 1;
@@ -20,7 +19,7 @@ export class Multiplication implements NumberObject {
       factors.push(s.toJson());
     });
     return {
-      key: NumberObjectKey.MULT,
+      type: NumberObjectType.MULT,
       factors: factors
     };
   }

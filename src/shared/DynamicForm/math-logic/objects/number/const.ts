@@ -1,14 +1,16 @@
-import { NumberObjectKey } from '../../math-naming.class';
+import { NumberObjectType } from '../../math-naming.class';
 import { NumberObject } from '../../math-object.class';
 
-export class NumberConst implements NumberObject {
-  constructor(public value: number) {}
+export class NumberConst extends NumberObject {
+  constructor(public value: number) {
+    super(NumberObjectType.CONST);
+  }
   calc(params: { [key: string]: any }): number {
     return this.value;
   }
   toJson() {
     return {
-      key: NumberObjectKey.CONST,
+      type: NumberObjectType.CONST,
       value: this.value
     };
   }

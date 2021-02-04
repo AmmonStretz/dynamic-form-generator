@@ -1,9 +1,10 @@
-import { BooleanObjectKey } from '../../math-naming.class';
+import { BooleanObjectType } from '../../math-naming.class';
 import { BooleanObject } from '../../math-object.class';
 
-export class And implements BooleanObject {
+export class And extends BooleanObject {
   public operators: BooleanObject[];
   constructor(operators: BooleanObject[]) {
+    super(BooleanObjectType.AND);
     this.operators = operators;
   }
   calc(params: { [key: string]: any }) {
@@ -19,7 +20,7 @@ export class And implements BooleanObject {
       operators.push(s.toJson());
     });
     return {
-      key: BooleanObjectKey.AND,
+      type: this.type,
       operators: operators
     };
   }

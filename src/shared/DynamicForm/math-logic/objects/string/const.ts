@@ -1,14 +1,17 @@
-import { StringObjectKey } from '../../math-naming.class';
+import { extend } from 'vue/types/umd';
+import { StringObjectType } from '../../math-naming.class';
 import { StringObject } from '../../math-object.class';
 
-export class StringConst implements StringObject {
-  constructor(public value: string) {}
+export class StringConst extends StringObject {
+  constructor(public value: string) {
+    super(StringObjectType.CONST);
+  }
   calc(params: { [key: string]: any }): string {
     return this.value;
   }
   toJson() {
     return {
-      key: StringObjectKey.CONST,
+      type: StringObjectType.CONST,
       value: this.value
     };
   }

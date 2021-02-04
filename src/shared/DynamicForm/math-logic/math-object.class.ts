@@ -1,18 +1,21 @@
-export interface MathObject<T> {
-  calc(params: { [key: string]: any }): T;
-  toJson(): any;
+export abstract class MathObject<T> {
+  constructor(public type: string) {}
+  abstract calc(params: { [key: string]: any }): T;
+  abstract toJson(): any;
 }
-export interface BooleanObject extends MathObject<boolean> {
-  calc(params: { [key: string]: any }): boolean;
+export abstract class BooleanObject extends MathObject<boolean> {
+  abstract calc(params: { [key: string]: any }): boolean;
 }
-export interface NumberObject extends MathObject<number> {
-  calc(params: { [key: string]: any }): number;
+export abstract class NumberObject extends MathObject<number> {
+  abstract calc(params: { [key: string]: any }): number;
 }
-export interface StringObject extends MathObject<string> {
-  calc(params: { [key: string]: any }): string;
+export abstract class StringObject extends MathObject<string> {
+  abstract calc(params: { [key: string]: any }): string;
 }
-export abstract class Comparator<T> implements BooleanObject {
-  constructor(public first: T, public second: T) {}
+export abstract class Comparator<T> extends BooleanObject {
+  constructor(public type: string, public first: T, public second: T) {
+    super(type);
+  }
   abstract calc(params: { [key: string]: any }): boolean;
   abstract toJson(): any;
 }

@@ -11,7 +11,7 @@ export class FormParser {
     return result;
   }
   public static parseFromJSON(json: any): Form {
-    if(!json.visible) json.visible = {key: "boolean-const", value: true};
+    if(!json.visible) json.visible = {type: "boolean-const", value: true};
     return new Form(
         FieldParser.parseFromJSONArray(json.fields),
         json.config,

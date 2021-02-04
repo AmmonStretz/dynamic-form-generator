@@ -1,10 +1,9 @@
-import { NumberObjectKey } from '../../math-naming.class';
+import { NumberObjectType } from '../../math-naming.class';
 import { NumberObject } from '../../math-object.class';
 
-export class Addition implements NumberObject {
-  public summands: NumberObject[];
-  constructor(summands: NumberObject[]) {
-    this.summands = summands;
+export class Addition extends NumberObject {
+  constructor(public summands: NumberObject[]) {
+    super(NumberObjectType.ADD);
   }
   calc(params: { [key: string]: any }) {
     let summ = 0;
@@ -19,7 +18,7 @@ export class Addition implements NumberObject {
       summands.push(s.toJson());
     });
     return {
-      key: NumberObjectKey.ADD,
+      type: NumberObjectType.ADD,
       summands: summands
     };
   }

@@ -1,8 +1,10 @@
-import { BooleanObjectKey } from '../../math-naming.class';
+import { BooleanObjectType } from '../../math-naming.class';
 import { BooleanObject } from '../../math-object.class';
 
-export class BooleanVar implements BooleanObject {
-  constructor(public name: string) {}
+export class BooleanVar extends BooleanObject {
+  constructor(public name: string) {
+    super(BooleanObjectType.VAR);
+  }
   calc(params: { [key: string]: any }): boolean {
     if (!(this.name in params)) throw new Error("var does not exist");
     if (typeof params[this.name] != "boolean")
@@ -11,7 +13,7 @@ export class BooleanVar implements BooleanObject {
   }
   toJson() {
     return {
-      key: BooleanObjectKey.VAR,
+      type: this.type,
       name: this.name
     };
   }
