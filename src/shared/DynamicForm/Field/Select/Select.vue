@@ -38,7 +38,7 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { Select } from "./Select.dto";
 import { Validator } from "../../Validators/validators.class";
-import { FieldStatus } from "../Field.dto";
+import { ValueFieldStatus } from "../Field.dto";
 
 @Component({
   name: "SelectComponent",
@@ -47,7 +47,7 @@ export default class SelectComponent extends Vue {
   @Prop() private dto!: Select;
   
   @Prop()
-  public status!: FieldStatus<number>;
+  public status!: ValueFieldStatus<number>;
   public $refs: any;
 
   mounted() {
@@ -65,7 +65,7 @@ export default class SelectComponent extends Vue {
   }
 
   @Emit("change")
-  updateStatus(): FieldStatus<number> {
+  updateStatus(): ValueFieldStatus<number> {
     this.status.errors = Validator.checkFieldValidity(
       this.status.value,
       this.dto.validators

@@ -2,12 +2,30 @@ import { Form, FormStatus } from '../Form/Form.dto';
 
 export class WizzardStatus {
   constructor(
-    public values: FormStatus[],
+    public forms: FormStatus[],
     public index: number,
   ) { }
 
+  public groupAllValues(): {[key: string]: any} {
+    let values: {[key: string]: any} = {}
+    this.forms.forEach(form => {
+      form.groupAllValues(values);
+    });
+    return values;
+  }
+
+  // public calcValue(key: string): any {
+  //   for (let i = 0; i < this.values.length; i++) {
+  //     const value = this.values[i].calcValue(key);
+  //     if(!!value){
+  //       return value();
+  //     }
+  //   }
+  //   return null;
+  // }
+
   showErrorOfIndex() {
-    this.values[this.index].showAllErrors();
+    this.forms[this.index].showAllErrors();
   }
 };
 
@@ -34,8 +52,6 @@ export class Wizzard {
     this.forms.forEach(form => {
       values.push(form.generateStatus());
     });
-    // console.log('', values);
-
     return new WizzardStatus(values, 0);
   }
 

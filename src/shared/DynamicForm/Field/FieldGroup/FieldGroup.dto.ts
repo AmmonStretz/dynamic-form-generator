@@ -1,25 +1,39 @@
-import { FieldStatus, ValueFieldConfig } from './../Field.dto';
+import { ValueFieldStatus, ValueFieldConfig, FieldStatus } from './../Field.dto';
 import { Field, ValueField, FieldTypes } from '../Field.dto';
-import { Validator } from '../../Validators/validators.class';
 import { BooleanObject } from '../../math-logic/math-object.class';
 import { BooleanConst } from '../../math-logic/objects/boolean/const';
 
-export class FieldGroupStatus extends FieldStatus<{ [key: string]: FieldStatus<any> }>{
+export class FieldGroupStatus extends FieldStatus {
   constructor(
     public key: string,
-    public value: { [key: string]: FieldStatus<any> },
+    public fields: { [key: string]: FieldStatus },
     public isValid?: boolean,
-    public showErrors?: boolean,
-    public errors?: { message: string, type: string }[]) {
-      super(key, value, isValid, showErrors, errors);
-    }
-    public showAllErrors(): void {
-      for (const key in this.value) {
-        if (Object.prototype.hasOwnProperty.call(this.value, key)) {
-          this.value[key].showAllErrors();
+  ) {
+    super(key, isValid, true); //TODO: VISIBLE
+  }
+  public groupAllValues(values: {[key: string]: any}) {
+    for (const key in this.fields) {
+      if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
+        if (this.fields[key] instanceof ValueFieldStatus) {
+          (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
+        } else if (this.fields[key] instanceof FieldGroupStatus) {
+          (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
         }
       }
     }
+  }
+
+  public showAllErrors(): void {
+    for (const key in this.fields) {
+      if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
+        if (this.fields[key] instanceof ValueFieldStatus) {
+          (this.fields[key] as ValueFieldStatus<any>).showAllErrors();
+        } else if (this.fields[key] instanceof FieldGroupStatus) {
+          (this.fields[key] as ValueFieldStatus<any>).showAllErrors();
+        }
+      }
+    }
+  }
 }
 
 export interface FieldGroupConfig extends ValueFieldConfig<{ [key: string]: any }> {
@@ -28,33 +42,29 @@ export interface FieldGroupConfig extends ValueFieldConfig<{ [key: string]: any 
   description?: string;
 }
 
-export class FieldGroup extends ValueField<{ [key: string]: any }> {
+export class FieldGroup extends Field {
   constructor(
     public key: string,
     public fields: Field[],
     public config: FieldGroupConfig,
-    public validators: Validator<{ [key: string]: any }>[] = [],
     public visible: BooleanObject = new BooleanConst(true),
   ) {
-    super(key, FieldTypes.FIELD_GROUP, config, validators, visible);
+    super(FieldTypes.FIELD_GROUP, config, visible);
   }
 
-  public generateStatus(): FieldStatus<{ [key: string]: any }> {
-    let value: { [key: string]: any } = {};
+  public generateStatus(): FieldStatus {
+    let fields: { [key: string]: FieldStatus } = {};
     this.fields.forEach(field => {
       if (field instanceof ValueField) {
-        value[field.key] = field.generateStatus();
+        fields[field.key] = field.generateStatus();
+      } else if (field instanceof FieldGroup) {
+        fields[field.key] = field.generateStatus();
       }
     });
-    return new FieldStatus<{ [key: string]: any }>( this.key, value )
+    return new FieldGroupStatus(this.key, fields);
   }
 
   public toJson() {
-
-    let validators: any[] = [];
-    this.validators.forEach(validator => {
-      validators.push(validator.toJson())
-    })
     let fields: any[] = [];
     this.fields.forEach(field => {
       fields.push(field.toJson())
@@ -62,10 +72,9 @@ export class FieldGroup extends ValueField<{ [key: string]: any }> {
 
     return {
       type: this.type,
-      key: this.key,
       fields: fields,
       config: this.config,
-      validators: validators
+      visible: this.visible,
     }
   }
 }

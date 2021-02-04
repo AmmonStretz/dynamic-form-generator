@@ -26,13 +26,14 @@ export default class Home extends Vue {
 
   }
   mounted() {
-    console.clear();
-    console.log('----------------');
-    console.log(new BooleanVar('A').toJson());
     
-    console.log(
-      new BooleanVar('A').calc({A: false})
-    );
+    // console.clear();
+    // console.log('----------------');
+    // console.log(new BooleanVar('A').toJson());
+    
+    // console.log(
+    //   new BooleanVar('A').calc({A: false})
+    // );
     // console.log(new BooleanVar('Key00').toJson());
     // console.log(123);
     // console.log(MathParser.fromJson({key: "boolean-const", name: true, value: true}));
@@ -51,9 +52,9 @@ export default class Home extends Vue {
     // console.log("cancel");
   }
   submit(status: WizzardStatus) {
-    (this as any).$store.dispatch("changeStatus", status);
-    (this as any).$router.push('results');
-    // console.log("submit", status);
+    // (this as any).$store.dispatch("changeStatus", status);
+    // (this as any).$router.push('results');
+    console.log("submit", status);
   }
 }
 </script>

@@ -21,7 +21,7 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { NumberInput } from "./NumberInput.dto";
 import { Validator } from "../../Validators/validators.class";
-import { FieldStatus } from '../Field.dto';
+import { ValueFieldStatus } from '../Field.dto';
 
 @Component({
   name: 'NumberInputComponent'
@@ -30,7 +30,7 @@ export default class NumberInputComponent extends Vue {
   @Prop() private dto!: NumberInput;
 
   @Prop()
-  public status: FieldStatus<number>;
+  public status: ValueFieldStatus<number>;
   public $refs: any;
 
   mounted() {
@@ -48,7 +48,7 @@ export default class NumberInputComponent extends Vue {
   }
 
   @Emit("change")
-  updateStatus(): FieldStatus<number> {
+  updateStatus(): ValueFieldStatus<number> {
     this.status.errors = Validator.checkFieldValidity(this.status.value, this.dto.validators);
     this.status.isValid = this.status.errors.length == 0;
     return this.status;

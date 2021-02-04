@@ -1,4 +1,4 @@
-import { FieldStatus, ValueFieldConfig } from './../Field.dto';
+import { ValueFieldStatus, ValueFieldConfig } from './../Field.dto';
 import { ValueField, FieldTypes } from '../Field.dto';
 import { Validator } from '../../Validators/validators.class';
 import { BooleanObject } from '../../math-logic/math-object.class';
@@ -21,8 +21,8 @@ export class NumberRange extends ValueField<number> {
     super(key, FieldTypes.NUMBER_RANGE, config, validators, visible);
   }
 
-  public generateStatus(): FieldStatus<number> {
-    return new FieldStatus<number> (
+  public generateStatus(): ValueFieldStatus<number> {
+    return new ValueFieldStatus<number> (
       this.key,
       this.config.default? this.config.default: null,
     )

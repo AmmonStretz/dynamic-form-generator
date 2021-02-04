@@ -6,6 +6,7 @@
       :key="index"
       v-bind:dto="field"
       v-bind:status="status.fields[dto.fields[index].key]"
+      v-bind:values="values"
       v-on:change="onChange"
     ></FieldComponent>
     <p if="dto.config.description">{{dto.config.description}}</p>
@@ -16,7 +17,7 @@
 import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import FieldComponent from "../Field/Field.vue";
 import { Form, FormStatus } from "./Form.dto";
-import { FieldStatus } from '../Field/Field.dto';
+import { ValueFieldStatus } from '../Field/Field.dto';
 
 @Component({
   components: {
@@ -28,10 +29,12 @@ export default class FormComponent extends Vue {
 
   @Prop()
   public status: FormStatus;
+  @Prop()
+  public values!: {[key: string]: any};
+
 
   @Emit("change")
-  onChange(status: FieldStatus<any>): FormStatus {
-
+  onChange(status: ValueFieldStatus<any>): FormStatus {
     this.status.fields[status.key] = status;
     this.status.isValid = this.checkValidity();
     return this.status;
@@ -40,6 +43,8 @@ export default class FormComponent extends Vue {
   checkValidity(): boolean {
     for (const key in this.status.fields) {
       if (!this.status.fields[key].isValid) {
+        console.log(this.status.fields, false);
+        
         return false;
       }
     }

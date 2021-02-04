@@ -1,17 +1,36 @@
-import { Field, FieldStatus, ValueField } from '../Field/Field.dto';
+import { Field, ValueFieldStatus, ValueField, FieldStatus } from '../Field/Field.dto';
+import { FieldGroup, FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.dto';
 import { BooleanObject } from '../math-logic/math-object.class';
 import { BooleanConst } from '../math-logic/objects/boolean/const';
 
 export class FormStatus {
   constructor(
-    public fields: { [key: string]: FieldStatus<any> },
+    public fields: { [key: string]: FieldStatus },
     public isValid?: boolean
   ) { }
+
+  public groupAllValues(values: {[key: string]: any}) {
+    for (const key in this.fields) {
+      if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
+        if (this.fields[key] instanceof ValueFieldStatus) {
+          (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
+        }
+        if (this.fields[key] instanceof FieldGroupStatus) {
+          (this.fields[key] as FieldGroupStatus).groupAllValues(values);
+        }
+      }
+    }
+  }
 
   public showAllErrors(): void {
     for (const key in this.fields) {
       if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
-        this.fields[key].showAllErrors();
+        if (this.fields[key] instanceof ValueFieldStatus) {
+          (this.fields[key] as ValueFieldStatus<any>).showAllErrors();
+        }
+        if (this.fields[key] instanceof FieldGroupStatus) {
+          (this.fields[key] as FieldGroupStatus).showAllErrors();
+        }
       }
     }
   }
@@ -29,11 +48,13 @@ export class Form {
   ) { }
 
   public generateStatus(): FormStatus {
-    let fields: { [key: string]: FieldStatus<any> } = {};
+    let fields: { [key: string]: FieldStatus } = {};
     this.fields.forEach(field => {
       if (field instanceof ValueField) {
         const value = field.generateStatus()
         fields[field.key] = value;
+      } else if (field instanceof FieldGroup) {
+        fields[field.key] = field.generateStatus();
       }
     });
     return new FormStatus(fields)

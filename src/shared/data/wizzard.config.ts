@@ -14,7 +14,8 @@ export const config: Wizzard = WizzardParser.parseFromJSON({
             name: 'Name des Checkboxfeldes'
           },
           validators: []
-        }, {
+        },
+        {
           type: 'numberInput',
           key: 'numberInputKey',
           config: {
@@ -22,8 +23,34 @@ export const config: Wizzard = WizzardParser.parseFromJSON({
             name: 'Name des NumberInputs',
             unit: '€'
           }, validators: [],
-          visible: {key: "boolean-var", name: "checkboxKey"}
-        },],
+          visible: { key: "boolean-var", name: "checkboxKey" }
+        }, {
+          type: 'fieldGroup',
+          key: 'groupKey',
+          fields: [
+            {
+              type: 'numberInput', key: 'groupInput00', config: {
+                name: 'Eingabe 1'
+              }, validators: [{
+                type: 'required',
+                message: 'Dieses Feld muss ausgefüllt werden'
+              }]
+            },
+            {
+              type: 'numberInput', key: 'groupInput01', config: {
+                name: 'Eingabe 2'
+              }, validators: []
+            },
+          ],
+          config: {
+            horizontal: false,
+            title: 'Gruppentitel'
+          },
+          validators: [
+
+          ]
+        }
+      ],
       config: {
         title: 'Name der Seite 1'
       }

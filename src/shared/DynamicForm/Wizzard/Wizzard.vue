@@ -20,26 +20,29 @@
         <FormComponent
           v-if="i == currentStatus.index"
           v-bind:dto="form"
-          v-bind:status="status.values[i]"
+          v-bind:status="status.forms[i]"
+          v-bind:values="values"
           v-on:change="onChange"
-          :ref="'form'+i"
+          :ref="'form' + i"
         ></FormComponent>
       </div>
       <nav>
         <button v-on:click="cancel">
-          {{dto.config.prevButtonText ? dto.config.prevButtonText : 'Zurück'}}
+          {{ dto.config.prevButtonText ? dto.config.prevButtonText : "Zurück" }}
         </button>
         <button
           v-if="dto.forms.length - 1 <= currentStatus.index"
-          v-on:click="submit"
+          v-on:click="next"
         >
-          {{dto.config.submitButtonText ? dto.config.submitButtonText : 'Fertig'}}
+          {{
+            dto.config.submitButtonText ? dto.config.submitButtonText : "Fertig"
+          }}
         </button>
         <button
           v-if="dto.forms.length - 1 > currentStatus.index"
           v-on:click="next"
         >
-          {{dto.config.nextButtonText ? dto.config.nextButtonText : 'Weiter'}}
+          {{ dto.config.nextButtonText ? dto.config.nextButtonText : "Weiter" }}
         </button>
       </nav>
     </div>
@@ -58,14 +61,13 @@ import { FormStatus } from "../Form/Form.dto";
   },
 })
 export default class WizzardComponent extends Vue {
-
   @Prop() public dto!: Wizzard;
   public status: WizzardStatus = this.dto.generateStatus();
+  public values: {[key: string]: any} = this.status.groupAllValues();
 
-  mounted() {
-    console.log(this.dto);
-    
-  }
+  // mounted() {
+  //   console.log(this.dto);
+  // }
 
   public get currentStatus() {
     return this.status;
@@ -73,29 +75,37 @@ export default class WizzardComponent extends Vue {
 
   @Emit("change")
   onChange(status: FormStatus): WizzardStatus {
-    this.status.values[this.status.index] = status;
+    this.status.forms[this.status.index] = status;
+    this.values = this.status.groupAllValues();
+    
+    
+    // (this as any).$store.dispatch("changeStatus", this.status).then(()=>{
+    //   setTimeout(()=>{
+    //     console.log((this as any).$store.state.status.calcValue('checkboxKey'));
+    //   },0)
+    //   setTimeout(()=>{
+    //     console.log((this as any).$store.state.status.calcValue('numberInputKey'));
+    //   },0)
+    // })
+
     return this.status;
   }
 
   next() {
-    if (
-      this.dto.forms[this.status.index].fields.length == 0 ||
-      this.status.values[this.status.index].isValid
-    ) {
-      this.status.index++;
-    } else {
-      this.status.showErrorOfIndex();
+    if(this.status.forms[this.status.index].isValid){
+      if(this.status.index < this.status.forms.length - 1){
+        this.status.index++;
+      } else {
+        this.submit();
+      }
+      } else {
+        this.status.showErrorOfIndex();
     }
   }
 
   @Emit("submit")
   submit() {
-    if (
-      this.dto.forms[this.status.index].fields.length == 0 ||
-      this.status.values[this.status.index].isValid
-    ) {      
       return this.status;
-      }
   }
   cancel(status: any) {
     if (this.status.index > 0) {
@@ -104,7 +114,7 @@ export default class WizzardComponent extends Vue {
     }
   }
   // linkStatus(index: number) {
-  //   const bla = this.status?.values[index];
+  //   const bla = this.status?.forms[index];
   //   let valide: any = false;
   //   if (bla) {
   //     valide = bla.isValid;
@@ -113,7 +123,7 @@ export default class WizzardComponent extends Vue {
   //     index,
   //     active: this.status?.index == index,
   //     enabled:
-  //       index < this.status?.values.length && this.status?.index != index,
+  //       index < this.status?.forms.length && this.status?.index != index,
   //     valide,
   //   };
   // }

@@ -8,9 +8,11 @@ export default new Vuex.Store({
   state: {
     todos: Array<number>(),
     count: 0,
-    status: { index: 0, values: []} as WizzardStatus
+    status: { index: 0, forms: []} as WizzardStatus,
+    listeners: [],
   },
-
+  getters: {
+  },
   mutations: {
     addToDo(state, todoModel: number) {
       console.log('mutation');
@@ -22,6 +24,12 @@ export default new Vuex.Store({
     }, 
     changeStatus(state, status: WizzardStatus) {
       state.status = status;
+      state.listeners.forEach(listener => {
+        listener.func(listener.key);
+      });
+    },
+    addListener(state, listener: {key: string, func: (value: string)=>{}}) {
+      state.listeners.push(listener);
     }
     // changeDesign(state, design: Design) {
     //   state.design = design;
@@ -39,6 +47,9 @@ export default new Vuex.Store({
     }, 
     changeStatus(context, status: WizzardStatus) {
       context.commit('changeStatus', status)
+    },
+    addListener(context, listener: {key: string, func: (value: any)=>{}}) {
+      context.commit('addListener', listener)
     }
     // changeDesign(context, design: Design) {
     //   context.commit('design', design);

@@ -1,4 +1,4 @@
-import { ValueField, ValueFieldConfig, FieldTypes, FieldStatus } from '../Field.dto';
+import { ValueField, ValueFieldConfig, FieldTypes, ValueFieldStatus } from '../Field.dto';
 import { Validator } from '../../Validators/validators.class';
 import { BooleanConst } from '../../math-logic/objects/boolean/const';
 import { BooleanObject } from '../../math-logic/math-object.class';
@@ -13,8 +13,8 @@ export class Checkbox extends ValueField<boolean> {
     super(key, FieldTypes.CHECKBOX, config, validators, visible);
   }
 
-  public generateStatus(): FieldStatus<boolean> {
-    return new FieldStatus<boolean>(
+  public generateStatus(): ValueFieldStatus<boolean> {
+    return new ValueFieldStatus<boolean>(
       this.key,
       !!this.config.default
     )

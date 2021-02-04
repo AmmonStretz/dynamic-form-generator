@@ -10,6 +10,7 @@
       :id="dto.key"
       :placeholder="dto.config.placeholder"
       v-model.number="status.value"
+      @click="updateStatus()"
       @focus="setFocus()"
       @blur="setBlur()"
       :class="{ show: status.showErrors, valid: status.isValid }"
@@ -22,7 +23,7 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { Checkbox } from "./Checkbox.dto";
 import { Validator } from "../../Validators/validators.class";
-import { FieldStatus } from "../Field.dto";
+import { ValueFieldStatus } from "../Field.dto";
 
 @Component({
   name: "CheckboxComponent",
@@ -31,12 +32,12 @@ export default class CheckboxComponent extends Vue {
   @Prop() private dto!: Checkbox;
 
   @Prop()
-  public status: FieldStatus<boolean>;
-
-  public value: boolean = false;
-  public showErrors: boolean = false;
-  public valid: boolean = false;
+  public status: ValueFieldStatus<boolean>;
   public $refs: any;
+
+  mounted() {
+    this.updateStatus();
+  }
 
   setFocus() {
     this.status.showErrors = false;
@@ -49,9 +50,9 @@ export default class CheckboxComponent extends Vue {
   }
 
   @Emit("change")
-  updateStatus(): FieldStatus<boolean> {
+  updateStatus(): ValueFieldStatus<boolean> {
     this.status.errors = Validator.checkFieldValidity(
-      this.value,
+      this.status.value,
       this.dto.validators
     );
     this.status.isValid = this.status.errors.length == 0;

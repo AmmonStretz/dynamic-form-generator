@@ -51,7 +51,6 @@ export class FieldParser {
           json.key,
           this.parseFromJSONArray(json.fields),
           json.config,
-          ValidatorParser.parseFromJSONArray(json.validators),
           json.visible,
         );
         
