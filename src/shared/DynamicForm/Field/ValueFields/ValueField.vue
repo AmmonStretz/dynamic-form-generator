@@ -39,20 +39,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { Validator } from "../Validators/validators.class";
+import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import NumberInputComponent from "./NumberInput/NumberInput.vue";
 import TextInputComponent from "./TextInput/TextInput.vue";
 import NumberRangeComponent from "./NumberRange/NumberRange.vue";
 import CheckboxComponent from "./Checkbox/Checkbox.vue";
-import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
 import TextFieldComponent from "./TextField/TextField.vue";
 import SelectComponent from "./Select/Select.vue";
-import { Field, ValueFieldStatus, ValueField } from "./Field.dto";
-import { WizzardStatus } from "../Wizzard/Wizzard.dto";
-import { BooleanObject } from "../math-logic/math-object.class";
-import { BooleanConst } from "../math-logic/objects/boolean/const";
-import { BooleanVar } from "../math-logic/objects/boolean/var";
+import { ValueFieldStatus, ValueField } from "../Field.dto";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -62,7 +56,6 @@ import { BooleanVar } from "../math-logic/objects/boolean/var";
     TextFieldComponent,
     NumberRangeComponent,
     CheckboxComponent,
-    FieldGroupComponent,
     SelectComponent,
   },
 })

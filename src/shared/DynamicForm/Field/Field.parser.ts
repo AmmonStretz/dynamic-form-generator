@@ -1,23 +1,25 @@
 import { BooleanObjectParser } from "../math-logic/parsers/boolean.class";
 import { ValidatorParser } from "../Validators";
-import { Checkbox } from "./Checkbox/Checkbox.dto";
+import { Checkbox } from "./ValueFields/Checkbox/Checkbox.dto";
 import { Field, FieldTypes } from "./Field.dto";
 import { FieldGroup } from "./FieldGroup/FieldGroup.dto";
-import { NumberInput } from "./NumberInput/NumberInput.dto";
-import { TextInput } from "./TextInput/TextInput.dto";
-import { NumberRange } from "./NumberRange/NumberRange.dto";
-import { Select } from "./Select/Select.dto";
-import { TextField } from "./TextField/TextField.dto";
+import { NumberInput } from "./ValueFields/NumberInput/NumberInput.dto";
+import { TextInput } from "./ValueFields/TextInput/TextInput.dto";
+import { NumberRange } from "./ValueFields/NumberRange/NumberRange.dto";
+import { Select } from "./ValueFields/Select/Select.dto";
+import { TextField } from "./ValueFields/TextField/TextField.dto";
+import { FieldLoop } from "./FieldLoop/FieldLoop.dto";
+import { NumberObjectParser } from "../math-logic/parsers/number.class";
 
 export class FieldParser {
-  public static parseFromJSONArray(jsonArray: { type: string, fields?: any[], options?: { name: string, value: number }[], key: string, config: any, validators: any[], visible: any }[]): Field[] {
+  public static parseFromJSONArray(jsonArray: { type: string, fields?: any[], field?: any, options?: { name: string, value: number }[], key: string, config: any, validators: any[], visible: any, condition?: any }[]): Field[] {
     let result: Field[] = [];
     jsonArray.forEach(json => {
       result.push(this.parseFromJSON(json));
     });
     return result;
   }
-  public static parseFromJSON(json: { type: string, fields?: any[], options?: { name: string, value: number }[], key: string, config: any, validators: any[], visible: any }): Field {
+  public static parseFromJSON(json: { type: string, fields?: any[], field?: any, options?: { name: string, value: number }[], key: string, config: any, validators: any[], visible: any, condition?: any }): Field {
     if (!json.visible) json.visible = { type: "boolean-const", value: true };
     switch (json.type) {
       case FieldTypes.CHECKBOX:

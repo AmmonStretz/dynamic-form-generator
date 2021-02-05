@@ -37,8 +37,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { Select } from "./Select.dto";
-import { Validator } from "../../Validators/validators.class";
-import { ValueFieldStatus } from "../Field.dto";
+import { Validator } from "../../../Validators/validators.class";
+import { ValueFieldStatus } from "../../Field.dto";
 
 @Component({
   name: "SelectComponent",

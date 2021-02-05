@@ -1,11 +1,13 @@
-import { ValueFieldStatus, ValueFieldConfig } from './../Field.dto';
-import { ValueField, FieldTypes } from '../Field.dto';
-import { Validator } from '../../Validators/validators.class';
-import { BooleanObject } from '../../math-logic/math-object.class';
-import { BooleanConst } from '../../math-logic/objects/boolean/const';
+import { ValueFieldStatus, ValueFieldConfig } from '../../Field.dto';
+import { ValueField, FieldTypes } from '../../Field.dto';
+import { Validator } from '../../../Validators/validators.class';
+import { BooleanObject } from '../../../math-logic/math-object.class';
+import { BooleanConst } from '../../../math-logic/objects/boolean/const';
 
 export interface NumberInputConfig extends ValueFieldConfig<number> {
-  unit?: string
+  unit?: string,
+  min?: number,
+  max?: number
 }
 
 export class NumberInput extends ValueField<number> {

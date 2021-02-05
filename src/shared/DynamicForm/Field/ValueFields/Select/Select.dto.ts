@@ -1,8 +1,8 @@
-import { ValueFieldStatus, ValueFieldConfig } from './../Field.dto';
-import { ValueField, FieldTypes } from '../Field.dto';
-import { Validator } from '../../Validators/validators.class';
-import { BooleanObject } from '../../math-logic/math-object.class';
-import { BooleanConst } from '../../math-logic/objects/boolean/const';
+import { ValueFieldStatus, ValueFieldConfig } from '../../Field.dto';
+import { ValueField, FieldTypes } from '../../Field.dto';
+import { Validator } from '../../../Validators/validators.class';
+import { BooleanObject } from '../../../math-logic/math-object.class';
+import { BooleanConst } from '../../../math-logic/objects/boolean/const';
 
 export interface SelectConfig extends ValueFieldConfig<number> {
 }

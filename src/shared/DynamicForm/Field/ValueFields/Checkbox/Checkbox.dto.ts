@@ -1,7 +1,7 @@
-import { ValueField, ValueFieldConfig, FieldTypes, ValueFieldStatus } from '../Field.dto';
-import { Validator } from '../../Validators/validators.class';
-import { BooleanConst } from '../../math-logic/objects/boolean/const';
-import { BooleanObject } from '../../math-logic/math-object.class';
+import { ValueField, ValueFieldConfig, FieldTypes, ValueFieldStatus } from '../../Field.dto';
+import { Validator } from '../../../Validators/validators.class';
+import { BooleanConst } from '../../../math-logic/objects/boolean/const';
+import { BooleanObject } from '../../../math-logic/math-object.class';
 
 export class Checkbox extends ValueField<boolean> {
   constructor(

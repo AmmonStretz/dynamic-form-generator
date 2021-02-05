@@ -23,8 +23,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { Checkbox } from "./Checkbox.dto";
-import { Validator } from "../../Validators/validators.class";
-import { ValueFieldStatus } from "../Field.dto";
+import { Validator } from "../../../Validators/validators.class";
+import { ValueFieldStatus } from "../../Field.dto";
 
 @Component({
   name: "CheckboxComponent",

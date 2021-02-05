@@ -1,6 +1,6 @@
-import { BooleanObject } from '../../math-logic/math-object.class';
-import { BooleanConst } from '../../math-logic/objects/boolean/const';
-import {Field, FieldTypes} from '../Field.dto';
+import { BooleanObject } from '../../../math-logic/math-object.class';
+import { BooleanConst } from '../../../math-logic/objects/boolean/const';
+import {Field, FieldTypes} from '../../Field.dto';
 
 export class TextField extends Field {
   constructor(

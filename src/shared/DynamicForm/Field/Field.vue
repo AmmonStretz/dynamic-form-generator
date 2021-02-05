@@ -1,7 +1,7 @@
 <template>
   <div class="field" v-if="visibility">
     <ValueFieldComponent
-      v-if="dto.type != 'fieldGroup'"
+      v-if="dto.type != 'fieldGroup' && dto.type != 'fieldLoop'"
       v-bind:dto="dto"
       v-bind:status="status"
       v-bind:values="values"
@@ -20,10 +20,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
-import ValueFieldComponent from "./ValueField.vue";
+import ValueFieldComponent from "./ValueFields/ValueField.vue";
 import { Field, ValueFieldStatus, ValueField, FieldStatus } from "./Field.dto";
-import { Equal } from "../math-logic/objects/boolean.class";
-import { NumberConst } from "../math-logic/objects/number/const";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",

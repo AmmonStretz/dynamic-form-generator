@@ -20,8 +20,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { NumberInput } from "./NumberInput.dto";
-import { Validator } from "../../Validators/validators.class";
-import { ValueFieldStatus } from '../Field.dto';
+import { ValueFieldStatus } from '../../Field.dto';
+import { Validator } from "../../../Validators/validators.class";
 
 @Component({
   name: 'NumberInputComponent'
@@ -35,6 +35,8 @@ export default class NumberInputComponent extends Vue {
 
   mounted() {
     this.updateStatus();
+    console.log(this.dto.config);
+    
   }
 
   setFocus() {
