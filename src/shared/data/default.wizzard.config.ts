@@ -91,7 +91,7 @@ const FORM_01: any = {
   config: {
     title: 'Name der Seite 2'
   },
-  visible: { type: "boolean-var", key: "A" }
+  visible: { type: 'boolean-var', key: 'A' }
 }
 
 // THIRD FORM CONFIG
@@ -100,7 +100,7 @@ const CHECKBOX_02: any = {
   type: 'checkbox',
   key: 'C',
   config: {
-    name: 'Checkbox 3'
+    name: 'Dritte Checkbox'
   },
   validators: []
 }

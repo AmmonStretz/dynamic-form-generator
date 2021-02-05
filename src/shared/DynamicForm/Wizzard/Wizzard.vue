@@ -79,7 +79,6 @@ export default class WizzardComponent extends Vue {
   onChange(status: FormStatus): WizzardStatus {
     this.status.forms[this.status.index] = status;
     this.values = this.status.groupAllValues();
-    console.log('change');
     
     // console.log(this.status);
 

@@ -68,7 +68,6 @@ export default class FormComponent extends Vue {
       if (this.dto.visible.calc && this.values) {
         this.status.visible = this.dto.visible.calc(this.values);
         // TODO: Fields Error is shown
-        console.log(this.dto.config.title, this.status.visible);
         if(this.status.visible == false){
           this.after();
         }
