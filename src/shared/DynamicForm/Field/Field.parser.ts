@@ -1,3 +1,4 @@
+import { BooleanObjectParser } from "../math-logic/parsers/boolean.class";
 import { ValidatorParser } from "../Validators";
 import { Checkbox } from "./Checkbox/Checkbox.dto";
 import { Field, FieldTypes } from "./Field.dto";
@@ -16,20 +17,21 @@ export class FieldParser {
     return result;
   }
   public static parseFromJSON(json: { type: string, fields?: any[], options?: {name: string, value: number}[], key: string, config: any, validators: any[], visible: any }): Field {
+    if(!json.visible) json.visible = {type: "boolean-const", value: true};
     switch (json.type) {
       case FieldTypes.CHECKBOX:
         return new Checkbox(
           json.key,
           json.config,
           ValidatorParser.parseFromJSONArray(json.validators),
-          json.visible,
+          BooleanObjectParser.fromJson(json.visible),
         );
       case FieldTypes.NUMBER_INPUT:
         return new NumberInput(
           json.key,
           json.config,
           ValidatorParser.parseFromJSONArray(json.validators),
-          json.visible,
+          BooleanObjectParser.fromJson(json.visible),
         );
       case FieldTypes.NUMBER_RANGE:
         // validate config
@@ -37,12 +39,12 @@ export class FieldParser {
           json.key,
           json.config,
           ValidatorParser.parseFromJSONArray(json.validators),
-          json.visible,
+          BooleanObjectParser.fromJson(json.visible),
         );
       case FieldTypes.TEXT_FIELD:
         return new TextField(
           json.key,
-          json.visible,
+          BooleanObjectParser.fromJson(json.visible),
         );
 
       case FieldTypes.FIELD_GROUP:
@@ -51,7 +53,7 @@ export class FieldParser {
           json.key,
           this.parseFromJSONArray(json.fields),
           json.config,
-          json.visible,
+          BooleanObjectParser.fromJson(json.visible),
         );
         
       case FieldTypes.SELECT:
@@ -60,7 +62,7 @@ export class FieldParser {
           json.options,
           json.config,
           ValidatorParser.parseFromJSONArray(json.validators),
-          json.visible,
+          BooleanObjectParser.fromJson(json.visible),
         );
       // return new MaxNumber(json.message, json.value);
     }

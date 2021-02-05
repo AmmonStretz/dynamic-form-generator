@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="field" v-if="visibility">
     <ValueFieldComponent
       v-if="dto.type != 'fieldGroup'"
       v-bind:dto="dto"
@@ -22,6 +22,8 @@ import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
 import ValueFieldComponent from "./ValueField.vue";
 import { Field, ValueFieldStatus, ValueField, FieldStatus } from "./Field.dto";
+import { Equal } from "../math-logic/objects/boolean.class";
+import { NumberConst } from "../math-logic/objects/number/const";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -36,11 +38,18 @@ export default class FieldComponent extends Vue {
   @Prop()
   public status: FieldStatus;
   @Prop()
-  public values!: {[key: string]: any};
+  public values!: { [key: string]: any };
+
+  get visibility(): any {
+    if (this.dto.visible.calc && this.values) {
+      this.status.visible = this.dto.visible.calc(this.values);
+      return this.status.visible;
+    }
+    return true;
+  }
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): ValueFieldStatus<any> {
-    this.$forceUpdate();
     return status;
   }
 }

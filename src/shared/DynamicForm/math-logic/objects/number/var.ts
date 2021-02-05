@@ -9,8 +9,6 @@ export class NumberVar extends NumberObject {
   }
   calc(params: { [key: string]: any }): number {
     if (!(this.name in params)) throw new Error("var does not exist");
-    if (typeof params[this.name] != "number")
-      throw new Error("var is not number");
     return params[this.name];
   }
   toJson() {

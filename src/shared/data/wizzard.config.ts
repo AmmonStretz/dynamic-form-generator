@@ -8,53 +8,48 @@ export const config: Wizzard = WizzardParser.parseFromJSON({
       fields: [
         {
           type: 'checkbox',
-          key: 'checkboxKey',
+          key: 'A',
           config: {
-            description: 'Dies ist die Beschreibung der Checkbox',
-            name: 'Name des Checkboxfeldes'
+            name: 'Überspringen?',
+            description: 'Soll Seite zwei übersprungen werden?'
           },
           validators: []
-        },
-        {
-          type: 'numberInput',
-          key: 'numberInputKey',
-          config: {
-            description: 'Dies ist die Beschreibung des NumberInputs',
-            name: 'Name des NumberInputs',
-            unit: '€'
-          }, validators: [],
-          visible: { type: "boolean-var", name: "checkboxKey" }
-        }, {
-          type: 'fieldGroup',
-          key: 'groupKey',
-          fields: [
-            {
-              type: 'numberInput', key: 'groupInput00', config: {
-                name: 'Eingabe 1'
-              }, validators: [{
-                type: 'required',
-                message: 'Dieses Feld muss ausgefüllt werden'
-              }]
-            },
-            {
-              type: 'numberInput', key: 'groupInput01', config: {
-                name: 'Eingabe 2'
-              }, validators: []
-            },
-          ],
-          config: {
-            horizontal: false,
-            title: 'Gruppentitel'
-          },
-          validators: [
-
-          ]
-        }
+        },//{ type: "boolean-var", name: "checkboxKey02" }
       ],
       config: {
         title: 'Name der Seite 1'
       }
-    }
+    },
+    {
+      fields: [
+        {
+          type: 'checkbox',
+          key: 'B',
+          config: {
+            name: 'Checkbox 2'
+          },
+          validators: []
+        },//{ type: "boolean-var", name: "checkboxKey02" }
+      ],
+      config: {
+        title: 'Name der Seite 2'
+      }
+    },
+    {
+      fields: [
+        {
+          type: 'checkbox',
+          key: 'C',
+          config: {
+            name: 'Checkbox 3'
+          },
+          validators: []
+        },//{ type: "boolean-var", name: "checkboxKey02" }
+      ],
+      config: {
+        title: 'Name der Seite 3'
+      }
+    },
   ],
   config: {
     title: 'Title der Fragestrecke',

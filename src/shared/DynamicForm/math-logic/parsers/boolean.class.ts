@@ -1,5 +1,6 @@
 import { BooleanObject } from '../math-object.class';
-import { BooleanVar,
+import {
+  BooleanVar,
   BooleanConst,
   Not,
   And,
@@ -22,11 +23,11 @@ export abstract class BooleanObjectParser {
     [BooleanObjectType.NOT]: (json: any) =>
       new Not(BooleanObjectParser.fromJson(json.operator)),
     [BooleanObjectType.AND]: (json: any) => {
-      let operation: BooleanObject[] = [];
-      json.operation.forEach((o: any) => {
-        operation.push(BooleanObjectParser.fromJson(o));
+      let operators: BooleanObject[] = [];
+      json.operators.forEach((o: any) => {
+        operators.push(BooleanObjectParser.fromJson(o));
       });
-      return new And(operation);
+      return new And(operators);
     },
     [BooleanObjectType.OR]: (json: any) => {
       let operation: BooleanObject[] = [];
@@ -57,15 +58,29 @@ export abstract class BooleanObjectParser {
         NumberObjectParser.fromJson(json.second)
       ),
     [BooleanObjectType.EQ]: (json: any) => {
+      if (json.first.type.startsWith("string") && json.first.type.startsWith("string")) {
+        if (
+          StringObjectParser.containsParser(json.first.type) &&
+          StringObjectParser.containsParser(json.second.type)
+        ) {
+          return new Equal(
+            StringObjectParser.fromJson(json.first),
+            StringObjectParser.fromJson(json.second)
+          );
+        }
+      }
       if (
-        StringObjectParser.containsParser(json.first.type) &&
-        StringObjectParser.containsParser(json.second.type)
+        NumberObjectParser.containsParser(json.first.type) &&
+        NumberObjectParser.containsParser(json.second.type)
       ) {
         return new Equal(
-          StringObjectParser.fromJson(json.first),
-          StringObjectParser.fromJson(json.second)
+          NumberObjectParser.fromJson(json.first),
+          NumberObjectParser.fromJson(json.second)
         );
-      } else if (
+      }
+    },
+    [BooleanObjectType.NE]: (json: any) => {
+      if (
         NumberObjectParser.containsParser(json.first.type) &&
         NumberObjectParser.containsParser(json.second.type)
       ) {
@@ -74,12 +89,9 @@ export abstract class BooleanObjectParser {
           NumberObjectParser.fromJson(json.second)
         );
       }
-    },
-    [BooleanObjectType.NE]: (json: any) => { }
+    }
   };
   public static fromJson(json: any): BooleanObject {
-    console.log(json);
-    
     return this.parsers[json.type](json);
   }
   public static containsParser(type: string) {

@@ -10,11 +10,12 @@
       :id="dto.key"
       :placeholder="dto.config.placeholder"
       v-model.number="status.value"
-      @click="updateStatus()"
-      @focus="setFocus()"
-      @blur="setBlur()"
+      @change="updateStatus()"
       :class="{ show: status.showErrors, valid: status.isValid }"
     /><br>
+    <!-- TODO: instant update -->
+    <!-- <div @click="status.value=true;updateStatus()">TRUE</div>
+    <div @click="status.value=false;updateStatus()">FALSE</div> -->
     <div v-if="status.showErrors && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
   </div>
 </template>
@@ -39,15 +40,15 @@ export default class CheckboxComponent extends Vue {
     this.updateStatus();
   }
 
-  setFocus() {
-    this.status.showErrors = false;
-    this.updateStatus();
-  }
+  // setFocus() {
+  //   this.status.showErrors = false;
+  //   this.updateStatus();
+  // }
 
-  setBlur() {    
-    this.status.showErrors = true;
-    this.updateStatus();
-  }
+  // setBlur() {    
+  //   this.status.showErrors = true;
+  //   this.updateStatus();
+  // }
 
   @Emit("change")
   updateStatus(): ValueFieldStatus<boolean> {
@@ -55,7 +56,7 @@ export default class CheckboxComponent extends Vue {
       this.status.value,
       this.dto.validators
     );
-    this.status.isValid = this.status.errors.length == 0;
+    this.status.isValid = this.status.errors.length == 0;    
     return this.status;
   }
 }

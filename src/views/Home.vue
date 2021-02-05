@@ -29,7 +29,13 @@ export default class Home extends Vue {
     
     // console.clear();
     // console.log('----------------');
-    // console.log(new BooleanVar('A').toJson());
+    // console.clear();
+    // const a = new BooleanVar('A');
+    // console.log(a.toJson());
+    // console.log(MathParser.fromJson(a.toJson()));
+    // const b = new BooleanConst(true)
+    // console.log(b.toJson());
+    // console.log(MathParser.fromJson(b.toJson()));
     
     // console.log(
     //   new BooleanVar('A').calc({A: false})

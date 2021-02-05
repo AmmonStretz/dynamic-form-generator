@@ -28,7 +28,6 @@
       v-bind:status="status"
       v-on:change="onChange"
     ></SelectComponent>
-    <p>{{visibility}}</p>
     <p if="dto.config.description">{{ dto.config.description }}</p>
   </div>
 </template>
@@ -45,6 +44,8 @@ import SelectComponent from "./Select/Select.vue";
 import { Field, ValueFieldStatus, ValueField } from "./Field.dto";
 import { WizzardStatus } from "../Wizzard/Wizzard.dto";
 import { BooleanObject } from "../math-logic/math-object.class";
+import { BooleanConst } from "../math-logic/objects/boolean/const";
+import { BooleanVar } from "../math-logic/objects/boolean/var";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -58,32 +59,19 @@ import { BooleanObject } from "../math-logic/math-object.class";
   },
 })
 export default class FieldComponent extends Vue {
-  @Prop() private dto!: Field;
+  @Prop() private dto!: ValueField<any>;
 
   @Prop()
   public status: ValueFieldStatus<any>;
   @Prop()
   public values!: {[key: string]: any};
-  // {
-  //   key: this.dto instanceof ValueField? this.dto.key: null,
-  //   value: null,
-  //   show: false
-  // }
 
-  // public message: string = "";
-
-  // get errorMessage(): string {
-  //   return !this.status.isValid && this.status.show ? this.status.errors[0].message : "";
-  // }
-  private vis = true;
   get visibility(): any {
-      console.log(this.dto.type, this.dto.visible);
     if(this.values, (this.dto.visible).calc && this.values){
-      console.log('is given');
-      
-      return this.dto.visible.calc(this.values)
+      this.status.visible = this.dto.visible.calc(this.values);
+      return this.status.visible
     }
-    return this.vis;
+    return true;
   }
 
   // mounted() {

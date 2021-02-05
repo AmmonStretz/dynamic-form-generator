@@ -42,9 +42,8 @@ export default class FormComponent extends Vue {
 
   checkValidity(): boolean {
     for (const key in this.status.fields) {
-      if (!this.status.fields[key].isValid) {
-        console.log(this.status.fields, false);
-        
+      const field = this.status.fields[key];
+      if (field.visible && !field.isValid) {
         return false;
       }
     }

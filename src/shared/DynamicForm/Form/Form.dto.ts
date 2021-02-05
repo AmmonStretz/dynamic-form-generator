@@ -6,7 +6,8 @@ import { BooleanConst } from '../math-logic/objects/boolean/const';
 export class FormStatus {
   constructor(
     public fields: { [key: string]: FieldStatus },
-    public isValid?: boolean
+    public isValid?: boolean,
+    public visible: boolean = true,
   ) { }
 
   public groupAllValues(values: {[key: string]: any}) {

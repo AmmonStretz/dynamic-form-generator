@@ -1,23 +1,24 @@
 <template>
-  <div class="field-group" :class="{horizontal: dto.config.horizontal}">
+  <div class="field-group" :class="{ horizontal: dto.config.horizontal }">
     <h2 v-if="!!dto.config && !!dto.config.title">{{ dto.config.title }}</h2>
     <div class="content">
-    <FieldComponent
-      v-for="(field, index) in dto.fields"
-      :key="index"
-      v-bind:dto="field"
-      v-bind:status="status.fields[Object.keys(status.fields)[index]]"
-      v-on:change="onChange"
-    ></FieldComponent>
+      <FieldComponent
+        v-for="(field, index) in dto.fields"
+        :key="index"
+        v-bind:dto="field"
+        v-bind:status="status.fields[Object.keys(status.fields)[index]]"
+        v-bind:values="values"
+        v-on:change="onChange"
+      ></FieldComponent>
     </div>
-    <br>
-    <p if="dto.config.description">{{dto.config.description}}</p>
+    <br />
+    <p if="dto.config.description">{{ dto.config.description }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { ValueFieldStatus } from '../Field.dto';
+import { ValueFieldStatus } from "../Field.dto";
 import { FieldGroup, FieldGroupStatus } from "./FieldGroup.dto";
 // import FieldComponent from "../Field.vue";
 
@@ -34,9 +35,9 @@ export default class FieldGroupComponent extends Vue {
   @Prop()
   public status: FieldGroupStatus;
   @Prop()
-  public values!: {[key: string]: any};
+  public values!: { [key: string]: any };
 
-  constructor(){
+  constructor() {
     super();
   }
 
@@ -49,30 +50,31 @@ export default class FieldGroupComponent extends Vue {
 
   checkValidity(): boolean {
     for (const key in this.status.fields) {
-      if (!this.status.fields[key].isValid) {
+      const field = this.status.fields[key];
+      if (field.visible && !field.isValid) {
         return false;
       }
     }
     return true;
   }
-  
-  beforeCreate () {
-    if(this.$options.components)
-    this.$options.components.FieldComponent = require('../Field.vue').default
+
+  beforeCreate() {
+    if (this.$options.components)
+      this.$options.components.FieldComponent = require("../Field.vue").default;
   }
 }
 </script>
 
 <style scoped lang="scss">
-  .field-group {
+.field-group {
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+  &.horizontal {
     .content {
-      display: flex;
-      flex-direction: column;
-    }
-    &.horizontal {
-      .content {
-        flex-direction: row;
-      }
+      flex-direction: row;
     }
   }
+}
 </style>

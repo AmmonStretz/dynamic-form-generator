@@ -65,9 +65,9 @@ export default class WizzardComponent extends Vue {
   public status: WizzardStatus = this.dto.generateStatus();
   public values: {[key: string]: any} = this.status.groupAllValues();
 
-  // mounted() {
-  //   console.log(this.dto);
-  // }
+  mounted() {
+    console.log(this.dto);
+  }
 
   public get currentStatus() {
     return this.status;
@@ -77,7 +77,7 @@ export default class WizzardComponent extends Vue {
   onChange(status: FormStatus): WizzardStatus {
     this.status.forms[this.status.index] = status;
     this.values = this.status.groupAllValues();
-    
+    // console.log(this.status);
     
     // (this as any).$store.dispatch("changeStatus", this.status).then(()=>{
     //   setTimeout(()=>{
