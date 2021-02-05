@@ -18,7 +18,7 @@ import { StringObjectParser } from './string.class';
 
 export abstract class BooleanObjectParser {
   public static parsers: any = {
-    [BooleanObjectType.VAR]: (json: any) => new BooleanVar(json.name),
+    [BooleanObjectType.VAR]: (json: any) => new BooleanVar(json.key),
     [BooleanObjectType.CONST]: (json: any) => new BooleanConst(json.value),
     [BooleanObjectType.NOT]: (json: any) =>
       new Not(BooleanObjectParser.fromJson(json.operator)),

@@ -23,11 +23,13 @@
           v-bind:status="status.forms[i]"
           v-bind:values="values"
           v-on:change="onChange"
+          v-on:before="onBefore"
+          v-on:after="onAfter"
           :ref="'form' + i"
         ></FormComponent>
       </div>
       <nav>
-        <button v-on:click="cancel">
+        <!-- <button v-on:click="cancel">
           {{ dto.config.prevButtonText ? dto.config.prevButtonText : "Zurück" }}
         </button>
         <button
@@ -43,7 +45,7 @@
           v-on:click="next"
         >
           {{ dto.config.nextButtonText ? dto.config.nextButtonText : "Weiter" }}
-        </button>
+        </button> -->
       </nav>
     </div>
   </div>
@@ -63,7 +65,7 @@ import { FormStatus } from "../Form/Form.dto";
 export default class WizzardComponent extends Vue {
   @Prop() public dto!: Wizzard;
   public status: WizzardStatus = this.dto.generateStatus();
-  public values: {[key: string]: any} = this.status.groupAllValues();
+  public values: { [key: string]: any } = this.status.groupAllValues();
 
   mounted() {
     console.log(this.dto);
@@ -77,8 +79,10 @@ export default class WizzardComponent extends Vue {
   onChange(status: FormStatus): WizzardStatus {
     this.status.forms[this.status.index] = status;
     this.values = this.status.groupAllValues();
-    // console.log(this.status);
+    console.log('change');
     
+    // console.log(this.status);
+
     // (this as any).$store.dispatch("changeStatus", this.status).then(()=>{
     //   setTimeout(()=>{
     //     console.log((this as any).$store.state.status.calcValue('checkboxKey'));
@@ -91,26 +95,24 @@ export default class WizzardComponent extends Vue {
     return this.status;
   }
 
-  next() {
-    if(this.status.forms[this.status.index].isValid){
-      if(this.status.index < this.status.forms.length - 1){
-        this.status.index++;
-      } else {
-        this.submit();
-      }
-      } else {
-        this.status.showErrorOfIndex();
-    }
-  }
-
   @Emit("submit")
   submit() {
-      return this.status;
+    return this.status;
   }
-  cancel(status: any) {
+
+  onBefore() {
     if (this.status.index > 0) {
       this.status.index--;
     } else if (this.status.index == 0) {
+      // TODO: Cancel
+    }
+  }
+  onAfter() {
+    console.log(this.status);
+    if (this.status.index < this.status.forms.length - 1) {
+      this.status.index++;
+    } else {
+      this.submit();
     }
   }
   // linkStatus(index: number) {

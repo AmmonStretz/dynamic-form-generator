@@ -49,9 +49,10 @@ export class Wizzard {
 
   public generateStatus(): WizzardStatus {
     let values: FormStatus[] = [];
-    this.forms.forEach(form => {
+    for (let i = 0; i < this.forms.length; i++) {
+      const form = this.forms[i];
       values.push(form.generateStatus());
-    });
+    }
     return new WizzardStatus(values, 0);
   }
 

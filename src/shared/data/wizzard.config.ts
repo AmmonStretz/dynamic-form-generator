@@ -1,63 +1,9 @@
 import { Wizzard } from '../DynamicForm/Wizzard/Wizzard.dto';
 import { WizzardParser } from '@/shared/DynamicForm/Wizzard/Wizzard.parser';
+import { defaultWizzardConfig } from './default.wizzard.config';
 
 //TODO: This config will be stored outside the ui
-export const config: Wizzard = WizzardParser.parseFromJSON({
-  forms: [
-    {
-      fields: [
-        {
-          type: 'checkbox',
-          key: 'A',
-          config: {
-            name: 'Überspringen?',
-            description: 'Soll Seite zwei übersprungen werden?'
-          },
-          validators: []
-        },//{ type: "boolean-var", name: "checkboxKey02" }
-      ],
-      config: {
-        title: 'Name der Seite 1'
-      }
-    },
-    {
-      fields: [
-        {
-          type: 'checkbox',
-          key: 'B',
-          config: {
-            name: 'Checkbox 2'
-          },
-          validators: []
-        },//{ type: "boolean-var", name: "checkboxKey02" }
-      ],
-      config: {
-        title: 'Name der Seite 2'
-      }
-    },
-    {
-      fields: [
-        {
-          type: 'checkbox',
-          key: 'C',
-          config: {
-            name: 'Checkbox 3'
-          },
-          validators: []
-        },//{ type: "boolean-var", name: "checkboxKey02" }
-      ],
-      config: {
-        title: 'Name der Seite 3'
-      }
-    },
-  ],
-  config: {
-    title: 'Title der Fragestrecke',
-    submitButtonText: "Fertig",
-    prevButtonText: "Zurück",
-    nextButtonText: "Weiter",
-  }
-});
+export const config: Wizzard = WizzardParser.parseFromJSON(defaultWizzardConfig);
 // export const config: Wizzard = WizzardParser.parseFromJSON({
 //   forms: [
 //     {
