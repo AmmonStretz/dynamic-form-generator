@@ -6,6 +6,7 @@ export enum FieldTypes {
   CHECKBOX = 'checkbox',
   FIELD_GROUP = 'fieldGroup',
   NUMBER_INPUT = 'numberInput',
+  TEXT_INPUT = 'textInput',
   NUMBER_RANGE = 'numberRange',
   TEXT_FIELD = 'textField',
   SELECT = 'select'

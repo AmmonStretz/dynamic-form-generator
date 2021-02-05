@@ -26,6 +26,16 @@ const NUMBER_INPUT_00: any = {
   validators: [REQUIRED]
 };
 
+const TEXT_INPUT_00: any = {
+  type: 'textInput',
+  key: 'S',
+  config: {
+    name: 'Test?',
+    description: 'muss ausgefült werden',
+  },
+  validators: [REQUIRED]
+};
+
 const SELECT_00: any = {
   type: 'select',
   key: 'marialStatus',
@@ -45,6 +55,7 @@ const FORM_00: any = {
     CHECKBOX_00,
     NUMBER_INPUT_00,
     SELECT_00,
+    TEXT_INPUT_00,
   ],
   config: {
     title: 'Name der Seite 1'
@@ -71,8 +82,6 @@ const NUMBER_INPUT_01: any = {
   },
   validators: [REQUIRED]
 }
-
-
 
 const FORM_01: any = {
   fields: [

@@ -6,6 +6,12 @@
       v-bind:status="status"
       v-on:change="onChange"
     ></NumberInputComponent>
+    <TextInputComponent
+      v-if="dto.type == 'textInput'"
+      v-bind:dto="dto"
+      v-bind:status="status"
+      v-on:change="onChange"
+    ></TextInputComponent>
     <NumberRangeComponent
       v-if="dto.type == 'numberRange'"
       v-bind:dto="dto"
@@ -36,6 +42,7 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { Validator } from "../Validators/validators.class";
 import NumberInputComponent from "./NumberInput/NumberInput.vue";
+import TextInputComponent from "./TextInput/TextInput.vue";
 import NumberRangeComponent from "./NumberRange/NumberRange.vue";
 import CheckboxComponent from "./Checkbox/Checkbox.vue";
 import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
@@ -51,6 +58,7 @@ import { BooleanVar } from "../math-logic/objects/boolean/var";
   name: "FieldComponent",
   components: {
     NumberInputComponent,
+    TextInputComponent,
     TextFieldComponent,
     NumberRangeComponent,
     CheckboxComponent,
@@ -73,12 +81,6 @@ export default class FieldComponent extends Vue {
     }
     return true;
   }
-
-  // mounted() {
-  //   (this as any).$store.dispatch("addListener", ()=>{
-  //     console.log('test',(this as any).$store.state.status.calcValue('checkboxKey'));
-  //   })
-  // }
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): ValueFieldStatus<any> {
