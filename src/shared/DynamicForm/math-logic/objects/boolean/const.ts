@@ -5,7 +5,7 @@ export class BooleanConst extends BooleanObject {
   constructor(public value: boolean) {
     super(BooleanObjectType.CONST);
   }
-  calc(params: { [key: string]: any }): boolean {
+  calc(pointer: (key: string) => any): boolean {
     return this.value;
   }
   toJson() {

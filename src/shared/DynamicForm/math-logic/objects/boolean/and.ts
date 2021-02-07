@@ -7,10 +7,10 @@ export class And extends BooleanObject {
     super(BooleanObjectType.AND);
     this.operators = operators;
   }
-  calc(params: { [key: string]: any }) {
+  calc(pointer: (key: string) => any) {
     let result = true;
     this.operators.forEach(operator => {
-      result = result && operator.calc(params);
+      result = result && operator.calc(pointer);
     });
     return result;
   }

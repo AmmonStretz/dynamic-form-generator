@@ -1,20 +1,19 @@
+import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.dto';
 import { StringObjectType } from '../../math-naming.class';
 import { StringObject } from '../../math-object.class';
 
 export class StringVar extends StringObject {
-  constructor(public name: string) {
+  constructor(public key: string) {
     super(StringObjectType.VAR);
   }
-  calc(params: { [key: string]: any }): string {
-    if (!(this.name in params)) throw new Error("var does not exist");
-    if (typeof params[this.name] != "string")
-      throw new Error("var is not string");
-    return params[this.name];
+  calc(pointer: (key: string) => any): string {
+    let value = pointer(this.key).value;
+    return value;
   }
   toJson() {
     return {
       type: StringObjectType.VAR,
-      name: this.name
+      name: this.key
     };
   }
 }

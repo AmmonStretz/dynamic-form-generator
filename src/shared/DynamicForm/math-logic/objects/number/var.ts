@@ -1,5 +1,4 @@
-
-import { extend } from 'vue/types/umd';
+import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.dto';
 import { NumberObjectType } from '../../math-naming.class';
 import { NumberObject } from '../../math-object.class';
 
@@ -7,9 +6,9 @@ export class NumberVar extends NumberObject {
   constructor(public key: string) {
     super(NumberObjectType.VAR);
   }
-  calc(params: { [key: string]: any }): number {
-    if (!(this.key in params)) throw new Error("var does not exist");
-    return params[this.key];
+  calc(pointer: (key: string) => any): number {
+    let value = pointer(this.key).value;
+    return value;
   }
   toJson() {
     return {

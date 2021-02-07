@@ -5,8 +5,8 @@ export class Not extends BooleanObject {
   constructor(public operator: BooleanObject) {
     super(BooleanObjectType.NOT);
   }
-  calc(params: { [key: string]: any }) {
-    return !this.operator.calc(params);
+  calc(pointer: (key: string) => any) {
+    return !this.operator.calc(pointer);
   }
   toJson() {
     return {

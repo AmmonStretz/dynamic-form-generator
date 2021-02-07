@@ -1,3 +1,4 @@
+import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.dto';
 import { NumberObjectType } from '../../math-naming.class';
 import { NumberObject } from '../../math-object.class';
 
@@ -5,10 +6,10 @@ export class Addition extends NumberObject {
   constructor(public summands: NumberObject[]) {
     super(NumberObjectType.ADD);
   }
-  calc(params: { [key: string]: any }) {
+  calc(pointer: (key: string) => any) {
     let summ = 0;
     this.summands.forEach(summand => {
-      summ += summand.calc(params);
+      summ += summand.calc(pointer);
     });
     return summ;
   }

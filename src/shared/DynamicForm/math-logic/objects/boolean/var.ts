@@ -5,11 +5,9 @@ export class BooleanVar extends BooleanObject {
   constructor(public key: string) {
     super(BooleanObjectType.VAR);
   }
-  calc(params: { [key: string]: any }): boolean {
-    if (!(this.key in params)) throw new Error("var does not exist");
-    if (typeof params[this.key] != "boolean")
-      throw new Error("var is not boolean");
-    return params[this.key];
+  calc(pointer: (key: string) => any): boolean {
+    let value = pointer(this.key).value
+    return value;
   }
   toJson() {
     return {

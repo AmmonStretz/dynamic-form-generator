@@ -7,10 +7,10 @@ export class Or extends BooleanObject {
     super(BooleanObjectType.OR);
     this.operators = operators;
   }
-  calc(params: { [key: string]: any }) {
+  calc(pointer: (key: string) => any) {
     let result = false;
     this.operators.forEach(operator => {
-      result = result || operator.calc(params);
+      result = result || operator.calc(pointer);
     });
     return result;
   }
