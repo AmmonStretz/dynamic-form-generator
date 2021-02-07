@@ -27,25 +27,6 @@
           :ref="'form' + i"
         ></FormComponent>
       </div>
-      <nav>
-        <!-- <button v-on:click="cancel">
-          {{ dto.config.prevButtonText ? dto.config.prevButtonText : "Zurück" }}
-        </button>
-        <button
-          v-if="dto.forms.length - 1 <= currentStatus.index"
-          v-on:click="next"
-        >
-          {{
-            dto.config.submitButtonText ? dto.config.submitButtonText : "Fertig"
-          }}
-        </button>
-        <button
-          v-if="dto.forms.length - 1 > currentStatus.index"
-          v-on:click="next"
-        >
-          {{ dto.config.nextButtonText ? dto.config.nextButtonText : "Weiter" }}
-        </button> -->
-      </nav>
     </div>
   </div>
 </template>
@@ -73,18 +54,6 @@ export default class WizzardComponent extends Vue {
   @Emit("change")
   onChange(status: FormStatus): WizzardStatus {
     this.dto.forms[this.dto.status.index].status = status;
-
-    // console.log(this.status);
-
-    // (this as any).$store.dispatch("changeStatus", this.status).then(()=>{
-    //   setTimeout(()=>{
-    //     console.log((this as any).$store.state.status.calcValue('checkboxKey'));
-    //   },0)
-    //   setTimeout(()=>{
-    //     console.log((this as any).$store.state.status.calcValue('numberInputKey'));
-    //   },0)
-    // })
-
     return this.dto.status;
   }
 
@@ -94,22 +63,18 @@ export default class WizzardComponent extends Vue {
   }
 
   onBefore() {
-    if (this.dto.status.index > 0) {
-      this.dto.status.index--;
-      // TODO Multiple Steps back
-    } else if (this.dto.status.index == 0) {
-      // TODO: Cancel
+    for (let i = this.dto.status.index - 1; i >= 0; i--) {
+      if (this.dto.forms[i].status.visible) {
+        this.dto.status.index = i;
+        return;
+      }
     }
+    console.log("Abbruch");
   }
   onAfter() {
     console.log(this.dto.status);
     if (this.dto.status.index < this.dto.forms.length - 1) {
-      for (
-        let i = this.dto.status.index + 1;
-        i < this.dto.forms.length;
-        i++
-      ) {
-        // RECALC Visibility
+      for (let i = this.dto.status.index + 1; i < this.dto.forms.length; i++) {
         if (this.dto.forms[i].status.visible) {
           this.dto.status.index = i;
           return;

@@ -16,7 +16,7 @@
 
     <div>
       <button type="button" v-on:click="before()">Zurück</button>
-      <button type="button" v-on:click="after()">Weiter</button>
+      <button type="button" :disabled="!dto.status.isValid" v-on:click="after()">Weiter</button>
       <!-- <button v-on:click="cancel">
         {{ dto.config.prevButtonText ? dto.config.prevButtonText : "Zurück" }}
       </button>
@@ -62,9 +62,7 @@ export default class FormComponent extends Vue {
     const index: number = this.dto.fields.findIndex(field=>field.status.key == status.key);
     this.dto.fields[index].status = status;
     this.dto.status.isValid = this.checkValidity();
-    this.root.updateStatus();
-    console.log('update');
-    
+    this.root.updateStatus();    
     return this.dto.status;
   }
 

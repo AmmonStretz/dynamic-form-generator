@@ -93,7 +93,7 @@ const TEXT_INPUT_00: any = {
     description: 'muss ausgefült werden',
   },
   validators: [REQUIRED],
-  visible: { type: 'boolean-var', key: 'firstForm.groupInside.inside' }
+  visible: { type: 'boolean-var', key: 'firstForm.groupOutside.groupInside.inside' }
 };
 
 const GROUP_INSIDE: any = {
@@ -123,7 +123,7 @@ const FORM_00: any = {
   key: 'firstForm',
   fields: [
     CHECKBOX_00,
-    GROUP_INSIDE,
+    GROUP_OUTSIDE,
     // NUMBER_INPUT_00,
     // FIELD_LOOP_00,
   ],
