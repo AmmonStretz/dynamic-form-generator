@@ -1,5 +1,6 @@
 import { BooleanObject } from "../../math-logic/math-object.class";
 import { Validator } from "../../Validators";
+import { Wizzard } from "../../Wizzard/Wizzard.dto";
 import { Field, FieldConfig, FieldStatus, FieldTypes } from "../Field.dto";
 
 export interface ValueFieldConfig<T> extends FieldConfig {
@@ -41,6 +42,11 @@ export abstract class ValueField<T> extends Field {
   
   public showAllErrors(){
     this.status.showErrors = true;
+  }
+
+  public updateStatus(root: Wizzard): FieldStatus {
+    this.status.visible = this.visible.calc((key: string)=>root.getStatusByKey(key));
+    return this.status;
   }
 
   abstract generateStatus(): ValueFieldStatus<T>;

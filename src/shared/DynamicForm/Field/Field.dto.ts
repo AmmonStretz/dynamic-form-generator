@@ -1,5 +1,9 @@
 import { BooleanObject } from '../math-logic/math-object.class';
 import { Validator } from '../Validators/validators.class';
+import { Wizzard } from '../Wizzard/Wizzard.dto';
+import { FieldGroup } from './FieldGroup/FieldGroup.dto';
+import { FieldLoop } from './FieldLoop/FieldLoop.dto';
+import { ValueField } from './ValueFields/ValueField.dto';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 
 export enum FieldTypes {
@@ -35,6 +39,8 @@ export abstract class Field {
     public visible: BooleanObject,
     public status: FieldStatus,
   ) { }
+
+  public abstract updateStatus(root: Wizzard): FieldStatus;
 
   abstract toJson(): any;
 }

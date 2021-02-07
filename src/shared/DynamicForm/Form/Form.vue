@@ -62,6 +62,9 @@ export default class FormComponent extends Vue {
     const index: number = this.dto.fields.findIndex(field=>field.status.key == status.key);
     this.dto.fields[index].status = status;
     this.dto.status.isValid = this.checkValidity();
+    this.root.updateStatus();
+    console.log('update');
+    
     return this.dto.status;
   }
 
@@ -102,7 +105,10 @@ export default class FormComponent extends Vue {
     if (this.dto.status.isValid || !this.dto.status.visible) {
       this.fireAfter();
     } else {
+      console.log('showErrors');
+      
       this.dto.showAllErrors();
+      console.log(this.dto);
     }
     return;
   }

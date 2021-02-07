@@ -79,6 +79,7 @@ export default class FieldComponent extends Vue {
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): ValueFieldStatus<any> {
+    // this.root.updateStatus();
     this.$forceUpdate();
     return status;
   }

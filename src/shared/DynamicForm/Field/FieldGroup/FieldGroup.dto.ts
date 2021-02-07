@@ -4,14 +4,16 @@ import { BooleanObject } from '../../math-logic/math-object.class';
 import { BooleanConst } from '../../math-logic/objects/boolean/const';
 import { FieldLoop, FieldLoopStatus } from '../FieldLoop/FieldLoop.dto';
 import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueFields/ValueField.dto';
+import { Wizzard } from '../../Wizzard/Wizzard.dto';
 
 export class FieldGroupStatus extends FieldStatus {
   constructor(
     public key: string,
     // public fields: { [key: string]: FieldStatus },
     public isValid?: boolean,
+    public visible: boolean = true,
   ) {
-    super(key, isValid, true); //TODO: VISIBLE
+    super(key, isValid, visible); //TODO: VISIBLE
   }
 }
 
@@ -32,6 +34,30 @@ export class FieldGroup extends Field {
     super(FieldTypes.FIELD_GROUP, config, visible, status ? status : new FieldGroupStatus(
       key
     ));
+  }
+
+  public updateStatus(root: Wizzard): FieldGroupStatus {
+    let valide = true;
+    for (let i = 0; i < this.fields.length; i++) {
+      const field = this.fields[i];
+      let childStatus: FieldStatus;
+      if (field instanceof ValueField) {
+        childStatus = (field as ValueField<any>).updateStatus(root);
+      }
+      if (field instanceof FieldGroup) {
+        childStatus = (field as FieldGroup).updateStatus(root);
+      }
+      if (field instanceof FieldLoop) {
+        // (field.status as FieldLoop).groupAllValues(values);
+        // TODO: 
+      }
+      if(!childStatus.isValid && !!childStatus.visible){
+        valide = false;
+      }
+    }
+    this.status.isValid = valide;
+    this.status.visible = this.visible.calc(root.getStatusByKey);
+    return this.status;
   }
 
   public generateStatus(): FieldStatus {
@@ -72,8 +98,11 @@ export class FieldGroup extends Field {
   }
 
   public showAllErrors(): void {
+    console.log(123123);
+    
     this.fields.forEach(field => {
       if (field instanceof ValueField) {
+        
         (field as ValueField<any>).showAllErrors();
       } else if (field instanceof FieldGroup) {
         (field as FieldGroup).showAllErrors();

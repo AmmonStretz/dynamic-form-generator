@@ -59,6 +59,20 @@ export class FieldLoop extends Field {
     super(FieldTypes.FIELD_LOOP, config, visible, status? status: new FieldLoopStatus(key));
   }
 
+  public updateStatus(root: Wizzard): FieldStatus {
+    // let valide = true;
+    // for (let i = 0; i < this.fields.length; i++) {
+    //   const childStatus = this.fields[i].updateStatus(root);
+    //   if(!childStatus.isValid && childStatus.visible){
+    //     valide = false;
+    //   }
+    // }
+    // this.status.isValid = valide;
+    // this.status.visible = this.visible.calc(root.getStatusByKey);
+    // return this.status;
+    return null;
+  }
+
   public generateStatusByValues(root: Wizzard) {
     // const status = this.generateStatus();
     // for (let i = 0; i < this.condition.calc(root.getStatusByKey); i++) {

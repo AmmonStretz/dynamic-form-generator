@@ -4,6 +4,7 @@ import { FieldLoop, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.dto';
 import { ValueField, ValueFieldStatus } from '../Field/ValueFields/ValueField.dto';
 import { BooleanObject } from '../math-logic/math-object.class';
 import { BooleanConst } from '../math-logic/objects/boolean/const';
+import { Wizzard } from '../Wizzard/Wizzard.dto';
 
 export class FormStatus {
   constructor(
@@ -34,6 +35,29 @@ export class Form {
     return new FormStatus(this.key)
   }
 
+  public updateStatus(root: Wizzard): FieldStatus {
+    
+    let valide = true;
+    for (let i = 0; i < this.fields.length; i++) {
+      let childStatus;
+      if (this.fields[i] instanceof ValueField) {
+        childStatus = (this.fields[i] as ValueField<any>).updateStatus(root);
+      }
+      if (this.fields[i] instanceof FieldGroup) {
+        childStatus = (this.fields[i] as FieldGroup).updateStatus(root);
+      }
+      if (this.fields[i] instanceof FieldLoop) {
+        // (field.status as FieldLoop).groupAllValues(values);
+        // TODO: 
+      }
+      if(!childStatus.isValid && childStatus.visible){
+        valide = false;
+      }
+    }
+    this.status.isValid = valide;
+    this.status.visible = this.visible.calc((key: string)=>root.getStatusByKey(key));
+    return this.status;
+  }
   
   public groupAllValues(values: { [key: string]: any }) {
     // this.fields.forEach(field => {
@@ -70,12 +94,12 @@ export class Form {
 
   public showAllErrors(): void {
     for (let i = 0; i < this.fields.length; i++) {
-      const status = this.fields[i].status;
-      if (status instanceof ValueField) {
-        (status as ValueField<any>).showAllErrors();
-      } else if (status instanceof FieldGroup) {
-        (status as FieldGroup).showAllErrors();
-      } else if (status instanceof FieldLoop) {
+      const field = this.fields[i];
+      if (field instanceof ValueField) {
+        (field as ValueField<any>).showAllErrors();
+      } else if (field instanceof FieldGroup) {
+        (field as FieldGroup).showAllErrors();
+      } else if (field instanceof FieldLoop) {
         // (status as FieldLoop).showAllErrors();
         // TODO: 
       }

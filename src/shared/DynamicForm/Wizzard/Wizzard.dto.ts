@@ -45,6 +45,12 @@ export class Wizzard {
     return null;
   }
 
+  public updateStatus() {
+    this.forms.forEach(form => {
+      form.updateStatus(this);
+    });
+  }
+
   showErrorOfIndex() {
     this.forms[this.status.index].showAllErrors();
   }
