@@ -6,8 +6,8 @@
         v-for="(field, index) in dto.fields"
         :key="index"
         v-bind:dto="field"
-        v-bind:status="status.fields[Object.keys(status.fields)[index]]"
-        v-bind:values="values"
+        v-bind:status="field.status"
+        v-bind:root="root"
         v-on:change="onChange"
       ></FieldComponent>
     </div>
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { ValueFieldStatus } from "../Field.dto";
+import { Wizzard } from "../../Wizzard/Wizzard.dto";
 import { FieldGroup, FieldGroupStatus } from "./FieldGroup.dto";
 // import FieldComponent from "../Field.vue";
 
@@ -35,7 +35,7 @@ export default class FieldGroupComponent extends Vue {
   @Prop()
   public status: FieldGroupStatus;
   @Prop()
-  public values!: { [key: string]: any };
+  public root!: Wizzard;
 
   constructor() {
     super();
@@ -43,15 +43,17 @@ export default class FieldGroupComponent extends Vue {
 
   @Emit("change")
   onChange(status: FieldGroupStatus): FieldGroupStatus {
-    this.status.fields[status.key] = status;
+    this.dto.updateValidity();
+    const index: number = this.dto.fields.findIndex(field=>field.status.key == status.key);
+    this.dto.fields[index].status = status;
     this.status.isValid = this.checkValidity();
     return this.status;
   }
 
   checkValidity(): boolean {
-    for (const key in this.status.fields) {
-      const field = this.status.fields[key];
-      if (field.visible && !field.isValid) {
+    for (let i = 0; i < this.dto.fields.length; i++) {
+      const field = this.dto.fields[i];
+      if (field.visible && !field.status.isValid) {
         return false;
       }
     }

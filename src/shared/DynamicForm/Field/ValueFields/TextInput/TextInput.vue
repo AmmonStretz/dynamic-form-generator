@@ -21,7 +21,7 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { TextInput } from "./TextInput.dto";
 import { Validator } from "../../../Validators/validators.class";
-import { ValueFieldStatus } from '../../Field.dto';
+import { ValueFieldStatus } from "../ValueField.dto";
 
 @Component({
   name: 'TextInputComponent'

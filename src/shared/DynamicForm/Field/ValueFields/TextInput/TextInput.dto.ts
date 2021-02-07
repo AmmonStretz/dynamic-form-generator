@@ -1,8 +1,8 @@
-import { ValueFieldStatus, ValueFieldConfig } from '../../Field.dto';
-import { ValueField, FieldTypes } from '../../Field.dto';
+import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '../../../math-logic/math-object.class';
 import { BooleanConst } from '../../../math-logic/objects/boolean/const';
+import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
 
 export interface TextInputConfig extends ValueFieldConfig<string> {
   unit?: string
@@ -14,8 +14,12 @@ export class TextInput extends ValueField<string> {
     public config: TextInputConfig,
     public validators: Validator<string>[] = [],
     public visible: BooleanObject = new BooleanConst(true),
+    status?: ValueFieldStatus<string>,
   ) {
-    super(key, FieldTypes.TEXT_INPUT, config, validators, visible);
+    super(key, FieldTypes.TEXT_INPUT, config, validators, visible, status? status: new ValueFieldStatus<string>(
+      key,
+      config.default? config.default: null,
+    ));
   }
 
   public generateStatus(): ValueFieldStatus<string> {

@@ -1,8 +1,8 @@
-import { ValueFieldStatus, ValueFieldConfig } from '../../Field.dto';
-import { ValueField, FieldTypes } from '../../Field.dto';
+import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '../../../math-logic/math-object.class';
 import { BooleanConst } from '../../../math-logic/objects/boolean/const';
+import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
 
 export interface NumberRangeConfig extends ValueFieldConfig<number> {
   unit?: string,
@@ -17,14 +17,18 @@ export class NumberRange extends ValueField<number> {
     public config: NumberRangeConfig,
     public validators: Validator<number>[] = [],
     public visible: BooleanObject = new BooleanConst(true),
+    status?: ValueFieldStatus<number>
   ) {
-    super(key, FieldTypes.NUMBER_RANGE, config, validators, visible);
+    super(key, FieldTypes.NUMBER_RANGE, config, validators, visible, status ? status : new ValueFieldStatus<number>(
+      key,
+      config.default ? config.default : null,
+    ));
   }
 
   public generateStatus(): ValueFieldStatus<number> {
-    return new ValueFieldStatus<number> (
+    return new ValueFieldStatus<number>(
       this.key,
-      this.config.default? this.config.default: null,
+      this.config.default ? this.config.default : null,
     )
   }
 

@@ -36,6 +36,15 @@ export class FieldParser {
           ValidatorParser.parseFromJSONArray(json.validators),
           BooleanObjectParser.fromJson(json.visible),
         );
+      case FieldTypes.FIELD_LOOP:
+        
+        return new FieldLoop(
+          json.key,
+          this.parseFromJSON(json.field),
+          json.config,
+          BooleanObjectParser.fromJson(json.visible),
+          NumberObjectParser.fromJson(json.condition)
+        );
       case FieldTypes.TEXT_INPUT:
         return new TextInput(
           json.key,

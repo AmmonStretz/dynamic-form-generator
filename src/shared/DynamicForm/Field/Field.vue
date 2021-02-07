@@ -4,16 +4,23 @@
       v-if="dto.type != 'fieldGroup' && dto.type != 'fieldLoop'"
       v-bind:dto="dto"
       v-bind:status="status"
-      v-bind:values="values"
+      v-bind:root="root"
       v-on:change="onChange"
     ></ValueFieldComponent>
     <FieldGroupComponent
       v-if="dto.type == 'fieldGroup'"
       v-bind:dto="dto"
       v-bind:status="status"
-      v-bind:values="values"
+      v-bind:root="root"
       v-on:change="onChange"
     ></FieldGroupComponent>
+    <FieldLoopComponent
+      v-if="dto.type == 'fieldLoop'"
+      v-bind:dto="dto"
+      v-bind:status="status"
+      v-bind:root="root"
+      v-on:change="onChange"
+    ></FieldLoopComponent>
   </div>
 </template>
 
@@ -21,13 +28,17 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
 import ValueFieldComponent from "./ValueFields/ValueField.vue";
-import { Field, ValueFieldStatus, ValueField, FieldStatus } from "./Field.dto";
+import { Field, FieldStatus } from "./Field.dto";
+import FieldLoopComponent from "./FieldLoop/FieldLoop.vue";
+import { Wizzard } from "../Wizzard/Wizzard.dto";
+import { ValueFieldStatus } from "./ValueFields/ValueField.dto";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
   components: {
     ValueFieldComponent,
     FieldGroupComponent,
+    FieldLoopComponent,
   },
 })
 export default class FieldComponent extends Vue {
@@ -35,12 +46,13 @@ export default class FieldComponent extends Vue {
 
   @Prop()
   public status: FieldStatus;
-  @Prop()
-  public values!: { [key: string]: any };
+  @Prop() public root!: Wizzard;
 
   get visibility(): any {
-    if (this.dto.visible.calc && this.values) {
-      this.status.visible = this.dto.visible.calc(this.values);
+    if (this.dto.visible.calc) {
+      this.status.visible = this.dto.visible.calc(
+        (key) => this.root.getStatusByKey(key)
+      );      
       return this.status.visible;
     }
     return true;

@@ -20,8 +20,7 @@
         <FormComponent
           v-if="i == currentStatus.index"
           v-bind:dto="form"
-          v-bind:status="status.forms[i]"
-          v-bind:values="values"
+          v-bind:root="dto"
           v-on:change="onChange"
           v-on:before="onBefore"
           v-on:after="onAfter"
@@ -64,22 +63,17 @@ import { FormStatus } from "../Form/Form.dto";
 })
 export default class WizzardComponent extends Vue {
   @Prop() public dto!: Wizzard;
-  public status: WizzardStatus = this.dto.generateStatus();
-  public values: { [key: string]: any } = this.status.groupAllValues();
 
-  mounted() {
-    console.log(this.dto);
-  }
+  mounted() {}
 
   public get currentStatus() {
-    return this.status;
+    return this.dto.status;
   }
 
   @Emit("change")
   onChange(status: FormStatus): WizzardStatus {
-    this.status.forms[this.status.index] = status;
-    this.values = this.status.groupAllValues();
-    
+    this.dto.forms[this.dto.status.index].status = status;
+
     // console.log(this.status);
 
     // (this as any).$store.dispatch("changeStatus", this.status).then(()=>{
@@ -91,28 +85,38 @@ export default class WizzardComponent extends Vue {
     //   },0)
     // })
 
-    return this.status;
+    return this.dto.status;
   }
 
   @Emit("submit")
   submit() {
-    return this.status;
+    return this.dto.status;
   }
 
   onBefore() {
-    if (this.status.index > 0) {
-      this.status.index--;
-    } else if (this.status.index == 0) {
+    if (this.dto.status.index > 0) {
+      this.dto.status.index--;
+      // TODO Multiple Steps back
+    } else if (this.dto.status.index == 0) {
       // TODO: Cancel
     }
   }
   onAfter() {
-    console.log(this.status);
-    if (this.status.index < this.status.forms.length - 1) {
-      this.status.index++;
-    } else {
-      this.submit();
+    console.log(this.dto.status);
+    if (this.dto.status.index < this.dto.forms.length - 1) {
+      for (
+        let i = this.dto.status.index + 1;
+        i < this.dto.forms.length;
+        i++
+      ) {
+        // RECALC Visibility
+        if (this.dto.forms[i].status.visible) {
+          this.dto.status.index = i;
+          return;
+        }
+      }
     }
+    this.submit();
   }
   // linkStatus(index: number) {
   //   const bla = this.status?.forms[index];

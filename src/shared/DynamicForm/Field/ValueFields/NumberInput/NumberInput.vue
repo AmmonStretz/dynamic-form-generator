@@ -20,8 +20,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { NumberInput } from "./NumberInput.dto";
-import { ValueFieldStatus } from '../../Field.dto';
 import { Validator } from "../../../Validators/validators.class";
+import { ValueFieldStatus } from "../ValueField.dto";
 
 @Component({
   name: 'NumberInputComponent'

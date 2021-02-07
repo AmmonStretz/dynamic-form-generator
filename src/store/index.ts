@@ -24,11 +24,11 @@ export default new Vuex.Store({
     }, 
     changeStatus(state, status: WizzardStatus) {
       state.status = status;
-      state.listeners.forEach(listener => {
-        listener.func(listener.key);
-      });
+      // state.listeners.forEach(listener => {
+      //   listener.func(listener.key);
+      // });
     },
-    addListener(state, listener: {key: string, func: (value: string)=>{}}) {
+    addListener(state, listener: {key: string, root: WizzardStatus} ) {
       state.listeners.push(listener);
     }
     // changeDesign(state, design: Design) {
@@ -48,7 +48,7 @@ export default new Vuex.Store({
     changeStatus(context, status: WizzardStatus) {
       context.commit('changeStatus', status)
     },
-    addListener(context, listener: {key: string, func: (value: any)=>{}}) {
+    addListener(context, listener: {key: string, root:WizzardStatus}) {
       context.commit('addListener', listener)
     }
     // changeDesign(context, design: Design) {

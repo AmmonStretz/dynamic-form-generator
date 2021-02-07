@@ -1,38 +1,17 @@
-import { ValueFieldStatus, ValueFieldConfig, FieldStatus } from './../Field.dto';
-import { Field, ValueField, FieldTypes } from '../Field.dto';
+import { FieldStatus } from './../Field.dto';
+import { Field, FieldTypes } from '../Field.dto';
 import { BooleanObject } from '../../math-logic/math-object.class';
 import { BooleanConst } from '../../math-logic/objects/boolean/const';
+import { FieldLoop, FieldLoopStatus } from '../FieldLoop/FieldLoop.dto';
+import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueFields/ValueField.dto';
 
 export class FieldGroupStatus extends FieldStatus {
   constructor(
     public key: string,
-    public fields: { [key: string]: FieldStatus },
+    // public fields: { [key: string]: FieldStatus },
     public isValid?: boolean,
   ) {
     super(key, isValid, true); //TODO: VISIBLE
-  }
-  public groupAllValues(values: {[key: string]: any}) {
-    for (const key in this.fields) {
-      if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
-        if (this.fields[key] instanceof ValueFieldStatus) {
-          (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
-        } else if (this.fields[key] instanceof FieldGroupStatus) {
-          (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
-        }
-      }
-    }
-  }
-
-  public showAllErrors(): void {
-    for (const key in this.fields) {
-      if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
-        if (this.fields[key] instanceof ValueFieldStatus) {
-          (this.fields[key] as ValueFieldStatus<any>).showAllErrors();
-        } else if (this.fields[key] instanceof FieldGroupStatus) {
-          (this.fields[key] as ValueFieldStatus<any>).showAllErrors();
-        }
-      }
-    }
   }
 }
 
@@ -48,33 +27,86 @@ export class FieldGroup extends Field {
     public fields: Field[],
     public config: FieldGroupConfig,
     public visible: BooleanObject = new BooleanConst(true),
+    status?: FieldGroupStatus,
   ) {
-    super(FieldTypes.FIELD_GROUP, config, visible);
+    super(FieldTypes.FIELD_GROUP, config, visible, status ? status : new FieldGroupStatus(
+      key
+    ));
   }
 
   public generateStatus(): FieldStatus {
-    let fields: { [key: string]: FieldStatus } = {};
+    return new FieldGroupStatus(this.key);
+  }
+
+  public groupAllValues(values: { [key: string]: any }) {
+
+    // for (const key in this.fields) {
+    //   if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
+    //     if (this.fields[key] instanceof ValueFieldStatus) {
+    //       (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
+    //     } else if (this.fields[key] instanceof FieldGroupStatus) {
+    //       (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
+    //     }
+    //   }
+    // }
+  }
+
+  getStatusByKey(path: string): any {
+    let before = path.split(/\.(.+)/)[0];
+    let after = path.split(/\.(.+)/)[1];
+    for (const key in this.fields) {
+      if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
+        const field = this.fields[key];
+        if (before == field.status.key) {
+          if (field instanceof ValueField) {
+            return field.status;
+          } else if (field instanceof FieldGroup) {
+            return field.getStatusByKey(after);
+          } else if (field instanceof FieldLoopStatus) {
+            return 'FieldLoopStatus'
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  public showAllErrors(): void {
     this.fields.forEach(field => {
       if (field instanceof ValueField) {
-        fields[field.key] = field.generateStatus();
+        (field as ValueField<any>).showAllErrors();
       } else if (field instanceof FieldGroup) {
-        fields[field.key] = field.generateStatus();
+        (field as FieldGroup).showAllErrors();
       }
     });
-    return new FieldGroupStatus(this.key, fields);
   }
+
+  public updateValidity() {
+    this.fields.forEach(field => {
+      if (field instanceof ValueFieldStatus) {
+        if (!field.status.visible) {
+          this.status.isValid = true;
+        }
+      } else if (field instanceof FieldGroup) {
+        (field as FieldGroup).updateValidity();
+        if (!field.visible) {
+          this.status.isValid = true;
+        }
+      }
+    });
+}
 
   public toJson() {
-    let fields: any[] = [];
-    this.fields.forEach(field => {
-      fields.push(field.toJson())
-    })
+  let fields: any[] = [];
+  this.fields.forEach(field => {
+    fields.push(field.toJson())
+  })
 
-    return {
-      type: this.type,
-      fields: fields,
-      config: this.config,
-      visible: this.visible,
-    }
+  return {
+    type: this.type,
+    fields: fields,
+    config: this.config,
+    visible: this.visible,
   }
+}
 }

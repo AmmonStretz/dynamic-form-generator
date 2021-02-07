@@ -1,5 +1,5 @@
-import { ValueFieldStatus, ValueFieldConfig } from '../../Field.dto';
-import { ValueField, FieldTypes } from '../../Field.dto';
+import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
+import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '../../../math-logic/math-object.class';
 import { BooleanConst } from '../../../math-logic/objects/boolean/const';
@@ -14,8 +14,12 @@ export class Select extends ValueField<number> {
     public config: SelectConfig,
     public validators: Validator<number>[] = [],
     public visible: BooleanObject = new BooleanConst(true),
+    status?: ValueFieldStatus<number>
   ) {
-    super(key, FieldTypes.SELECT, config, validators, visible);
+    super(key, FieldTypes.SELECT, config, validators, visible, status? status: new ValueFieldStatus<number>(
+      key,
+      config.default? config.default: null,
+    ));
   }
   
   public generateStatus(): ValueFieldStatus<number> {

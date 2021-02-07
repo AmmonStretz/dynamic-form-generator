@@ -46,7 +46,8 @@ import NumberRangeComponent from "./NumberRange/NumberRange.vue";
 import CheckboxComponent from "./Checkbox/Checkbox.vue";
 import TextFieldComponent from "./TextField/TextField.vue";
 import SelectComponent from "./Select/Select.vue";
-import { ValueFieldStatus, ValueField } from "../Field.dto";
+import { ValueFieldStatus, ValueField } from "./ValueField.dto";
+import { Wizzard } from "../../Wizzard/Wizzard.dto";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -64,12 +65,13 @@ export default class FieldComponent extends Vue {
 
   @Prop()
   public status: ValueFieldStatus<any>;
-  @Prop()
-  public values!: {[key: string]: any};
+  @Prop() public root!: Wizzard;
 
   get visibility(): any {
-    if(this.values, (this.dto.visible).calc && this.values){
-      this.status.visible = this.dto.visible.calc(this.values);
+    if((this.dto.visible).calc){
+      this.status.visible = this.dto.visible.calc(
+        (key) => this.root.getStatusByKey(key)
+      );
       return this.status.visible
     }
     return true;

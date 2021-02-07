@@ -24,7 +24,7 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { Checkbox } from "./Checkbox.dto";
 import { Validator } from "../../../Validators/validators.class";
-import { ValueFieldStatus } from "../../Field.dto";
+import { ValueFieldStatus } from "../ValueField.dto";
 
 @Component({
   name: "CheckboxComponent",

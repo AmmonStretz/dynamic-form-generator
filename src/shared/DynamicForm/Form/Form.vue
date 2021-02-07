@@ -1,12 +1,12 @@
 <template>
-  <form class="form" v-if="status && dto">
+  <form class="form" v-if="dto && dto.status">
     <h2 v-if="!!dto.config && !!dto.config.title">{{ dto.config.title }}</h2>
     <FieldComponent
       v-for="(field, index) in dto.fields"
       :key="index"
       v-bind:dto="field"
-      v-bind:status="status.fields[dto.fields[index].key]"
-      v-bind:values="values"
+      v-bind:status="field.status"
+      v-bind:root="root"
       v-on:change="onChange"
     ></FieldComponent>
     <!-- {{visibility}}<br> -->
@@ -42,7 +42,8 @@
 import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import FieldComponent from "../Field/Field.vue";
 import { Form, FormStatus } from "./Form.dto";
-import { ValueFieldStatus } from "../Field/Field.dto";
+import { ValueFieldStatus } from "../Field/ValueFields/ValueField.dto";
+import { Wizzard } from "../Wizzard/Wizzard.dto";
 
 @Component({
   components: {
@@ -52,40 +53,41 @@ import { ValueFieldStatus } from "../Field/Field.dto";
 export default class FormComponent extends Vue {
   @Prop() public dto!: Form;
 
-  @Prop()
-  public status: FormStatus;
-  @Prop()
-  public values!: { [key: string]: any };
+  // @Prop()
+  // public status: FormStatus;
+  @Prop() public root!: Wizzard;
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): FormStatus {
-    this.status.fields[status.key] = status;
-    this.status.isValid = this.checkValidity();
-    return this.status;
+    const index: number = this.dto.fields.findIndex(field=>field.status.key == status.key);
+    this.dto.fields[index].status = status;
+    this.dto.status.isValid = this.checkValidity();
+    return this.dto.status;
   }
 
-  mounted(){
-      if (this.dto.visible.calc && this.values) {
-        this.status.visible = this.dto.visible.calc(this.values);
-        // TODO: Fields Error is shown
-        if(this.status.visible == false){
-          this.after();
-        }
+  mounted() {
+    if (this.dto.visible.calc) {
+      this.dto.status.visible = this.dto.visible.calc(
+        (key) => this.root.getStatusByKey(key)
+      );
+      if (this.dto.status.visible == false) {
+        this.after();
+      }
     }
   }
 
   // get visibility(): any {
   //   if (this.dto.visible.calc && this.values) {
-  //     this.status.visible = this.dto.visible.calc(this.values);
-  //     return this.status.visible;
+  //     this.dto.status.visible = this.dto.visible.calc(this.values);
+  //     return this.dto.status.visible;
   //   }
   //   return true;
   // }
 
   checkValidity(): boolean {
-    for (const key in this.status.fields) {
-      const field = this.status.fields[key];
-      if (field.visible && !field.isValid) {
+    for (let i = 0; i < this.dto.fields.length; i++) {
+      const status = this.dto.fields[i].status;
+      if (status.visible && !status.isValid) {
         return false;
       }
     }
@@ -97,10 +99,10 @@ export default class FormComponent extends Vue {
     return;
   }
   after() {
-    if (this.status.isValid || !this.status.visible) {
+    if (this.dto.status.isValid || !this.dto.status.visible) {
       this.fireAfter();
     } else {
-      this.status.showAllErrors();
+      this.dto.showAllErrors();
     }
     return;
   }

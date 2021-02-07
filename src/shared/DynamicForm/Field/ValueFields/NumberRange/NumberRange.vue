@@ -22,10 +22,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { NumberRange } from "./NumberRange.dto";
 import { Validator } from "../../../Validators/validators.class";
-import { ValueFieldStatus } from "../../Field.dto";
+import { ValueFieldStatus } from "../ValueField.dto";
 
 @Component({
   name: 'NumberRangeComponent'
