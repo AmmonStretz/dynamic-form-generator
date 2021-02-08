@@ -4,19 +4,16 @@
       dto.config.name
     }}</label>
     <input
-      v-if="status"
+      v-if="dto.status"
       type="checkbox"
       ref="input"
       :id="dto.key"
       :placeholder="dto.config.placeholder"
-      v-model.number="status.value"
+      v-model.number="dto.status.value"
       @change="updateStatus()"
-      :class="{ show: status.showErrors, valid: status.isValid }"
+      :class="{ show: dto.status.showErrors, valid: dto.status.isValid }"
     /><br>
-    <!-- TODO: instant update -->
-    <!-- <div @click="status.value=true;updateStatus()">TRUE</div>
-    <div @click="status.value=false;updateStatus()">FALSE</div> -->
-    <div v-if="status.showErrors && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
+    <div v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]">{{dto.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -31,33 +28,20 @@ import { ValueFieldStatus } from "../ValueField.dto";
 })
 export default class CheckboxComponent extends Vue {
   @Prop() private dto!: Checkbox;
-
-  @Prop()
-  public status: ValueFieldStatus<boolean>;
   public $refs: any;
 
   mounted() {
     this.updateStatus();
   }
 
-  // setFocus() {
-  //   this.status.showErrors = false;
-  //   this.updateStatus();
-  // }
-
-  // setBlur() {    
-  //   this.status.showErrors = true;
-  //   this.updateStatus();
-  // }
-
   @Emit("change")
   updateStatus(): ValueFieldStatus<boolean> {
-    this.status.errors = Validator.checkFieldValidity(
-      this.status.value,
+    this.dto.status.errors = Validator.checkFieldValidity(
+      this.dto.status.value,
       this.dto.validators
     );
-    this.status.isValid = this.status.errors.length == 0;    
-    return this.status;
+    this.dto.status.isValid = this.dto.status.errors.length == 0;    
+    return this.dto.status;
   }
 }
 </script>

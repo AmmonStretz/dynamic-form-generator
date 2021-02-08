@@ -31,11 +31,7 @@ import { FieldGroup, FieldGroupStatus } from "./FieldGroup.dto";
 })
 export default class FieldGroupComponent extends Vue {
   @Prop() public dto!: FieldGroup;
-
-  @Prop()
-  public status: FieldGroupStatus;
-  @Prop()
-  public root!: Wizzard;
+  @Prop() public root!: Wizzard;
 
   constructor() {
     super();
@@ -46,8 +42,8 @@ export default class FieldGroupComponent extends Vue {
     this.dto.updateValidity();
     const index: number = this.dto.fields.findIndex(field=>field.status.key == status.key);
     this.dto.fields[index].status = status;
-    this.status.isValid = this.checkValidity();
-    return this.status;
+    this.dto.status.isValid = this.checkValidity();
+    return this.dto.status;
   }
 
   checkValidity(): boolean {

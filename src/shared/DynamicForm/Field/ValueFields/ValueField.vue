@@ -3,31 +3,26 @@
     <NumberInputComponent
       v-if="dto.type == 'numberInput'"
       v-bind:dto="dto"
-      v-bind:status="status"
       v-on:change="onChange"
     ></NumberInputComponent>
     <TextInputComponent
       v-if="dto.type == 'textInput'"
       v-bind:dto="dto"
-      v-bind:status="status"
       v-on:change="onChange"
     ></TextInputComponent>
     <NumberRangeComponent
       v-if="dto.type == 'numberRange'"
       v-bind:dto="dto"
-      v-bind:status="status"
       v-on:change="onChange"
     ></NumberRangeComponent>
     <CheckboxComponent
       v-if="dto.type == 'checkbox'"
       v-bind:dto="dto"
-      v-bind:status="status"
       v-on:change="onChange"
     ></CheckboxComponent>
     <SelectComponent
       v-if="dto.type == 'select'"
       v-bind:dto="dto"
-      v-bind:status="status"
       v-on:change="onChange"
     ></SelectComponent>
     <p if="dto.config.description">{{ dto.config.description }}</p>
@@ -56,24 +51,20 @@ import { Wizzard } from "../../Wizzard/Wizzard.dto";
 })
 export default class FieldComponent extends Vue {
   @Prop() private dto!: ValueField<any>;
-
-  @Prop()
-  public status: ValueFieldStatus<any>;
   @Prop() public root!: Wizzard;
 
   get visibility(): any {
     if((this.dto.visible).calc){
-      this.status.isVisible = this.dto.visible.calc(
+      this.dto.status.isVisible = this.dto.visible.calc(
         (key) => this.root.getStatusByKey(key)
       );
-      return this.status.isVisible
+      return this.dto.status.isVisible
     }
     return true;
   }
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): ValueFieldStatus<any> {
-    // this.root.updateStatus();
     this.$forceUpdate();
     return status;
   }

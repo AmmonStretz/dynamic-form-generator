@@ -17,7 +17,6 @@
       </button>
       <button
         type="button"
-        :disabled="!dto.status.isValid"
         v-on:click="after()"
       >
         {{ root.config.nextButtonText ? root.config.nextButtonText : "Weiter" }}

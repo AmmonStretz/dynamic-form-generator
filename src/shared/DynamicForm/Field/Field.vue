@@ -3,14 +3,12 @@
     <ValueFieldComponent
       v-if="dto.type != 'fieldGroup' && dto.type != 'fieldLoop'"
       v-bind:dto="dto"
-      v-bind:status="status"
       v-bind:root="root"
       v-on:change="onChange"
     ></ValueFieldComponent>
     <FieldGroupComponent
       v-if="dto.type == 'fieldGroup'"
       v-bind:dto="dto"
-      v-bind:status="status"
       v-bind:root="root"
       v-on:change="onChange"
     ></FieldGroupComponent>
@@ -59,7 +57,7 @@ export default class FieldComponent extends Vue {
   }
 
   @Emit("change")
-  onChange(status: ValueFieldStatus<any>): ValueFieldStatus<any> {
+  onChange(status: FieldStatus): FieldStatus {
     return status;
   }
 }

@@ -6,18 +6,18 @@
       ref="input"
       :id="dto.key"
       :placeholder="dto.config.placeholder"
-      v-model.number="status.value"
-      @focus="setFocus()"
+      v-model.number="dto.status.value"
+      @focus="updateStatus()"
       @blur="setBlur()"
-      :class="{'show': status.showErrors, 'valid': status.isValid}"
+      :class="{'show': dto.status.showErrors, 'valid': dto.status.isValid}"
       :min="dto.config.min"
       :max="dto.config.max"
       :step="dto.config.step"
     />
-    {{status.value}}
+    {{dto.status.value}}
     <span class="unit" v-if="!!dto.config.unit">{{dto.config.unit}}</span>
     <br>
-    <div v-if="status.showErrors && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
+    <div v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]">{{dto.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -34,33 +34,25 @@ export default class NumberRangeComponent extends Vue {
 
   @Prop() private dto!: NumberRange;
   
-  @Prop()
-  public status!: ValueFieldStatus<number>;
   public $refs: any;
 
   mounted() {
     if ("default" in this.dto.config) {
-      this.status.value = this.dto.config.default;
+      this.dto.status.value = this.dto.config.default;
     } else {
-      this.status.value = this.dto.config.min;
+      this.dto.status.value = this.dto.config.min;
     }
     this.updateStatus();
   }
-  setFocus() {
-    this.status.showErrors = false;
+  setBlur() {
+    this.dto.status.showErrors = true;
     this.updateStatus();
   }
-
-  setBlur() {    
-    this.status.showErrors = true;
-    this.updateStatus();
-  }
-
   @Emit("change")
   updateStatus(): ValueFieldStatus<number> {
-    let errors = Validator.checkFieldValidity(this.status.value, this.dto.validators);
-    this.status.isValid = errors.length == 0;
-    return this.status;
+    let errors = Validator.checkFieldValidity(this.dto.status.value, this.dto.validators);
+    this.dto.status.isValid = errors.length == 0;
+    return this.dto.status;
   }
 }
 </script>

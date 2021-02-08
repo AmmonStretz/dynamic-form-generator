@@ -38,8 +38,8 @@ const CHECKBOX_OUTSIDE: any = {
   validators: []
 };
 
-const NUMBER_INPUT_00: any = {
-  type: 'numberInput',
+const NUMBER_RANGE_00: any = {
+  type: 'numberRange',
   key: 'X',
   config: {
     name: 'Name',
@@ -88,7 +88,7 @@ const SELECT_00: any = {
 };
 
 const TEXT_INPUT_00: any = {
-  type: 'textInput',
+  type: 'numberInput',
   key: 'S',
   config: {
     name: 'Test?',
@@ -124,10 +124,10 @@ const GROUP_OUTSIDE: any = {
 
 const FORM_00: any = {
   key: 'firstForm',
-  fields: [
+  fields: [SELECT_00,
     CHECKBOX_00,
     GROUP_OUTSIDE,
-    // NUMBER_INPUT_00,
+    // NUMBER_RANGE_00,
     // FIELD_LOOP_00,
   ],
   config: {

@@ -2,18 +2,18 @@
   <div class="text-input">
     <label v-if="dto.config && dto.config.name" :for="dto.key">{{dto.config.name}}</label>
     <input
-      v-if="status"
+      v-if="dto.status"
       type="text"
       ref="input"
       :id="dto.key"
       :placeholder="dto.config.placeholder"
-      v-model="status.value"
-      @focus="setFocus()"
+      v-model="dto.status.value"
+      @focus="updateStatus()"
       @blur="setBlur()"
-      :class="{'show': status.showErrors, 'valid': status.isValid}"
+      :class="{'show': dto.status.showErrors, 'valid': dto.status.isValid}"
     />
     <span v-if="dto.config.unit">{{dto.config.unit}}</span><br>
-    <div v-if="status.showErrors && status.errors && status.errors[0]">{{status.errors[0].message}}</div>
+    <div v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]">{{dto.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -28,30 +28,22 @@ import { ValueFieldStatus } from "../ValueField.dto";
 })
 export default class TextInputComponent extends Vue {
   @Prop() private dto!: TextInput;
-
-  @Prop()
-  public status: ValueFieldStatus<string>;
   public $refs: any;
 
   mounted() {
     this.updateStatus();
   }
 
-  setFocus() {
-    this.status.showErrors = false;
-    this.updateStatus();
-  }
-
-  setBlur() {    
-    this.status.showErrors = true;
+  setBlur() {
+    this.dto.status.showErrors = true;
     this.updateStatus();
   }
 
   @Emit("change")
   updateStatus(): ValueFieldStatus<string> {
-    this.status.errors = Validator.checkFieldValidity(this.status.value, this.dto.validators);
-    this.status.isValid = this.status.errors.length == 0;
-    return this.status;
+    this.dto.status.errors = Validator.checkFieldValidity(this.dto.status.value, this.dto.validators);
+    this.dto.status.isValid = this.dto.status.errors.length == 0;
+    return this.dto.status;
   }
 }
 </script>
