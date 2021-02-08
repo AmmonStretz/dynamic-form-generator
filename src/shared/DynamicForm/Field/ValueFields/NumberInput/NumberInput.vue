@@ -35,8 +35,6 @@ export default class NumberInputComponent extends Vue {
 
   mounted() {
     this.updateStatus();
-    console.log(this.dto.config);
-    
   }
 
   setFocus() {
@@ -51,6 +49,13 @@ export default class NumberInputComponent extends Vue {
 
   @Emit("change")
   updateStatus(): ValueFieldStatus<number> {
+    // TODO: REMAPPING WITH MATH_OBJECT
+    if(this.dto.config.min != null && this.dto.config.min != undefined){
+      this.dto.status.value = Math.max(this.dto.config.min, this.dto.status.value)
+    } 
+    if(this.dto.config.max != null && this.dto.config.max != undefined) {
+      this.dto.status.value = Math.min(this.dto.status.value, this.dto.config.max)
+    }
     this.status.errors = Validator.checkFieldValidity(this.status.value, this.dto.validators);
     this.status.isValid = this.status.errors.length == 0;
     return this.status;

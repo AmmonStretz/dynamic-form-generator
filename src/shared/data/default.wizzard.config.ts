@@ -150,8 +150,10 @@ const NUMBER_INPUT_01: any = {
   type: 'numberInput',
   key: 'Y',
   config: {
-    name: 'Test?',
-    description: 'muss ausgefült werden'
+    name: 'Test',
+    description: 'muss ausgefült werden',
+    min: 10,
+    max: 20
   },
   validators: [REQUIRED]
 }
