@@ -24,14 +24,6 @@ export class Wizzard {
     }
   }
 
-  // public groupAllValues(): {[key: string]: any} {
-  //   let values: {[key: string]: any} = {}
-  //   this.forms.forEach(form => {
-  //     form.groupAllValues(values);
-  //   });
-  //   return values;
-  // }
-
   getStatusByKey(path: string):any {
     let before = path.split(/\.(.+)/)[0];
     for (let i = 0; i < this.forms.length; i++) {
@@ -46,9 +38,7 @@ export class Wizzard {
   }
 
   public updateStatus() {
-    this.forms.forEach(form => {
-      form.updateStatus(this);
-    });
+    this.forms.forEach(form => form.updateStatus(this));
   }
 
   showErrorOfIndex() {
@@ -56,14 +46,10 @@ export class Wizzard {
   }
 
   public toJson() {
-    let forms: any[] = [];
-    this.forms.forEach((form: Form) => {
-      forms.push(form.toJson());
-    })
     return {
       type: this.type,
       config: this.config,
-      forms: forms
+      forms: this.forms.map(form => form.toJson())
     }
   }
 }

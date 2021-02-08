@@ -9,11 +9,10 @@ import { Wizzard } from '../../Wizzard/Wizzard.dto';
 export class FieldGroupStatus extends FieldStatus {
   constructor(
     public key: string,
-    // public fields: { [key: string]: FieldStatus },
     public isValid?: boolean,
-    public visible: boolean = true,
+    public isVisible: boolean = true,
   ) {
-    super(key, isValid, visible); //TODO: VISIBLE
+    super(key, isValid, isVisible);
   }
 }
 
@@ -31,9 +30,12 @@ export class FieldGroup extends Field {
     public visible: BooleanObject = new BooleanConst(true),
     status?: FieldGroupStatus,
   ) {
-    super(FieldTypes.FIELD_GROUP, config, visible, status ? status : new FieldGroupStatus(
-      key
-    ));
+    super(
+      FieldTypes.FIELD_GROUP,
+      config,
+      visible,
+      status ? status : new FieldGroupStatus(key)
+    );
   }
 
   public updateStatus(root: Wizzard): FieldGroupStatus {
@@ -51,30 +53,13 @@ export class FieldGroup extends Field {
         // (field.status as FieldLoop).groupAllValues(values);
         // TODO: 
       }
-      if(!childStatus.isValid && !!childStatus.visible){
+      if (!childStatus.isValid && !!childStatus.isVisible) {
         valide = false;
       }
     }
     this.status.isValid = valide;
-    this.status.visible = this.visible.calc(root.getStatusByKey);
+    this.status.isVisible = this.visible.calc(root.getStatusByKey);
     return this.status;
-  }
-
-  public generateStatus(): FieldStatus {
-    return new FieldGroupStatus(this.key);
-  }
-
-  public groupAllValues(values: { [key: string]: any }) {
-
-    // for (const key in this.fields) {
-    //   if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
-    //     if (this.fields[key] instanceof ValueFieldStatus) {
-    //       (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
-    //     } else if (this.fields[key] instanceof FieldGroupStatus) {
-    //       (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
-    //     }
-    //   }
-    // }
   }
 
   getStatusByKey(path: string): any {
@@ -98,11 +83,8 @@ export class FieldGroup extends Field {
   }
 
   public showAllErrors(): void {
-    console.log(123123);
-    
     this.fields.forEach(field => {
       if (field instanceof ValueField) {
-        
         (field as ValueField<any>).showAllErrors();
       } else if (field instanceof FieldGroup) {
         (field as FieldGroup).showAllErrors();
@@ -113,7 +95,7 @@ export class FieldGroup extends Field {
   public updateValidity() {
     this.fields.forEach(field => {
       if (field instanceof ValueFieldStatus) {
-        if (!field.status.visible) {
+        if (!field.status.isVisible) {
           this.status.isValid = true;
         }
       } else if (field instanceof FieldGroup) {
@@ -123,19 +105,19 @@ export class FieldGroup extends Field {
         }
       }
     });
-}
+  }
 
   public toJson() {
-  let fields: any[] = [];
-  this.fields.forEach(field => {
-    fields.push(field.toJson())
-  })
+    let fields: any[] = [];
+    this.fields.forEach(field => {
+      fields.push(field.toJson())
+    })
 
-  return {
-    type: this.type,
-    fields: fields,
-    config: this.config,
-    visible: this.visible,
+    return {
+      type: this.type,
+      fields: fields,
+      config: this.config,
+      visible: this.visible,
+    }
   }
-}
 }

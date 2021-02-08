@@ -1,9 +1,5 @@
 import { BooleanObject } from '../math-logic/math-object.class';
-import { Validator } from '../Validators/validators.class';
 import { Wizzard } from '../Wizzard/Wizzard.dto';
-import { FieldGroup } from './FieldGroup/FieldGroup.dto';
-import { FieldLoop } from './FieldLoop/FieldLoop.dto';
-import { ValueField } from './ValueFields/ValueField.dto';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 
 export enum FieldTypes {
@@ -13,7 +9,6 @@ export enum FieldTypes {
   NUMBER_INPUT = 'numberInput',
   TEXT_INPUT = 'textInput',
   NUMBER_RANGE = 'numberRange',
-  TEXT_FIELD = 'textField',
   SELECT = 'select'
 }
 
@@ -21,7 +16,7 @@ export class FieldStatus {
   constructor(
     public key: string,
     public isValid?: boolean,
-    public visible: boolean = true,
+    public isVisible: boolean = true,
   ) { }
 }
 

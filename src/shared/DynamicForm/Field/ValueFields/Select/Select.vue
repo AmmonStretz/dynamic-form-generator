@@ -3,17 +3,6 @@
     <label v-if="dto.config && dto.config.name" :for="dto.key">{{
       dto.config.name
     }}</label>
-    <!-- <input
-      v-if="status"
-      type="number"
-      ref="input"
-      :id="dto.key"
-      :placeholder="dto.config.placeholder"
-      v-model.number="status.value"
-      @focus="setFocus()"
-      @blur="setBlur()"
-      :class="{'show': status.show, 'valid': status.isValid}"
-    /> -->
     <select
       v-if="status"
       :id="dto.key"

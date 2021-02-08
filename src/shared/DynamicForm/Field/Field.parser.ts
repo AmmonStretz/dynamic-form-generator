@@ -7,19 +7,30 @@ import { NumberInput } from "./ValueFields/NumberInput/NumberInput.dto";
 import { TextInput } from "./ValueFields/TextInput/TextInput.dto";
 import { NumberRange } from "./ValueFields/NumberRange/NumberRange.dto";
 import { Select } from "./ValueFields/Select/Select.dto";
-import { TextField } from "./ValueFields/TextField/TextField.dto";
 import { FieldLoop } from "./FieldLoop/FieldLoop.dto";
 import { NumberObjectParser } from "../math-logic/parsers/number.class";
 
+export interface jsonStructure {
+  type: string;
+  fields?: any[];
+  field?: any;
+  options?: { name: string, value: number }[];
+  key: string;
+  config: any;
+  validators: any[];
+  visible: any;
+  condition?: any;
+}
+
 export class FieldParser {
-  public static parseFromJSONArray(jsonArray: { type: string, fields?: any[], field?: any, options?: { name: string, value: number }[], key: string, config: any, validators: any[], visible: any, condition?: any }[]): Field[] {
+  public static parseFromJSONArray(jsonArray: jsonStructure[]): Field[] {
     let result: Field[] = [];
     jsonArray.forEach(json => {
       result.push(this.parseFromJSON(json));
     });
     return result;
   }
-  public static parseFromJSON(json: { type: string, fields?: any[], field?: any, options?: { name: string, value: number }[], key: string, config: any, validators: any[], visible: any, condition?: any }): Field {
+  public static parseFromJSON(json: jsonStructure): Field {
     if (!json.visible) json.visible = { type: "boolean-const", value: true };
     switch (json.type) {
       case FieldTypes.CHECKBOX:
@@ -60,12 +71,6 @@ export class FieldParser {
           ValidatorParser.parseFromJSONArray(json.validators),
           BooleanObjectParser.fromJson(json.visible),
         );
-      case FieldTypes.TEXT_FIELD:
-        return new TextField(
-          json.key,
-          BooleanObjectParser.fromJson(json.visible),
-        );
-
       case FieldTypes.FIELD_GROUP:
         // validate config
         return new FieldGroup(

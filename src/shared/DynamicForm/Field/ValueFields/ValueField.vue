@@ -24,10 +24,6 @@
       v-bind:status="status"
       v-on:change="onChange"
     ></CheckboxComponent>
-    <TextFieldComponent
-      v-if="dto.type == 'textField'"
-      v-bind:dto="dto"
-    ></TextFieldComponent>
     <SelectComponent
       v-if="dto.type == 'select'"
       v-bind:dto="dto"
@@ -44,7 +40,6 @@ import NumberInputComponent from "./NumberInput/NumberInput.vue";
 import TextInputComponent from "./TextInput/TextInput.vue";
 import NumberRangeComponent from "./NumberRange/NumberRange.vue";
 import CheckboxComponent from "./Checkbox/Checkbox.vue";
-import TextFieldComponent from "./TextField/TextField.vue";
 import SelectComponent from "./Select/Select.vue";
 import { ValueFieldStatus, ValueField } from "./ValueField.dto";
 import { Wizzard } from "../../Wizzard/Wizzard.dto";
@@ -54,7 +49,6 @@ import { Wizzard } from "../../Wizzard/Wizzard.dto";
   components: {
     NumberInputComponent,
     TextInputComponent,
-    TextFieldComponent,
     NumberRangeComponent,
     CheckboxComponent,
     SelectComponent,
@@ -69,10 +63,10 @@ export default class FieldComponent extends Vue {
 
   get visibility(): any {
     if((this.dto.visible).calc){
-      this.status.visible = this.dto.visible.calc(
+      this.status.isVisible = this.dto.visible.calc(
         (key) => this.root.getStatusByKey(key)
       );
-      return this.status.visible
+      return this.status.isVisible
     }
     return true;
   }

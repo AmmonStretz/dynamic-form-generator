@@ -142,7 +142,6 @@ const CHECKBOX_01: any = {
   },
   validators: []
 };
-
 const NUMBER_INPUT_01: any = {
   type: 'numberInput',
   key: 'Y',

@@ -12,29 +12,25 @@ export class Checkbox extends ValueField<boolean> {
     public visible: BooleanObject = new BooleanConst(true),
     status?: ValueFieldStatus<boolean>,
   ) {
-    super(key, FieldTypes.CHECKBOX, config, validators, visible, status ? status : new ValueFieldStatus<boolean>(
+    super(
       key,
-      !!config.default
-    ));
-  }
-
-  public generateStatus(): ValueFieldStatus<boolean> {
-    return new ValueFieldStatus<boolean>(
-      this.key,
-      !!this.config.default
-    )
+      FieldTypes.CHECKBOX,
+      config,
+      validators,
+      visible,
+      status ? status : new ValueFieldStatus<boolean>(
+        key,
+        !!config.default
+      )
+    );
   }
 
   public toJson() {
-    let validators: any[] = [];
-    this.validators.forEach(validator => {
-      validators.push(validator.toJson())
-    })
     return {
       type: this.type,
       key: this.key,
       config: this.config,
-      validators: validators
+      validators: this.validators.map(val => val.toJson())
     }
   }
 }

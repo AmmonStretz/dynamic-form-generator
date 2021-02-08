@@ -14,12 +14,9 @@ export class ValueFieldStatus<T> extends FieldStatus {
     public isValid?: boolean,
     public showErrors?: boolean,
     public errors?: { message: string, type: string }[],
-    public visible: boolean = true,
+    public isVisible: boolean = true,
   ) {
-    super(key, isValid, visible);
-  }
-  public groupAllValues(values: {[key: string]: any}) {
-    values[this.key] = this.value;
+    super(key, isValid, isVisible);
   }
 
   public showAllErrors(): void {
@@ -45,11 +42,9 @@ export abstract class ValueField<T> extends Field {
   }
 
   public updateStatus(root: Wizzard): FieldStatus {
-    this.status.visible = this.visible.calc((key: string)=>root.getStatusByKey(key));
+    this.status.isVisible = this.visible.calc((key: string)=>root.getStatusByKey(key));
     return this.status;
   }
-
-  abstract generateStatus(): ValueFieldStatus<T>;
 
   abstract toJson(): any;
 }

@@ -19,31 +19,25 @@ export class NumberRange extends ValueField<number> {
     public visible: BooleanObject = new BooleanConst(true),
     status?: ValueFieldStatus<number>
   ) {
-    super(key, FieldTypes.NUMBER_RANGE, config, validators, visible, status ? status : new ValueFieldStatus<number>(
+    super(
       key,
-      config.default ? config.default : null,
-    ));
-  }
-
-  public generateStatus(): ValueFieldStatus<number> {
-    return new ValueFieldStatus<number>(
-      this.key,
-      this.config.default ? this.config.default : null,
-    )
+      FieldTypes.NUMBER_RANGE,
+      config,
+      validators,
+      visible,
+      status ? status : new ValueFieldStatus<number>(
+        key,
+        config.default ? config.default : null,
+      )
+    );
   }
 
   public toJson() {
-
-    let validators: any[] = [];
-    this.validators.forEach(validator => {
-      validators.push(validator.toJson())
-    })
-
     return {
       type: this.type,
       key: this.key,
       config: this.config,
-      validators: validators
+      validators: this.validators.map(val => val.toJson())
     }
   }
 }

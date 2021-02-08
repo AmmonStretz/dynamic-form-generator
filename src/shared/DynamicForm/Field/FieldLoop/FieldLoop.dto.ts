@@ -15,18 +15,6 @@ export class FieldLoopStatus extends FieldStatus {
   ) {
     super(key, isValid, true); //TODO: VISIBLE
   }
-  public groupAllValues(values: {[key: string]: any}) {
-    // console.log('groupAllValues');
-    // for (const key in this.fields) {
-    //   if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
-    //     if (this.fields[key] instanceof ValueFieldStatus) {
-    //       (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
-    //     } else if (this.fields[key] instanceof FieldLoopStatus) {
-    //       (this.fields[key] as ValueFieldStatus<any>).groupAllValues(values);
-    //     }
-    //   }
-    // }
-  }
 
   public showAllErrors(): void {
     // console.log('showErrors');
@@ -63,12 +51,12 @@ export class FieldLoop extends Field {
     // let valide = true;
     // for (let i = 0; i < this.fields.length; i++) {
     //   const childStatus = this.fields[i].updateStatus(root);
-    //   if(!childStatus.isValid && childStatus.visible){
+    //   if(!childStatus.isValid && childstatus.isVisible){
     //     valide = false;
     //   }
     // }
     // this.status.isValid = valide;
-    // this.status.visible = this.visible.calc(root.getStatusByKey);
+    // this.status.isVisible = this.visible.calc(root.getStatusByKey);
     // return this.status;
     return null;
   }

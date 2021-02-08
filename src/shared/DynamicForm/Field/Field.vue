@@ -50,10 +50,10 @@ export default class FieldComponent extends Vue {
 
   get visibility(): any {
     if (this.dto.visible.calc) {
-      this.status.visible = this.dto.visible.calc(
+      this.status.isVisible = this.dto.visible.calc(
         (key) => this.root.getStatusByKey(key)
       );      
-      return this.status.visible;
+      return this.status.isVisible;
     }
     return true;
   }

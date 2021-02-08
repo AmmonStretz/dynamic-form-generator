@@ -1,7 +1,7 @@
 import { Field, FieldStatus } from '../Field/Field.dto';
-import { FieldGroup, FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.dto';
+import { FieldGroup } from '../Field/FieldGroup/FieldGroup.dto';
 import { FieldLoop, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.dto';
-import { ValueField, ValueFieldStatus } from '../Field/ValueFields/ValueField.dto';
+import { ValueField } from '../Field/ValueFields/ValueField.dto';
 import { BooleanObject } from '../math-logic/math-object.class';
 import { BooleanConst } from '../math-logic/objects/boolean/const';
 import { Wizzard } from '../Wizzard/Wizzard.dto';
@@ -10,7 +10,7 @@ export class FormStatus {
   constructor(
     public key: string,
     public isValid?: boolean,
-    public visible: boolean = true,
+    public isVisible: boolean = true,
   ) { }
 }
 
@@ -27,12 +27,8 @@ export class Form {
     public status?: FormStatus,
   ) {
     if(!this.status){
-      this.status = this.generateStatus();
+      this.status = new FormStatus(this.key);
     }
-  }
-
-  public generateStatus(): FormStatus {
-    return new FormStatus(this.key)
   }
 
   public updateStatus(root: Wizzard): FieldStatus {
@@ -50,28 +46,13 @@ export class Form {
         // (field.status as FieldLoop).groupAllValues(values);
         // TODO: 
       }
-      if(!childStatus.isValid && childStatus.visible){
+      if(!childStatus.isValid && childStatus.isVisible){
         valide = false;
       }
     }
     this.status.isValid = valide;
-    this.status.visible = this.visible.calc((key: string)=>root.getStatusByKey(key));
+    this.status.isVisible = this.visible.calc((key: string)=>root.getStatusByKey(key));
     return this.status;
-  }
-  
-  public groupAllValues(values: { [key: string]: any }) {
-    // this.fields.forEach(field => {
-    //   if (field.status instanceof ValueField) {
-    //     (field.status as ValueField<any>).groupAllValues(values);
-    //   }
-    //   if (field.status instanceof FieldGroup) {
-    //     (field.status as FieldGroup).groupAllValues(values);
-    //   }
-    //   if (field.status instanceof FieldLoop) {
-    //     // (field.status as FieldLoop).groupAllValues(values);
-    //     // TODO: 
-    //   }
-    // });
   }
 
   getStatusByKey(path: string): any {
@@ -106,16 +87,11 @@ export class Form {
     }
   }
 
-
   public toJson() {
-    let fields: any[] = [];
-    this.fields.forEach(field => {
-      fields.push(field.toJson())
-    })
     return {
       type: this.type,
       config: this.config,
-      fields: fields,
+      fields: this.fields.map(field => field.toJson()),
       visible: this.visible.toJson()
     }
   }

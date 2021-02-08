@@ -53,7 +53,7 @@ export default class FieldGroupComponent extends Vue {
   checkValidity(): boolean {
     for (let i = 0; i < this.dto.fields.length; i++) {
       const field = this.dto.fields[i];
-      if (field.visible && !field.status.isValid) {
+      if (field.status.isVisible && !field.status.isValid) {
         return false;
       }
     }
