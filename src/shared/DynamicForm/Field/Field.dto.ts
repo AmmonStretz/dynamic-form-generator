@@ -1,4 +1,4 @@
-import { BooleanObject } from '../math-logic/math-object.class';
+import { BooleanObject } from '@/shared/Math/math-object.class';
 import { Wizzard } from '../Wizzard/Wizzard.dto';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 

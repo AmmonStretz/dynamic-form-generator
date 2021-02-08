@@ -10,9 +10,6 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import WizzardComponent from "../shared/DynamicForm/Wizzard/Wizzard.vue";
 import { Wizzard, WizzardStatus } from "../shared/DynamicForm/Wizzard/Wizzard.dto";
 import { DtoService } from "../shared/services/Dto.service";
-import { MathParser } from "../shared/DynamicForm/math-logic/math-parser.class";
-import { BooleanConst } from "../shared/DynamicForm/math-logic/objects/boolean/const";
-import { BooleanVar } from "../shared/DynamicForm/math-logic/objects/boolean/var";
 
 @Component({
   components: {

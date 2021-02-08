@@ -15,6 +15,7 @@ const CHECKBOX_00: any = {
   },
   validators: []
 };
+
 const CHECKBOX_INSIDE: any = {
   type: 'checkbox',
   key: 'inside',
@@ -25,6 +26,7 @@ const CHECKBOX_INSIDE: any = {
   },
   validators: []
 };
+
 const CHECKBOX_OUTSIDE: any = {
   type: 'checkbox',
   key: 'outside',
@@ -46,6 +48,7 @@ const NUMBER_INPUT_00: any = {
   },
   validators: [REQUIRED]
 };
+
 const NUMBER_INPUT_04: any = {
   type: 'numberInput',
   key: 'F',
@@ -68,7 +71,6 @@ const FIELD_LOOP_00: any = {
   validators: [],
   condition: { type: 'number-var', key: 'X' }
 };
-
 
 const SELECT_00: any = {
   type: 'select',
@@ -107,6 +109,7 @@ const GROUP_INSIDE: any = {
   validators: []
   // visible: BOOLEAN_LOGIC
 }
+
 const GROUP_OUTSIDE: any = {
   type: 'fieldGroup',
   key: 'groupOutside',
@@ -142,6 +145,7 @@ const CHECKBOX_01: any = {
   },
   validators: []
 };
+
 const NUMBER_INPUT_01: any = {
   type: 'numberInput',
   key: 'Y',

@@ -1,9 +1,9 @@
 import { FieldStatus, FieldConfig, Field } from './../Field.dto';
 import { FieldTypes } from '../Field.dto';
 import { Validator } from '../../Validators/validators.class';
-import { BooleanObject, NumberObject } from '../../math-logic/math-object.class';
-import { BooleanConst } from '../../math-logic/objects/boolean/const';
-import { NumberConst } from '../../math-logic/objects/number/const';
+import { BooleanObject, NumberObject } from '@/shared/Math/math-object.class';
+import { BooleanConst } from '@/shared/Math/objects/boolean/const';
+import { NumberConst } from '@/shared/Math/objects/number/const';
 import { FieldGroup } from '../FieldGroup/FieldGroup.dto';
 import { Wizzard, WizzardStatus } from '../../Wizzard/Wizzard.dto';
 import { ValueField } from '../ValueFields/ValueField.dto';

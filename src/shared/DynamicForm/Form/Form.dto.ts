@@ -2,8 +2,8 @@ import { Field, FieldStatus } from '../Field/Field.dto';
 import { FieldGroup } from '../Field/FieldGroup/FieldGroup.dto';
 import { FieldLoop, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.dto';
 import { ValueField } from '../Field/ValueFields/ValueField.dto';
-import { BooleanObject } from '../math-logic/math-object.class';
-import { BooleanConst } from '../math-logic/objects/boolean/const';
+import { BooleanObject } from '@/shared/Math/math-object.class';
+import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { Wizzard } from '../Wizzard/Wizzard.dto';
 
 export class FormStatus {

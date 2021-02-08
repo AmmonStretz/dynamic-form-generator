@@ -1,7 +1,7 @@
 import { FieldStatus } from './../Field.dto';
 import { Field, FieldTypes } from '../Field.dto';
-import { BooleanObject } from '../../math-logic/math-object.class';
-import { BooleanConst } from '../../math-logic/objects/boolean/const';
+import { BooleanObject } from '@/shared/Math/math-object.class';
+import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { FieldLoop, FieldLoopStatus } from '../FieldLoop/FieldLoop.dto';
 import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueFields/ValueField.dto';
 import { Wizzard } from '../../Wizzard/Wizzard.dto';

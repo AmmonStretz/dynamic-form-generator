@@ -1,4 +1,4 @@
-import { BooleanObject } from "../../math-logic/math-object.class";
+import { BooleanObject } from "@/shared/Math/math-object.class";
 import { Validator } from "../../Validators";
 import { Wizzard } from "../../Wizzard/Wizzard.dto";
 import { Field, FieldConfig, FieldStatus, FieldTypes } from "../Field.dto";

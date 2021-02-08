@@ -1,8 +1,8 @@
 import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
 import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
-import { BooleanObject } from '../../../math-logic/math-object.class';
-import { BooleanConst } from '../../../math-logic/objects/boolean/const';
+import { BooleanObject } from '@/shared/Math/math-object.class';
+import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 
 export interface NumberInputConfig extends ValueFieldConfig<number> {
   unit?: string,

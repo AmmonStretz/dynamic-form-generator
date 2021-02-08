@@ -1,5 +1,5 @@
 import { FieldParser } from "../Field/Field.parser";
-import { BooleanObjectParser } from "../math-logic/parsers/boolean.class";
+import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
 import { Form } from "./Form.dto";
 
 export class FormParser {

@@ -1,4 +1,4 @@
-import { BooleanObjectParser } from "../math-logic/parsers/boolean.class";
+import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
 import { ValidatorParser } from "../Validators";
 import { Checkbox } from "./ValueFields/Checkbox/Checkbox.dto";
 import { Field, FieldTypes } from "./Field.dto";
@@ -8,7 +8,7 @@ import { TextInput } from "./ValueFields/TextInput/TextInput.dto";
 import { NumberRange } from "./ValueFields/NumberRange/NumberRange.dto";
 import { Select } from "./ValueFields/Select/Select.dto";
 import { FieldLoop } from "./FieldLoop/FieldLoop.dto";
-import { NumberObjectParser } from "../math-logic/parsers/number.class";
+import { NumberObjectParser } from "@/shared/Math/parsers/number.class";
 
 export interface jsonStructure {
   type: string;
