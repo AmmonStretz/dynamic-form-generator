@@ -18,6 +18,7 @@ export enum BooleanObjectType {
   NOT = "boolean-not",
   AND = "boolean-and",
   OR = "boolean-or",
+  DEFINED = 'DEFINED',
   // Comparators
   GT = "GT",
   GE = "GE",

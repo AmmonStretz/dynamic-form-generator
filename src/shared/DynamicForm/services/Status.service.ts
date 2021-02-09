@@ -7,13 +7,8 @@ export interface StatusServiceConfig {
 export class StatusService {
 
     public loadStatus() {
-      console.log('StatusService');
-      
       let queryParams = new URLSearchParams(window.location.search);
       let a = queryParams.get('status');
-      console.log(a);
-      
-        console.log(JSON.parse(a));
     }
 
     static readParameters(): { [key: string]: any } {
@@ -26,8 +21,6 @@ export class StatusService {
      */
     static readFromURL(): { [key: string]: any } {
         let queryParams = new URLSearchParams(window.location.search);
-        console.log(queryParams.get('index'));
-        
         return null;
     }
     static saveToURL(params: { [key: string]: any }): void {

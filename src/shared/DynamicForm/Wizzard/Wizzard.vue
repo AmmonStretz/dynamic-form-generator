@@ -56,10 +56,8 @@ export default class WizzardComponent extends Vue {
         return;
       }
     }
-    console.log("Abbruch");
   }
   onAfter() {
-    console.log(this.dto.status);
     if (this.dto.status.index < this.dto.forms.length - 1) {
       for (let i = this.dto.status.index + 1; i < this.dto.forms.length; i++) {
         if (this.dto.forms[i].status.isVisible) {

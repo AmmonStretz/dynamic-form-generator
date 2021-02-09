@@ -3,12 +3,12 @@ import { NumberObjectType } from '../../math-naming.class';
 import { NumberObject } from '../../math-object.class';
 
 export class NumberVar extends NumberObject {
-  constructor(public key: string) {
+  constructor(public key: string, public defaultValue: number = 0) {
     super(NumberObjectType.VAR);
   }
   calc(pointer: (key: string) => any): number {
-    let value = pointer(this.key).value;
-    return value;
+    const value = pointer(this.key);
+    return value? value: this.defaultValue;
   }
   toJson() {
     return {

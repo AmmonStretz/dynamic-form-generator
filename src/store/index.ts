@@ -15,8 +15,6 @@ export default new Vuex.Store({
   },
   mutations: {
     addToDo(state, todoModel: number) {
-      console.log('mutation');
-      console.log(state, todoModel);
       state.todos.push(todoModel);
     },
     countUp(state, a: number) {

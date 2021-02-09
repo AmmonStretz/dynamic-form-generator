@@ -36,13 +36,13 @@ export abstract class ValueField<T> extends Field {
   ) {
     super(type, config, visible, status);
   }
-  
-  public showAllErrors(){
-    this.status.showErrors = true;
+
+  public showAllErrors() {
+    this.status.showAllErrors();
   }
 
   public updateStatus(root: Wizzard): FieldStatus {
-    this.status.isVisible = this.visible.calc((key: string)=>root.getStatusByKey(key));
+    this.status.isVisible = this.visible.calc((key: string) => root.getValueByKey(key));
     return this.status;
   }
 

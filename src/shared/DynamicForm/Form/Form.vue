@@ -56,7 +56,7 @@ export default class FormComponent extends Vue {
   mounted() {
     if (this.dto.visible.calc) {
       this.dto.status.isVisible = this.dto.visible.calc((key) =>
-        this.root.getStatusByKey(key)
+        this.root.getValueByKey(key)
       );
       if (this.dto.status.isVisible == false) {
         this.after();
@@ -83,6 +83,7 @@ export default class FormComponent extends Vue {
       this.fireAfter();
     } else {
       this.dto.showAllErrors();
+      this.dto.updateStatus(this.root);
     }
     return;
   }

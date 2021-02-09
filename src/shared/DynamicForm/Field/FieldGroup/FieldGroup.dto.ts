@@ -40,8 +40,7 @@ export class FieldGroup extends Field {
 
   public updateStatus(root: Wizzard): FieldGroupStatus {
     let valide = true;
-    for (let i = 0; i < this.fields.length; i++) {
-      const field = this.fields[i];
+    this.fields.forEach(field => {
       let childStatus: FieldStatus;
       if (field instanceof ValueField) {
         childStatus = (field as ValueField<any>).updateStatus(root);
@@ -50,31 +49,31 @@ export class FieldGroup extends Field {
         childStatus = (field as FieldGroup).updateStatus(root);
       }
       if (field instanceof FieldLoop) {
-        // (field.status as FieldLoop).groupAllValues(values);
-        // TODO: 
+        childStatus = (field as FieldLoop).updateStatus(root);
       }
       if (!childStatus.isValid && !!childStatus.isVisible) {
         valide = false;
       }
-    }
+    });
     this.status.isValid = valide;
-    this.status.isVisible = this.visible.calc(root.getStatusByKey);
+    this.status.isVisible = this.visible.calc(root.getValueByKey);
     return this.status;
   }
 
-  getStatusByKey(path: string): any {
+  getValueByKey(path: string): any {
     let before = path.split(/\.(.+)/)[0];
     let after = path.split(/\.(.+)/)[1];
+    // TODO: if path ends here
     for (const key in this.fields) {
       if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
         const field = this.fields[key];
-        if (before == field.status.key) {
+        if (after == field.status.key) {
           if (field instanceof ValueField) {
-            return field.status;
+            return field.status.value;
           } else if (field instanceof FieldGroup) {
-            return field.getStatusByKey(after);
-          } else if (field instanceof FieldLoopStatus) {
-            return 'FieldLoopStatus'
+            return field.getValueByKey(after);
+          } else if (field instanceof FieldLoop) {
+            return (field as FieldLoop).getValueByKey(after);
           }
         }
       }
@@ -87,19 +86,27 @@ export class FieldGroup extends Field {
       if (field instanceof ValueField) {
         (field as ValueField<any>).showAllErrors();
       } else if (field instanceof FieldGroup) {
+        
         (field as FieldGroup).showAllErrors();
+      } else if (field instanceof FieldLoop) {
+        (field as FieldLoop).showAllErrors();
       }
     });
   }
 
   public updateValidity() {
     this.fields.forEach(field => {
-      if (field instanceof ValueFieldStatus) {
+      if (field instanceof ValueField) {
         if (!field.status.isVisible) {
           this.status.isValid = true;
         }
       } else if (field instanceof FieldGroup) {
         (field as FieldGroup).updateValidity();
+        if (!field.visible) {
+          this.status.isValid = true;
+        }
+      } else if (field instanceof FieldLoop) {
+        (field as FieldLoop).updateValidity();
         if (!field.visible) {
           this.status.isValid = true;
         }

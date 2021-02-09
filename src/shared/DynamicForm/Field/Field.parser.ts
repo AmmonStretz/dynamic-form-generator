@@ -32,6 +32,7 @@ export class FieldParser {
   }
   public static parseFromJSON(json: jsonStructure): Field {
     if (!json.visible) json.visible = { type: "boolean-const", value: true };
+    if (!json.condition) json.condition = { type: "number-const", value: 0 };
     switch (json.type) {
       case FieldTypes.CHECKBOX:
         return new Checkbox(

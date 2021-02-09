@@ -32,41 +32,42 @@ export class Form {
   }
 
   public updateStatus(root: Wizzard): FieldStatus {
-    
     let valide = true;
-    for (let i = 0; i < this.fields.length; i++) {
+    this.fields.forEach(field => {
       let childStatus;
-      if (this.fields[i] instanceof ValueField) {
-        childStatus = (this.fields[i] as ValueField<any>).updateStatus(root);
+      if (field instanceof ValueField) {
+        childStatus = (field as ValueField<any>).updateStatus(root);
       }
-      if (this.fields[i] instanceof FieldGroup) {
-        childStatus = (this.fields[i] as FieldGroup).updateStatus(root);
+      if (field instanceof FieldGroup) {
+        childStatus = (field as FieldGroup).updateStatus(root);
       }
-      if (this.fields[i] instanceof FieldLoop) {
-        // (field.status as FieldLoop).groupAllValues(values);
-        // TODO: 
+      if (field instanceof FieldLoop) {
+        childStatus = (field as FieldLoop).updateStatus(root);
       }
       if(!childStatus.isValid && childStatus.isVisible){
         valide = false;
       }
-    }
+    });
+    
     this.status.isValid = valide;
-    this.status.isVisible = this.visible.calc((key: string)=>root.getStatusByKey(key));
+    this.status.isVisible = this.visible.calc((key: string)=>root.getValueByKey(key));
     return this.status;
   }
 
-  getStatusByKey(path: string): any {
+  getValueByKey(path: string): any {
     let before = path.split(/\.(.+)/)[0];
     let after = path.split(/\.(.+)/)[1];
+     
     for (let i = 0; i < this.fields.length; i++) {
       const field = this.fields[i];
+      // TODO: if path ends here
       if (before == field.status.key) {
         if (field instanceof ValueField) {
-          return field.status;
+          return field.status.value;
         } else if (field instanceof FieldGroup) {
-          return (field as FieldGroup).getStatusByKey(path.split(/\.(.+)/)[1]);
-        } else if (field instanceof FieldLoopStatus) {
-          return 'FieldLoopStatus'
+          return (field as FieldGroup).getValueByKey(after);
+        } else if (field instanceof FieldLoop) {
+          return (field as FieldLoop).getValueByKey(after);
         }
       }
     }
@@ -74,17 +75,15 @@ export class Form {
   }
 
   public showAllErrors(): void {
-    for (let i = 0; i < this.fields.length; i++) {
-      const field = this.fields[i];
+    this.fields.forEach(field => {
       if (field instanceof ValueField) {
         (field as ValueField<any>).showAllErrors();
       } else if (field instanceof FieldGroup) {
         (field as FieldGroup).showAllErrors();
       } else if (field instanceof FieldLoop) {
-        // (status as FieldLoop).showAllErrors();
-        // TODO: 
+        (field as FieldLoop).showAllErrors();
       }
-    }
+    });
   }
 
   public toJson() {

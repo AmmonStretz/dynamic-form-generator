@@ -15,7 +15,6 @@
     <FieldLoopComponent
       v-if="dto.type == 'fieldLoop'"
       v-bind:dto="dto"
-      v-bind:status="status"
       v-bind:root="root"
       v-on:change="onChange"
     ></FieldLoopComponent>
@@ -42,16 +41,14 @@ import { ValueFieldStatus } from "./ValueFields/ValueField.dto";
 export default class FieldComponent extends Vue {
   @Prop() private dto!: Field;
 
-  @Prop()
-  public status: FieldStatus;
   @Prop() public root!: Wizzard;
 
   get visibility(): any {
     if (this.dto.visible.calc) {
-      this.status.isVisible = this.dto.visible.calc(
-        (key) => this.root.getStatusByKey(key)
-      );      
-      return this.status.isVisible;
+      this.dto.status.isVisible = this.dto.visible.calc((key) =>
+        this.root.getValueByKey(key)
+      );
+      return this.dto.status.isVisible;
     }
     return true;
   }

@@ -5,7 +5,7 @@ import { StringObjectParser } from "./string.class";
 
 export abstract class NumberObjectParser {
   public static parsers: any = {
-    [NumberObjectType.VAR]: (json: any) => new NumberVar(json.key),
+    [NumberObjectType.VAR]: (json: any) => new NumberVar(json.key, json.defaultValue),
     [NumberObjectType.CONST]: (json: any) => new NumberConst(json.value),
     [NumberObjectType.ADD]: (json: any) => {
       let summands: NumberObject[] = [];
@@ -34,7 +34,7 @@ export abstract class NumberObjectParser {
     [NumberObjectType.STRING_LENGTH]: (json: any) =>
       new StringLength(StringObjectParser.fromJson(json.str))
   };
-  public static fromJson(json: any): NumberObject {
+  public static fromJson(json: any): NumberObject {    
     return this.parsers[json.type](json);
   }
   public static containsParser(type: string) {

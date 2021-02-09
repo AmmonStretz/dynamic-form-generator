@@ -24,14 +24,13 @@ export class Wizzard {
     }
   }
 
-  getStatusByKey(path: string):any {
+  getValueByKey(path: string):any {
     let before = path.split(/\.(.+)/)[0];
     for (let i = 0; i < this.forms.length; i++) {
       const form = this.forms[i];
-      if(path == form.key ){
-        return form;
-      } else if(before == form.key ){
-        return form.getStatusByKey(path.split(/\.(.+)/)[1]);
+      // TODO: if path ends here
+      if(before == form.key ){
+        return form.getValueByKey(path.split(/\.(.+)/)[1]);
       }
     }
     return null;
