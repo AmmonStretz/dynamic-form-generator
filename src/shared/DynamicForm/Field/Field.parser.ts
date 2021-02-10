@@ -5,6 +5,7 @@ import { Field, FieldTypes } from "./Field.dto";
 import { FieldGroup } from "./FieldGroup/FieldGroup.dto";
 import { NumberInput } from "./ValueFields/NumberInput/NumberInput.dto";
 import { TextInput } from "./ValueFields/TextInput/TextInput.dto";
+import { TextArea } from "./ValueFields/TextArea/TextArea.dto";
 import { NumberRange } from "./ValueFields/NumberRange/NumberRange.dto";
 import { Select } from "./ValueFields/Select/Select.dto";
 import { FieldLoop } from "./FieldLoop/FieldLoop.dto";
@@ -49,7 +50,7 @@ export class FieldParser {
           BooleanObjectParser.fromJson(json.visible),
         );
       case FieldTypes.FIELD_LOOP:
-        
+
         return new FieldLoop(
           json.key,
           this.parseFromJSON(json.field),
@@ -59,6 +60,13 @@ export class FieldParser {
         );
       case FieldTypes.TEXT_INPUT:
         return new TextInput(
+          json.key,
+          json.config,
+          ValidatorParser.parseFromJSONArray(json.validators),
+          BooleanObjectParser.fromJson(json.visible),
+        );
+      case FieldTypes.TEXT_AREA:
+        return new TextArea(
           json.key,
           json.config,
           ValidatorParser.parseFromJSONArray(json.validators),

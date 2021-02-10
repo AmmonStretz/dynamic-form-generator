@@ -88,10 +88,10 @@ const SELECT_00: any = {
 };
 
 const TEXT_INPUT_00: any = {
-  type: 'textInput',
+  type: 'textArea',
   key: 'S',
   config: {
-    name: 'bla?',
+    name: 'asdasd?',
     description: 'muss ausgefült werden',
   },
   validators: [REQUIRED, {type: 'isEmail', message: 'is No Email'}]

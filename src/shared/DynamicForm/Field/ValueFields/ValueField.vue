@@ -10,6 +10,11 @@
       v-bind:dto="dto"
       v-on:change="onChange"
     ></TextInputComponent>
+    <TextAreaComponent
+      v-if="dto.type == 'textArea'"
+      v-bind:dto="dto"
+      v-on:change="onChange"
+    ></TextAreaComponent>
     <NumberRangeComponent
       v-if="dto.type == 'numberRange'"
       v-bind:dto="dto"
@@ -33,6 +38,7 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import NumberInputComponent from "./NumberInput/NumberInput.vue";
 import TextInputComponent from "./TextInput/TextInput.vue";
+import TextAreaComponent from "./TextArea/TextArea.vue";
 import NumberRangeComponent from "./NumberRange/NumberRange.vue";
 import CheckboxComponent from "./Checkbox/Checkbox.vue";
 import SelectComponent from "./Select/Select.vue";
@@ -44,6 +50,7 @@ import { Wizzard } from "../../Wizzard/Wizzard.dto";
   components: {
     NumberInputComponent,
     TextInputComponent,
+    TextAreaComponent,
     NumberRangeComponent,
     CheckboxComponent,
     SelectComponent,

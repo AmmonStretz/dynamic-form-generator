@@ -8,6 +8,7 @@ export enum FieldTypes {
   FIELD_LOOP = 'fieldLoop',
   NUMBER_INPUT = 'numberInput',
   TEXT_INPUT = 'textInput',
+  TEXT_AREA = 'textArea',
   NUMBER_RANGE = 'numberRange',
   SELECT = 'select'
 }
