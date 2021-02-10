@@ -88,14 +88,13 @@ const SELECT_00: any = {
 };
 
 const TEXT_INPUT_00: any = {
-  type: 'numberInput',
+  type: 'textInput',
   key: 'S',
   config: {
-    name: 'Test?',
+    name: 'bla?',
     description: 'muss ausgefült werden',
   },
-  validators: [REQUIRED],
-  visible: { type: 'boolean-var', key: 'firstForm.groupOutside.groupInside.inside' }
+  validators: [REQUIRED, {type: 'isEmail', message: 'is No Email'}]
 };
 
 const GROUP_INSIDE: any = {
@@ -220,7 +219,8 @@ const EMPTY_GROUP: any = {
 const FORM_01: any = {
   key: 'secondForm',
   fields: [
-    // CHECKBOX_01,//{ type: "boolean-var", name: "checkboxKey02" }
+    // CHECKBOX_01,
+    TEXT_INPUT_00,
     NUMBER_INPUT_01,
     LOOP_00,
     NUMBER_INPUT_05,

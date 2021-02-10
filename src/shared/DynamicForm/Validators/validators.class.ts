@@ -3,7 +3,8 @@ import { MaxNumber } from "./number/MaxNumber.validator";
 export enum ValidatorTypes {
   REQUIRED = 'required',
   MAX_NUMBER = 'maxNumber',
-  MIN_NUMBER = 'minNumber'
+  MIN_NUMBER = 'minNumber',
+  EMAIL_STRING = "isEmail",
 }
 export abstract class Validator<T> {
   constructor(

@@ -5,7 +5,8 @@ import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
 
 export interface TextInputConfig extends ValueFieldConfig<string> {
-  unit?: string
+  name: string,
+  description: string,
 }
 
 export class TextInput extends ValueField<string> {
@@ -21,7 +22,7 @@ export class TextInput extends ValueField<string> {
       config,
       validators,
       visible,
-      status ? status : new ValueFieldStatus<string>(
+      status ? status : new ValueFieldStatus<string> (
         key,
         config.default ? config.default : null,
       )
