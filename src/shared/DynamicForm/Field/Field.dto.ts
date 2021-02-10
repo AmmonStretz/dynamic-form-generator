@@ -10,7 +10,9 @@ export enum FieldTypes {
   TEXT_INPUT = 'textInput',
   TEXT_AREA = 'textArea',
   NUMBER_RANGE = 'numberRange',
-  SELECT = 'select'
+  SELECT = 'select',
+  PARAGRAPH = 'paragraph',
+  HYPERLINK = 'hyperlink'
 }
 
 export class FieldStatus {

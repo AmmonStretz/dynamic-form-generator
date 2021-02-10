@@ -5,6 +5,8 @@ import { ValueField } from '../Field/ValueFields/ValueField.dto';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { Wizzard } from '../Wizzard/Wizzard.dto';
+import { ParagraphField } from '../Field/ContentFields/Paragraph/Paragraph.dto';
+import { ContentField } from '../Field/ContentFields/ContentField.dto';
 
 export class FormStatus {
   constructor(
@@ -43,6 +45,10 @@ export class Form {
       }
       if (field instanceof FieldLoop) {
         childStatus = (field as FieldLoop).updateStatus(root);
+      }
+      if (field instanceof ContentField) {
+        (field as ContentField).updateStatus(root);
+        return;
       }
       if(!childStatus.isValid && childStatus.isVisible){
         valide = false;

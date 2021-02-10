@@ -219,6 +219,11 @@ const EMPTY_GROUP: any = {
 const FORM_01: any = {
   key: 'secondForm',
   fields: [
+    {
+      type: 'hyperlink',
+      text: 'vfadasfaf',
+      links: [{text: 'Dies ist ein Beispiel', url: 'blabla'}, {text: 'Dies ist ein Beispiel', url: 'blabla'}]
+    },
     // CHECKBOX_01,
     TEXT_INPUT_00,
     NUMBER_INPUT_01,

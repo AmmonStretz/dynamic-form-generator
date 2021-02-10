@@ -10,6 +10,8 @@ import { NumberRange } from "./ValueFields/NumberRange/NumberRange.dto";
 import { Select } from "./ValueFields/Select/Select.dto";
 import { FieldLoop } from "./FieldLoop/FieldLoop.dto";
 import { NumberObjectParser } from "@/shared/Math/parsers/number.class";
+import { ParagraphField } from "./ContentFields/Paragraph/Paragraph.dto";
+import { HyperlinkField } from "./ContentFields/Hyperlink/Hyperlink.dto";
 
 export interface jsonStructure {
   type: string;
@@ -21,6 +23,8 @@ export interface jsonStructure {
   validators: any[];
   visible: any;
   condition?: any;
+  text?: string;
+  links: {text: string, url: string}[];
 }
 
 export class FieldParser {
@@ -96,6 +100,19 @@ export class FieldParser {
           json.config,
           ValidatorParser.parseFromJSONArray(json.validators),
           BooleanObjectParser.fromJson(json.visible),
+        );
+
+      case FieldTypes.PARAGRAPH:
+        return new ParagraphField(
+          json.text,
+          json.config,
+          BooleanObjectParser.fromJson(json.visible)
+        );
+      case FieldTypes.HYPERLINK:
+        return new HyperlinkField(
+          json.links,
+          json.config,
+          BooleanObjectParser.fromJson(json.visible)
         );
       // return new MaxNumber(json.message, json.value);
     }

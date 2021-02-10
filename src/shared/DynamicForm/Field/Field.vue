@@ -1,7 +1,7 @@
 <template>
   <div class="field" v-if="visibility">
     <ValueFieldComponent
-      v-if="dto.type != 'fieldGroup' && dto.type != 'fieldLoop'"
+      v-if="isValueField"
       v-bind:dto="dto"
       v-bind:root="root"
       v-on:change="onChange"
@@ -18,6 +18,18 @@
       v-bind:root="root"
       v-on:change="onChange"
     ></FieldLoopComponent>
+    <FieldLoopComponent
+      v-if="dto.type == 'fieldLoop'"
+      v-bind:dto="dto"
+      v-bind:root="root"
+      v-on:change="onChange"
+    ></FieldLoopComponent>
+    <ContentFieldComponent
+      v-if="isContentField"
+      v-bind:dto="dto"
+      v-bind:root="root"
+    >
+    </ContentFieldComponent>
   </div>
 </template>
 
@@ -25,10 +37,10 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
 import ValueFieldComponent from "./ValueFields/ValueField.vue";
+import ContentFieldComponent from "./ContentFields/ContentField.vue";
 import { Field, FieldStatus } from "./Field.dto";
 import FieldLoopComponent from "./FieldLoop/FieldLoop.vue";
 import { Wizzard } from "../Wizzard/Wizzard.dto";
-import { ValueFieldStatus } from "./ValueFields/ValueField.dto";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -36,6 +48,7 @@ import { ValueFieldStatus } from "./ValueFields/ValueField.dto";
     ValueFieldComponent,
     FieldGroupComponent,
     FieldLoopComponent,
+    ContentFieldComponent,
   },
 })
 export default class FieldComponent extends Vue {
@@ -51,6 +64,13 @@ export default class FieldComponent extends Vue {
       return this.dto.status.isVisible;
     }
     return true;
+  }
+
+  get isContentField() {
+    return ['paragraph', 'hyperlink'].indexOf(this.dto.type)>=0;
+  }
+  get isValueField() {
+    return !(['paragraph', 'hyperlink', 'fieldGroup', 'fieldLoop'].indexOf(this.dto.type)>=0);
   }
 
   @Emit("change")
