@@ -83,6 +83,22 @@ const SELECT_00: any = {
   config: {
     description: `Beschreibung`,
     name: 'Auswahl',
+    default: 1,
+  }, validators: [],
+  // visible: { type: 'boolean-var', key: 'firstForm.groupOutside.S' }
+};
+const RADIO_BUTTON_LIST: any = {
+  type: 'radioButtonList',
+  key: 'selectKey01',
+  options: [
+    { name: 'Erste Auswahl (0)', value: 0 },
+    { name: 'Zweite Auswahl (1)', value: 1 },
+    { name: 'Dritte Auswahl (2)', value: 2 },
+  ],
+  config: {
+    description: `Beschreibung`,
+    name: 'Auswahl',
+    default: 1
   }, validators: [],
   // visible: { type: 'boolean-var', key: 'firstForm.groupOutside.S' }
 };
@@ -94,7 +110,7 @@ const TEXT_INPUT_00: any = {
     name: 'asdasd?',
     description: 'muss ausgefült werden',
   },
-  validators: [REQUIRED, {type: 'isEmail', message: 'is No Email'}]
+  validators: [REQUIRED, {type: 'isEmail', message: 'is No Email'}],
 };
 
 const GROUP_INSIDE: any = {
@@ -219,6 +235,8 @@ const EMPTY_GROUP: any = {
 const FORM_01: any = {
   key: 'secondForm',
   fields: [
+    RADIO_BUTTON_LIST,
+    SELECT_00,
     {
       type: 'hyperlink',
       text: 'vfadasfaf',

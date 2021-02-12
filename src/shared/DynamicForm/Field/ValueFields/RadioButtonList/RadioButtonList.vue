@@ -3,36 +3,36 @@
     <label v-if="dto.config && dto.config.name" :for="dto.key">
       {{ dto.config.name }}
     </label>
-    <select
-      v-if="dto && dto.status"
-      :id="dto.key"
-      v-model.number="dto.status.value"
-      @focus="updateStatus()"
-      @blur="setBlur()"
-      :class="{ show: dto.status.showErrors, valid: dto.status.isValid }"
-    >
-      <option
-        v-for="(option, index) of dto.options"
-        :key="index"
+    <div v-for="(option, index) of dto.options" :key="'i' + index">
+      <input
+        type="radio"
+        :id="_uid + option.value"
+        v-model.number="dto.status.value"
         :value="option.value"
-      >
-        {{ option.name }}
-      </option>
-    </select><br />
+        @change="updateStatus()"
+      />
+      <label :for="_uid + option.value">{{ option.name }}</label
+      ><br />
+    </div>
+    <div
+      v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]"
+    >
+      {{ dto.status.errors[0].message }}
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { Select } from "./Select.dto";
+import { RadioButtonList } from "./RadioButtonList.dto";
 import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.dto";
 
 @Component({
-  name: "SelectComponent",
+  name: "RadioButtonListComponent",
 })
-export default class SelectComponent extends Vue {
-  @Prop() private dto!: Select;
+export default class RadioButtonListComponent extends Vue {
+  @Prop() private dto!: RadioButtonList;
 
   public $refs: any;
 

@@ -8,6 +8,7 @@ import { TextInput } from "./ValueFields/TextInput/TextInput.dto";
 import { TextArea } from "./ValueFields/TextArea/TextArea.dto";
 import { NumberRange } from "./ValueFields/NumberRange/NumberRange.dto";
 import { Select } from "./ValueFields/Select/Select.dto";
+import { RadioButtonList } from "./ValueFields/RadioButtonList/RadioButtonList.dto";
 import { FieldLoop } from "./FieldLoop/FieldLoop.dto";
 import { NumberObjectParser } from "@/shared/Math/parsers/number.class";
 import { ParagraphField } from "./ContentFields/Paragraph/Paragraph.dto";
@@ -24,7 +25,7 @@ export interface jsonStructure {
   visible: any;
   condition?: any;
   text?: string;
-  links: {text: string, url: string}[];
+  links: { text: string, url: string }[];
 }
 
 export class FieldParser {
@@ -95,6 +96,14 @@ export class FieldParser {
 
       case FieldTypes.SELECT:
         return new Select(
+          json.key,
+          json.options,
+          json.config,
+          ValidatorParser.parseFromJSONArray(json.validators),
+          BooleanObjectParser.fromJson(json.visible),
+        );
+      case FieldTypes.RADIO_BUTTON_LIST:
+        return new RadioButtonList(
           json.key,
           json.options,
           json.config,

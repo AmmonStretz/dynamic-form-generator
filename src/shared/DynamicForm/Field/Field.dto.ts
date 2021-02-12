@@ -12,7 +12,8 @@ export enum FieldTypes {
   NUMBER_RANGE = 'numberRange',
   SELECT = 'select',
   PARAGRAPH = 'paragraph',
-  HYPERLINK = 'hyperlink'
+  HYPERLINK = 'hyperlink',
+  RADIO_BUTTON_LIST = 'radioButtonList'
 }
 
 export class FieldStatus {

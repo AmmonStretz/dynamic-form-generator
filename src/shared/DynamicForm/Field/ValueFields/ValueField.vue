@@ -30,6 +30,11 @@
       v-bind:dto="dto"
       v-on:change="onChange"
     ></SelectComponent>
+    <RadioButtonListComponent
+      v-if="dto.type == 'radioButtonList'"
+      v-bind:dto="dto"
+      v-on:change="onChange"
+    ></RadioButtonListComponent>
     <p if="dto.config.description">{{ dto.config.description }}</p>
   </div>
 </template>
@@ -42,6 +47,7 @@ import TextAreaComponent from "./TextArea/TextArea.vue";
 import NumberRangeComponent from "./NumberRange/NumberRange.vue";
 import CheckboxComponent from "./Checkbox/Checkbox.vue";
 import SelectComponent from "./Select/Select.vue";
+import RadioButtonListComponent from "./RadioButtonList/RadioButtonList.vue";
 import { ValueFieldStatus, ValueField } from "./ValueField.dto";
 import { Wizzard } from "../../Wizzard/Wizzard.dto";
 // Vue.component('FieldComponent')
@@ -54,6 +60,7 @@ import { Wizzard } from "../../Wizzard/Wizzard.dto";
     NumberRangeComponent,
     CheckboxComponent,
     SelectComponent,
+    RadioButtonListComponent,
   },
 })
 export default class FieldComponent extends Vue {
