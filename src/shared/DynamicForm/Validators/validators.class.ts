@@ -4,6 +4,7 @@ export enum ValidatorTypes {
   REQUIRED = 'required',
   MAX_NUMBER = 'maxNumber',
   MIN_NUMBER = 'minNumber',
+  POSTAL_CODE_NUMBER = 'isPostalCode',
   EMAIL_STRING = "isEmail",
 }
 export abstract class Validator<T> {

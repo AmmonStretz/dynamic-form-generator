@@ -3,6 +3,7 @@ import { MaxNumber } from './number/MaxNumber.validator';
 import EmailString from './string/EmailString.validator';
 import { Required } from './any/Required.validator';
 import { Validator, ValidatorTypes } from './validators.class';
+import { PostalCodeNumber } from './number/PostalCodeNumber.validator';
 export class ValidatorParser {
   public static parseFromJSONArray(jsonArray: {
     type: string,
@@ -25,6 +26,8 @@ export class ValidatorParser {
         return new MaxNumber(json.message, json.value);
       case ValidatorTypes.MIN_NUMBER:
         return new MinNumber(json.message, json.value);
+      case ValidatorTypes.POSTAL_CODE_NUMBER:
+        return new PostalCodeNumber(json.message, json.value);
       case ValidatorTypes.EMAIL_STRING:
         return new EmailString(json.message);
       default:
