@@ -24,7 +24,7 @@ export class RadioButtonList extends ValueField<number> {
       visible,
       status ? status : new ValueFieldStatus<number>(
         key,
-        config.default ? config.default : null,
+        config.default!=null && config.default!=undefined ? config.default : options[0].value,
       )
     );
   }
