@@ -19,6 +19,7 @@
         {{ option.name }}
       </option>
     </select><br />
+    <div v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]">{{dto.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -62,7 +63,7 @@ export default class SelectComponent extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
+select.show:not(.valid) {
   background-color: red;
 }
 </style>
