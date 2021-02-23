@@ -1,4 +1,3 @@
-import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
@@ -18,7 +17,7 @@ export class TextInput extends ValueField<string> {
     status?: ValueFieldStatus<string>,
   ) {
     super(key,
-      FieldTypes.TEXT_INPUT,
+      'textInput',
       config,
       validators,
       visible,

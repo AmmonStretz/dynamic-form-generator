@@ -6,7 +6,7 @@ import { afqWizzardConfig } from './afq.wizzard.config';
 //TODO: This config will be stored outside the ui
 // export const config: Wizzard = WizzardParser.parseFromJSON(defaultWizzardConfig);
 
-export const config: Wizzard = afqWizzardConfig;
+export const config: any = afqWizzardConfig;
 // export const config: Wizzard = WizzardParser.parseFromJSON({
 //   forms: [
 //     {

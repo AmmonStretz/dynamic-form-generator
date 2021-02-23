@@ -1,4 +1,3 @@
-import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { BooleanObject } from '@/shared/Math/math-object.class';
@@ -14,7 +13,7 @@ export class Checkbox extends ValueField<boolean> {
   ) {
     super(
       key,
-      FieldTypes.CHECKBOX,
+      'checkbox',
       config,
       validators,
       visible,

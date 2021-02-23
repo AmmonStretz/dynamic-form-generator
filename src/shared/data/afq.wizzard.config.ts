@@ -12,8 +12,27 @@ const POSTAL_CODE = {
   type: 'isPostalCode',
   message: 'Eine Postleizahl besteht aus 5 Zahlen zwichen 0 und 9'
 }
+// const NUMBER_INPUT_01: any = {
+//   type: 'numberInput',
+//   key: 'Y',
+//   config: {
+//     name: 'Test',
+//     description: 'muss ausgefült werden',
+//     min: 0,
+//     max: 100
+//   },
+//   validators: [REQUIRED]
+// }
+// const LOOP_00: any = {
+//   type: 'fieldLoop',
+//   key: 'loopKey',
+//   field: Test_GROUP,
+//   config: {
+//   },
+//   condition: { type: 'number-var', key: 'secondForm.Y' }
+// }
 
-export const afqWizzardConfig: Wizzard = WizzardParser.parseFromJSON({
+export const afqWizzardConfig: any = {
   forms: [
     {
       key: 'page_00',
@@ -26,7 +45,7 @@ export const afqWizzardConfig: Wizzard = WizzardParser.parseFromJSON({
             description: 'Bitte gib zuerst deine Postleitzahl an.',
           },
           validators: [REQUIRED, POSTAL_CODE]
-        }
+        },
       ],
       config: {
         title: 'Wohnort'
@@ -281,9 +300,9 @@ export const afqWizzardConfig: Wizzard = WizzardParser.parseFromJSON({
     }
   ],
   config: {
-    title: 'Title der Fragestrecke',
+    title: 'AFQ',
     submitButtonText: "Fertig",
     prevButtonText: "Zurück",
     nextButtonText: "Weiter",
   }
-});
+};

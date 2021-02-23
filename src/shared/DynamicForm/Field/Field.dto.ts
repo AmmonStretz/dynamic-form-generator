@@ -2,20 +2,6 @@ import { BooleanObject } from '@/shared/Math/math-object.class';
 import { Wizzard } from '../Wizzard/Wizzard.dto';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 
-export enum FieldTypes {
-  CHECKBOX = 'checkbox',
-  FIELD_GROUP = 'fieldGroup',
-  FIELD_LOOP = 'fieldLoop',
-  NUMBER_INPUT = 'numberInput',
-  TEXT_INPUT = 'textInput',
-  TEXT_AREA = 'textArea',
-  NUMBER_RANGE = 'numberRange',
-  SELECT = 'select',
-  PARAGRAPH = 'paragraph',
-  HYPERLINK = 'hyperlink',
-  RADIO_BUTTON_LIST = 'radioButtonList'
-}
-
 export class FieldStatus {
   constructor(
     public key: string,
@@ -33,7 +19,8 @@ export interface FieldConfig {
 
 export abstract class Field {
   constructor(
-    public type: FieldTypes,
+    public type: string,
+    public key: string,
     public config: FieldConfig,
     public visible: BooleanObject,
     public status: FieldStatus,

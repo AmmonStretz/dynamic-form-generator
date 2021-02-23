@@ -1,18 +1,8 @@
 import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
-import { ValidatorParser } from "../Validators";
-import { Checkbox } from "./ValueFields/Checkbox/Checkbox.dto";
-import { Field, FieldTypes } from "./Field.dto";
+import { Field } from "./Field.dto";
 import { FieldGroup } from "./FieldGroup/FieldGroup.dto";
-import { NumberInput } from "./ValueFields/NumberInput/NumberInput.dto";
-import { TextInput } from "./ValueFields/TextInput/TextInput.dto";
-import { TextArea } from "./ValueFields/TextArea/TextArea.dto";
-import { NumberRange } from "./ValueFields/NumberRange/NumberRange.dto";
-import { Select } from "./ValueFields/Select/Select.dto";
-import { RadioButtonList } from "./ValueFields/RadioButtonList/RadioButtonList.dto";
 import { FieldLoop } from "./FieldLoop/FieldLoop.dto";
 import { NumberObjectParser } from "@/shared/Math/parsers/number.class";
-import { ParagraphField } from "./ContentFields/Paragraph/Paragraph.dto";
-import { HyperlinkField } from "./ContentFields/Hyperlink/Hyperlink.dto";
 
 export interface jsonStructure {
   type: string;
@@ -29,101 +19,36 @@ export interface jsonStructure {
 }
 
 export class FieldParser {
-  public static parseFromJSONArray(jsonArray: jsonStructure[]): Field[] {
+  public static parseFromJSONArray(fieldParser: any, jsonArray: jsonStructure[]): Field[] {
     let result: Field[] = [];
     jsonArray.forEach(json => {
-      result.push(this.parseFromJSON(json));
+      result.push(this.parseFromJSON(fieldParser, json));
     });
     return result;
   }
-  public static parseFromJSON(json: jsonStructure): Field {
+  public static parseFromJSON(fieldParser: any, json: jsonStructure): Field {
     if (!json.visible) json.visible = { type: "boolean-const", value: true };
     if (!json.condition) json.condition = { type: "number-const", value: 0 };
+    if(json.type in fieldParser){
+      return fieldParser[json.type](json);
+    }
     switch (json.type) {
-      case FieldTypes.CHECKBOX:
-        return new Checkbox(
-          json.key,
-          json.config,
-          ValidatorParser.parseFromJSONArray(json.validators),
-          BooleanObjectParser.fromJson(json.visible),
-        );
-      case FieldTypes.NUMBER_INPUT:
-        return new NumberInput(
-          json.key,
-          json.config,
-          ValidatorParser.parseFromJSONArray(json.validators),
-          BooleanObjectParser.fromJson(json.visible),
-        );
-      case FieldTypes.FIELD_LOOP:
-
+      case 'fieldLoop':
         return new FieldLoop(
           json.key,
-          this.parseFromJSON(json.field),
+          this.parseFromJSON(fieldParser, json.field),
           json.config,
           BooleanObjectParser.fromJson(json.visible),
           NumberObjectParser.fromJson(json.condition)
         );
-      case FieldTypes.TEXT_INPUT:
-        return new TextInput(
-          json.key,
-          json.config,
-          ValidatorParser.parseFromJSONArray(json.validators),
-          BooleanObjectParser.fromJson(json.visible),
-        );
-      case FieldTypes.TEXT_AREA:
-        return new TextArea(
-          json.key,
-          json.config,
-          ValidatorParser.parseFromJSONArray(json.validators),
-          BooleanObjectParser.fromJson(json.visible),
-        );
-      case FieldTypes.NUMBER_RANGE:
-        // validate config
-        return new NumberRange(
-          json.key,
-          json.config,
-          ValidatorParser.parseFromJSONArray(json.validators),
-          BooleanObjectParser.fromJson(json.visible),
-        );
-      case FieldTypes.FIELD_GROUP:
+      case 'fieldGroup':
         // validate config
         return new FieldGroup(
           json.key,
-          this.parseFromJSONArray(json.fields),
+          this.parseFromJSONArray(fieldParser, json.fields),
           json.config,
           BooleanObjectParser.fromJson(json.visible),
         );
-
-      case FieldTypes.SELECT:
-        return new Select(
-          json.key,
-          json.options,
-          json.config,
-          ValidatorParser.parseFromJSONArray(json.validators),
-          BooleanObjectParser.fromJson(json.visible),
-        );
-      case FieldTypes.RADIO_BUTTON_LIST:
-        return new RadioButtonList(
-          json.key,
-          json.options,
-          json.config,
-          ValidatorParser.parseFromJSONArray(json.validators),
-          BooleanObjectParser.fromJson(json.visible),
-        );
-
-      case FieldTypes.PARAGRAPH:
-        return new ParagraphField(
-          json.text,
-          json.config,
-          BooleanObjectParser.fromJson(json.visible)
-        );
-      case FieldTypes.HYPERLINK:
-        return new HyperlinkField(
-          json.links,
-          json.config,
-          BooleanObjectParser.fromJson(json.visible)
-        );
-      // return new MaxNumber(json.message, json.value);
     }
     return null;
   }

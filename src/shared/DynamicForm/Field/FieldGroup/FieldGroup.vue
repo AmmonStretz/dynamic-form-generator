@@ -58,7 +58,7 @@ export default class FieldGroupComponent extends Vue {
 
   beforeCreate() {
     if (this.$options.components)
-      this.$options.components.FieldComponent = require("../Field.vue").default;
+      (this.$options.components.FieldComponent as any) = import("../Field.vue");
   }
 }
 </script>

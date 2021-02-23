@@ -1,5 +1,5 @@
 import { FieldStatus } from './../Field.dto';
-import { Field, FieldTypes } from '../Field.dto';
+import { Field } from '../Field.dto';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { FieldLoop, FieldLoopStatus } from '../FieldLoop/FieldLoop.dto';
@@ -31,7 +31,8 @@ export class FieldGroup extends Field {
     status?: FieldGroupStatus,
   ) {
     super(
-      FieldTypes.FIELD_GROUP,
+      'fieldGroup',
+      key,
       config,
       visible,
       status ? status : new FieldGroupStatus(key)

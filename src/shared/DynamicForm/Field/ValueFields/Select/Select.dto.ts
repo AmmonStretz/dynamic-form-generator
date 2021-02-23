@@ -1,5 +1,4 @@
 import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
-import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
@@ -15,8 +14,9 @@ export class Select extends ValueField<number> {
     public visible: BooleanObject = new BooleanConst(true),
     status?: ValueFieldStatus<number>
   ) {
-    super(key,
-      FieldTypes.SELECT,
+    super(
+      key,
+      'select',
       config,
       validators,
       visible,
@@ -28,8 +28,6 @@ export class Select extends ValueField<number> {
   }
 
   public toJson() {
-
-
     return {
       type: this.type,
       key: this.key,

@@ -1,5 +1,4 @@
 import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
-import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
@@ -18,7 +17,7 @@ export class RadioButtonList extends ValueField<number> {
     status?: ValueFieldStatus<number>
   ) {
     super(key,
-      FieldTypes.RADIO_BUTTON_LIST,
+      'radioButtonList',
       config,
       validators,
       visible,

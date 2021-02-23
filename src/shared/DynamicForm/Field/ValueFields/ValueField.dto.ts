@@ -1,7 +1,7 @@
 import { BooleanObject } from "@/shared/Math/math-object.class";
 import { Validator } from "../../Validators";
 import { Wizzard } from "../../Wizzard/Wizzard.dto";
-import { Field, FieldConfig, FieldStatus, FieldTypes } from "../Field.dto";
+import { Field, FieldConfig, FieldStatus } from "../Field.dto";
 
 export interface ValueFieldConfig<T> extends FieldConfig {
   default?: T,
@@ -28,13 +28,13 @@ export abstract class ValueField<T> extends Field {
 
   constructor(
     public key: string,
-    public type: FieldTypes,
+    public type: string,
     public config: ValueFieldConfig<T>,
     public validators: Validator<T>[] = [],
     public visible: BooleanObject,
     public status: ValueFieldStatus<T>
   ) {
-    super(type, config, visible, status);
+    super(type, key, config, visible, status);
   }
 
   public showAllErrors() {

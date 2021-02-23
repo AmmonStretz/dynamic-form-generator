@@ -1,5 +1,5 @@
 import { FieldConfig, FieldStatus } from './../Field.dto';
-import { Field, FieldTypes } from '../Field.dto';
+import { Field } from '../Field.dto';
 import { BooleanObject, NumberObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueFields/ValueField.dto';
@@ -37,7 +37,8 @@ export class FieldLoop extends Field {
     status?: FieldLoopStatus,
   ) {
     super(
-      FieldTypes.FIELD_LOOP,
+      'fieldLoop',
+      key,
       config,
       visible,
       status ? status : new FieldLoopStatus(key)
@@ -48,7 +49,8 @@ export class FieldLoop extends Field {
     let newNumber = this.condition.calc((key) => root.getValueByKey(key));
     if (newNumber > this.fields.length) {
       while (newNumber > this.fields.length) {
-        this.fields.push(FieldParser.parseFromJSON(JSON.parse(JSON.stringify(this.field))));
+        // TODO:
+        // this.fields.push(FieldParser.parseFromJSON((Vue as any).fieldParser,JSON.parse(JSON.stringify(this.field))));
       }
     } else {
       this.fields = this.fields.splice(0, newNumber);

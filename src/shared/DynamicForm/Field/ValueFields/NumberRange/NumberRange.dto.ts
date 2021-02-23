@@ -1,4 +1,3 @@
-import { FieldTypes } from '../../Field.dto';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
@@ -21,7 +20,7 @@ export class NumberRange extends ValueField<number> {
   ) {
     super(
       key,
-      FieldTypes.NUMBER_RANGE,
+      'numberRange',
       config,
       validators,
       visible,
