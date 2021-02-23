@@ -35,9 +35,6 @@ Vue.use(SelectPlugin);
 Vue.use(TextAreaPlugin);
 Vue.use(TextInputPlugin);
 
-console.log((Vue as any).fieldParser);
-
-
 new Vue({
   router,
   store,

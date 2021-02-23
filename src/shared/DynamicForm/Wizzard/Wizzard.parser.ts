@@ -3,9 +3,9 @@ import { FormParser } from "../Form/Form.parser";
 import { Wizzard } from "./Wizzard.dto";
 
 export class WizzardParser {
-    public static parseFromJSON(fieldParser: any, json: any): Wizzard {
+    public static parseFromJSON(json: any): Wizzard {
       return new Wizzard(
-        FormParser.parseFromJSONArray(fieldParser, json.forms),
+        FormParser.parseFromJSONArray(json.forms),
         json.config
       )
     }

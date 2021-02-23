@@ -7,6 +7,7 @@ import { Wizzard } from '../../Wizzard/Wizzard.dto';
 import { FieldGroup } from '../FieldGroup/FieldGroup.dto';
 import { NumberConst } from '@/shared/Math/objects/number/const';
 import { FieldParser } from '../Field.parser';
+import { PluginService } from '../../services/Plugin.service';
 
 export class FieldLoopStatus extends FieldStatus {
   constructor(
@@ -49,8 +50,7 @@ export class FieldLoop extends Field {
     let newNumber = this.condition.calc((key) => root.getValueByKey(key));
     if (newNumber > this.fields.length) {
       while (newNumber > this.fields.length) {
-        // TODO:
-        // this.fields.push(FieldParser.parseFromJSON((Vue as any).fieldParser,JSON.parse(JSON.stringify(this.field))));
+        this.fields.push(FieldParser.parseFromJSON(JSON.parse(JSON.stringify(this.field))));
       }
     } else {
       this.fields = this.fields.splice(0, newNumber);

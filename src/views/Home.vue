@@ -25,7 +25,7 @@ import { WizzardParser } from "../shared/DynamicForm/Wizzard/Wizzard.parser";
   },
 })
 export default class Home extends Vue {
-  public dto: Wizzard = WizzardParser.parseFromJSON((Vue as any).fieldParser, config);
+  public dto: Wizzard = WizzardParser.parseFromJSON(config);
   statusChange(status: WizzardStatus) {}
   mounted() {
     // console.clear();
