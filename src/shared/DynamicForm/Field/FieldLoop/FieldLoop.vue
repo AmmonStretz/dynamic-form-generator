@@ -37,7 +37,7 @@ export default class FieldLoopComponent extends Vue {
   }
 
   mounted() {
-    this.dto.updateFields(this.root);
+    this.dto.updateFields();
     this.$forceUpdate();
   }
 
@@ -58,7 +58,7 @@ export default class FieldLoopComponent extends Vue {
 
   beforeCreate() {
     if (this.$options.components)
-      this.$options.components.FieldComponent = require("../Field.vue").default;
+      (this.$options.components.FieldComponent as any) = require("../Field.vue").default;
   }
 }
 </script>

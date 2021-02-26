@@ -46,45 +46,52 @@ export class FieldLoop extends Field {
     );
   }
 
-  public updateFields(root: Wizzard) {
-    let newNumber = this.condition.calc((key) => root.getValueByKey(key));
+  public updateFields() {
+    let newNumber = this.condition.calc((key) => this.getValueByKey(key));
     if (newNumber > this.fields.length) {
       while (newNumber > this.fields.length) {
-        this.fields.push(FieldParser.parseFromJSON(JSON.parse(JSON.stringify(this.field))));
+        
+        // console.log(JSON.stringify(this.field));
+        // this.fields.push(FieldParser.parseFromJSON(JSON.parse(JSON.stringify(this.field))));
       }
     } else {
       this.fields = this.fields.splice(0, newNumber);
     }
   }
 
-  public updateStatus(root: Wizzard): FieldLoopStatus {
-    this.updateFields(root)
+  public updateStatus(): FieldLoopStatus {
+    this.updateFields()
     let valide = true;
     this.fields.forEach(field => {
       let childStatus: FieldStatus;
       if (field instanceof ValueField) {
-        childStatus = (field as ValueField<any>).updateStatus(root);
+        childStatus = (field as ValueField<any>).updateStatus();
       }
       if (field instanceof FieldGroup) {
-        childStatus = (field as FieldGroup).updateStatus(root);
+        childStatus = (field as FieldGroup).updateStatus();
       }
       if (field instanceof FieldLoop) {
-        childStatus = (field as FieldLoop).updateStatus(root);
+        childStatus = (field as FieldLoop).updateStatus();
       }
       if (!childStatus.isValid && !!childStatus.isVisible) {
         valide = false;
       }
     });
     this.status.isValid = valide;
-    this.status.isVisible = this.visible.calc(root.getValueByKey);
+    this.status.isVisible = this.visible.calc(this.getValueByKey);
     return this.status;
   }
 
   getValueByKey(path: string): any {
-    let before = path.split(/\.(.+)/)[0];
-    let after = path.split(/\.(.+)/)[1];
-    if (+before != NaN && typeof +before == "number") {
-      const index = +before;
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+
+    if (current == 'Root:') {
+      return this.root.getValueByKey(after);
+    } else if (current == '..') {
+      return this.parent.getValueByKey(after);
+    } else if (+current != NaN && typeof +current == "number") {
+      const index = +current;
       if (this.fields.length > index && index >= 0) {
         if (this.fields[index] instanceof ValueField) {
           return (this.fields[index] as ValueField<any>).status.value;
@@ -95,7 +102,7 @@ export class FieldLoop extends Field {
         }
       }
     }
-    if (before == 'length') {
+    if (current == 'length') {
       return this.fields.length;
     }
     return null;

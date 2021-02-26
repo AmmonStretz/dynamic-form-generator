@@ -69,7 +69,7 @@ const FIELD_LOOP_00: any = {
     description: 'muss ausgefült werden',
   },
   validators: [],
-  condition: { type: 'number-var', key: 'X' }
+  condition: { type: 'number-const', value: 3 }
 };
 
 const SELECT_00: any = {
@@ -111,12 +111,20 @@ const TEXT_INPUT_00: any = {
     description: 'muss ausgefült werden',
   },
   validators: [REQUIRED, {type: 'isEmail', message: 'is No Email'}],
+  visible:
+  // { type: 'boolean-var', key: 'Root:/firstForm/groupOutside/groupInside/inside'}
+  { type: 'boolean-var', key: '../inside'}
+  // { type: 'boolean-var', key: 'Root:/firstForm/groupOutside/outside'}
+  // { type: 'boolean-var', key: 'Root:/firstForm/A'}
 };
 
 const GROUP_INSIDE: any = {
   type: 'fieldGroup',
   key: 'groupInside',
-  fields: [CHECKBOX_INSIDE, TEXT_INPUT_00],
+  fields: [
+    CHECKBOX_INSIDE,
+    TEXT_INPUT_00
+  ],
   config: {
     horizontal: false,
     title: 'innen'
@@ -128,7 +136,10 @@ const GROUP_INSIDE: any = {
 const GROUP_OUTSIDE: any = {
   type: 'fieldGroup',
   key: 'groupOutside',
-  fields: [CHECKBOX_OUTSIDE, GROUP_INSIDE],
+  fields: [
+    CHECKBOX_OUTSIDE,
+    GROUP_INSIDE
+  ],
   config: {
     horizontal: false,
     title: 'außen'
@@ -139,7 +150,8 @@ const GROUP_OUTSIDE: any = {
 
 const FORM_00: any = {
   key: 'firstForm',
-  fields: [SELECT_00,
+  fields: [
+    SELECT_00,
     CHECKBOX_00,
     GROUP_OUTSIDE,
     // NUMBER_RANGE_00,
@@ -187,7 +199,7 @@ const NUMBER_INPUT_INGroup: any = {
 const Test_GROUP: any = {
   type: 'fieldGroup',
   key: 'groupInLoop',
-  fields: [CHECKBOX_01, NUMBER_INPUT_INGroup],
+  fields: [CHECKBOX_00],
   config: {},
   validators: [],
 }
@@ -197,7 +209,7 @@ const LOOP_00: any = {
   field: Test_GROUP,
   config: {
   },
-  condition: { type: 'number-var', key: 'secondForm.Y' }
+  condition: { type: 'number-const', value: 2 }
 }
 
 const NUMBER_INPUT_05: any = {
@@ -235,19 +247,20 @@ const EMPTY_GROUP: any = {
 const FORM_01: any = {
   key: 'secondForm',
   fields: [
-    RADIO_BUTTON_LIST,
-    SELECT_00,
-    {
-      type: 'hyperlink',
-      text: 'vfadasfaf',
-      links: [{text: 'Dies ist ein Beispiel', url: 'blabla'}, {text: 'Dies ist ein Beispiel', url: 'blabla'}]
-    },
+    // RADIO_BUTTON_LIST,
+    // SELECT_00,
+    // {
+    //   type: 'hyperlink',
+    //   text: 'vfadasfaf',
+    //   links: [{text: 'Dies ist ein Beispiel', url: 'blabla'}, {text: 'Dies ist ein Beispiel', url: 'blabla'}]
+    // },
     // CHECKBOX_01,
-    TEXT_INPUT_00,
-    NUMBER_INPUT_01,
+    // TEXT_INPUT_00,
+    // NUMBER_INPUT_01,
+    // Test_GROUP,
     LOOP_00,
-    NUMBER_INPUT_05,
-    NUMBER_INPUT_06
+    // NUMBER_INPUT_05,
+    // NUMBER_INPUT_06
   ],
   config: {
     title: 'Name der Seite 2'

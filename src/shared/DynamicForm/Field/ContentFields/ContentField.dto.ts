@@ -13,8 +13,22 @@ export abstract class ContentField extends Field {
     super(type, '', config, visible, status);
   }
 
-  public updateStatus(root: Wizzard): FieldStatus {
-    this.status.isVisible = this.visible.calc((key: string) => root.getValueByKey(key));
+  public updateStatus(): FieldStatus {
+    this.status.isVisible = this.visible.calc((key: string) => this.parent.getValueByKey(key));
     return this.status;
+  }
+
+  getValueByKey(path: string): any {
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    after = after?after:'';
+    if (current == 'Root:') {
+      return this.root.getValueByKey(after);
+    } else if (current == '..') {
+      return this.parent.getValueByKey(after);
+    } else if (current == '') {
+      return this.status;
+    }
+    return null;
   }
 }

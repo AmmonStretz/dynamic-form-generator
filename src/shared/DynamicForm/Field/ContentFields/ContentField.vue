@@ -37,7 +37,7 @@ export default class ContentFieldComponent extends Vue {
   get visibility(): any {
     if (this.dto.visible.calc) {
       this.dto.status.isVisible = this.dto.visible.calc((key) =>
-        this.root.getValueByKey(key)
+        this.dto.getValueByKey(key)
       );
       return this.dto.status.isVisible;
     }

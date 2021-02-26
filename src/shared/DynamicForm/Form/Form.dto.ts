@@ -17,6 +17,7 @@ export class FormStatus {
 
 export class Form {
   private type: string = 'Form';
+  public parent: Wizzard;
   constructor(
     public key: string,
     public fields: Field[],
@@ -27,52 +28,69 @@ export class Form {
     public visible: BooleanObject = new BooleanConst(true),
     public status?: FormStatus,
   ) {
-    if(!this.status){
+    if (!this.status) {
       this.status = new FormStatus(this.key);
     }
+    this.fields.forEach(field => {
+      field.parent = this;
+    });
   }
 
-  public updateStatus(root: Wizzard): FieldStatus {
+  get root(): Wizzard {
+    return this.parent;
+  }
+
+  public updateStatus(): FieldStatus {
     let valide = true;
     this.fields.forEach(field => {
       let childStatus;
       if (field instanceof ValueField) {
-        childStatus = (field as ValueField<any>).updateStatus(root);
+        childStatus = (field as ValueField<any>).updateStatus();
       }
       if (field instanceof FieldGroup) {
-        childStatus = (field as FieldGroup).updateStatus(root);
+        childStatus = (field as FieldGroup).updateStatus();
       }
       if (field instanceof FieldLoop) {
-        childStatus = (field as FieldLoop).updateStatus(root);
+        childStatus = (field as FieldLoop).updateStatus();
       }
       if (field instanceof ContentField) {
-        (field as ContentField).updateStatus(root);
+        (field as ContentField).updateStatus();
         return;
       }
-      if(!childStatus.isValid && childStatus.isVisible){
+      if (!childStatus.isValid && childStatus.isVisible) {
         valide = false;
       }
     });
-    
+
     this.status.isValid = valide;
-    this.status.isVisible = this.visible.calc((key: string)=>root.getValueByKey(key));
+    this.status.isVisible = this.visible.calc((key: string) => this.getValueByKey(key));
     return this.status;
   }
 
   getValueByKey(path: string): any {
-    let before = path.split(/\.(.+)/)[0];
-    let after = path.split(/\.(.+)/)[1];
-     
-    for (let i = 0; i < this.fields.length; i++) {
-      const field = this.fields[i];
-      // TODO: if path ends here
-      if (before == field.status.key) {
-        if (field instanceof ValueField) {
-          return field.status.value;
-        } else if (field instanceof FieldGroup) {
-          return (field as FieldGroup).getValueByKey(after);
-        } else if (field instanceof FieldLoop) {
-          return (field as FieldLoop).getValueByKey(after);
+    
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    after = after?after:'';
+
+    if (current == 'Root:') {
+      return this.root.getValueByKey(after);
+    } else if (current == '..') {
+      return this.parent.getValueByKey(after);
+    } else {
+      for (let i = 0; i < this.fields.length; i++) {
+        const field = this.fields[i];
+        // TODO: if path ends here
+        if (current == field.status.key) {
+          if (field instanceof FieldGroup) {
+            return (field as FieldGroup).getValueByKey(after);
+          } else if (field instanceof FieldLoop) {
+            return (field as FieldLoop).getValueByKey(after);
+          } else if (field instanceof ContentField) {
+            return (field as ContentField).getValueByKey(after);
+          } else if (field instanceof ValueField) {
+            return (field as ValueField<any>).getValueByKey(after);
+          }
         }
       }
     }

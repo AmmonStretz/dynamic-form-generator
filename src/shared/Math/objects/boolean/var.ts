@@ -7,7 +7,7 @@ export class BooleanVar extends BooleanObject {
   }
   calc(pointer: (key: string) => any): boolean {
     const value = pointer(this.key)
-    return !!value ? value : this.defaultValue;
+    return !!value ? value.value : this.defaultValue;
   }
   toJson() {
     return {

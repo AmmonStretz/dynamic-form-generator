@@ -22,22 +22,32 @@ export class Wizzard {
     if (!status) {
       this.status = new WizzardStatus(0);
     }
+    this.forms.forEach(form => {
+      form.parent = this;
+    });
   }
 
   getValueByKey(path: string):any {
-    let before = path.split(/\.(.+)/)[0];
-    for (let i = 0; i < this.forms.length; i++) {
-      const form = this.forms[i];
-      // TODO: if path ends here
-      if(before == form.key ){
-        return form.getValueByKey(path.split(/\.(.+)/)[1]);
+    
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    after = after?after:'';
+    if (current == 'Root:') {
+      return this.getValueByKey(after);
+    } else if (current != '..') {
+      for (let i = 0; i < this.forms.length; i++) {
+        const form = this.forms[i];
+        // TODO: if path ends here
+        if(current == form.key ){
+          return form.getValueByKey(after);
+        }
       }
+      return null;
     }
-    return null;
   }
 
   public updateStatus() {
-    this.forms.forEach(form => form.updateStatus(this));
+    this.forms.forEach(form => form.updateStatus());
   }
 
   showErrorOfIndex() {

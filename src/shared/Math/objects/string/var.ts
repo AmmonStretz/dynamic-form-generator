@@ -8,7 +8,7 @@ export class StringVar extends StringObject {
   }
   calc(pointer: (key: string) => any): string {
     let value = pointer(this.key);
-    return value? value: this.defaultValue;
+    return value? value.value: this.defaultValue;
   }
   toJson() {
     return {

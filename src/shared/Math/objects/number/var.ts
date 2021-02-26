@@ -8,7 +8,7 @@ export class NumberVar extends NumberObject {
   }
   calc(pointer: (key: string) => any): number {
     const value = pointer(this.key);
-    return value? value: this.defaultValue;
+    return value? value.value: this.defaultValue;
   }
   toJson() {
     return {

@@ -5,6 +5,7 @@ import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { FieldLoop, FieldLoopStatus } from '../FieldLoop/FieldLoop.dto';
 import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueFields/ValueField.dto';
 import { Wizzard } from '../../Wizzard/Wizzard.dto';
+import { ContentField } from '../ContentFields/ContentField.dto';
 
 export class FieldGroupStatus extends FieldStatus {
   constructor(
@@ -37,44 +38,56 @@ export class FieldGroup extends Field {
       visible,
       status ? status : new FieldGroupStatus(key)
     );
+    this.fields.forEach(field => {
+      field.parent = this;
+    });
   }
 
-  public updateStatus(root: Wizzard): FieldGroupStatus {
+  public updateStatus(): FieldGroupStatus {
     let valide = true;
     this.fields.forEach(field => {
       let childStatus: FieldStatus;
       if (field instanceof ValueField) {
-        childStatus = (field as ValueField<any>).updateStatus(root);
+        childStatus = (field as ValueField<any>).updateStatus();
       }
       if (field instanceof FieldGroup) {
-        childStatus = (field as FieldGroup).updateStatus(root);
+        childStatus = (field as FieldGroup).updateStatus();
       }
       if (field instanceof FieldLoop) {
-        childStatus = (field as FieldLoop).updateStatus(root);
+        childStatus = (field as FieldLoop).updateStatus();
       }
       if (!childStatus.isValid && !!childStatus.isVisible) {
         valide = false;
       }
     });
     this.status.isValid = valide;
-    this.status.isVisible = this.visible.calc(root.getValueByKey);
+    this.status.isVisible = this.visible.calc(this.getValueByKey);
     return this.status;
   }
 
   getValueByKey(path: string): any {
-    let before = path.split(/\.(.+)/)[0];
-    let after = path.split(/\.(.+)/)[1];
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    after = after?after:'';
     // TODO: if path ends here
-    for (const key in this.fields) {
-      if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
-        const field = this.fields[key];
-        if (after == field.status.key) {
-          if (field instanceof ValueField) {
-            return field.status.value;
-          } else if (field instanceof FieldGroup) {
-            return field.getValueByKey(after);
-          } else if (field instanceof FieldLoop) {
-            return (field as FieldLoop).getValueByKey(after);
+    if (current == 'Root:') {
+      return this.root.getValueByKey(after);
+    } else if (current == '..') {
+      return this.parent.getValueByKey(after);
+    } else {
+      for (const key in this.fields) {
+        if (Object.prototype.hasOwnProperty.call(this.fields, key)) {
+          const field = this.fields[key];
+          if (current == field.status.key) {
+            if (field instanceof ContentField) {
+              return (field as ContentField).getValueByKey(after);
+            } else if (field instanceof ValueField) {
+              return (field as ValueField<any>).getValueByKey(after);
+            } else if (field instanceof FieldGroup) {
+              return field.getValueByKey(after);
+            } else if (field instanceof FieldLoop) {
+              return (field as FieldLoop).getValueByKey(after);
+            }
           }
         }
       }
@@ -87,7 +100,7 @@ export class FieldGroup extends Field {
       if (field instanceof ValueField) {
         (field as ValueField<any>).showAllErrors();
       } else if (field instanceof FieldGroup) {
-        
+
         (field as FieldGroup).showAllErrors();
       } else if (field instanceof FieldLoop) {
         (field as FieldLoop).showAllErrors();
