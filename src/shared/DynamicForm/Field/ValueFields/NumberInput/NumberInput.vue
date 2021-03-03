@@ -1,33 +1,33 @@
 <template>
   <div class="number-input">
-    <label v-if="dto.config && dto.config.name" :for="dto.key">{{dto.config.name}}</label>
+    <label v-if="config.settings && config.settings.name" :for="config.key">{{config.settings.name}}</label>
     <input
-      v-if="dto && dto.status"
+      v-if="config && config.status"
       type="number"
       ref="input"
-      :id="dto.key"
-      :placeholder="dto.config.placeholder"
-      v-model.number="dto.status.value"
+      :id="config.key"
+      :placeholder="config.settings.placeholder"
+      v-model.number="config.status.value"
       @focus="updateStatus()"
       @blur="setBlur()"
-      :class="{'show': dto.status.showErrors, 'valid': dto.status.isValid}"
+      :class="{'show': config.status.showErrors, 'valid': config.status.isValid}"
     />
-    <span v-if="dto.config.unit">{{dto.config.unit}}</span><br>
-    <div v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]">{{dto.status.errors[0].message}}</div>
+    <span v-if="config.settings.unit">{{config.settings.unit}}</span><br>
+    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { NumberInput } from "./NumberInput.dto";
+import { NumberInput } from "./NumberInput.config";
 import { Validator } from "../../../Validators/validators.class";
-import { ValueFieldStatus } from "../ValueField.dto";
+import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
   name: 'NumberInputComponent'
 })
 export default class NumberInputComponent extends Vue {
-  @Prop() private dto!: NumberInput;
+  @Prop() private config!: NumberInput;
 
   public $refs: any;
 
@@ -36,21 +36,21 @@ export default class NumberInputComponent extends Vue {
   }
 
   setBlur() {
-    this.dto.status.showErrors = true;
+    this.config.status.showErrors = true;
     this.updateStatus();
   }
   @Emit("change")
   updateStatus(): ValueFieldStatus<number> {
     // TODO: REMAPPING WITH MATH_OBJECT
-    if(this.dto.config.min != null && this.dto.config.min != undefined){
-      this.dto.status.value = Math.max(this.dto.config.min, this.dto.status.value)
+    if(this.config.settings.min != null && this.config.settings.min != undefined){
+      this.config.status.value = Math.max(this.config.settings.min, this.config.status.value)
     } 
-    if(this.dto.config.max != null && this.dto.config.max != undefined) {
-      this.dto.status.value = Math.min(this.dto.status.value, this.dto.config.max)
+    if(this.config.settings.max != null && this.config.settings.max != undefined) {
+      this.config.status.value = Math.min(this.config.status.value, this.config.settings.max)
     }
-    this.dto.status.errors = Validator.checkFieldValidity(this.dto.status.value, this.dto.validators);
-    this.dto.status.isValid = this.dto.status.errors.length == 0;
-    return this.dto.status;
+    this.config.status.errors = Validator.checkFieldValidity(this.config.status.value, this.config.validators);
+    this.config.status.isValid = this.config.status.errors.length == 0;
+    return this.config.status;
   }
 }
 </script>

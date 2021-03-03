@@ -1,13 +1,14 @@
 import { BooleanObject } from "@/shared/Math/math-object.class";
 import { Validator } from "../../Validators";
-import { Wizzard } from "../../Wizzard/Wizzard.dto";
-import { Field, FieldConfig, FieldStatus } from "../Field.dto";
+import { Wizzard } from "../../Wizzard/Wizzard.config";
+import { Field, FieldSettings, FieldStatus } from "../Field.config";
 
-export interface ValueFieldConfig<T> extends FieldConfig {
+export interface ValueFieldSettings<T> extends FieldSettings {
   default?: T,
 }
 
 export class ValueFieldStatus<T> extends FieldStatus {
+  public config: ValueField<T>;
   constructor(
     public key: string,
     public value: T,
@@ -19,6 +20,11 @@ export class ValueFieldStatus<T> extends FieldStatus {
     super(key, isValid, isVisible);
   }
 
+  public update(): FieldStatus {
+    this.isVisible = this.config.visible.calc((key: string) => this.config.getValueByKey(key));
+    return this;
+  }
+
   public showAllErrors(): void {
     this.showErrors = true;
   }
@@ -26,15 +32,15 @@ export class ValueFieldStatus<T> extends FieldStatus {
 
 export abstract class ValueField<T> extends Field {
 
+  public status: ValueFieldStatus<T>;
   constructor(
     public key: string,
     public type: string,
-    public config: ValueFieldConfig<T>,
+    public settings: ValueFieldSettings<T>,
     public validators: Validator<T>[] = [],
     public visible: BooleanObject,
-    public status: ValueFieldStatus<T>
   ) {
-    super(type, key, config, visible, status);
+    super(type, key, settings, visible);
   }
 
   public showAllErrors() {

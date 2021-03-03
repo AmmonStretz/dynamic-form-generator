@@ -1,16 +1,21 @@
-import { Wizzard } from '@/shared/DynamicForm/Wizzard/Wizzard.dto';
+import { Wizzard } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
 import { BooleanObject } from '@/shared/Math/math-object.class';
-import { Field, FieldConfig, FieldStatus } from '../Field.dto';
+import { Field, FieldSettings, FieldStatus } from '../Field.config';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
-
+export class ContentFieldStatus extends FieldStatus {
+  public config: ContentField;
+  public update(): FieldStatus {
+    this.isVisible = this.config.visible.calc((key: string) => this.parent.config.getValueByKey(key));
+    return this;
+  }
+}
 export abstract class ContentField extends Field {
   constructor(
     public type: string,
-    public config: FieldConfig,
-    public visible: BooleanObject,
-    public status: FieldStatus = new FieldStatus(''),
+    public settings: FieldSettings,
+    public visible: BooleanObject
   ) {
-    super(type, '', config, visible, status);
+    super(type, '', settings, visible);
   }
 
   public updateStatus(): FieldStatus {

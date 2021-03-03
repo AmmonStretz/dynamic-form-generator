@@ -1,58 +1,58 @@
 <template>
   <div class="number-range">
-    <label v-if="dto.config && dto.config.name" :for="dto.key">{{dto.config.name}}</label>
+    <label v-if="config.settings && config.settings.name" :for="config.key">{{config.settings.name}}</label>
     <input
       type="range"
       ref="input"
-      :id="dto.key"
-      :placeholder="dto.config.placeholder"
-      v-model.number="dto.status.value"
+      :id="config.key"
+      :placeholder="config.settings.placeholder"
+      v-model.number="config.status.value"
       @focus="updateStatus()"
       @blur="setBlur()"
-      :class="{'show': dto.status.showErrors, 'valid': dto.status.isValid}"
-      :min="dto.config.min"
-      :max="dto.config.max"
-      :step="dto.config.step"
+      :class="{'show': config.status.showErrors, 'valid': config.status.isValid}"
+      :min="config.settings.min"
+      :max="config.settings.max"
+      :step="config.settings.step"
     />
-    {{dto.status.value}}
-    <span class="unit" v-if="!!dto.config.unit">{{dto.config.unit}}</span>
+    {{config.status.value}}
+    <span class="unit" v-if="!!config.settings.unit">{{config.settings.unit}}</span>
     <br>
-    <div v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]">{{dto.status.errors[0].message}}</div>
+    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { NumberRange } from "./NumberRange.dto";
+import { NumberRange } from "./NumberRange.config";
 import { Validator } from "../../../Validators/validators.class";
-import { ValueFieldStatus } from "../ValueField.dto";
+import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
   name: 'NumberRangeComponent'
 })
 export default class NumberRangeComponent extends Vue {
 
-  @Prop() private dto!: NumberRange;
+  @Prop() private config!: NumberRange;
   
   public $refs: any;
 
   mounted() {
-    if ("default" in this.dto.config) {
-      this.dto.status.value = this.dto.config.default;
+    if ("default" in this.config.settings) {
+      this.config.status.value = this.config.settings.default;
     } else {
-      this.dto.status.value = this.dto.config.min;
+      this.config.status.value = this.config.settings.min;
     }
     this.updateStatus();
   }
   setBlur() {
-    this.dto.status.showErrors = true;
+    this.config.status.showErrors = true;
     this.updateStatus();
   }
   @Emit("change")
   updateStatus(): ValueFieldStatus<number> {
-    let errors = Validator.checkFieldValidity(this.dto.status.value, this.dto.validators);
-    this.dto.status.isValid = errors.length == 0;
-    return this.dto.status;
+    let errors = Validator.checkFieldValidity(this.config.status.value, this.config.validators);
+    this.config.status.isValid = errors.length == 0;
+    return this.config.status;
   }
 }
 </script>

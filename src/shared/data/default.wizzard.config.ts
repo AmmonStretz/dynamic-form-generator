@@ -8,7 +8,7 @@ const REQUIRED = {
 const CHECKBOX_00: any = {
   type: 'checkbox',
   key: 'A',
-  config: {
+  settings: {
     name: 'Überspringen?',
     description: 'Soll Seite zwei übersprungen werden?',
     default: false
@@ -19,7 +19,7 @@ const CHECKBOX_00: any = {
 const CHECKBOX_INSIDE: any = {
   type: 'checkbox',
   key: 'inside',
-  config: {
+  settings: {
     name: 'Checkbox in gruppe',
     description: 'bla',
     default: false
@@ -30,7 +30,7 @@ const CHECKBOX_INSIDE: any = {
 const CHECKBOX_OUTSIDE: any = {
   type: 'checkbox',
   key: 'outside',
-  config: {
+  settings: {
     name: 'Checkbox in gruppe2',
     description: 'bla',
     default: false
@@ -41,7 +41,7 @@ const CHECKBOX_OUTSIDE: any = {
 const NUMBER_RANGE_00: any = {
   type: 'numberRange',
   key: 'X',
-  config: {
+  settings: {
     name: 'Name',
     description: 'muss ausgefült werden',
     default: 1,
@@ -52,7 +52,7 @@ const NUMBER_RANGE_00: any = {
 const NUMBER_INPUT_04: any = {
   type: 'numberInput',
   key: 'F',
-  config: {
+  settings: {
     name: 'Geloopt',
     description: 'muss ausgefült werden',
     default: 1,
@@ -64,7 +64,7 @@ const FIELD_LOOP_00: any = {
   type: 'fieldLoop',
   key: 'XXX',
   field: NUMBER_INPUT_04,
-  config: {
+  settings: {
     name: 'Loop',
     description: 'muss ausgefült werden',
   },
@@ -80,7 +80,7 @@ const SELECT_00: any = {
     { name: 'Zweite Auswahl (1)', value: 1 },
     { name: 'Dritte Auswahl (2)', value: 2 },
   ],
-  config: {
+  settings: {
     description: `Beschreibung`,
     name: 'Auswahl',
     default: 1,
@@ -95,7 +95,7 @@ const RADIO_BUTTON_LIST: any = {
     { name: 'Zweite Auswahl (1)', value: 1 },
     { name: 'Dritte Auswahl (2)', value: 2 },
   ],
-  config: {
+  settings: {
     description: `Beschreibung`,
     name: 'Auswahl',
     default: 1
@@ -106,7 +106,7 @@ const RADIO_BUTTON_LIST: any = {
 const TEXT_INPUT_00: any = {
   type: 'textArea',
   key: 'S',
-  config: {
+  settings: {
     name: 'asdasd?',
     description: 'muss ausgefült werden',
   },
@@ -125,7 +125,7 @@ const GROUP_INSIDE: any = {
     CHECKBOX_INSIDE,
     TEXT_INPUT_00
   ],
-  config: {
+  settings: {
     horizontal: false,
     title: 'innen'
   },
@@ -140,7 +140,7 @@ const GROUP_OUTSIDE: any = {
     CHECKBOX_OUTSIDE,
     GROUP_INSIDE
   ],
-  config: {
+  settings: {
     horizontal: false,
     title: 'außen'
   },
@@ -157,7 +157,7 @@ const FORM_00: any = {
     // NUMBER_RANGE_00,
     // FIELD_LOOP_00,
   ],
-  config: {
+  settings: {
     title: 'Name der Seite 1'
   }
 };
@@ -167,7 +167,7 @@ const FORM_00: any = {
 const CHECKBOX_01: any = {
   type: 'checkbox',
   key: 'B',
-  config: {
+  settings: {
     name: 'Checkbox',
     default: false,
   },
@@ -177,7 +177,7 @@ const CHECKBOX_01: any = {
 const NUMBER_INPUT_01: any = {
   type: 'numberInput',
   key: 'Y',
-  config: {
+  settings: {
     name: 'Test',
     description: 'muss ausgefült werden',
     min: 0,
@@ -189,7 +189,7 @@ const NUMBER_INPUT_01: any = {
 const NUMBER_INPUT_INGroup: any = {
   type: 'numberInput',
   key: 'YY',
-  config: {
+  settings: {
     name: 'Test',
     description: 'muss ausgefült werden',
   },
@@ -200,14 +200,14 @@ const Test_GROUP: any = {
   type: 'fieldGroup',
   key: 'groupInLoop',
   fields: [CHECKBOX_00],
-  config: {},
+  settings: {},
   validators: [],
 }
 const LOOP_00: any = {
   type: 'fieldLoop',
   key: 'loopKey',
   field: Test_GROUP,
-  config: {
+  settings: {
   },
   condition: { type: 'number-const', value: 2 }
 }
@@ -215,7 +215,7 @@ const LOOP_00: any = {
 const NUMBER_INPUT_05: any = {
   type: 'numberInput',
   key: 'XXX',
-  config: {
+  settings: {
     name: 'liste[1] == true: ',
     description: 'Dieses Feld wird nur angezeigt, wenn die zweite Checkbox aktiv ist',
     min: 10
@@ -228,7 +228,7 @@ const NUMBER_INPUT_05: any = {
 const NUMBER_INPUT_06: any = {
   type: 'numberInput',
   key: 'YYY',
-  config: {
+  settings: {
     name: 'length >= 5: ',
     description: 'Dieses Feld wird nur angezeigt, wenn der Loop min 5 Elemente besitzt.',
     // min: 10
@@ -240,7 +240,7 @@ const EMPTY_GROUP: any = {
   type: 'fieldGroup',
   key: 'MTGroup',
   fields: [],
-  config: {},
+  settings: {},
   validators: [],
 }
 
@@ -262,7 +262,7 @@ const FORM_01: any = {
     // NUMBER_INPUT_05,
     // NUMBER_INPUT_06
   ],
-  config: {
+  settings: {
     title: 'Name der Seite 2'
   },
   // visible: { type: 'boolean-var', key: 'firstForm.A' }
@@ -273,7 +273,7 @@ const FORM_01: any = {
 const CHECKBOX_02: any = {
   type: 'checkbox',
   key: 'C',
-  config: {
+  settings: {
     name: 'Dritte Checkbox'
   },
   validators: []
@@ -284,7 +284,7 @@ const FORM_02: any = {
   fields: [
     CHECKBOX_02,
   ],
-  config: {
+  settings: {
     title: 'Name der Seite 3'
   }
 }
@@ -297,7 +297,7 @@ export let defaultWizzardConfig: any = {
     FORM_01,
     // FORM_02,
   ],
-  config: {
+  settings: {
     title: 'Title der Fragestrecke',
     submitButtonText: "Fertig",
     prevButtonText: "Zurück",

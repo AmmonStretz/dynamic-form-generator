@@ -1,5 +1,5 @@
 
-import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.dto';
+import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
 import { NumberObjectType } from '../../math-naming.class';
 import { NumberObject } from '../../math-object.class';
 

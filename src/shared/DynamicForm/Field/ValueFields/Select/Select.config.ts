@@ -1,30 +1,32 @@
-import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
+import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 
-export interface SelectConfig extends ValueFieldConfig<number> {}
+export interface SelectSettings extends ValueFieldSettings<number> {}
 
 export class Select extends ValueField<number> {
   constructor(
     public key: string,
     public options: { name: string, value: number }[],
-    public config: SelectConfig,
+    public settings: SelectSettings,
     public validators: Validator<number>[] = [],
-    public visible: BooleanObject = new BooleanConst(true),
-    status?: ValueFieldStatus<number>
+    public visible: BooleanObject = new BooleanConst(true)
   ) {
     super(
       key,
       'select',
-      config,
+      settings,
       validators,
-      visible,
-      status ? status : new ValueFieldStatus<number>(
-        key,
-        config.default ? config.default : null,
-      )
+      visible
     );
+  }
+  public createStatus() {
+    this.status = new ValueFieldStatus<number>(
+      this.key,
+      this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null,
+    )
+    this.status.config = this;
   }
 
   public toJson() {
@@ -32,7 +34,7 @@ export class Select extends ValueField<number> {
       type: this.type,
       key: this.key,
       options: this.options,
-      config: this.config,
+      settings: this.settings,
       validators: this.validators.map(val => val.toJson())
     }
   }

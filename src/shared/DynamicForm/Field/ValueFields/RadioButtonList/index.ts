@@ -1,7 +1,7 @@
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators';
 import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
-import { RadioButtonList } from './RadioButtonList.dto';
+import { RadioButtonList } from './RadioButtonList.config';
 import RadioButtonListFieldComponent from './RadioButtonList.vue';
 
 export default {
@@ -12,7 +12,7 @@ export default {
       return new RadioButtonList(
         json.key,
         json.options,
-        json.config,
+        json.settings,
         ValidatorParser.parseFromJSONArray(json.validators),
         BooleanObjectParser.fromJson(json.visible),
       );

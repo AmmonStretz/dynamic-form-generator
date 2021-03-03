@@ -1,40 +1,40 @@
 <template>
   <div class="text-area">
-    <label v-if="dto.config && dto.config.name" :for="dto.key">{{
-      dto.config.name
+    <label v-if="config.settings && config.settings.name" :for="config.key">{{
+      config.settings.name
     }}</label>
     <textarea
-      v-if="dto.status"
-      :type="dto.config.textType"
+      v-if="config.status"
+      :type="config.settings.textType"
       ref="input"
-      :id="dto.key"
-      :placeholder="dto.config.placeholder"
-      v-model="dto.status.value"
+      :id="config.key"
+      :placeholder="config.settings.placeholder"
+      v-model="config.status.value"
       @focus="updateStatus()"
       @blur="setBlur()"
-      :class="{ show: dto.status.showErrors, valid: dto.status.isValid }"
+      :class="{ show: config.status.showErrors, valid: config.status.isValid }"
     />
-    <span v-if="dto.config.unit">{{ dto.config.unit }}</span
+    <span v-if="config.settings.unit">{{ config.settings.unit }}</span
     ><br />
     <div
-      v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]"
+      v-if="config.status.showErrors && config.status.errors && config.status.errors[0]"
     >
-      {{ dto.status.errors[0].message }}
+      {{ config.status.errors[0].message }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { TextArea } from "./TextArea.dto";
+import { TextArea } from "./TextArea.config";
 import { Validator } from "../../../Validators/validators.class";
-import { ValueFieldStatus } from "../ValueField.dto";
+import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
   name: "TextAreaComponent",
 })
 export default class TextAreaComponent extends Vue {
-  @Prop() private dto!: TextArea;
+  @Prop() private config!: TextArea;
   public $refs: any;
 
   mounted() {
@@ -42,24 +42,24 @@ export default class TextAreaComponent extends Vue {
   }
 
   setBlur() {
-    this.dto.status.showErrors = true;
+    this.config.status.showErrors = true;
     this.updateStatus();
   }
 
   get textType() {
-    return !this.dto.validators.find((validator) => validator.type == "isEmail")
+    return !this.config.validators.find((validator) => validator.type == "isEmail")
       ? "text"
       : "email";
   }
 
   @Emit("change")
   updateStatus(): ValueFieldStatus<string> {
-    this.dto.status.errors = Validator.checkFieldValidity(
-      this.dto.status.value,
-      this.dto.validators
+    this.config.status.errors = Validator.checkFieldValidity(
+      this.config.status.value,
+      this.config.validators
     );
-    this.dto.status.isValid = this.dto.status.errors.length == 0;
-    return this.dto.status;
+    this.config.status.isValid = this.config.status.errors.length == 0;
+    return this.config.status;
   }
 }
 </script>

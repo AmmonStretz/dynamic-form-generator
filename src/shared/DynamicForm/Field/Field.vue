@@ -2,32 +2,37 @@
   <div class="field" v-if="visibility">
     <ValueFieldComponent
       v-if="isValueField"
-      v-bind:dto="dto"
+      v-bind:config="config"
       v-bind:root="root"
       v-on:change="onChange"
+      ref="child"
     ></ValueFieldComponent>
     <FieldGroupComponent
-      v-if="dto.type == 'fieldGroup'"
-      v-bind:dto="dto"
+      v-if="config.type == 'fieldGroup'"
+      v-bind:config="config"
       v-bind:root="root"
       v-on:change="onChange"
+      ref="child"
     ></FieldGroupComponent>
     <FieldLoopComponent
-      v-if="dto.type == 'fieldLoop'"
-      v-bind:dto="dto"
+      v-if="config.type == 'fieldLoop'"
+      v-bind:config="config"
       v-bind:root="root"
       v-on:change="onChange"
+      ref="child"
     ></FieldLoopComponent>
     <FieldLoopComponent
-      v-if="dto.type == 'fieldLoop'"
-      v-bind:dto="dto"
+      v-if="config.type == 'fieldLoop'"
+      v-bind:config="config"
       v-bind:root="root"
       v-on:change="onChange"
+      ref="child"
     ></FieldLoopComponent>
     <ContentFieldComponent
       v-if="isContentField"
-      v-bind:dto="dto"
+      v-bind:config="config"
       v-bind:root="root"
+      ref="child"
     >
     </ContentFieldComponent>
   </div>
@@ -38,9 +43,9 @@ import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
 import ValueFieldComponent from "./ValueFields/ValueField.vue";
 import ContentFieldComponent from "./ContentFields/ContentField.vue";
-import { Field, FieldStatus } from "./Field.dto";
+import { Field, FieldStatus } from "./Field.config";
 import FieldLoopComponent from "./FieldLoop/FieldLoop.vue";
-import { Wizzard } from "../Wizzard/Wizzard.dto";
+import { Wizzard } from "../Wizzard/Wizzard.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -52,25 +57,25 @@ import { Wizzard } from "../Wizzard/Wizzard.dto";
   },
 })
 export default class FieldComponent extends Vue {
-  @Prop() private dto!: Field;
+  @Prop() private config!: Field;
 
   @Prop() public root!: Wizzard;
 
   get visibility(): any {
-    if (this.dto.visible.calc) {
-      this.dto.status.isVisible = this.dto.visible.calc((key) =>
-        this.dto.getValueByKey(key)
+    if (this.config.visible.calc) {
+      this.config.status.isVisible = this.config.visible.calc((key) =>
+        this.config.getValueByKey(key)
       );
-      return this.dto.status.isVisible;
+      return this.config.status.isVisible;
     }
     return true;
   }
 
   get isContentField() {
-    return ['paragraph', 'hyperlink'].indexOf(this.dto.type)>=0;
+    return ['paragraph', 'hyperlink'].indexOf(this.config.type)>=0;
   }
   get isValueField() {
-    return !(['paragraph', 'hyperlink', 'fieldGroup', 'fieldLoop'].indexOf(this.dto.type)>=0);
+    return !(['paragraph', 'hyperlink', 'fieldGroup', 'fieldLoop'].indexOf(this.config.type)>=0);
   }
 
   @Emit("change")

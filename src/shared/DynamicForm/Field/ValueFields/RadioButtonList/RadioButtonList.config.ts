@@ -1,9 +1,9 @@
-import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
+import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 
-export interface RadioButtonListConfig extends ValueFieldConfig<number> {
+export interface RadioButtonListSettings extends ValueFieldSettings<number> {
   type: string,
 }
 
@@ -11,21 +11,23 @@ export class RadioButtonList extends ValueField<number> {
   constructor(
     public key: string,
     public options: { name: string, value: number }[],
-    public config: RadioButtonListConfig,
+    public settings: RadioButtonListSettings,
     public validators: Validator<number>[] = [],
     public visible: BooleanObject = new BooleanConst(true),
-    status?: ValueFieldStatus<number>
   ) {
     super(key,
       'radioButtonList',
-      config,
+      settings,
       validators,
-      visible,
-      status ? status : new ValueFieldStatus<number>(
-        key,
-        config.default!=null && config.default!=undefined ? config.default : options[0].value,
-      )
+      visible
     );
+  }
+  public createStatus() {
+    this.status = new ValueFieldStatus<number>(
+      this.key,
+      this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : this.options[0].value,
+    )
+    this.status.config = this;
   }
 
   public toJson() {
@@ -35,7 +37,7 @@ export class RadioButtonList extends ValueField<number> {
       type: this.type,
       key: this.key,
       options: this.options,
-      config: this.config,
+      settings: this.settings,
       validators: this.validators.map(val => val.toJson())
     }
   }

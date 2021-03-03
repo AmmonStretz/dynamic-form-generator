@@ -1,6 +1,6 @@
 import { FieldParser } from "../Field/Field.parser";
 import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
-import { Form } from "./Form.dto";
+import { Form } from "./Form.config";
 
 export class FormParser {
   public static parseFromJSONArray(jsonArray: any[]): Form[] {
@@ -15,7 +15,7 @@ export class FormParser {
     return new Form(
       json.key,
       FieldParser.parseFromJSONArray(json.fields),
-      json.config,
+      json.settings,
       BooleanObjectParser.fromJson(json.visible)
     );
   }

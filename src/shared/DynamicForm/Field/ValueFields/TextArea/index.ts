@@ -1,7 +1,7 @@
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators';
 import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
-import { TextArea } from './TextArea.dto';
+import { TextArea } from './TextArea.config';
 import TextAreaFieldComponent from './TextArea.vue';
 
 export default {
@@ -11,7 +11,7 @@ export default {
     PluginService.fieldParser['textArea'] = (json: any)=> {
       return new TextArea(
         json.key,
-        json.config,
+        json.settings,
         ValidatorParser.parseFromJSONArray(json.validators),
         BooleanObjectParser.fromJson(json.visible),
       );

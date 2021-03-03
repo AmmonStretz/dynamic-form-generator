@@ -1,8 +1,5 @@
 // WIZZARD CONFIG
 
-import { Wizzard } from "../DynamicForm/Wizzard/Wizzard.dto";
-import { WizzardParser } from "../DynamicForm/Wizzard/Wizzard.parser";
-
 const REQUIRED = {
   type: 'required',
   message: 'Bitte füll dieses Feld aus'
@@ -15,7 +12,7 @@ const POSTAL_CODE = {
 // const NUMBER_INPUT_01: any = {
 //   type: 'numberInput',
 //   key: 'Y',
-//   config: {
+//   settings: {
 //     name: 'Test',
 //     description: 'muss ausgefült werden',
 //     min: 0,
@@ -27,7 +24,7 @@ const POSTAL_CODE = {
 //   type: 'fieldLoop',
 //   key: 'loopKey',
 //   field: Test_GROUP,
-//   config: {
+//   settings: {
 //   },
 //   condition: { type: 'number-var', key: 'secondForm.Y' }
 // }
@@ -40,21 +37,21 @@ export const afqWizzardConfig: any = {
         {
           type: 'numberInput',
           key: 'plz',
-          config: {
+          settings: {
             name: 'Postleitzahl',
             description: 'Bitte gib zuerst deine Postleitzahl an.',
           },
           validators: [REQUIRED, POSTAL_CODE]
         },
       ],
-      config: {
+      settings: {
         title: 'Wohnort'
       }
     }, {
       key: 'page_01',
       fields: [
         {
-          type: 'numberInput', key: 'kidsInAge00', config: {
+          type: 'numberInput', key: 'kidsInAge00', settings: {
             name: 'Vorgeburtlich',
             min: 0,
             max: 99,
@@ -62,7 +59,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge01', config: {
+          type: 'numberInput', key: 'kidsInAge01', settings: {
             name: '0- 12 Monate',
             min: 0,
             max: 99,
@@ -70,7 +67,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge02', config: {
+          type: 'numberInput', key: 'kidsInAge02', settings: {
             name: '12- 18 Monate',
             min: 0,
             max: 99,
@@ -78,7 +75,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge03', config: {
+          type: 'numberInput', key: 'kidsInAge03', settings: {
             name: '18- 24 Monate',
             min: 0,
             max: 99,
@@ -86,7 +83,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge04', config: {
+          type: 'numberInput', key: 'kidsInAge04', settings: {
             name: '2 - 3 Jahre',
             min: 0,
             max: 99,
@@ -94,7 +91,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge05', config: {
+          type: 'numberInput', key: 'kidsInAge05', settings: {
             name: '4 - 5 Jahre',
             min: 0,
             max: 99,
@@ -102,7 +99,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge06', config: {
+          type: 'numberInput', key: 'kidsInAge06', settings: {
             name: '5 - 7 Jahre',
             min: 0,
             max: 99,
@@ -110,7 +107,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge07', config: {
+          type: 'numberInput', key: 'kidsInAge07', settings: {
             name: '8 - 10 Jahre',
             min: 0,
             max: 99,
@@ -118,7 +115,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge08', config: {
+          type: 'numberInput', key: 'kidsInAge08', settings: {
             name: '10 - 11 Jahre',
             min: 0,
             max: 99,
@@ -126,7 +123,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge09', config: {
+          type: 'numberInput', key: 'kidsInAge09', settings: {
             name: '12 - 13 Jahre',
             min: 0,
             max: 99,
@@ -134,7 +131,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge10', config: {
+          type: 'numberInput', key: 'kidsInAge10', settings: {
             name: '14 - 15 Jahre',
             min: 0,
             max: 99,
@@ -142,7 +139,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge11', config: {
+          type: 'numberInput', key: 'kidsInAge11', settings: {
             name: '15 - 17 Jahre',
             min: 0,
             max: 99,
@@ -150,7 +147,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
         {
-          type: 'numberInput', key: 'kidsInAge12', config: {
+          type: 'numberInput', key: 'kidsInAge12', settings: {
             name: 'Ab 18 in Ausbildung',
             min: 0,
             max: 99,
@@ -158,7 +155,7 @@ export const afqWizzardConfig: any = {
           }, validators: [REQUIRED],
         },
       ],
-      config: {
+      settings: {
         title: 'Anzahl deiner Kinder'
         // 'Wieviel Kinder in welchem Alter leben in deinem Haushalt'
       }
@@ -177,13 +174,13 @@ export const afqWizzardConfig: any = {
             { name: 'Geschieden', value: 5 },
             { name: 'Verwitwet', value: 6 },
           ],
-          config: {
+          settings: {
             description: `Beschreibung`,
             name: 'Wie ist dein derzeitiger Familienstand bzw. Lebenssituation',
           }, validators: [REQUIRED]
         },
       ],
-      config: {
+      settings: {
         title: 'Lebenssituation'
       }
     }, {
@@ -197,7 +194,7 @@ export const afqWizzardConfig: any = {
             { name: 'Privat', value: 1 },
             { name: 'nicht Versichert', value: 2 },
           ],
-          config: {
+          settings: {
             name: 'Versicherungstyp',
             default: 0,
           }, validators: []
@@ -213,7 +210,7 @@ export const afqWizzardConfig: any = {
             { name: 'BKK Diakonie ', value: 4 },
             { name: 'Sonstige', value: 5 },
           ],
-          config: {
+          settings: {
             name: 'Krankenkasse',
           }, validators: [REQUIRED],
           visible: { type: 'EQ', left: { type: 'number-var', key: 'page_03.insurenceTyp' }, right: { type: 'number-const', value: 0 } }
@@ -228,12 +225,12 @@ export const afqWizzardConfig: any = {
             { name: 'Allianz', value: 3 },
             { name: 'Sonstige', value: 4 },
           ],
-          config: {
+          settings: {
             name: 'Krankenkasse',
           }, validators: [REQUIRED],
           visible: { type: 'EQ', left: { type: 'number-var', key: 'page_03.insurenceTyp' }, right: { type: 'number-const', value: 1 } }
         }
-      ], config: {
+      ], settings: {
         title: 'Krankenkasse',
         description: `Beschreibung`,
       }
@@ -259,12 +256,12 @@ export const afqWizzardConfig: any = {
             { name: 'Berufsunfähigkeitsrente', value: 12 },
             { name: 'Eigenes Unternehmen', value: 13 },
           ],
-          config: {
+          settings: {
             description: `Beschreibung`,
             name: 'Beschäftigungsstatus:',
           }, validators: [REQUIRED]
         },
-      ], config: {
+      ], settings: {
         title: 'Art der Beschäftigung'
       }
     },
@@ -272,14 +269,14 @@ export const afqWizzardConfig: any = {
       key: 'page_05',
       fields: [
         {
-          type: 'numberInput', key: 'income', config: {
+          type: 'numberInput', key: 'income', settings: {
             description: `Beschreibung`,
             name: 'Einkommen pro Monat',
             unit: '€',
             min: 0,
           }, validators: [REQUIRED]
         },
-      ], config: {
+      ], settings: {
         title: 'Einkommen'
       }
     },
@@ -287,19 +284,19 @@ export const afqWizzardConfig: any = {
       key: 'page_06',
       fields: [
         {
-          type: 'numberInput', key: 'Key19', config: {
+          type: 'numberInput', key: 'Key19', settings: {
             description: `Beschreibung`,
             name: 'Mietkosten',
             unit: '€',
             min: 0,
           }, validators: [REQUIRED]
         },
-      ], config: {
+      ], settings: {
         title: 'Wohnsituation'
       }
     }
   ],
-  config: {
+  settings: {
     title: 'AFQ',
     submitButtonText: "Fertig",
     prevButtonText: "Zurück",

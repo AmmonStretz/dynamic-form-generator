@@ -1,9 +1,9 @@
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
+import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
-export interface NumberRangeConfig extends ValueFieldConfig<number> {
+export interface NumberRangeSettings  extends ValueFieldSettings<number> {
   unit?: string,
   min: number,
   max: number,
@@ -13,29 +13,31 @@ export interface NumberRangeConfig extends ValueFieldConfig<number> {
 export class NumberRange extends ValueField<number> {
   constructor(
     public key: string,
-    public config: NumberRangeConfig,
+    public settings: NumberRangeSettings,
     public validators: Validator<number>[] = [],
-    public visible: BooleanObject = new BooleanConst(true),
-    status?: ValueFieldStatus<number>
+    public visible: BooleanObject = new BooleanConst(true)
   ) {
     super(
       key,
       'numberRange',
-      config,
+      settings,
       validators,
-      visible,
-      status ? status : new ValueFieldStatus<number>(
-        key,
-        config.default ? config.default : null,
-      )
+      visible
     );
+  }
+  public createStatus() {
+    this.status = new ValueFieldStatus<number>(
+      this.key,
+      this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null
+    )
+    this.status.config = this;
   }
 
   public toJson() {
     return {
       type: this.type,
       key: this.key,
-      config: this.config,
+      settings: this.settings,
       validators: this.validators.map(val => val.toJson())
     }
   }

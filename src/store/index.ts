@@ -1,4 +1,4 @@
-import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.dto';
+import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     todos: Array<number>(),
     count: 0,
-    status: { index: 0, forms: []} as WizzardStatus,
+    // status: { index: 0, forms: []} as WizzardStatus,
     listeners: [],
   },
   getters: {
@@ -21,7 +21,7 @@ export default new Vuex.Store({
       state.count+=a;
     }, 
     changeStatus(state, status: WizzardStatus) {
-      state.status = status;
+      // state.status = status;
       // state.listeners.forEach(listener => {
       //   listener.func(listener.key);
       // });

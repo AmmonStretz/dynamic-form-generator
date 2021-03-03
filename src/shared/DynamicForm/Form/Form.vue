@@ -1,25 +1,26 @@
 <template>
-  <form class="form" v-if="dto && dto.status">
-    <h2 v-if="!!dto.config && !!dto.config.title">{{ dto.config.title }}</h2>
+  <form class="form" v-if="config && config.status">
+    <h2 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h2>
     <FieldComponent
-      v-for="(field, index) in dto.fields"
+      v-for="(field, index) in config.fields"
       :key="index"
-      v-bind:dto="field"
+      v-bind:config="field"
       v-bind:status="field.status"
       v-bind:root="root"
       v-on:change="onChange"
+      ref="childs"
     ></FieldComponent>
-    <p if="dto.config.description">{{ dto.config.description }}</p>
+    <p if="config.settings.description">{{ config.settings.description }}</p>
 
     <div>
       <button type="button" v-on:click="fireBefore()">
-        {{ root.config.prevButtonText ? root.config.prevButtonText : "Zurück" }}
+        {{ root.settings.prevButtonText ? root.settings.prevButtonText : "Zurück" }}
       </button>
       <button
         type="button"
         v-on:click="after()"
       >
-        {{ root.config.nextButtonText ? root.config.nextButtonText : "Weiter" }}
+        {{ root.settings.nextButtonText ? root.settings.nextButtonText : "Weiter" }}
       </button>
     </div>
   </form>
@@ -28,9 +29,9 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import FieldComponent from "../Field/Field.vue";
-import { Form, FormStatus } from "./Form.dto";
-import { ValueFieldStatus } from "../Field/ValueFields/ValueField.dto";
-import { Wizzard } from "../Wizzard/Wizzard.dto";
+import { Form, FormStatus } from "./Form.config";
+import { ValueFieldStatus } from "../Field/ValueFields/ValueField.config";
+import { Wizzard } from "../Wizzard/Wizzard.config";
 
 @Component({
   components: {
@@ -39,34 +40,34 @@ import { Wizzard } from "../Wizzard/Wizzard.dto";
 })
 export default class FormComponent extends Vue {
 
-  @Prop() public dto!: Form;
+  @Prop() public config!: Form;
   @Prop() public root!: Wizzard;
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): FormStatus {
-    const index: number = this.dto.fields.findIndex(
+    const index: number = this.config.fields.findIndex(
       (field) => field.status.key == status.key
     );
-    this.dto.fields[index].status = status;
-    this.dto.status.isValid = this.checkValidity();
-    this.root.updateStatus();
-    return this.dto.status;
+    this.config.fields[index].status = status;
+    this.config.status.isValid = this.checkValidity();
+    this.root.status.update();
+    return this.config.status;
   }
 
   mounted() {
-    if (this.dto.visible.calc) {
-      this.dto.status.isVisible = this.dto.visible.calc((key) =>
-        this.dto.getValueByKey(key)
+    if (this.config.visible.calc) {
+      this.config.status.isVisible = this.config.visible.calc((key) =>
+        this.config.getValueByKey(key)
       );
-      if (this.dto.status.isVisible == false) {
+      if (this.config.status.isVisible == false) {
         this.after();
       }
     }
   }
 
   checkValidity(): boolean {
-    for (let i = 0; i < this.dto.fields.length; i++) {
-      const status = this.dto.fields[i].status;
+    for (let i = 0; i < this.config.fields.length; i++) {
+      const status = this.config.fields[i].status;
       if (status.isVisible && !status.isValid) {
         return false;
       }
@@ -79,11 +80,11 @@ export default class FormComponent extends Vue {
     return;
   }
   after() {
-    if (this.dto.status.isValid || !this.dto.status.isVisible) {
+    if (this.config.status.isValid || !this.config.status.isVisible) {
       this.fireAfter();
     } else {
-      this.dto.showAllErrors();
-      this.dto.updateStatus();
+      this.config.showAllErrors();
+      this.config.status.update();
     }
     return;
   }

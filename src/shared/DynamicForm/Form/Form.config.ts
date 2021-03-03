@@ -1,38 +1,80 @@
-import { Field, FieldStatus } from '../Field/Field.dto';
-import { FieldGroup } from '../Field/FieldGroup/FieldGroup.dto';
-import { FieldLoop, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.dto';
-import { ValueField } from '../Field/ValueFields/ValueField.dto';
+import { Field, FieldStatus } from '../Field/Field.config';
+import { FieldGroup, FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.config';
+import { FieldLoop, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
+import { ValueField, ValueFieldStatus } from '../Field/ValueFields/ValueField.config';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { Wizzard } from '../Wizzard/Wizzard.dto';
-import { ContentField } from '../Field/ContentFields/ContentField.dto';
+import { Config, Status, Wizzard, WizzardStatus } from '../Wizzard/Wizzard.config';
+import { ContentField, ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
 
-export class FormStatus {
+export class FormStatus extends Status {
+
+  public parent: WizzardStatus;
+  public children: FieldStatus[] = [];
+  public config: Form;
   constructor(
     public key: string,
     public isValid?: boolean,
     public isVisible: boolean = true,
-  ) { }
+  ) {
+    super();
+  }
+  public update(): FormStatus {
+    let valide = true;
+    this.children.forEach(child => {
+      let childStatus: any;
+      if (child instanceof ValueFieldStatus) {
+        childStatus = (child as ValueFieldStatus<any>).update();
+      }
+      if (child instanceof FieldGroupStatus) {
+        childStatus = (child as FieldGroupStatus).update();
+      }
+      if (child instanceof FieldLoopStatus) {
+        childStatus = (child as FieldLoopStatus).update();
+      }
+      if (child instanceof ContentFieldStatus) {
+        (child as ContentFieldStatus).update();
+        return;
+      }
+      if (!childStatus.isValid && childStatus.isVisible) {
+        valide = false;
+      }
+    });
+    this.isValid = valide;
+    this.isVisible = this.config.visible.calc(
+      (key: string) => this.config.getValueByKey(key)
+    );
+    return this;
+  }
 }
 
-export class Form {
+export class Form extends Config {
   private type: string = 'Form';
   public parent: Wizzard;
+  public status: FormStatus;
+
   constructor(
     public key: string,
     public fields: Field[],
-    public config: {
+    public settings: {
       title?: string,
       description?: string,
     },
-    public visible: BooleanObject = new BooleanConst(true),
-    public status?: FormStatus,
+    public visible: BooleanObject = new BooleanConst(true)
   ) {
-    if (!this.status) {
-      this.status = new FormStatus(this.key);
-    }
+    super();
+
     this.fields.forEach(field => {
       field.parent = this;
+    });
+  }
+  createStatus() {
+    this.status = new FormStatus(this.key);
+    this.status.config = this;
+    this.fields.forEach(field => {
+      field.createStatus();
+      field.status.parent = this.status;
+      this.status.children.push(field.status);
     });
   }
 
@@ -68,10 +110,10 @@ export class Form {
   }
 
   getValueByKey(path: string): any {
-    
+
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];
-    after = after?after:'';
+    after = after ? after : '';
 
     if (current == 'Root:') {
       return this.root.getValueByKey(after);
@@ -112,7 +154,7 @@ export class Form {
   public toJson() {
     return {
       type: this.type,
-      config: this.config,
+      settings: this.settings,
       fields: this.fields.map(field => field.toJson()),
       visible: this.visible.toJson()
     }

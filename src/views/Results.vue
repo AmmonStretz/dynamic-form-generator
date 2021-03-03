@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { WizzardStatus } from "../shared/DynamicForm/Wizzard/Wizzard.dto";
+import { WizzardStatus } from "../shared/DynamicForm/Wizzard/Wizzard.config";
 import { ResultsService } from "../shared/Results/services/results.service";
 
 @Component({

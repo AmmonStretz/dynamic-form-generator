@@ -1,14 +1,14 @@
 <template>
   <div class="content-field" v-if="visibility">
     <ParagraphFieldComponent
-      v-if="dto.type == 'paragraph'"
-      v-bind:dto="dto"
+      v-if="config.type == 'paragraph'"
+      v-bind:config="config"
       v-bind:root="root"
     >
     </ParagraphFieldComponent>
     <HyperlinkFieldComponent
-      v-if="dto.type == 'hyperlink'"
-      v-bind:dto="dto"
+      v-if="config.type == 'hyperlink'"
+      v-bind:config="config"
       v-bind:root="root"
     >
     </HyperlinkFieldComponent>
@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { Wizzard } from "../../Wizzard/Wizzard.dto";
-import { ContentField } from "./ContentField.dto";
+import { Wizzard } from "../../Wizzard/Wizzard.config";
+import { ContentField } from "./ContentField.config";
 import ParagraphFieldComponent from "./Paragraph/Paragraph.vue";
 import HyperlinkFieldComponent from "./Hyperlink/Hyperlink.vue";
 // Vue.component('FieldComponent')
@@ -30,16 +30,16 @@ import HyperlinkFieldComponent from "./Hyperlink/Hyperlink.vue";
   },
 })
 export default class ContentFieldComponent extends Vue {
-  @Prop() private dto!: ContentField;
+  @Prop() private config!: ContentField;
 
   @Prop() public root!: Wizzard;
 
   get visibility(): any {
-    if (this.dto.visible.calc) {
-      this.dto.status.isVisible = this.dto.visible.calc((key) =>
-        this.dto.getValueByKey(key)
+    if (this.config.visible.calc) {
+      this.config.status.isVisible = this.config.visible.calc((key) =>
+        this.config.getValueByKey(key)
       );
-      return this.dto.status.isVisible;
+      return this.config.status.isVisible;
     }
     return true;
   }

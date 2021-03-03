@@ -1,25 +1,25 @@
 <template>
-  <div class="field-group" :class="{ horizontal: dto.config.horizontal }">
-    <h2 v-if="!!dto.config && !!dto.config.title">{{ dto.config.title }}</h2>
+  <div class="field-group" :class="{ horizontal: config.settings.horizontal }">
+    <h2 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h2>
     <div class="content">
       <FieldComponent
-        v-for="(field, index) in dto.fields"
+        v-for="(field, index) in config.fields"
         :key="index"
-        v-bind:dto="field"
+        v-bind:config="field"
         v-bind:status="field.status"
         v-bind:root="root"
         v-on:change="onChange"
       ></FieldComponent>
     </div>
     <br />
-    <p if="dto.config.description">{{ dto.config.description }}</p>
+    <p if="config.settings.description">{{ config.settings.description }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { Wizzard } from "../../Wizzard/Wizzard.dto";
-import { FieldGroup, FieldGroupStatus } from "./FieldGroup.dto";
+import { Wizzard } from "../../Wizzard/Wizzard.config";
+import { FieldGroup, FieldGroupStatus } from "./FieldGroup.config";
 // import FieldComponent from "../Field.vue";
 
 // Vue.component('FieldGroupComponent')
@@ -30,7 +30,7 @@ import { FieldGroup, FieldGroupStatus } from "./FieldGroup.dto";
   },
 })
 export default class FieldGroupComponent extends Vue {
-  @Prop() public dto!: FieldGroup;
+  @Prop() public config!: FieldGroup;
   @Prop() public root!: Wizzard;
 
   constructor() {
@@ -39,16 +39,16 @@ export default class FieldGroupComponent extends Vue {
 
   @Emit("change")
   onChange(status: FieldGroupStatus): FieldGroupStatus {
-    this.dto.updateValidity();
-    const index: number = this.dto.fields.findIndex(field=>field.status.key == status.key);
-    this.dto.fields[index].status = status;
-    this.dto.status.isValid = this.checkValidity();
-    return this.dto.status;
+    this.config.updateValidity();
+    const index: number = this.config.fields.findIndex(field=>field.status.key == status.key);
+    this.config.fields[index].status = status;
+    this.config.status.isValid = this.checkValidity();
+    return this.config.status;
   }
 
   checkValidity(): boolean {
-    for (let i = 0; i < this.dto.fields.length; i++) {
-      const field = this.dto.fields[i];
+    for (let i = 0; i < this.config.fields.length; i++) {
+      const field = this.config.fields[i];
       if (field.status.isVisible && !field.status.isValid) {
         return false;
       }

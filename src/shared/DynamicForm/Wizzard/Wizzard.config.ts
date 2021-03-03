@@ -1,29 +1,58 @@
-import { Form, FormStatus } from '../Form/Form.dto';
+import { Form, FormStatus } from '../Form/Form.config';
 
-export class WizzardStatus {
+export abstract class Config {
+  public status: Status;
+  public abstract settings: any;
+  public abstract createStatus(): void;
+  public abstract getValueByKey(path: string):any;
+  public abstract toJson(): any;
+}
+export abstract class Status {
+  public config: Config;
+  public children: Status[] = [];
+  public parent: Status;
+  public abstract update(): Status;
+}
+export class WizzardStatus extends Status {
+  public children: FormStatus[] = [];
   constructor(
     public index: number,
-  ) { }
+  ) {
+    super();
+  }
+  public update(): WizzardStatus {
+    this.children.forEach(child => child.update());
+    return this;
+  }
 };
 
-export class Wizzard {
+
+export class Wizzard extends Config{
   private type: string;
+  public status: WizzardStatus;
   constructor(
     public forms: Form[],
-    public config?: {
+    public settings: {
       title?: string,
       submitButtonText?: string,
       prevButtonText?: string,
       nextButtonText?: string,
     },
-    public status?: WizzardStatus,
   ) {
+    super();
     this.type = 'Wizzard'
-    if (!status) {
-      this.status = new WizzardStatus(0);
-    }
     this.forms.forEach(form => {
       form.parent = this;
+    });
+  }
+  createStatus() {
+    // DEFAULT Status
+    this.status = new WizzardStatus(0);
+    this.status.config = this;
+    this.forms.forEach(form => {
+      form.createStatus();
+      form.status.parent = this.status;
+      this.status.children.push(form.status);
     });
   }
 
@@ -57,7 +86,7 @@ export class Wizzard {
   public toJson() {
     return {
       type: this.type,
-      config: this.config,
+      settings: this.settings,
       forms: this.forms.map(form => form.toJson())
     }
   }

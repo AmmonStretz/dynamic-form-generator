@@ -1,4 +1,4 @@
-import { Field } from "../Field/Field.dto";
+import { Field } from "../Field/Field.config";
 
 export class PluginService {
   public static valueFields: any[] = [];

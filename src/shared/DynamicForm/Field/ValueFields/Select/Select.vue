@@ -1,63 +1,63 @@
 <template>
   <div class="number-input">
-    <label v-if="dto.config && dto.config.name" :for="dto.key">
-      {{ dto.config.name }}
+    <label v-if="config.settings && config.settings.name" :for="config.key">
+      {{ config.settings.name }}
     </label>
     <select
-      v-if="dto && dto.status"
-      :id="dto.key"
-      v-model.number="dto.status.value"
+      v-if="config && config.status"
+      :id="config.key"
+      v-model.number="config.status.value"
       @focus="updateStatus()"
       @blur="setBlur()"
-      :class="{ show: dto.status.showErrors, valid: dto.status.isValid }"
+      :class="{ show: config.status.showErrors, valid: config.status.isValid }"
     >
       <option
-        v-for="(option, index) of dto.options"
+        v-for="(option, index) of config.options"
         :key="index"
         :value="option.value"
       >
         {{ option.name }}
       </option>
     </select><br />
-    <div v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]">{{dto.status.errors[0].message}}</div>
+    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { Select } from "./Select.dto";
+import { Select } from "./Select.config";
 import { Validator } from "../../../Validators/validators.class";
-import { ValueFieldStatus } from "../ValueField.dto";
+import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
   name: "SelectComponent",
 })
 export default class SelectComponent extends Vue {
-  @Prop() private dto!: Select;
+  @Prop() private config!: Select;
 
   public $refs: any;
 
   mounted() {
-    this.dto.status.key = this.dto.key;
-    if(this.dto.config.default){
-      this.dto.status.value = this.dto.config.default
+    this.config.status.key = this.config.key;
+    if(this.config.settings.default){
+      this.config.status.value = this.config.settings.default
     }
     this.updateStatus();
   }
 
   setBlur() {
-    this.dto.status.showErrors = true;
+    this.config.status.showErrors = true;
     this.updateStatus();
   }
 
   @Emit("change")
   updateStatus(): ValueFieldStatus<number> {
-    this.dto.status.errors = Validator.checkFieldValidity(
-      this.dto.status.value,
-      this.dto.validators
+    this.config.status.errors = Validator.checkFieldValidity(
+      this.config.status.value,
+      this.config.validators
     );
-    this.dto.status.isValid = this.dto.status.errors.length == 0;
-    return this.dto.status;
+    this.config.status.isValid = this.config.status.errors.length == 0;
+    return this.config.status;
   }
 }
 </script>

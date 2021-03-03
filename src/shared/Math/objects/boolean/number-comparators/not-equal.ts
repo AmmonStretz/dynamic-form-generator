@@ -1,4 +1,4 @@
-import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.dto';
+import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
 import { BooleanObjectType } from '../../../math-naming.class';
 import { StringObject } from '../../../math-object.class';
 import { Comparator, NumberObject } from '../../../math-object.class';

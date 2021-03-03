@@ -1,13 +1,14 @@
-import { FieldStatus } from './../Field.dto';
-import { Field } from '../Field.dto';
+import { FieldStatus } from '../Field.config';
+import { Field } from '../Field.config';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { FieldLoop, FieldLoopStatus } from '../FieldLoop/FieldLoop.dto';
-import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueFields/ValueField.dto';
-import { Wizzard } from '../../Wizzard/Wizzard.dto';
-import { ContentField } from '../ContentFields/ContentField.dto';
+import { FieldLoop, FieldLoopStatus } from '../FieldLoop/FieldLoop.config';
+import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueFields/ValueField.config';
+import { Wizzard } from '../../Wizzard/Wizzard.config';
+import { ContentField } from '../ContentFields/ContentField.config';
 
 export class FieldGroupStatus extends FieldStatus {
+  public config: FieldGroup;
   constructor(
     public key: string,
     public isValid?: boolean,
@@ -15,31 +16,61 @@ export class FieldGroupStatus extends FieldStatus {
   ) {
     super(key, isValid, isVisible);
   }
+  public update(): FieldGroupStatus {
+    let valide = true;
+    this.children.forEach(child => {
+      let childStatus: FieldStatus;
+      if (child instanceof ValueFieldStatus) {
+        childStatus = (child as ValueFieldStatus<any>).update();
+      }
+      if (child instanceof FieldGroupStatus) {
+        childStatus = (child as FieldGroupStatus).update();
+      }
+      if (child instanceof FieldLoopStatus) {
+        childStatus = (child as FieldLoopStatus).update();
+      }
+      if (!childStatus.isValid && !!childStatus.isVisible) {
+        valide = false;
+      }
+    });
+    this.isValid = valide;
+    this.isVisible = this.config.visible.calc(this.config.getValueByKey);
+    return this;
+  }
 }
 
-export interface FieldGroupConfig extends ValueFieldConfig<{ [key: string]: any }> {
+export interface FieldGroupSettings extends ValueFieldSettings<{ [key: string]: any }> {
   title?: string,
   horizontal?: boolean;
   description?: string;
 }
 
 export class FieldGroup extends Field {
+
+  public status: FieldGroupStatus;
   constructor(
     public key: string,
     public fields: Field[],
-    public config: FieldGroupConfig,
-    public visible: BooleanObject = new BooleanConst(true),
-    status?: FieldGroupStatus,
+    public settings: FieldGroupSettings,
+    public visible: BooleanObject = new BooleanConst(true)
   ) {
     super(
       'fieldGroup',
       key,
-      config,
-      visible,
-      status ? status : new FieldGroupStatus(key)
+      settings,
+      visible
     );
     this.fields.forEach(field => {
       field.parent = this;
+    });
+  }
+  public createStatus() {
+    this.status = new FieldGroupStatus(this.key);
+    this.status.config = this;
+    this.fields.forEach(field => {
+      field.createStatus();
+      field.status.parent = this.status;
+      this.status.children.push(field.status);
     });
   }
 
@@ -137,7 +168,7 @@ export class FieldGroup extends Field {
     return {
       type: this.type,
       fields: fields,
-      config: this.config,
+      settings: this.settings,
       visible: this.visible,
     }
   }

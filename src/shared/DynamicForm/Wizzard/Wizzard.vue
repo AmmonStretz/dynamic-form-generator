@@ -1,17 +1,17 @@
 <template>
   <div class="wizzard">
     <!-- TODO: ADD NAVIGATION -->
-    <h1 v-if="!!dto.config && !!dto.config.title">{{ dto.config.title }}</h1>
+    <h1 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h1>
     <div v-if="currentStatus">
-      <div class="forms" v-for="(form, i) in dto.forms" :key="i">
+      <div class="forms" v-for="(form, i) in config.forms" :key="i">
         <FormComponent
           v-if="i == currentStatus.index"
-          v-bind:dto="form"
-          v-bind:root="dto"
+          v-bind:config="form"
+          v-bind:root="config"
           v-on:change="onChange"
           v-on:before="onBefore"
           v-on:after="onAfter"
-          :ref="'form' + i"
+          ref="forms"
         ></FormComponent>
       </div>
     </div>
@@ -21,8 +21,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import FormComponent from "../Form/Form.vue";
-import { Wizzard, WizzardStatus } from "./Wizzard.dto";
-import { FormStatus } from "../Form/Form.dto";
+import { Wizzard, WizzardStatus } from "./Wizzard.config";
+import { FormStatus } from "../Form/Form.config";
 
 @Component({
   components: {
@@ -30,38 +30,36 @@ import { FormStatus } from "../Form/Form.dto";
   },
 })
 export default class WizzardComponent extends Vue {
-  @Prop() public dto!: Wizzard;
-
-  mounted() {}
+  @Prop() public config!: Wizzard;
 
   public get currentStatus() {
-    return this.dto.status;
+    return this.config.status;
   }
 
   @Emit("change")
   onChange(status: FormStatus): WizzardStatus {
-    this.dto.forms[this.dto.status.index].status = status;
-    return this.dto.status;
+    this.config.forms[this.config.status.index].status = status;
+    return this.config.status;
   }
 
   @Emit("submit")
   submit() {
-    return this.dto.status;
+    return this.config.status;
   }
 
   onBefore() {
-    for (let i = this.dto.status.index - 1; i >= 0; i--) {
-      if (this.dto.forms[i].status.isVisible) {
-        this.dto.status.index = i;
+    for (let i = this.config.status.index - 1; i >= 0; i--) {
+      if (this.config.forms[i].status.isVisible) {
+        this.config.status.index = i;
         return;
       }
     }
   }
   onAfter() {
-    if (this.dto.status.index < this.dto.forms.length - 1) {
-      for (let i = this.dto.status.index + 1; i < this.dto.forms.length; i++) {
-        if (this.dto.forms[i].status.isVisible) {
-          this.dto.status.index = i;
+    if (this.config.status.index < this.config.forms.length - 1) {
+      for (let i = this.config.status.index + 1; i < this.config.forms.length; i++) {
+        if (this.config.forms[i].status.isVisible) {
+          this.config.status.index = i;
           return;
         }
       }

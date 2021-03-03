@@ -1,7 +1,7 @@
 import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
-import { Field } from "./Field.dto";
-import { FieldGroup } from "./FieldGroup/FieldGroup.dto";
-import { FieldLoop } from "./FieldLoop/FieldLoop.dto";
+import { Field } from "./Field.config";
+import { FieldGroup } from "./FieldGroup/FieldGroup.config";
+import { FieldLoop } from "./FieldLoop/FieldLoop.config";
 import { NumberObjectParser } from "@/shared/Math/parsers/number.class";
 import { PluginService } from "../services/Plugin.service";
 
@@ -11,7 +11,7 @@ export interface jsonStructure {
   field?: any;
   options?: { name: string, value: number }[];
   key: string;
-  config: any;
+  settings: any;
   validators: any[];
   visible: any;
   condition?: any;
@@ -38,16 +38,16 @@ export class FieldParser {
         return new FieldLoop(
           json.key,
           this.parseFromJSON(json.field),
-          json.config,
+          json.settings,
           BooleanObjectParser.fromJson(json.visible),
           NumberObjectParser.fromJson(json.condition)
         );
       case 'fieldGroup':
-        // validate config
+        // validate settings
         return new FieldGroup(
           json.key,
           this.parseFromJSONArray(json.fields),
-          json.config,
+          json.settings,
           BooleanObjectParser.fromJson(json.visible),
         );
     }

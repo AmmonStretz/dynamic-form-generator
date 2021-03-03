@@ -1,47 +1,47 @@
 <template>
   <div class="checkbox">
-    <label v-if="dto.config && dto.config.name" :for="dto.key">{{
-      dto.config.name
+    <label v-if="config.settings && config.settings.name" :for="config.key">{{
+      config.settings.name
     }}</label>
     <input
-      v-if="dto.status"
+      v-if="config.status"
       type="checkbox"
       ref="input"
-      :id="dto.key"
-      :placeholder="dto.config.placeholder"
-      v-model.number="dto.status.value"
-      @change="updateStatus()"
-      :class="{ show: dto.status.showErrors, valid: dto.status.isValid }"
+      :id="config.key"
+      :placeholder="config.settings.placeholder"
+      v-model.number="config.status.value"
+      @change="onChange()"
+      :class="{ show: config.status.showErrors, valid: config.status.isValid }"
     /><br>
-    <div v-if="dto.status.showErrors && dto.status.errors && dto.status.errors[0]">{{dto.status.errors[0].message}}</div>
+    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { Checkbox } from "./Checkbox.dto";
+import { Checkbox } from "./Checkbox.config";
 import { Validator } from "../../../Validators/validators.class";
-import { ValueFieldStatus } from "../ValueField.dto";
+import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
   name: "CheckboxComponent",
 })
 export default class CheckboxComponent extends Vue {
-  @Prop() private dto!: Checkbox;
+  @Prop() private config!: Checkbox;
   public $refs: any;
 
   mounted() {
-    this.updateStatus();
+    this.onChange();
   }
 
   @Emit("change")
-  updateStatus(): ValueFieldStatus<boolean> {
-    this.dto.status.errors = Validator.checkFieldValidity(
-      this.dto.status.value,
-      this.dto.validators
+  onChange(): ValueFieldStatus<boolean> {
+    this.config.status.errors = Validator.checkFieldValidity(
+      this.config.status.value,
+      this.config.validators
     );
-    this.dto.status.isValid = this.dto.status.errors.length == 0;    
-    return this.dto.status;
+    this.config.status.isValid = this.config.status.errors.length == 0;    
+    return this.config.status;
   }
 }
 </script>

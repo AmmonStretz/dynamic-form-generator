@@ -1,7 +1,7 @@
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators';
 import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
-import { Select } from './Select.dto';
+import { Select } from './Select.config';
 import SelectFieldComponent from './Select.vue';
 
 export default {
@@ -12,7 +12,7 @@ export default {
       return new Select(
         json.key,
         json.options,
-        json.config,
+        json.settings,
         ValidatorParser.parseFromJSONArray(json.validators),
         BooleanObjectParser.fromJson(json.visible),
       );

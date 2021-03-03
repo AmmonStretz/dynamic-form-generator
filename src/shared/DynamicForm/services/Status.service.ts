@@ -1,5 +1,5 @@
 
-export interface StatusServiceConfig {
+export interface StatusServiceSettings {
   saveInUrlParameters: boolean;
   saveInCookie: boolean;
 }

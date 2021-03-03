@@ -1,4 +1,4 @@
-import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.dto';
+import { WizzardStatus } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
 import { extend } from 'vue/types/umd';
 import { StringObjectType } from '../../math-naming.class';
 import { StringObject } from '../../math-object.class';

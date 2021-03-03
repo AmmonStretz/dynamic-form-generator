@@ -1,4 +1,4 @@
-import { WizzardStatus } from "@/shared/DynamicForm/Wizzard/Wizzard.dto";
+import { WizzardStatus } from "@/shared/DynamicForm/Wizzard/Wizzard.config";
 
 export class ResultsService {
   constructor() { }

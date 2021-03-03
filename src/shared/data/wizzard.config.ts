@@ -1,4 +1,4 @@
-import { Wizzard } from '../DynamicForm/Wizzard/Wizzard.dto';
+import { Wizzard } from '../DynamicForm/Wizzard/Wizzard.config';
 import { WizzardParser } from '@/shared/DynamicForm/Wizzard/Wizzard.parser';
 import { defaultWizzardConfig } from './default.wizzard.config';
 import { afqWizzardConfig } from './afq.wizzard.config';
@@ -6,26 +6,27 @@ import { afqWizzardConfig } from './afq.wizzard.config';
 //TODO: This config will be stored outside the ui
 
 export const config: any = afqWizzardConfig;
+
 // export const config: any = defaultWizzardConfig;
 // export const config: Wizzard = WizzardParser.parseFromJSON({
 //   forms: [
 //     {
 //       fields: [
 //         {
-//           type: 'checkbox', key: 'Key00', config: {
+//           type: 'checkbox', key: 'Key00', settings: {
 //             description: '(Personengesellschaft vs. Kapitalgesellschaft Erklärung)',
 //             name: 'Handelt es sich bei dem Unternehmen um eine Kapitalgesellschaft?'
 //           }, validators: []
 //         }
 //       ],
-//       config: {
+//       settings: {
 //         title: 'Gesellschaftsform'
 //       }
 //     },
 //      {
 //       fields: [
 //         {
-//           type: 'numberInput', key: 'Key01', config: {
+//           type: 'numberInput', key: 'Key01', settings: {
 //             description: 'Hier tragen Sie den aufsummierten Kontostand aller Girokonten Ihres Unternehmens am Tag der Erstellung der Liquiditätsplanung ein.',
 //             name: 'Kontostand (in Tsd Eur)',
 //             unit: 'x 1000€'
@@ -33,7 +34,7 @@ export const config: any = afqWizzardConfig;
 //           visible: {key: "boolean-const", value: false}
 //         },
 //         {
-//           type: 'numberInput', key: 'Key02', config: {
+//           type: 'numberInput', key: 'Key02', settings: {
 //             description: 'Eintragen einer oder mehrerer KK-Linien mit dem jeweiligen Zinssatz. Bei Mehreren bitte aufsummieren.',
 //             name: 'Kontokorrentlinien'
 //           }, validators: [{
@@ -42,7 +43,7 @@ export const config: any = afqWizzardConfig;
 //           }]
 //         },
 //         {
-//           type: 'numberRange', key: 'Key03', config: {
+//           type: 'numberRange', key: 'Key03', settings: {
 //             min: 0,
 //             max: 100,
 //             step: 1,
@@ -52,13 +53,13 @@ export const config: any = afqWizzardConfig;
 //           }, validators: []
 //         }
 //       ],
-//       config: {
+//       settings: {
 //         title: 'Finanzbestände'
 //       }
 //     }, {
 //       fields: [
 //         {
-//           type: 'numberInput', key: 'Key04', config: {
+//           type: 'numberInput', key: 'Key04', settings: {
 //             description: `
 //         Summe der Waren und/oder Dienstleistungen, für die Sie in der jeweiligen Woche einen Zahlungseingang erwarten.
 //         Es ist der Bruttobetrag einzutragen inkl. Umsatzsteuer.
@@ -68,7 +69,7 @@ export const config: any = afqWizzardConfig;
 //           }, validators: []
 //         },
 //         {
-//           type: 'numberInput', key: 'Key05', config: {
+//           type: 'numberInput', key: 'Key05', settings: {
 //             description: `
 //         Haben Sie vor innerhalb des Betrachtungszeitraumes, Geld
 //         aus Ihrem privaten Vermögen zum Beispiel in die Kasse oder auf ein Bankkonto
@@ -85,13 +86,13 @@ export const config: any = afqWizzardConfig;
 //             unit: '€'
 //           }, validators: []
 //         },
-//       ], config: {
+//       ], settings: {
 //         title: 'Einzahlungen'
 //       }
 //     }, {
 //       fields: [
 //         {
-//           type: 'numberInput', key: 'Key06', config: {
+//           type: 'numberInput', key: 'Key06', settings: {
 //             description: `
 //         Haben Sie vor in einem der Monate Investitionen in Gegenstände
 //         zu tätigen, die dem Unternehmen “dauerhaft dienen sollen”? Das könnten zum
@@ -103,7 +104,7 @@ export const config: any = afqWizzardConfig;
 //           }, validators: []
 //         },
 //         {
-//           type: 'numberInput', key: 'Key07', config: {
+//           type: 'numberInput', key: 'Key07', settings: {
 //             description: `
 //         Diese enthalten die Löhne und Gehälter der Angestellten des
 //         Unternehmens sowie alle liquiditätswirksamen Lohnnebenkosten. Diese sind unter
@@ -119,7 +120,7 @@ export const config: any = afqWizzardConfig;
 //           }, validators: []
 //         },
 //         {
-//           type: 'numberInput', key: 'Key08', config: {
+//           type: 'numberInput', key: 'Key08', settings: {
 //             description: `
 //         In dieser Zeile tragen Sie wochengenau Ihre
 //         Lieferantenverbindlichkeiten ein, die Sie für alle Vorleistungen Ihrer eigenen Produkte
@@ -141,50 +142,50 @@ export const config: any = afqWizzardConfig;
 //           key: 'grid',
 //           fields: [
 //             {
-//               type: 'numberInput', key: 'Key09', config: {
+//               type: 'numberInput', key: 'Key09', settings: {
 //                 name: 'Miete',
 //                 unit: '€'
 //               }, validators: []
 //             },
 //             {
-//               type: 'numberInput', key: 'Key10', config: {
+//               type: 'numberInput', key: 'Key10', settings: {
 //                 name: 'Mietnebenkosten',
 //                 unit: '€'
 //               }, validators: []
 //             },
 //             {
-//               type: 'numberInput', key: 'Key11', config: {
+//               type: 'numberInput', key: 'Key11', settings: {
 //                 name: 'Versicherungen',
 //                 unit: '€'
 //               }, validators: []
 //             },
 //             {
-//               type: 'numberInput', key: 'Key12', config: {
+//               type: 'numberInput', key: 'Key12', settings: {
 //                 name: 'Telekommunikationskosten',
 //                 unit: '€'
 //               }, validators: []
 //             },
 //             {
-//               type: 'numberInput', key: 'Key13', config: {
+//               type: 'numberInput', key: 'Key13', settings: {
 //                 name: 'IT-Kosten',
 //                 unit: '€'
 //               }, validators: []
 //             },
 //             {
-//               type: 'numberInput', key: 'Key14', config: {
+//               type: 'numberInput', key: 'Key14', settings: {
 //                 name: 'Leasingraten',
 //                 unit: '€'
 //               }, validators: []
 //             },
 //           ],
-//           config: {
+//           settings: {
 //             horizontal: false
 //           },
 //           validators: [
 
 //           ]
 //         }, {
-//           type: 'numberInput', key: 'Key15', config: {
+//           type: 'numberInput', key: 'Key15', settings: {
 //             description: `
 //         Haben Sie einen Kredit aufgenommen, so ist ihre
 //         monatliche Zahlung an die Bank in zwei Teile aufgeteilt: Die Tilgung und die
@@ -203,7 +204,7 @@ export const config: any = afqWizzardConfig;
 //           }, validators: []
 //         },
 //         {
-//           type: 'numberInput', key: 'Key16', config: {
+//           type: 'numberInput', key: 'Key16', settings: {
 //             description: `
 //         Üblicherweise geben Unternehmen ihre
 //         Umsatzsteuervoranmeldung monatlich ab. Dabei ist zu beachten, ob Sie eine
@@ -227,7 +228,7 @@ export const config: any = afqWizzardConfig;
 //           }, validators: []
 //         },
 //         {
-//           type: 'numberInput', key: 'Key17', config: {
+//           type: 'numberInput', key: 'Key17', settings: {
 //             description: `
 //         Die Einkommen-, Gewerbe
 //         und Körperschaftsteuer werden auf das voraussichtliche zu versteuernde kumulierte
@@ -239,7 +240,7 @@ export const config: any = afqWizzardConfig;
 //           }, validators: []
 //         },
 //         {
-//           type: 'numberInput', key: 'Key18', config: {
+//           type: 'numberInput', key: 'Key18', settings: {
 //             description: `
 //         Freie Entnahmen, Zahlungen von Krankenversicherung und
 //         weiteren privat veranlassten Kosten.
@@ -248,14 +249,14 @@ export const config: any = afqWizzardConfig;
 //             unit: '€'
 //           }, validators: []
 //         },
-//       ], config: {
+//       ], settings: {
 //         title: 'Auszahlungen'
 //       }
 //     },
 //     {
 //       fields: [
 //         {
-//           type: 'numberInput', key: 'Key19', config: {
+//           type: 'numberInput', key: 'Key19', settings: {
 //             description: `
 //         Hier können Sie in die einzelnen Wochen zusätzlich vorhandene Finanzmittel
 //         eintragen. Dies kann beispielsweise ein bereits vereinbarter Saisonkredit sein, den
@@ -266,11 +267,11 @@ export const config: any = afqWizzardConfig;
 //             unit: '€'
 //           }, validators: []
 //         },
-//       ], config: {
+//       ], settings: {
 //         title: 'Korrekturfaktoren'
 //       }
 //     }
-//   ], config: {
+//   ], settings: {
 //     title: 'Gaas',
 //     submitButtonText: "Fertig",
 //     prevButtonText: "Zurück",

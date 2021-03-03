@@ -1,12 +1,12 @@
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { BooleanObject } from '@/shared/Math/math-object.class';
-import { ValueField, ValueFieldConfig, ValueFieldStatus } from '../ValueField.dto';
+import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
 export class Checkbox extends ValueField<boolean> {
   constructor(
     public key: string,
-    public config: ValueFieldConfig<boolean>,
+    public settings: ValueFieldSettings<boolean>,
     public validators: Validator<boolean>[] = [],
     public visible: BooleanObject = new BooleanConst(true),
     status?: ValueFieldStatus<boolean>,
@@ -14,21 +14,25 @@ export class Checkbox extends ValueField<boolean> {
     super(
       key,
       'checkbox',
-      config,
+      settings,
       validators,
-      visible,
-      status ? status : new ValueFieldStatus<boolean>(
-        key,
-        !!config.default
-      )
+      visible
     );
+  }
+
+  public createStatus() {
+    this.status = new ValueFieldStatus<boolean>(
+      this.key,
+      !!this.settings.default
+    )
+    this.status.config = this;
   }
 
   public toJson() {
     return {
       type: this.type,
       key: this.key,
-      config: this.config,
+      settings: this.settings,
       validators: this.validators.map(val => val.toJson())
     }
   }

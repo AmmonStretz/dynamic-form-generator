@@ -1,24 +1,24 @@
 <template>
-  <div class="field-group" :class="{ horizontal: dto.config.horizontal }">
-    <h2 v-if="!!dto.config && !!dto.config.title">{{ dto.config.title }}</h2>
+  <div class="field-group" :class="{ horizontal: config.settings.horizontal }">
+    <h2 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h2>
     <div class="content">
       <FieldComponent
-        v-for="(field, index) in dto.fields"
+        v-for="(field, index) in config.fields"
         :key="index"
-        v-bind:dto="field"
+        v-bind:config="field"
         v-bind:root="root"
         v-on:change="onChange"
       ></FieldComponent>
     </div>
     <br />
-    <p if="dto.config.description">{{ dto.config.description }}</p>
+    <p if="config.settings.description">{{ config.settings.description }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { Wizzard } from "../../Wizzard/Wizzard.dto";
-import { FieldLoop, FieldLoopStatus } from "./FieldLoop.dto";
+import { Wizzard } from "../../Wizzard/Wizzard.config";
+import { FieldLoop, FieldLoopStatus } from "./FieldLoop.config";
 // import FieldComponent from "../Field.vue";
 
 // Vue.component('FieldLoopComponent')
@@ -29,7 +29,7 @@ import { FieldLoop, FieldLoopStatus } from "./FieldLoop.dto";
   },
 })
 export default class FieldLoopComponent extends Vue {
-  @Prop() public dto!: FieldLoop;
+  @Prop() public config!: FieldLoop;
   @Prop() public root!: Wizzard;
 
   constructor() {
@@ -37,20 +37,20 @@ export default class FieldLoopComponent extends Vue {
   }
 
   mounted() {
-    this.dto.updateFields();
+    this.config.updateFields();
     this.$forceUpdate();
   }
 
   @Emit("change")
   onChange(status: FieldLoopStatus): FieldLoopStatus {
-    this.dto.updateValidity();
-    this.dto.field.status = status;
-    this.dto.status.isValid = this.checkValidity();
-    return this.dto.status;
+    this.config.updateValidity();
+    this.config.field.status = status;
+    this.config.status.isValid = this.checkValidity();
+    return this.config.status;
   }
 
   checkValidity(): boolean {
-    if (this.dto.field.status.isVisible && !this.dto.field.status.isValid) {
+    if (this.config.field.status.isVisible && !this.config.field.status.isValid) {
       return false;
     }
     return true;

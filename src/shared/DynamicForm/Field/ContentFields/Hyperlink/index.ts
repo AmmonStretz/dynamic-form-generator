@@ -1,5 +1,5 @@
 import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
-import { HyperlinkField } from './Hyperlink.dto';
+import { HyperlinkField } from './Hyperlink.config';
 import HyperlinkFieldComponent from './Hyperlink.vue';
 
 export default {
