@@ -1,7 +1,7 @@
 import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
-import { Field } from "./Field.config";
-import { FieldGroup } from "./FieldGroup/FieldGroup.config";
-import { FieldLoop } from "./FieldLoop/FieldLoop.config";
+import { FieldConfig } from "./Field.config";
+import { FieldGroupConfig } from "./FieldGroup/FieldGroup.config";
+import { FieldLoopConfig } from "./FieldLoop/FieldLoop.config";
 import { NumberObjectParser } from "@/shared/Math/parsers/number.class";
 import { PluginService } from "../services/Plugin.service";
 
@@ -20,14 +20,14 @@ export interface jsonStructure {
 }
 
 export class FieldParser {
-  public static parseFromJSONArray(jsonArray: jsonStructure[]): Field[] {
-    let result: Field[] = [];
+  public static parseFromJSONArray(jsonArray: jsonStructure[]): FieldConfig[] {
+    let result: FieldConfig[] = [];
     jsonArray.forEach(json => {
       result.push(this.parseFromJSON(json));
     });
     return result;
   }
-  public static parseFromJSON(json: jsonStructure): Field {
+  public static parseFromJSON(json: jsonStructure): FieldConfig {
     if (!json.visible) json.visible = { type: "boolean-const", value: true };
     if (!json.condition) json.condition = { type: "number-const", value: 0 };
     if(json.type in PluginService.fieldParser){
@@ -35,7 +35,7 @@ export class FieldParser {
     }
     switch (json.type) {
       case 'fieldLoop':
-        return new FieldLoop(
+        return new FieldLoopConfig(
           json.key,
           this.parseFromJSON(json.field),
           json.settings,
@@ -44,7 +44,7 @@ export class FieldParser {
         );
       case 'fieldGroup':
         // validate settings
-        return new FieldGroup(
+        return new FieldGroupConfig(
           json.key,
           this.parseFromJSONArray(json.fields),
           json.settings,

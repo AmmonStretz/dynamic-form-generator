@@ -1,17 +1,17 @@
-import { Field, FieldStatus } from '../Field/Field.config';
-import { FieldGroup, FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.config';
-import { FieldLoop, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
-import { ValueField, ValueFieldStatus } from '../Field/ValueFields/ValueField.config';
+import { FieldConfig, FieldStatus } from '../Field/Field.config';
+import { FieldGroupConfig, FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.config';
+import { FieldLoopConfig, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
+import { ValueFieldConfig, ValueFieldStatus } from '../Field/ValueFields/ValueField.config';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { Config, Status, Wizzard, WizzardStatus } from '../Wizzard/Wizzard.config';
-import { ContentField, ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
+import { Config, Status, WizzardConfig, WizzardStatus } from '../Wizzard/Wizzard.config';
+import { ContentFieldConfig, ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
 
 export class FormStatus extends Status {
 
   public parent: WizzardStatus;
   public children: FieldStatus[] = [];
-  public config: Form;
+  public config: FormConfig;
   constructor(
     public key: string,
     public isValid?: boolean,
@@ -90,14 +90,14 @@ export class FormStatus extends Status {
   }
 }
 
-export class Form extends Config {
+export class FormConfig extends Config {
   private type: string = 'Form';
-  public parent: Wizzard;
+  public parent: WizzardConfig;
   public status: FormStatus;
 
   constructor(
     public key: string,
-    public fields: Field[],
+    public fields: FieldConfig[],
     public settings: {
       title?: string,
       description?: string,
@@ -120,7 +120,7 @@ export class Form extends Config {
     });
   }
 
-  get root(): Wizzard {
+  get root(): WizzardConfig {
     return this.parent;
   }
 

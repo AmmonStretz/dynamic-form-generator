@@ -1,4 +1,4 @@
-import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
@@ -9,7 +9,7 @@ export interface NumberInputSettings extends ValueFieldSettings<number> {
   max?: number
 }
 
-export class NumberInput extends ValueField<number> {
+export class NumberInputConfig extends ValueFieldConfig<number> {
   constructor(
     public key: string,
     public settings: NumberInputSettings,

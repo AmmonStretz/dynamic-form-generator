@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { Checkbox } from "./Checkbox.config";
+import { CheckboxConfig } from "./Checkbox.config";
 import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
@@ -27,7 +27,7 @@ import { ValueFieldStatus } from "../ValueField.config";
   name: "CheckboxComponent",
 })
 export default class CheckboxComponent extends Vue {
-  @Prop() private config!: Checkbox;
+  @Prop() private config!: CheckboxConfig;
   public $refs: any;
 
   mounted() {

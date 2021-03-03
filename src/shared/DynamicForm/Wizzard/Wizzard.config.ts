@@ -1,4 +1,4 @@
-import { Form, FormStatus } from '../Form/Form.config';
+import { FormConfig, FormStatus } from '../Form/Form.config';
 
 export abstract class Config {
   public status: Status;
@@ -49,11 +49,11 @@ export class WizzardStatus extends Status {
 };
 
 
-export class Wizzard extends Config{
+export class WizzardConfig extends Config{
   private type: string;
   public status: WizzardStatus;
   constructor(
-    public forms: Form[],
+    public forms: FormConfig[],
     public settings: {
       title?: string,
       submitButtonText?: string,

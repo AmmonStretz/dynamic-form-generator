@@ -1,9 +1,9 @@
-import { Wizzard } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
+import { WizzardConfig } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
 import { BooleanObject } from '@/shared/Math/math-object.class';
-import { Field, FieldSettings, FieldStatus } from '../Field.config';
+import { FieldConfig, FieldSettings, FieldStatus } from '../Field.config';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 export class ContentFieldStatus extends FieldStatus {
-  public config: ContentField;
+  public config: ContentFieldConfig;
   public update(): FieldStatus {
     this.isVisible = this.config.visible.calc((key: string) => this.parent.getValueByKey(key));
     return this;
@@ -22,7 +22,7 @@ export class ContentFieldStatus extends FieldStatus {
     return null;
   }
 }
-export abstract class ContentField extends Field {
+export abstract class ContentFieldConfig extends FieldConfig {
   constructor(
     public type: string,
     public settings: FieldSettings,

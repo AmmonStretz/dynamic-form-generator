@@ -1,4 +1,4 @@
-import { Wizzard } from '../DynamicForm/Wizzard/Wizzard.config';
+import { WizzardConfig } from '../DynamicForm/Wizzard/Wizzard.config';
 import { WizzardParser } from '@/shared/DynamicForm/Wizzard/Wizzard.parser';
 import { defaultWizzardConfig } from './default.wizzard.config';
 import { afqWizzardConfig } from './afq.wizzard.config';

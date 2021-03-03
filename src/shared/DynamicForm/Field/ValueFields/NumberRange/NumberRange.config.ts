@@ -1,7 +1,7 @@
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
 export interface NumberRangeSettings  extends ValueFieldSettings<number> {
   unit?: string,
@@ -10,7 +10,7 @@ export interface NumberRangeSettings  extends ValueFieldSettings<number> {
   step: number,
 }
 
-export class NumberRange extends ValueField<number> {
+export class NumberRangeConfig extends ValueFieldConfig<number> {
   constructor(
     public key: string,
     public settings: NumberRangeSettings,

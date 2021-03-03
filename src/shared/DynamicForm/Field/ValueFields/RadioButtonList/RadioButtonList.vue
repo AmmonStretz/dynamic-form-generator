@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { RadioButtonList } from "./RadioButtonList.config";
+import { RadioButtonListConfig } from "./RadioButtonList.config";
 import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
@@ -32,7 +32,7 @@ import { ValueFieldStatus } from "../ValueField.config";
   name: "RadioButtonListComponent",
 })
 export default class RadioButtonListComponent extends Vue {
-  @Prop() private config!: RadioButtonList;
+  @Prop() private config!: RadioButtonListConfig;
 
   public $refs: any;
 

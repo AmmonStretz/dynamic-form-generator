@@ -1,18 +1,18 @@
 import { FieldParser } from "../Field/Field.parser";
 import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
-import { Form } from "./Form.config";
+import { FormConfig } from "./Form.config";
 
 export class FormParser {
-  public static parseFromJSONArray(jsonArray: any[]): Form[] {
-    let result: Form[] = [];
+  public static parseFromJSONArray(jsonArray: any[]): FormConfig[] {
+    let result: FormConfig[] = [];
     jsonArray.forEach(json => {
       result.push(this.parseFromJSON(json));
     });
     return result;
   }
-  public static parseFromJSON(json: any): Form {
+  public static parseFromJSON(json: any): FormConfig {
     if (!json.visible) json.visible = { type: "boolean-const", value: true };
-    return new Form(
+    return new FormConfig(
       json.key,
       FieldParser.parseFromJSONArray(json.fields),
       json.settings,

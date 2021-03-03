@@ -1,7 +1,7 @@
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators';
 import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
-import { TextInput } from './TextInput.config';
+import { TextInputConfig } from './TextInput.config';
 import TextInputFieldComponent from './TextInput.vue';
 
 export default {
@@ -9,7 +9,7 @@ export default {
     Vue.component(TextInputFieldComponent.name, TextInputFieldComponent);
     PluginService.valueFields.push(TextInputFieldComponent.name)
     PluginService.fieldParser['textInput'] = (json: any)=> {
-      return new TextInput(
+      return new TextInputConfig(
         json.key,
         json.settings,
         ValidatorParser.parseFromJSONArray(json.validators),

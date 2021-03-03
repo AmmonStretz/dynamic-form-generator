@@ -1,7 +1,7 @@
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators';
 import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
-import { TextArea } from './TextArea.config';
+import { TextAreaConfig } from './TextArea.config';
 import TextAreaFieldComponent from './TextArea.vue';
 
 export default {
@@ -9,7 +9,7 @@ export default {
     Vue.component(TextAreaFieldComponent.name, TextAreaFieldComponent);
     PluginService.valueFields.push(TextAreaFieldComponent.name)
     PluginService.fieldParser['textArea'] = (json: any)=> {
-      return new TextArea(
+      return new TextAreaConfig(
         json.key,
         json.settings,
         ValidatorParser.parseFromJSONArray(json.validators),

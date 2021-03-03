@@ -1,11 +1,11 @@
-import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 
 export interface SelectSettings extends ValueFieldSettings<number> {}
 
-export class Select extends ValueField<number> {
+export class SelectConfig extends ValueFieldConfig<number> {
   constructor(
     public key: string,
     public options: { name: string, value: number }[],

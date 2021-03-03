@@ -29,9 +29,9 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import FieldComponent from "../Field/Field.vue";
-import { Form, FormStatus } from "./Form.config";
+import { FormConfig, FormStatus } from "./Form.config";
 import { ValueFieldStatus } from "../Field/ValueFields/ValueField.config";
-import { Wizzard } from "../Wizzard/Wizzard.config";
+import { WizzardConfig } from "../Wizzard/Wizzard.config";
 
 @Component({
   components: {
@@ -40,8 +40,8 @@ import { Wizzard } from "../Wizzard/Wizzard.config";
 })
 export default class FormComponent extends Vue {
 
-  @Prop() public config!: Form;
-  @Prop() public root!: Wizzard;
+  @Prop() public config!: FormConfig;
+  @Prop() public root!: WizzardConfig;
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): FormStatus {

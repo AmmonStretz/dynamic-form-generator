@@ -1,9 +1,9 @@
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { BooleanObject } from '@/shared/Math/math-object.class';
-import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
-export class Checkbox extends ValueField<boolean> {
+export class CheckboxConfig extends ValueFieldConfig<boolean> {
   constructor(
     public key: string,
     public settings: ValueFieldSettings<boolean>,

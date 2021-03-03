@@ -1,4 +1,4 @@
-import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
@@ -7,7 +7,7 @@ export interface RadioButtonListSettings extends ValueFieldSettings<number> {
   type: string,
 }
 
-export class RadioButtonList extends ValueField<number> {
+export class RadioButtonListConfig extends ValueFieldConfig<number> {
   constructor(
     public key: string,
     public options: { name: string, value: number }[],

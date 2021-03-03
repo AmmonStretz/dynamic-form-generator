@@ -1,14 +1,14 @@
 import { BooleanObject } from "@/shared/Math/math-object.class";
 import { Validator } from "../../Validators";
-import { Wizzard } from "../../Wizzard/Wizzard.config";
-import { Field, FieldSettings, FieldStatus } from "../Field.config";
+import { WizzardConfig } from "../../Wizzard/Wizzard.config";
+import { FieldConfig, FieldSettings, FieldStatus } from "../Field.config";
 
 export interface ValueFieldSettings<T> extends FieldSettings {
   default?: T,
 }
 
 export class ValueFieldStatus<T> extends FieldStatus {
-  public config: ValueField<T>;
+  public config: ValueFieldConfig<T>;
   constructor(
     public key: string,
     public value: T,
@@ -44,7 +44,7 @@ export class ValueFieldStatus<T> extends FieldStatus {
     }
 }
 
-export abstract class ValueField<T> extends Field {
+export abstract class ValueFieldConfig<T> extends FieldConfig {
 
   public status: ValueFieldStatus<T>;
   constructor(

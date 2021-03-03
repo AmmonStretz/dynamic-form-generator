@@ -1,7 +1,7 @@
 import { BooleanObject } from '@/shared/Math/math-object.class';
-import { Form } from '../Form/Form.config';
-import { Config, Status, Wizzard } from '../Wizzard/Wizzard.config';
-import { FieldGroup } from './FieldGroup/FieldGroup.config';
+import { FormConfig } from '../Form/Form.config';
+import { Config, Status, WizzardConfig } from '../Wizzard/Wizzard.config';
+import { FieldGroupConfig } from './FieldGroup/FieldGroup.config';
 // import { ValueField } from "./ValueFields/ValueField.dto";
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 
@@ -23,9 +23,9 @@ export interface FieldSettings{
   name?: string
 }
 
-export abstract class Field extends Config{
+export abstract class FieldConfig extends Config{
 
-  public parent: Form | FieldGroup;
+  public parent: FormConfig | FieldGroupConfig;
   public status: FieldStatus;
   constructor(
     public type: string,
@@ -36,7 +36,7 @@ export abstract class Field extends Config{
     super();
   }
 
-  get root(): Wizzard {
+  get root(): WizzardConfig {
     return this.parent.root;
   }
 

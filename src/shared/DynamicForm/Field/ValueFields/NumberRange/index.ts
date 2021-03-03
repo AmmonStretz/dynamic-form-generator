@@ -1,7 +1,7 @@
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators';
 import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
-import { NumberRange } from './NumberRange.config';
+import { NumberRangeConfig } from './NumberRange.config';
 import NumberRangeFieldComponent from './NumberRange.vue';
 
 export default {
@@ -9,7 +9,7 @@ export default {
     Vue.component(NumberRangeFieldComponent.name, NumberRangeFieldComponent);
     PluginService.valueFields.push(NumberRangeFieldComponent.name)
     PluginService.fieldParser['numberRange'] = (json: any)=> {
-      return new NumberRange(
+      return new NumberRangeConfig(
         json.key,
         json.settings,
         ValidatorParser.parseFromJSONArray(json.validators),

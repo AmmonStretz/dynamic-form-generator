@@ -1,14 +1,14 @@
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
 export interface TextAreaSettings extends ValueFieldSettings<string> {
   name: string,
   description: string,
 }
 
-export class TextArea extends ValueField<string> {
+export class TextAreaConfig extends ValueFieldConfig<string> {
   constructor(
     public key: string,
     public settings: TextAreaSettings,

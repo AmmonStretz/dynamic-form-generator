@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { Select } from "./Select.config";
+import { SelectConfig } from "./Select.config";
 import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
@@ -33,7 +33,7 @@ import { ValueFieldStatus } from "../ValueField.config";
   name: "SelectComponent",
 })
 export default class SelectComponent extends Vue {
-  @Prop() private config!: Select;
+  @Prop() private config!: SelectConfig;
 
   public $refs: any;
 

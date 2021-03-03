@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { Wizzard } from "../../Wizzard/Wizzard.config";
-import { FieldLoop, FieldLoopStatus } from "./FieldLoop.config";
+import { WizzardConfig } from "../../Wizzard/Wizzard.config";
+import { FieldLoopConfig, FieldLoopStatus } from "./FieldLoop.config";
 // import FieldComponent from "../Field.vue";
 
 // Vue.component('FieldLoopComponent')
@@ -29,8 +29,8 @@ import { FieldLoop, FieldLoopStatus } from "./FieldLoop.config";
   },
 })
 export default class FieldLoopComponent extends Vue {
-  @Prop() public config!: FieldLoop;
-  @Prop() public root!: Wizzard;
+  @Prop() public config!: FieldLoopConfig;
+  @Prop() public root!: WizzardConfig;
 
   constructor() {
     super();

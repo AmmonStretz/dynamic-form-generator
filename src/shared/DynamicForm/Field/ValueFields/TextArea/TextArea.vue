@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { TextArea } from "./TextArea.config";
+import { TextAreaConfig } from "./TextArea.config";
 import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
@@ -34,7 +34,7 @@ import { ValueFieldStatus } from "../ValueField.config";
   name: "TextAreaComponent",
 })
 export default class TextAreaComponent extends Vue {
-  @Prop() private config!: TextArea;
+  @Prop() private config!: TextAreaConfig;
   public $refs: any;
 
   mounted() {

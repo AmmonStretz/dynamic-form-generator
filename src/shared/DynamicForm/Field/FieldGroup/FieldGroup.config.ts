@@ -1,14 +1,14 @@
 import { FieldStatus } from '../Field.config';
-import { Field } from '../Field.config';
+import { FieldConfig } from '../Field.config';
 import { BooleanObject } from '@/shared/Math/math-object.class';
 import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { FieldLoop, FieldLoopStatus } from '../FieldLoop/FieldLoop.config';
-import { ValueField, ValueFieldSettings, ValueFieldStatus } from '../ValueFields/ValueField.config';
-import { Wizzard } from '../../Wizzard/Wizzard.config';
-import { ContentField, ContentFieldStatus } from '../ContentFields/ContentField.config';
+import { FieldLoopConfig, FieldLoopStatus } from '../FieldLoop/FieldLoop.config';
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueFields/ValueField.config';
+import { WizzardConfig } from '../../Wizzard/Wizzard.config';
+import { ContentFieldConfig, ContentFieldStatus } from '../ContentFields/ContentField.config';
 
 export class FieldGroupStatus extends FieldStatus {
-  public config: FieldGroup;
+  public config: FieldGroupConfig;
   constructor(
     public key: string,
     public isValid?: boolean,
@@ -34,7 +34,8 @@ export class FieldGroupStatus extends FieldStatus {
       }
     });
     this.isValid = valide;
-    this.isVisible = this.config.visible.calc(this.getValueByKey);
+    this.isVisible = this.config.visible.calc(this
+    .getValueByKey);
     return this;
   }
 
@@ -86,12 +87,12 @@ export interface FieldGroupSettings extends ValueFieldSettings<{ [key: string]: 
   description?: string;
 }
 
-export class FieldGroup extends Field {
+export class FieldGroupConfig extends FieldConfig {
 
   public status: FieldGroupStatus;
   constructor(
     public key: string,
-    public fields: Field[],
+    public fields: FieldConfig[],
     public settings: FieldGroupSettings,
     public visible: BooleanObject = new BooleanConst(true)
   ) {
@@ -117,17 +118,17 @@ export class FieldGroup extends Field {
 
   public updateValidity() {
     this.fields.forEach(field => {
-      if (field instanceof ValueField) {
+      if (field instanceof ValueFieldConfig) {
         if (!field.status.isVisible) {
           this.status.isValid = true;
         }
-      } else if (field instanceof FieldGroup) {
-        (field as FieldGroup).updateValidity();
+      } else if (field instanceof FieldGroupConfig) {
+        (field as FieldGroupConfig).updateValidity();
         if (!field.visible) {
           this.status.isValid = true;
         }
-      } else if (field instanceof FieldLoop) {
-        (field as FieldLoop).updateValidity();
+      } else if (field instanceof FieldLoopConfig) {
+        (field as FieldLoopConfig).updateValidity();
         if (!field.visible) {
           this.status.isValid = true;
         }

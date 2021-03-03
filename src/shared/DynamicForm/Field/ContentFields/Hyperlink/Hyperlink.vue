@@ -8,16 +8,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { Wizzard } from "../../../Wizzard/Wizzard.config";
-import { HyperlinkField } from "./Hyperlink.config";
+import { WizzardConfig } from "../../../Wizzard/Wizzard.config";
+import { HyperlinkFieldConfig } from "./Hyperlink.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
   components: {},
 })
 export default class HyperlinkFieldComponent extends Vue {
-  @Prop() public config!: HyperlinkField;
-  @Prop() public root!: Wizzard;
+  @Prop() public config!: HyperlinkFieldConfig;
+  @Prop() public root!: WizzardConfig;
 }
 </script>
 

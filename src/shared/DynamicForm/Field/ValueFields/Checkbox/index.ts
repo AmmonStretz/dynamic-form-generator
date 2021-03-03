@@ -1,7 +1,7 @@
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators';
 import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
-import { Checkbox } from './Checkbox.config';
+import { CheckboxConfig } from './Checkbox.config';
 import CheckboxFieldComponent from './Checkbox.vue';
 
 export default {
@@ -9,7 +9,7 @@ export default {
     Vue.component(CheckboxFieldComponent.name, CheckboxFieldComponent);
     PluginService.valueFields.push(CheckboxFieldComponent.name)
     PluginService.fieldParser['checkbox'] = (json: any)=> {
-      return new Checkbox(
+      return new CheckboxConfig(
         json.key,
         json.settings,
         ValidatorParser.parseFromJSONArray(json.validators),

@@ -1,10 +1,10 @@
-import { Form } from "../Form/Form.config";
+import { FormConfig } from "../Form/Form.config";
 import { FormParser } from "../Form/Form.parser";
-import { Wizzard } from "./Wizzard.config";
+import { WizzardConfig } from "./Wizzard.config";
 
 export class WizzardParser {
-    public static parseFromJSON(json: any): Wizzard {
-      return new Wizzard(
+    public static parseFromJSON(json: any): WizzardConfig {
+      return new WizzardConfig(
         FormParser.parseFromJSONArray(json.forms),
         json.settings
       )

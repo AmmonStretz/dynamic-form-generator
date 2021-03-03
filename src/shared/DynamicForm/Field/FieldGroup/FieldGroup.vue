@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { Wizzard } from "../../Wizzard/Wizzard.config";
-import { FieldGroup, FieldGroupStatus } from "./FieldGroup.config";
+import { WizzardConfig } from "../../Wizzard/Wizzard.config";
+import { FieldGroupConfig, FieldGroupStatus } from "./FieldGroup.config";
 // import FieldComponent from "../Field.vue";
 
 // Vue.component('FieldGroupComponent')
@@ -30,8 +30,8 @@ import { FieldGroup, FieldGroupStatus } from "./FieldGroup.config";
   },
 })
 export default class FieldGroupComponent extends Vue {
-  @Prop() public config!: FieldGroup;
-  @Prop() public root!: Wizzard;
+  @Prop() public config!: FieldGroupConfig;
+  @Prop() public root!: WizzardConfig;
 
   constructor() {
     super();

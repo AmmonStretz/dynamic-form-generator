@@ -14,7 +14,7 @@ import { Component, Vue } from "vue-property-decorator";
 // import { JsonParser } from "@/shared/DynamicForm/parser";
 import WizzardComponent from "../shared/DynamicForm/Wizzard/Wizzard.vue";
 import {
-  Wizzard,
+  WizzardConfig,
   WizzardStatus,
 } from "../shared/DynamicForm/Wizzard/Wizzard.config";
 import { config } from "../shared/data/wizzard.config";
@@ -26,9 +26,9 @@ import { WizzardParser } from "../shared/DynamicForm/Wizzard/Wizzard.parser";
   },
 })
 export default class Home extends Vue {
-  public config: Wizzard = this.generateWizzard();
+  public config: WizzardConfig = this.generateWizzard();
 
-  generateWizzard(): Wizzard {
+  generateWizzard(): WizzardConfig {
     let wizzard = WizzardParser.parseFromJSON(config);
     wizzard.createStatus();
     console.log(1,wizzard);

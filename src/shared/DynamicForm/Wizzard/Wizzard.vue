@@ -21,7 +21,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import FormComponent from "../Form/Form.vue";
-import { Wizzard, WizzardStatus } from "./Wizzard.config";
+import { WizzardConfig, WizzardStatus } from "./Wizzard.config";
 import { FormStatus } from "../Form/Form.config";
 
 @Component({
@@ -30,7 +30,7 @@ import { FormStatus } from "../Form/Form.config";
   },
 })
 export default class WizzardComponent extends Vue {
-  @Prop() public config!: Wizzard;
+  @Prop() public config!: WizzardConfig;
 
   public get currentStatus() {
     return this.config.status;

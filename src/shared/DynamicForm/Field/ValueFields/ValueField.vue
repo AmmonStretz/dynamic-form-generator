@@ -48,8 +48,8 @@ import NumberRangeComponent from "./NumberRange/NumberRange.vue";
 import CheckboxComponent from "./Checkbox/Checkbox.vue";
 import SelectComponent from "./Select/Select.vue";
 import RadioButtonListComponent from "./RadioButtonList/RadioButtonList.vue";
-import { ValueFieldStatus, ValueField } from "./ValueField.config";
-import { Wizzard } from "../../Wizzard/Wizzard.config";
+import { ValueFieldStatus, ValueFieldConfig } from "./ValueField.config";
+import { WizzardConfig } from "../../Wizzard/Wizzard.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -64,8 +64,8 @@ import { Wizzard } from "../../Wizzard/Wizzard.config";
   },
 })
 export default class FieldComponent extends Vue {
-  @Prop() private config!: ValueField<any>;
-  @Prop() public root!: Wizzard;
+  @Prop() private config!: ValueFieldConfig<any>;
+  @Prop() public root!: WizzardConfig;
 
   get visibility(): any {
     if((this.config.visible).calc){

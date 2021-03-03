@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { NumberInput } from "./NumberInput.config";
+import { NumberInputConfig } from "./NumberInput.config";
 import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
@@ -27,7 +27,7 @@ import { ValueFieldStatus } from "../ValueField.config";
   name: 'NumberInputComponent'
 })
 export default class NumberInputComponent extends Vue {
-  @Prop() private config!: NumberInput;
+  @Prop() private config!: NumberInputConfig;
 
   public $refs: any;
 

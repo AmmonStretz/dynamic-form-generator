@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { TextInput } from "./TextInput.config";
+import { TextInputConfig } from "./TextInput.config";
 import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
@@ -45,7 +45,7 @@ import { ValueFieldStatus } from "../ValueField.config";
   name: "TextInputComponent",
 })
 export default class TextInputComponent extends Vue {
-  @Prop() private config!: TextInput;
+  @Prop() private config!: TextInputConfig;
   public $refs: any;
 
   mounted() {

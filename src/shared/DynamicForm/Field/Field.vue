@@ -43,9 +43,9 @@ import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
 import ValueFieldComponent from "./ValueFields/ValueField.vue";
 import ContentFieldComponent from "./ContentFields/ContentField.vue";
-import { Field, FieldStatus } from "./Field.config";
+import { FieldConfig, FieldStatus } from "./Field.config";
 import FieldLoopComponent from "./FieldLoop/FieldLoop.vue";
-import { Wizzard } from "../Wizzard/Wizzard.config";
+import { WizzardConfig } from "../Wizzard/Wizzard.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -57,9 +57,9 @@ import { Wizzard } from "../Wizzard/Wizzard.config";
   },
 })
 export default class FieldComponent extends Vue {
-  @Prop() private config!: Field;
+  @Prop() private config!: FieldConfig;
 
-  @Prop() public root!: Wizzard;
+  @Prop() public root!: WizzardConfig;
 
   get visibility(): any {
     if (this.config.visible.calc) {

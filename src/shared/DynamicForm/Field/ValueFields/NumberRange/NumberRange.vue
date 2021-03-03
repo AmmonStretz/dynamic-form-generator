@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { NumberRange } from "./NumberRange.config";
+import { NumberRangeConfig } from "./NumberRange.config";
 import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
@@ -32,7 +32,7 @@ import { ValueFieldStatus } from "../ValueField.config";
 })
 export default class NumberRangeComponent extends Vue {
 
-  @Prop() private config!: NumberRange;
+  @Prop() private config!: NumberRangeConfig;
   
   public $refs: any;
 
