@@ -64,7 +64,7 @@ export default class FieldComponent extends Vue {
   get visibility(): any {
     if (this.config.visible.calc) {
       this.config.status.isVisible = this.config.visible.calc((key) =>
-        this.config.getValueByKey(key)
+        this.config.status.getValueByKey(key)
       );
       return this.config.status.isVisible;
     }

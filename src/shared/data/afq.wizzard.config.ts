@@ -213,7 +213,7 @@ export const afqWizzardConfig: any = {
           settings: {
             name: 'Krankenkasse',
           }, validators: [REQUIRED],
-          visible: { type: 'EQ', left: { type: 'number-var', key: 'page_03.insurenceTyp' }, right: { type: 'number-const', value: 0 } }
+          visible: { type: 'EQ', left: { type: 'number-var', key: 'Root:/page_03/insurenceTyp' }, right: { type: 'number-const', value: 0 } }
         },
         {
           type: 'select',
@@ -228,7 +228,7 @@ export const afqWizzardConfig: any = {
           settings: {
             name: 'Krankenkasse',
           }, validators: [REQUIRED],
-          visible: { type: 'EQ', left: { type: 'number-var', key: 'page_03.insurenceTyp' }, right: { type: 'number-const', value: 1 } }
+          visible: { type: 'EQ', left: { type: 'number-var', key: 'Root:/page_03/insurenceTyp' }, right: { type: 'number-const', value: 1 } }
         }
       ], settings: {
         title: 'Krankenkasse',

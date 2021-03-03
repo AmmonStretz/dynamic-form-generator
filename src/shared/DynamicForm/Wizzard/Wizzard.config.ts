@@ -4,7 +4,6 @@ export abstract class Config {
   public status: Status;
   public abstract settings: any;
   public abstract createStatus(): void;
-  public abstract getValueByKey(path: string):any;
   public abstract toJson(): any;
 }
 export abstract class Status {
@@ -13,6 +12,7 @@ export abstract class Status {
   public parent: Status;
   public abstract update(): Status;
   public abstract showAllErrors(): void;
+  public abstract getValueByKey(path: string):any;
 }
 export class WizzardStatus extends Status {
   public children: FormStatus[] = [];
@@ -27,6 +27,24 @@ export class WizzardStatus extends Status {
   }
   public showAllErrors(): void {
     this.children[this.index].showAllErrors();
+  }
+
+  getValueByKey(path: string):any {
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    after = after?after:'';
+    if (current == 'Root:') {
+      return this.getValueByKey(after);
+    } else if (current != '..') {
+      for (let i = 0; i < this.children.length; i++) {
+        const child = this.children[i];
+        // TODO: if path ends here
+        if(current == child.key ){
+          return child.getValueByKey(after);
+        }
+      }
+      return null;
+    }
   }
 };
 
@@ -59,26 +77,6 @@ export class Wizzard extends Config{
       this.status.children.push(form.status);
     });
   }
-
-  getValueByKey(path: string):any {
-    
-    let current = path.split(/\/(.+)/)[0];
-    let after = path.split(/\/(.+)/)[1];
-    after = after?after:'';
-    if (current == 'Root:') {
-      return this.getValueByKey(after);
-    } else if (current != '..') {
-      for (let i = 0; i < this.forms.length; i++) {
-        const form = this.forms[i];
-        // TODO: if path ends here
-        if(current == form.key ){
-          return form.getValueByKey(after);
-        }
-      }
-      return null;
-    }
-  }
-
   public toJson() {
     return {
       type: this.type,

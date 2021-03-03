@@ -36,8 +36,6 @@ export abstract class Field extends Config{
     super();
   }
 
-  public abstract getValueByKey(path: string): any;
-
   get root(): Wizzard {
     return this.parent.root;
   }

@@ -21,13 +21,27 @@ export class ValueFieldStatus<T> extends FieldStatus {
   }
 
   public update(): FieldStatus {
-    this.isVisible = this.config.visible.calc((key: string) => this.config.getValueByKey(key));
+    this.isVisible = this.config.visible.calc((key: string) => this.getValueByKey(key));
     return this;
   }
 
   public showAllErrors(): void {
     this.showErrors = true;
   }
+  
+  getValueByKey(path: string): any {
+      let current = path.split(/\/(.+)/)[0];
+      let after = path.split(/\/(.+)/)[1];
+      after = after?after:'';
+      if (current == 'Root:') {
+        return this.config.root.status.getValueByKey(after);
+      } else if (current == '..') {
+        return this.parent.getValueByKey(after);
+      } else if (current == '') {        
+        return this;
+      }
+      return null;
+    }
 }
 
 export abstract class ValueField<T> extends Field {
@@ -42,20 +56,6 @@ export abstract class ValueField<T> extends Field {
   ) {
     super(type, key, settings, visible);
   }
-  
-  getValueByKey(path: string): any {
-      let current = path.split(/\/(.+)/)[0];
-      let after = path.split(/\/(.+)/)[1];
-      after = after?after:'';
-      if (current == 'Root:') {
-        return this.root.getValueByKey(after);
-      } else if (current == '..') {
-        return this.parent.getValueByKey(after);
-      } else if (current == '') {        
-        return this.status;
-      }
-      return null;
-    }
 
   abstract toJson(): any;
 }

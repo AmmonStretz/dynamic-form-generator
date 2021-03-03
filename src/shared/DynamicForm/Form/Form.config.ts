@@ -42,7 +42,7 @@ export class FormStatus extends Status {
     });
     this.isValid = valide;
     this.isVisible = this.config.visible.calc(
-      (key: string) => this.config.getValueByKey(key)
+      (key: string) => this.getValueByKey(key)
     );
     return this;
   }
@@ -57,6 +57,36 @@ export class FormStatus extends Status {
         (child as FieldLoopStatus).showAllErrors();
       }
     });
+  }
+  
+  getValueByKey(path: string): any {
+
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    after = after ? after : '';
+
+    if (current == 'Root:') {
+      return this.config.root.status.getValueByKey(after);
+    } else if (current == '..') {
+      return this.parent.getValueByKey(after);
+    } else {
+      for (let i = 0; i < this.children.length; i++) {
+        const child = this.children[i];
+        // TODO: if path ends here
+        if (current == child.key) {
+          if (child instanceof FieldGroupStatus) {
+            return (child as FieldGroupStatus).getValueByKey(after);
+          } else if (child instanceof FieldLoopStatus) {
+            return (child as FieldLoopStatus).getValueByKey(after);
+          } else if (child instanceof ContentFieldStatus) {
+            return (child as ContentFieldStatus).getValueByKey(after);
+          } else if (child instanceof ValueFieldStatus) {
+            return (child as ValueFieldStatus<any>).getValueByKey(after);
+          }
+        }
+      }
+    }
+    return null;
   }
 }
 
@@ -92,36 +122,6 @@ export class Form extends Config {
 
   get root(): Wizzard {
     return this.parent;
-  }
-
-  getValueByKey(path: string): any {
-
-    let current = path.split(/\/(.+)/)[0];
-    let after = path.split(/\/(.+)/)[1];
-    after = after ? after : '';
-
-    if (current == 'Root:') {
-      return this.root.getValueByKey(after);
-    } else if (current == '..') {
-      return this.parent.getValueByKey(after);
-    } else {
-      for (let i = 0; i < this.fields.length; i++) {
-        const field = this.fields[i];
-        // TODO: if path ends here
-        if (current == field.status.key) {
-          if (field instanceof FieldGroup) {
-            return (field as FieldGroup).getValueByKey(after);
-          } else if (field instanceof FieldLoop) {
-            return (field as FieldLoop).getValueByKey(after);
-          } else if (field instanceof ContentField) {
-            return (field as ContentField).getValueByKey(after);
-          } else if (field instanceof ValueField) {
-            return (field as ValueField<any>).getValueByKey(after);
-          }
-        }
-      }
-    }
-    return null;
   }
 
   public toJson() {

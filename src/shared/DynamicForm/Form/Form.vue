@@ -57,7 +57,7 @@ export default class FormComponent extends Vue {
   mounted() {
     if (this.config.visible.calc) {
       this.config.status.isVisible = this.config.visible.calc((key) =>
-        this.config.getValueByKey(key)
+        this.config.status.getValueByKey(key)
       );
       if (this.config.status.isVisible == false) {
         this.after();

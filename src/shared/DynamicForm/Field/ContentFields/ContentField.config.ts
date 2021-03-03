@@ -5,8 +5,21 @@ import { Field, FieldSettings, FieldStatus } from '../Field.config';
 export class ContentFieldStatus extends FieldStatus {
   public config: ContentField;
   public update(): FieldStatus {
-    this.isVisible = this.config.visible.calc((key: string) => this.parent.config.getValueByKey(key));
+    this.isVisible = this.config.visible.calc((key: string) => this.parent.getValueByKey(key));
     return this;
+  }
+  getValueByKey(path: string): any {
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    after = after?after:'';
+    if (current == 'Root:') {
+      return this.config.root.status.getValueByKey(after);
+    } else if (current == '..') {
+      return this.parent.getValueByKey(after);
+    } else if (current == '') {
+      return this;
+    }
+    return null;
   }
 }
 export abstract class ContentField extends Field {
@@ -16,19 +29,5 @@ export abstract class ContentField extends Field {
     public visible: BooleanObject
   ) {
     super(type, '', settings, visible);
-  }
-
-  getValueByKey(path: string): any {
-    let current = path.split(/\/(.+)/)[0];
-    let after = path.split(/\/(.+)/)[1];
-    after = after?after:'';
-    if (current == 'Root:') {
-      return this.root.getValueByKey(after);
-    } else if (current == '..') {
-      return this.parent.getValueByKey(after);
-    } else if (current == '') {
-      return this.status;
-    }
-    return null;
   }
 }
