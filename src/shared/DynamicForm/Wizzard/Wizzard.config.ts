@@ -12,6 +12,7 @@ export abstract class Status {
   public children: Status[] = [];
   public parent: Status;
   public abstract update(): Status;
+  public abstract showAllErrors(): void;
 }
 export class WizzardStatus extends Status {
   public children: FormStatus[] = [];
@@ -23,6 +24,9 @@ export class WizzardStatus extends Status {
   public update(): WizzardStatus {
     this.children.forEach(child => child.update());
     return this;
+  }
+  public showAllErrors(): void {
+    this.children[this.index].showAllErrors();
   }
 };
 
@@ -73,14 +77,6 @@ export class Wizzard extends Config{
       }
       return null;
     }
-  }
-
-  public updateStatus() {
-    this.forms.forEach(form => form.updateStatus());
-  }
-
-  showErrorOfIndex() {
-    this.forms[this.status.index].showAllErrors();
   }
 
   public toJson() {

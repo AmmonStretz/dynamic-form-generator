@@ -37,6 +37,18 @@ export class FieldGroupStatus extends FieldStatus {
     this.isVisible = this.config.visible.calc(this.config.getValueByKey);
     return this;
   }
+
+  public showAllErrors(): void {
+    this.children.forEach(child => {
+      if (child instanceof ValueFieldStatus) {
+        (child as ValueFieldStatus<any>).showAllErrors();
+      } else if (child instanceof FieldGroupStatus) {
+        (child as FieldGroupStatus).showAllErrors();
+      } else if (child instanceof FieldLoopStatus) {
+        (child as FieldLoopStatus).showAllErrors();
+      }
+    });
+  }
 }
 
 export interface FieldGroupSettings extends ValueFieldSettings<{ [key: string]: any }> {
@@ -74,28 +86,6 @@ export class FieldGroup extends Field {
     });
   }
 
-  public updateStatus(): FieldGroupStatus {
-    let valide = true;
-    this.fields.forEach(field => {
-      let childStatus: FieldStatus;
-      if (field instanceof ValueField) {
-        childStatus = (field as ValueField<any>).updateStatus();
-      }
-      if (field instanceof FieldGroup) {
-        childStatus = (field as FieldGroup).updateStatus();
-      }
-      if (field instanceof FieldLoop) {
-        childStatus = (field as FieldLoop).updateStatus();
-      }
-      if (!childStatus.isValid && !!childStatus.isVisible) {
-        valide = false;
-      }
-    });
-    this.status.isValid = valide;
-    this.status.isVisible = this.visible.calc(this.getValueByKey);
-    return this.status;
-  }
-
   getValueByKey(path: string): any {
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];
@@ -124,19 +114,6 @@ export class FieldGroup extends Field {
       }
     }
     return null;
-  }
-
-  public showAllErrors(): void {
-    this.fields.forEach(field => {
-      if (field instanceof ValueField) {
-        (field as ValueField<any>).showAllErrors();
-      } else if (field instanceof FieldGroup) {
-
-        (field as FieldGroup).showAllErrors();
-      } else if (field instanceof FieldLoop) {
-        (field as FieldLoop).showAllErrors();
-      }
-    });
   }
 
   public updateValidity() {

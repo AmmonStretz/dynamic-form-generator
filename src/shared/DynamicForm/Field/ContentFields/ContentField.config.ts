@@ -18,11 +18,6 @@ export abstract class ContentField extends Field {
     super(type, '', settings, visible);
   }
 
-  public updateStatus(): FieldStatus {
-    this.status.isVisible = this.visible.calc((key: string) => this.parent.getValueByKey(key));
-    return this.status;
-  }
-
   getValueByKey(path: string): any {
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];

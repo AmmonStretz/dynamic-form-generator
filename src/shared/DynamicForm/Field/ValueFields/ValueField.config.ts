@@ -42,11 +42,6 @@ export abstract class ValueField<T> extends Field {
   ) {
     super(type, key, settings, visible);
   }
-
-  public showAllErrors() {
-    this.status.showAllErrors();
-  }
-
   
   getValueByKey(path: string): any {
       let current = path.split(/\/(.+)/)[0];
@@ -61,11 +56,6 @@ export abstract class ValueField<T> extends Field {
       }
       return null;
     }
-
-  public updateStatus(): FieldStatus {
-    this.status.isVisible = this.visible.calc((key: string) => this.getValueByKey(key));
-    return this.status;
-  }
 
   abstract toJson(): any;
 }

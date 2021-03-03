@@ -83,7 +83,7 @@ export default class FormComponent extends Vue {
     if (this.config.status.isValid || !this.config.status.isVisible) {
       this.fireAfter();
     } else {
-      this.config.showAllErrors();
+      this.config.status.showAllErrors();
       this.config.status.update();
     }
     return;

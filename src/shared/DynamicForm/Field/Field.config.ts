@@ -13,6 +13,7 @@ export abstract class FieldStatus extends Status {
   ) {
     super();
   }
+  public showAllErrors(): void {}
 }
 
 export interface FieldSettings{
@@ -40,8 +41,6 @@ export abstract class Field extends Config{
   get root(): Wizzard {
     return this.parent.root;
   }
-
-  public abstract updateStatus(): FieldStatus;
 
   abstract toJson(): any;
 }

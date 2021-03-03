@@ -46,6 +46,18 @@ export class FormStatus extends Status {
     );
     return this;
   }
+  
+  public showAllErrors(): void {
+    this.children.forEach(child => {
+      if (child instanceof ValueFieldStatus) {
+        (child as ValueFieldStatus<any>).showAllErrors();
+      } else if (child instanceof FieldGroupStatus) {
+        (child as FieldGroupStatus).showAllErrors();
+      } else if (child instanceof FieldLoopStatus) {
+        (child as FieldLoopStatus).showAllErrors();
+      }
+    });
+  }
 }
 
 export class Form extends Config {
@@ -82,33 +94,6 @@ export class Form extends Config {
     return this.parent;
   }
 
-  public updateStatus(): FieldStatus {
-    let valide = true;
-    this.fields.forEach(field => {
-      let childStatus;
-      if (field instanceof ValueField) {
-        childStatus = (field as ValueField<any>).updateStatus();
-      }
-      if (field instanceof FieldGroup) {
-        childStatus = (field as FieldGroup).updateStatus();
-      }
-      if (field instanceof FieldLoop) {
-        childStatus = (field as FieldLoop).updateStatus();
-      }
-      if (field instanceof ContentField) {
-        (field as ContentField).updateStatus();
-        return;
-      }
-      if (!childStatus.isValid && childStatus.isVisible) {
-        valide = false;
-      }
-    });
-
-    this.status.isValid = valide;
-    this.status.isVisible = this.visible.calc((key: string) => this.getValueByKey(key));
-    return this.status;
-  }
-
   getValueByKey(path: string): any {
 
     let current = path.split(/\/(.+)/)[0];
@@ -137,18 +122,6 @@ export class Form extends Config {
       }
     }
     return null;
-  }
-
-  public showAllErrors(): void {
-    this.fields.forEach(field => {
-      if (field instanceof ValueField) {
-        (field as ValueField<any>).showAllErrors();
-      } else if (field instanceof FieldGroup) {
-        (field as FieldGroup).showAllErrors();
-      } else if (field instanceof FieldLoop) {
-        (field as FieldLoop).showAllErrors();
-      }
-    });
   }
 
   public toJson() {
