@@ -1,11 +1,10 @@
 import { FieldStatus } from '../Field.config';
 import { FieldConfig } from '../Field.config';
-import { BooleanObject } from '@/shared/Math/math-object.class';
-import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { FieldLoopConfig, FieldLoopStatus } from '../FieldLoop/FieldLoop.config';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueFields/ValueField.config';
-import { WizzardConfig } from '../../Wizzard/Wizzard.config';
 import { ContentFieldConfig, ContentFieldStatus } from '../ContentFields/ContentField.config';
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 
 export class FieldGroupStatus extends FieldStatus {
   public config: FieldGroupConfig;
@@ -94,7 +93,7 @@ export class FieldGroupConfig extends FieldConfig {
     public key: string,
     public fields: FieldConfig[],
     public settings: FieldGroupSettings,
-    public visible: BooleanObject = new BooleanConst(true)
+    public visible: BooleanCondition = new BooleanConst(true)
   ) {
     super(
       'fieldGroup',

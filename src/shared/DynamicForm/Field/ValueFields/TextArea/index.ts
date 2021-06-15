@@ -1,6 +1,6 @@
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators';
-import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
+import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boolean.class';
 import { TextAreaConfig } from './TextArea.config';
 import TextAreaFieldComponent from './TextArea.vue';
 
@@ -13,7 +13,7 @@ export default {
         json.key,
         json.settings,
         ValidatorParser.parseFromJSONArray(json.validators),
-        BooleanObjectParser.fromJson(json.visible),
+        BooleanConditionParser.fromJson(json.visible),
       );
     }
    }

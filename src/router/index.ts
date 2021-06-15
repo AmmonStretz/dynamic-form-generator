@@ -2,7 +2,8 @@ import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
-import Results from '../views/Results.vue';
+import WizardEditor from '../shared/Editor/WizardEditor.vue';
+import WizardListEditor from '../shared/Editor/WizardListEditor.vue';
 
 Vue.use(VueRouter);
 
@@ -18,9 +19,14 @@ const routes: Array<RouteConfig> = [
     component: Login,
   },
   {
-    path: '/results',
-    name: 'Results',
-    component: Results,
+    path: '/editor',
+    name: 'Editor',
+    component: WizardEditor,
+  },
+  {
+    path: '/editor/wizards',
+    name: 'WizardListEditor',
+    component: WizardListEditor
   },
 ];
 

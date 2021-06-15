@@ -1,6 +1,6 @@
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Validator } from '../../../Validators/validators.class';
-import { BooleanObject } from '@/shared/Math/math-object.class';
-import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
 export interface NumberRangeSettings  extends ValueFieldSettings<number> {
@@ -15,7 +15,7 @@ export class NumberRangeConfig extends ValueFieldConfig<number> {
     public key: string,
     public settings: NumberRangeSettings,
     public validators: Validator<number>[] = [],
-    public visible: BooleanObject = new BooleanConst(true)
+    public visible: BooleanCondition = new BooleanConst(true)
   ) {
     super(
       key,

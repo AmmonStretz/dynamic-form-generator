@@ -11,18 +11,6 @@
       ref="childs"
     ></FieldComponent>
     <p if="config.settings.description">{{ config.settings.description }}</p>
-
-    <div>
-      <button type="button" v-on:click="fireBefore()">
-        {{ root.settings.prevButtonText ? root.settings.prevButtonText : "Zurück" }}
-      </button>
-      <button
-        type="button"
-        v-on:click="after()"
-      >
-        {{ root.settings.nextButtonText ? root.settings.nextButtonText : "Weiter" }}
-      </button>
-    </div>
   </form>
 </template>
 
@@ -31,7 +19,7 @@ import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import FieldComponent from "../Field/Field.vue";
 import { FormConfig, FormStatus } from "./Form.config";
 import { ValueFieldStatus } from "../Field/ValueFields/ValueField.config";
-import { WizzardConfig } from "../Wizzard/Wizzard.config";
+import { WizardConfig } from "../Wizard/Wizard.config";
 
 @Component({
   components: {
@@ -41,7 +29,7 @@ import { WizzardConfig } from "../Wizzard/Wizzard.config";
 export default class FormComponent extends Vue {
 
   @Prop() public config!: FormConfig;
-  @Prop() public root!: WizzardConfig;
+  @Prop() public root!: WizardConfig;
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): FormStatus {
@@ -59,9 +47,6 @@ export default class FormComponent extends Vue {
       this.config.status.isVisible = this.config.visible.calc((key) =>
         this.config.status.getValueByKey(key)
       );
-      if (this.config.status.isVisible == false) {
-        this.after();
-      }
     }
   }
 
@@ -73,24 +58,6 @@ export default class FormComponent extends Vue {
       }
     }
     return true;
-  }
-
-  @Emit("before")
-  fireBefore() {
-    return;
-  }
-  after() {
-    if (this.config.status.isValid || !this.config.status.isVisible) {
-      this.fireAfter();
-    } else {
-      this.config.status.showAllErrors();
-      this.config.status.update();
-    }
-    return;
-  }
-  @Emit("after")
-  fireAfter() {
-    return;
   }
 }
 </script>

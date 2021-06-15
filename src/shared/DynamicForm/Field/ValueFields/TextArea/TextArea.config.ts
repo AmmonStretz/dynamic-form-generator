@@ -1,6 +1,6 @@
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Validator } from '../../../Validators/validators.class';
-import { BooleanObject } from '@/shared/Math/math-object.class';
-import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
 export interface TextAreaSettings extends ValueFieldSettings<string> {
@@ -13,7 +13,7 @@ export class TextAreaConfig extends ValueFieldConfig<string> {
     public key: string,
     public settings: TextAreaSettings,
     public validators: Validator<string>[] = [],
-    public visible: BooleanObject = new BooleanConst(true),
+    public visible: BooleanCondition = new BooleanConst(true),
   ) {
     super(key,
       'textArea',

@@ -1,7 +1,7 @@
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 import { Validator } from '../../../Validators/validators.class';
-import { BooleanObject } from '@/shared/Math/math-object.class';
-import { BooleanConst } from '@/shared/Math/objects/boolean/const';
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 
 export interface NumberInputSettings extends ValueFieldSettings<number> {
   unit?: string,
@@ -14,7 +14,7 @@ export class NumberInputConfig extends ValueFieldConfig<number> {
     public key: string,
     public settings: NumberInputSettings,
     public validators: Validator<number>[] = [],
-    public visible: BooleanObject = new BooleanConst(true),
+    public visible: BooleanCondition = new BooleanConst(true),
   ) {
     super(
       key,

@@ -1,6 +1,6 @@
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Validator } from '../../../Validators/validators.class';
-import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { BooleanObject } from '@/shared/Math/math-object.class';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
 export class CheckboxConfig extends ValueFieldConfig<boolean> {
@@ -8,7 +8,7 @@ export class CheckboxConfig extends ValueFieldConfig<boolean> {
     public key: string,
     public settings: ValueFieldSettings<boolean>,
     public validators: Validator<boolean>[] = [],
-    public visible: BooleanObject = new BooleanConst(true),
+    public visible: BooleanCondition = new BooleanConst(true),
     status?: ValueFieldStatus<boolean>,
   ) {
     super(

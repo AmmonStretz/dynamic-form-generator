@@ -1,5 +1,4 @@
-import { WizzardConfig } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
-import { BooleanObject } from '@/shared/Math/math-object.class';
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { FieldConfig, FieldSettings, FieldStatus } from '../Field.config';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 export class ContentFieldStatus extends FieldStatus {
@@ -26,7 +25,7 @@ export abstract class ContentFieldConfig extends FieldConfig {
   constructor(
     public type: string,
     public settings: FieldSettings,
-    public visible: BooleanObject
+    public visible: BooleanCondition
   ) {
     super(type, '', settings, visible);
   }

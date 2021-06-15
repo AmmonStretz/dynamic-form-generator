@@ -1,6 +1,6 @@
-import { BooleanObject } from '@/shared/Math/math-object.class';
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { FormConfig } from '../Form/Form.config';
-import { Config, Status, WizzardConfig } from '../Wizzard/Wizzard.config';
+import { Config, Status, WizardConfig } from '../Wizard/Wizard.config';
 import { FieldGroupConfig } from './FieldGroup/FieldGroup.config';
 // import { ValueField } from "./ValueFields/ValueField.dto";
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
@@ -31,12 +31,12 @@ export abstract class FieldConfig extends Config{
     public type: string,
     public key: string,
     public settings: FieldSettings,
-    public visible: BooleanObject
+    public visible: BooleanCondition
   ) {
     super();
   }
 
-  get root(): WizzardConfig {
+  get root(): WizardConfig {
     return this.parent.root;
   }
 

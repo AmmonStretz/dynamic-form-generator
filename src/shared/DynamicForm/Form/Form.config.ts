@@ -2,14 +2,14 @@ import { FieldConfig, FieldStatus } from '../Field/Field.config';
 import { FieldGroupConfig, FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.config';
 import { FieldLoopConfig, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
 import { ValueFieldConfig, ValueFieldStatus } from '../Field/ValueFields/ValueField.config';
-import { BooleanObject } from '@/shared/Math/math-object.class';
-import { BooleanConst } from '@/shared/Math/objects/boolean/const';
-import { Config, Status, WizzardConfig, WizzardStatus } from '../Wizzard/Wizzard.config';
+import { Config, Status, WizardConfig, WizardStatus } from '../Wizard/Wizard.config';
 import { ContentFieldConfig, ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 
 export class FormStatus extends Status {
 
-  public parent: WizzardStatus;
+  public parent: WizardStatus;
   public children: FieldStatus[] = [];
   public config: FormConfig;
   constructor(
@@ -63,8 +63,8 @@ export class FormStatus extends Status {
 
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];
-    after = after ? after : '';
-
+    after = after ? after : '';     
+    
     if (current == 'Root:') {
       return this.config.root.status.getValueByKey(after);
     } else if (current == '..') {
@@ -92,7 +92,7 @@ export class FormStatus extends Status {
 
 export class FormConfig extends Config {
   private type: string = 'Form';
-  public parent: WizzardConfig;
+  public parent: WizardConfig;
   public status: FormStatus;
 
   constructor(
@@ -102,7 +102,7 @@ export class FormConfig extends Config {
       title?: string,
       description?: string,
     },
-    public visible: BooleanObject = new BooleanConst(true)
+    public visible: BooleanCondition = new BooleanConst(true)
   ) {
     super();
 
@@ -120,7 +120,7 @@ export class FormConfig extends Config {
     });
   }
 
-  get root(): WizzardConfig {
+  get root(): WizardConfig {
     return this.parent;
   }
 

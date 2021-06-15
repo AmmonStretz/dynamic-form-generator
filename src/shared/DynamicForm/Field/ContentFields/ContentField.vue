@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { WizzardConfig } from "../../Wizzard/Wizzard.config";
+import { WizardConfig } from "../../Wizard/Wizard.config";
 import { ContentFieldConfig } from "./ContentField.config";
 import ParagraphFieldComponent from "./Paragraph/Paragraph.vue";
 import HyperlinkFieldComponent from "./Hyperlink/Hyperlink.vue";
@@ -32,7 +32,7 @@ import HyperlinkFieldComponent from "./Hyperlink/Hyperlink.vue";
 export default class ContentFieldComponent extends Vue {
   @Prop() private config!: ContentFieldConfig;
 
-  @Prop() public root!: WizzardConfig;
+  @Prop() public root!: WizardConfig;
 
   get visibility(): any {
     if (this.config.visible.calc) {

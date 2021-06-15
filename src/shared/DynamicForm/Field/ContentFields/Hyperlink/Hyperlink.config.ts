@@ -1,5 +1,4 @@
-import { WizzardConfig } from '@/shared/DynamicForm/Wizzard/Wizzard.config';
-import { BooleanObject } from '@/shared/Math/math-object.class';
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { FieldConfig, FieldSettings, FieldStatus } from '../../Field.config';
 import { ContentFieldConfig, ContentFieldStatus } from '../ContentField.config';
 
@@ -7,7 +6,7 @@ export class HyperlinkFieldConfig extends ContentFieldConfig {
   constructor(
     public links: {text: string, url: string}[],
     public settings: FieldSettings,
-    public visible: BooleanObject,
+    public visible: BooleanCondition,
   ) {
     super('hyperlink', settings, visible);
   }

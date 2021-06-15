@@ -21,13 +21,13 @@
       v-on:change="onChange"
       ref="child"
     ></FieldLoopComponent>
-    <FieldLoopComponent
+    <!-- <FieldLoopComponent
       v-if="config.type == 'fieldLoop'"
       v-bind:config="config"
       v-bind:root="root"
       v-on:change="onChange"
       ref="child"
-    ></FieldLoopComponent>
+    ></FieldLoopComponent> -->
     <ContentFieldComponent
       v-if="isContentField"
       v-bind:config="config"
@@ -45,7 +45,7 @@ import ValueFieldComponent from "./ValueFields/ValueField.vue";
 import ContentFieldComponent from "./ContentFields/ContentField.vue";
 import { FieldConfig, FieldStatus } from "./Field.config";
 import FieldLoopComponent from "./FieldLoop/FieldLoop.vue";
-import { WizzardConfig } from "../Wizzard/Wizzard.config";
+import { WizardConfig } from "../Wizard/Wizard.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -59,7 +59,7 @@ import { WizzardConfig } from "../Wizzard/Wizzard.config";
 export default class FieldComponent extends Vue {
   @Prop() private config!: FieldConfig;
 
-  @Prop() public root!: WizzardConfig;
+  @Prop() public root!: WizardConfig;
 
   get visibility(): any {
     if (this.config.visible.calc) {

@@ -1,5 +1,5 @@
+import { BooleanConditionParser } from "@/shared/ts-condition-parser/parsers/boolean.class";
 import { FieldParser } from "../Field/Field.parser";
-import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
 import { FormConfig } from "./Form.config";
 
 export class FormParser {
@@ -16,7 +16,7 @@ export class FormParser {
       json.key,
       FieldParser.parseFromJSONArray(json.fields),
       json.settings,
-      BooleanObjectParser.fromJson(json.visible)
+      BooleanConditionParser.fromJson(json.visible)
     );
   }
 }

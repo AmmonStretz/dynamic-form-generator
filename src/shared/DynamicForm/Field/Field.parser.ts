@@ -1,9 +1,9 @@
-import { BooleanObjectParser } from "@/shared/Math/parsers/boolean.class";
 import { FieldConfig } from "./Field.config";
 import { FieldGroupConfig } from "./FieldGroup/FieldGroup.config";
 import { FieldLoopConfig } from "./FieldLoop/FieldLoop.config";
-import { NumberObjectParser } from "@/shared/Math/parsers/number.class";
 import { PluginService } from "../services/Plugin.service";
+import { BooleanConditionParser } from "@/shared/ts-condition-parser/parsers/boolean.class";
+import { NumberConditionParser } from "@/shared/ts-condition-parser/parsers/number.class";
 
 export interface jsonStructure {
   type: string;
@@ -39,8 +39,8 @@ export class FieldParser {
           json.key,
           this.parseFromJSON(json.field),
           json.settings,
-          BooleanObjectParser.fromJson(json.visible),
-          NumberObjectParser.fromJson(json.condition)
+          BooleanConditionParser.fromJson(json.visible),
+          NumberConditionParser.fromJson(json.condition)
         );
       case 'fieldGroup':
         // validate settings
@@ -48,7 +48,7 @@ export class FieldParser {
           json.key,
           this.parseFromJSONArray(json.fields),
           json.settings,
-          BooleanObjectParser.fromJson(json.visible),
+          BooleanConditionParser.fromJson(json.visible),
         );
     }
     return null;

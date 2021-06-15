@@ -1,4 +1,4 @@
-import { BooleanObjectParser } from '@/shared/Math/parsers/boolean.class';
+import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boolean.class';
 import { ParagraphFieldConfig } from './Paragraph.config';
 import ParagraphFieldComponent from './Paragraph.vue';
 
@@ -10,7 +10,7 @@ export default {
       return new ParagraphFieldConfig(
         json.links,
         json.config,
-        BooleanObjectParser.fromJson(json.visible)
+        BooleanConditionParser.fromJson(json.visible)
       );
     }
   }

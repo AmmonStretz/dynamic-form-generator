@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { WizzardConfig } from "../../../Wizzard/Wizzard.config";
+import { WizardConfig } from "../../../Wizard/Wizard.config";
 import { ParagraphFieldConfig } from "./Paragraph.config";
 // Vue.component('FieldComponent')
 @Component({
@@ -15,7 +15,7 @@ import { ParagraphFieldConfig } from "./Paragraph.config";
 })
 export default class ParagraphFieldComponent extends Vue {
   @Prop() private config!: ParagraphFieldConfig;
-  @Prop() public root!: WizzardConfig;
+  @Prop() public root!: WizardConfig;
 }
 </script>
 

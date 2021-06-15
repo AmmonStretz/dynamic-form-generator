@@ -1,13 +1,13 @@
 import { FieldSettings, FieldStatus } from '../Field.config';
 import { FieldConfig } from '../Field.config';
-import { BooleanObject, NumberObject } from '@/shared/Math/math-object.class';
-import { BooleanConst } from '@/shared/Math/objects/boolean/const';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueFields/ValueField.config';
-import { WizzardConfig } from '../../Wizzard/Wizzard.config';
+import { WizardConfig } from '../../Wizard/Wizard.config';
 import { FieldGroupConfig, FieldGroupStatus } from '../FieldGroup/FieldGroup.config';
-import { NumberConst } from '@/shared/Math/objects/number/const';
 import { FieldParser } from '../Field.parser';
 import { PluginService } from '../../services/Plugin.service';
+import { BooleanCondition, NumberCondition } from '@/shared/ts-condition-parser/condition.class';
+import { NumberConst } from '@/shared/ts-condition-parser/objects/number.class';
+import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 
 export class FieldLoopStatus extends FieldStatus {
 
@@ -44,6 +44,7 @@ export class FieldLoopStatus extends FieldStatus {
 
   // TODO: Is parsing necessary 
   public showAllErrors(): void {
+
     this.children.forEach(child => {
       if (child instanceof ValueFieldStatus) {
         (child as ValueFieldStatus<any>).showAllErrors();
@@ -55,11 +56,10 @@ export class FieldLoopStatus extends FieldStatus {
     });
     return null;
   }
-  
+
   getValueByKey(path: string): any {
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];
-
     if (current == 'Root:') {
       return this.config.root.status.getValueByKey(after);
     } else if (current == '..') {
@@ -68,7 +68,7 @@ export class FieldLoopStatus extends FieldStatus {
       const index = +current;
       if (this.children.length > index && index >= 0) {
         if (this.children[index] instanceof ValueFieldStatus) {
-          return (this.children[index] as ValueFieldStatus<any>).value;
+          return (this.children[index] as ValueFieldStatus<any>);
         } else if (this.children[index] instanceof FieldLoopStatus) {
           return (this.children[index] as FieldLoopStatus).getValueByKey(after);
         } else if (this.children[index] instanceof FieldGroupStatus) {
@@ -98,8 +98,8 @@ export class FieldLoopConfig extends FieldConfig {
     public key: string,
     public field: FieldConfig,
     public settings: FieldLoopSettings,
-    public visible: BooleanObject = new BooleanConst(true),
-    public condition: NumberObject = new NumberConst(1)
+    public visible: BooleanCondition = new BooleanConst(true),
+    public condition: NumberCondition = new NumberConst(1)
   ) {
     super(
       'fieldLoop',
@@ -109,6 +109,7 @@ export class FieldLoopConfig extends FieldConfig {
     );
   }
   public createStatus() {
+
     // TODO: parent
     this.status = new FieldLoopStatus(
       this.key,
@@ -117,12 +118,21 @@ export class FieldLoopConfig extends FieldConfig {
   }
 
   public updateFields() {
-    let newNumber = this.condition.calc((key) => this.status.getValueByKey(key));
+
+    console.log(this.condition);
+    
+    let newNumber = this.condition.calc((key) => {
+      console.log(key, this.status, this.status.getValueByKey(key));
+      return this.status.getValueByKey(key)
+    });
+    console.log({ newNumber });
+
     if (newNumber > this.fields.length) {
       while (newNumber > this.fields.length) {
-        
+        console.log(newNumber);
+
         // console.log(JSON.stringify(this.field));
-        // this.fields.push(FieldParser.parseFromJSON(JSON.parse(JSON.stringify(this.field))));
+        this.fields.push(FieldParser.parseFromJSON(JSON.parse(JSON.stringify(this.field))));
       }
     } else {
       this.fields = this.fields.splice(0, newNumber);
@@ -130,6 +140,7 @@ export class FieldLoopConfig extends FieldConfig {
   }
 
   public updateValidity() {
+
     if (this.field instanceof ValueFieldConfig) {
       if (!this.field.status.isVisible) {
         this.status.isValid = true;

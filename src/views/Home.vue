@@ -1,47 +1,44 @@
 <template>
   <div class="home">
-    <WizzardComponent
+    <WizardComponent
       v-if="!!config"
       v-bind:config="config"
       v-on:change="statusChange"
       v-on:submit="submit"
-    ></WizzardComponent>
+    ></WizardComponent>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 // import { JsonParser } from "@/shared/DynamicForm/parser";
-import WizzardComponent from "../shared/DynamicForm/Wizzard/Wizzard.vue";
+import WizardComponent from "../shared/DynamicForm/Wizard/Wizard.vue";
 import {
-  WizzardConfig,
-  WizzardStatus,
-} from "../shared/DynamicForm/Wizzard/Wizzard.config";
-import { config } from "../shared/data/wizzard.config";
-import { WizzardParser } from "../shared/DynamicForm/Wizzard/Wizzard.parser";
+  WizardConfig,
+  WizardStatus,
+} from "../shared/DynamicForm/Wizard/Wizard.config";
+import WizardService from "../shared/DynamicForm/services/Wizard.service";
 
 @Component({
   components: {
-    WizzardComponent,
+    WizardComponent,
   },
 })
 export default class Home extends Vue {
-  public config: WizzardConfig = this.generateWizzard();
+  public config: WizardConfig = this.generateWizard();
 
-  generateWizzard(): WizzardConfig {
-    let wizzard = WizzardParser.parseFromJSON(config);
-    wizzard.createStatus();
-    console.log(1,wizzard);
+  generateWizard(): WizardConfig {
+    let wizard = WizardService.loadWizards('afq');
+    wizard.createStatus();
     
     // INIT status or load from Cookie
-    return wizzard;
+    return wizard;
   }
 
-  statusChange(status: WizzardStatus) {}
+  statusChange(status: WizardStatus) {}
   cancel() {
   }
-  submit(status: WizzardStatus) {
-    console.log("submit", status);
+  submit(status: WizardStatus) {
   }
 }
 </script>
