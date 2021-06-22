@@ -1,23 +1,15 @@
+import { Config } from '../config';
+import { FinderConfig, FinderStatus } from '../Finder/Finder.config';
 import { FormConfig, FormStatus } from '../Form/Form.config';
+import { Status } from '../status';
 
-export abstract class Config {
-  public status: Status;
-  public abstract settings: any;
-  public abstract createStatus(): void;
-  public abstract toJson(): any;
-}
-export abstract class Status {
-  public config: Config;
-  public children: Status[] = [];
-  public parent: Status;
-  public abstract update(): Status;
-  public abstract showAllErrors(): void;
-  public abstract getValueByKey(path: string):any;
-}
 export class WizardStatus extends Status {
   public children: FormStatus[] = [];
+  public parent: FinderStatus;
   constructor(
     public index: number,
+    public isValid?: boolean,
+    public isVisible: boolean = true,
   ) {
     super();
   }
@@ -54,6 +46,8 @@ export class WizardStatus extends Status {
 export class WizardConfig extends Config{
   private type: string;
   public status: WizardStatus;
+  public parent: FinderConfig;
+
   constructor(
     public forms: FormConfig[],
     public settings: {

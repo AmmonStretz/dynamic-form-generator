@@ -6,6 +6,7 @@ export enum ValidatorTypes {
   MIN_NUMBER = 'minNumber',
   POSTAL_CODE_NUMBER = 'isPostalCode',
   EMAIL_STRING = "isEmail",
+  NOT_IN_LIST = "notInList",
 }
 export abstract class Validator<T> {
   constructor(

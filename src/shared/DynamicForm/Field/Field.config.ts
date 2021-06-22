@@ -1,6 +1,8 @@
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { Config } from '../config';
 import { FormConfig } from '../Form/Form.config';
-import { Config, Status, WizardConfig } from '../Wizard/Wizard.config';
+import { Status } from '../status';
+import { WizardConfig } from '../Wizard/Wizard.config';
 import { FieldGroupConfig } from './FieldGroup/FieldGroup.config';
 // import { ValueField } from "./ValueFields/ValueField.dto";
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';

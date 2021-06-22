@@ -20,6 +20,7 @@ import FieldComponent from "../Field/Field.vue";
 import { FormConfig, FormStatus } from "./Form.config";
 import { ValueFieldStatus } from "../Field/ValueFields/ValueField.config";
 import { WizardConfig } from "../Wizard/Wizard.config";
+import { ContentFieldConfig } from "../Field/ContentFields/ContentField.config";
 
 @Component({
   components: {
@@ -33,12 +34,16 @@ export default class FormComponent extends Vue {
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): FormStatus {
+    
     const index: number = this.config.fields.findIndex(
       (field) => field.status.key == status.key
     );
     this.config.fields[index].status = status;
+    this.config.status.children[index] = status;
     this.config.status.isValid = this.checkValidity();
-    this.root.status.update();
+    if(this.root){
+      this.root.status.update();
+    }
     return this.config.status;
   }
 
@@ -48,15 +53,18 @@ export default class FormComponent extends Vue {
         this.config.status.getValueByKey(key)
       );
     }
+    this.config.status.isValid = this.checkValidity();
   }
 
   checkValidity(): boolean {
     for (let i = 0; i < this.config.fields.length; i++) {
-      const status = this.config.fields[i].status;
-      if (status.isVisible && !status.isValid) {
-        return false;
+      if(this.config.fields instanceof ContentFieldConfig) {
+        const status = this.config.fields[i].status;
+        if (status.isVisible && !status.isValid) {
+          return false;
+        }
       }
-    }
+    }    
     return true;
   }
 }

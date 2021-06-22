@@ -1,12 +1,23 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
+    <div id="nav">
+      <router-link to="/">Finder</router-link> |
+      <router-link to="/editor">Editor</router-link>
+    </div>
     <router-view/>
   </div>
 </template>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import FinderService from "./shared/DynamicForm/services/Finder.service";
+@Component  
+export default class App extends Vue {
+  constructor() {
+    super();
+    FinderService.finder.createStatus();
+  }
+}
+  </script>
 
 <style lang="scss">
 #app {
@@ -18,7 +29,10 @@
 }
 
 #nav {
-  padding: 30px;
+  position: absolute;
+  padding: 10px;
+  top: 0;
+  left: 0;
 
   a {
     font-weight: bold;

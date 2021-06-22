@@ -15,22 +15,6 @@
         ></FormComponent>
       </div>
     </div>
-    <div>
-      <button type="button" v-on:click="onBefore()">
-        {{
-          config.settings.prevButtonText
-            ? config.settings.prevButtonText
-            : "Zurück"
-        }}
-      </button>
-      <button type="button" v-on:click="onAfter()">
-        {{
-          config.settings.nextButtonText
-            ? config.settings.nextButtonText
-            : "Weiter"
-        }}
-      </button>
-    </div>
   </div>
 </template>
 

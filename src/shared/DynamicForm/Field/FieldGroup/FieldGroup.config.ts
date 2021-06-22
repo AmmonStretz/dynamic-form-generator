@@ -1,6 +1,6 @@
 import { FieldStatus } from '../Field.config';
 import { FieldConfig } from '../Field.config';
-import { FieldLoopConfig, FieldLoopStatus } from '../FieldLoop/FieldLoop.config';
+// import { FieldLoopConfig, FieldLoopStatus } from '../FieldLoop/FieldLoop.config';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueFields/ValueField.config';
 import { ContentFieldConfig, ContentFieldStatus } from '../ContentFields/ContentField.config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
@@ -25,9 +25,9 @@ export class FieldGroupStatus extends FieldStatus {
       if (child instanceof FieldGroupStatus) {
         childStatus = (child as FieldGroupStatus).update();
       }
-      if (child instanceof FieldLoopStatus) {
-        childStatus = (child as FieldLoopStatus).update();
-      }
+      // if (child instanceof FieldLoopStatus) {
+      //   childStatus = (child as FieldLoopStatus).update();
+      // }
       if (!childStatus.isValid && !!childStatus.isVisible) {
         valide = false;
       }
@@ -44,9 +44,10 @@ export class FieldGroupStatus extends FieldStatus {
         (child as ValueFieldStatus<any>).showAllErrors();
       } else if (child instanceof FieldGroupStatus) {
         (child as FieldGroupStatus).showAllErrors();
-      } else if (child instanceof FieldLoopStatus) {
-        (child as FieldLoopStatus).showAllErrors();
       }
+      //  else if (child instanceof FieldLoopStatus) {
+      //   (child as FieldLoopStatus).showAllErrors();
+      // }
     });
   }
   getValueByKey(path: string): any {
@@ -69,9 +70,10 @@ export class FieldGroupStatus extends FieldStatus {
               return (child as ValueFieldStatus<any>).getValueByKey(after);
             } else if (child instanceof FieldGroupStatus) {
               return (child as FieldGroupStatus).getValueByKey(after);
-            } else if (child instanceof FieldLoopStatus) {
-              return (child as FieldLoopStatus).getValueByKey(after);
             }
+            // else if (child instanceof FieldLoopStatus) {
+            //   return (child as FieldLoopStatus).getValueByKey(after);
+            // }
           }
         }
       }
@@ -126,12 +128,13 @@ export class FieldGroupConfig extends FieldConfig {
         if (!field.visible) {
           this.status.isValid = true;
         }
-      } else if (field instanceof FieldLoopConfig) {
-        (field as FieldLoopConfig).updateValidity();
-        if (!field.visible) {
-          this.status.isValid = true;
-        }
       }
+      // else if (field instanceof FieldLoopConfig) {
+      //   (field as FieldLoopConfig).updateValidity();
+      //   if (!field.visible) {
+      //     this.status.isValid = true;
+      //   }
+      // }
     });
   }
 

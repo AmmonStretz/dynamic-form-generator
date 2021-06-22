@@ -4,7 +4,7 @@ import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 
 export interface RadioButtonListSettings extends ValueFieldSettings<number> {
-  type: string,
+  type?: string,
 }
 
 export class RadioButtonListConfig extends ValueFieldConfig<number> {

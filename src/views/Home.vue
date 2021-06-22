@@ -1,44 +1,44 @@
 <template>
   <div class="home">
-    <WizardComponent
+    <FinderComponent
       v-if="!!config"
       v-bind:config="config"
       v-on:change="statusChange"
       v-on:submit="submit"
-    ></WizardComponent>
+    ></FinderComponent>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { FinderConfig, FinderStatus } from "../shared/DynamicForm/Finder/Finder.config";
 // import { JsonParser } from "@/shared/DynamicForm/parser";
-import WizardComponent from "../shared/DynamicForm/Wizard/Wizard.vue";
-import {
-  WizardConfig,
-  WizardStatus,
-} from "../shared/DynamicForm/Wizard/Wizard.config";
-import WizardService from "../shared/DynamicForm/services/Wizard.service";
+// import WizardComponent from "../shared/DynamicForm/Wizard/Wizard.vue";
+import FinderComponent from "../shared/DynamicForm/Finder/Finder.vue";
+// import {
+//   WizardConfig,
+//   WizardStatus,
+// } from "../shared/DynamicForm/Wizard/Wizard.config";
+// import WizardService from "../shared/DynamicForm/services/Wizard.service";
+import FinderService from "../shared/DynamicForm/services/Finder.service";
 
 @Component({
   components: {
-    WizardComponent,
+    FinderComponent,
   },
 })
 export default class Home extends Vue {
-  public config: WizardConfig = this.generateWizard();
-
-  generateWizard(): WizardConfig {
-    let wizard = WizardService.loadWizards('afq');
-    wizard.createStatus();
-    
-    // INIT status or load from Cookie
-    return wizard;
+  public config: FinderConfig = FinderService.finder;
+  constructor() {
+    super();
+    FinderService.finder.createStatus();
   }
+  
 
-  statusChange(status: WizardStatus) {}
+  statusChange(status: FinderStatus) {}
   cancel() {
   }
-  submit(status: WizardStatus) {
+  submit(status: FinderStatus) {
   }
 }
 </script>

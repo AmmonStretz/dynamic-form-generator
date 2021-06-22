@@ -4,8 +4,8 @@ import { Validator } from '../../../Validators/validators.class';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
 export interface TextInputSettings extends ValueFieldSettings<string> {
-  name: string,
-  description: string,
+  name?: string,
+  description?: string,
 }
 
 export class TextInputConfig extends ValueFieldConfig<string> {

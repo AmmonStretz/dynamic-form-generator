@@ -1,11 +1,13 @@
 import { FieldConfig, FieldStatus } from '../Field/Field.config';
 import { FieldGroupConfig, FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.config';
-import { FieldLoopConfig, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
+// import { FieldLoopConfig, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
 import { ValueFieldConfig, ValueFieldStatus } from '../Field/ValueFields/ValueField.config';
-import { Config, Status, WizardConfig, WizardStatus } from '../Wizard/Wizard.config';
+import { WizardConfig, WizardStatus } from '../Wizard/Wizard.config';
 import { ContentFieldConfig, ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
+import { Status } from '../status';
+import { Config } from '../config';
 
 export class FormStatus extends Status {
 
@@ -29,9 +31,9 @@ export class FormStatus extends Status {
       if (child instanceof FieldGroupStatus) {
         childStatus = (child as FieldGroupStatus).update();
       }
-      if (child instanceof FieldLoopStatus) {
-        childStatus = (child as FieldLoopStatus).update();
-      }
+      // if (child instanceof FieldLoopStatus) {
+      //   childStatus = (child as FieldLoopStatus).update();
+      // }
       if (child instanceof ContentFieldStatus) {
         (child as ContentFieldStatus).update();
         return;
@@ -53,9 +55,10 @@ export class FormStatus extends Status {
         (child as ValueFieldStatus<any>).showAllErrors();
       } else if (child instanceof FieldGroupStatus) {
         (child as FieldGroupStatus).showAllErrors();
-      } else if (child instanceof FieldLoopStatus) {
-        (child as FieldLoopStatus).showAllErrors();
       }
+      // else if (child instanceof FieldLoopStatus) {
+      //   (child as FieldLoopStatus).showAllErrors();
+      // }
     });
   }
   
@@ -76,9 +79,11 @@ export class FormStatus extends Status {
         if (current == child.key) {
           if (child instanceof FieldGroupStatus) {
             return (child as FieldGroupStatus).getValueByKey(after);
-          } else if (child instanceof FieldLoopStatus) {
-            return (child as FieldLoopStatus).getValueByKey(after);
-          } else if (child instanceof ContentFieldStatus) {
+          } 
+          // else if (child instanceof FieldLoopStatus) {
+          //   return (child as FieldLoopStatus).getValueByKey(after);
+          // } 
+          else if (child instanceof ContentFieldStatus) {
             return (child as ContentFieldStatus).getValueByKey(after);
           } else if (child instanceof ValueFieldStatus) {
             return (child as ValueFieldStatus<any>).getValueByKey(after);
