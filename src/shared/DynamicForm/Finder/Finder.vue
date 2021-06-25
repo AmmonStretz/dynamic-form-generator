@@ -5,6 +5,7 @@
     </h1>
       <ChapterComponent
         v-bind:config="config.chapter"
+        v-bind:root="config"
         v-on:change="onChange"
         ref="chapter"
       ></ChapterComponent>
@@ -48,6 +49,8 @@ export default class FinderComponent extends Vue {
 
   @Emit("change")
   onChange(status: ChapterStatus): FinderStatus {
+    console.log(status);
+    
     this.config.chapter.status = status;
     return this.config.status;
   }

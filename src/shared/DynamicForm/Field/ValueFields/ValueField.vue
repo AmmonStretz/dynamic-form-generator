@@ -49,7 +49,7 @@ import CheckboxComponent from "./Checkbox/Checkbox.vue";
 import SelectComponent from "./Select/Select.vue";
 import RadioButtonListComponent from "./RadioButtonList/RadioButtonList.vue";
 import { ValueFieldStatus, ValueFieldConfig } from "./ValueField.config";
-import { WizardConfig } from "../../Wizard/Wizard.config";
+import { FinderConfig } from "../../Finder/Finder.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -65,7 +65,7 @@ import { WizardConfig } from "../../Wizard/Wizard.config";
 })
 export default class FieldComponent extends Vue {
   @Prop() private config!: ValueFieldConfig<any>;
-  @Prop() public root!: WizardConfig;
+  @Prop() public root!: FinderConfig;
 
   get visibility(): any {
     if((this.config.visible).calc){

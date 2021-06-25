@@ -13,13 +13,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { FinderConfig, FinderStatus } from "../shared/DynamicForm/Finder/Finder.config";
 // import { JsonParser } from "@/shared/DynamicForm/parser";
-// import WizardComponent from "../shared/DynamicForm/Wizard/Wizard.vue";
 import FinderComponent from "../shared/DynamicForm/Finder/Finder.vue";
-// import {
-//   WizardConfig,
-//   WizardStatus,
-// } from "../shared/DynamicForm/Wizard/Wizard.config";
-// import WizardService from "../shared/DynamicForm/services/Wizard.service";
 import FinderService from "../shared/DynamicForm/services/Finder.service";
 
 @Component({
@@ -28,10 +22,15 @@ import FinderService from "../shared/DynamicForm/services/Finder.service";
   },
 })
 export default class Home extends Vue {
-  public config: FinderConfig = FinderService.finder;
+  public $store: any;
+  get config(): FinderConfig{
+    return this.$store.getters.config;
+  }
   constructor() {
     super();
-    FinderService.finder.createStatus();
+    let c = this.config;
+    c.createStatus();
+    this.$store.commit("updateConfig", c);
   }
   
 

@@ -1,5 +1,4 @@
-import { WizardConfig } from '../DynamicForm/Wizard/Wizard.config';
-import { WizardParser } from '@/shared/DynamicForm/Wizard/Wizard.parser';
+
 import { defaultWizardConfig } from './default.wizard.config';
 import { afqWizardConfig } from './afq.wizard.config';
 import { finderConfig } from './finder.config';

@@ -4,8 +4,10 @@
       {{ config.settings.title }}
     </h1>
     <ChapterEditorComponent
+    v-if="loaded"
       v-bind:config="config.chapter"
       ref="chapter"
+      @change="reload"
     ></ChapterEditorComponent>
     <!-- @event="listener" -->
   </div>
@@ -25,6 +27,7 @@ import { FinderConfig } from "../DynamicForm/Finder/Finder.config";
 export default class FinderContentEditorComponent extends Vue {
   @Prop() public config!: FinderConfig;
   public $refs: any;
+  public loaded =  true;
   // public menuStructure: any = [
   //   {
   //     icon: "add",
@@ -55,6 +58,13 @@ export default class FinderContentEditorComponent extends Vue {
   //     }
   //   }
   // }
+  reload(){
+    this.loaded = false;
+    // TODO: Kapitel rerendering https://morioh.com/p/08963bf07353
+    this.$nextTick(() => {
+      this.loaded = true;
+    });
+  }
 }
 </script>
 

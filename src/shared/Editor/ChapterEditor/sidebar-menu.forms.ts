@@ -8,7 +8,6 @@ import { NotInList, Required } from "@/shared/DynamicForm/Validators";
 export function editCathegoryGenerator(defaultCathegoryName: string, blockedTitles: string[], listener: any) {
   return {
     form: new FormConfig(
-      "addCath",
       [
         new TextInputConfig(
           "name",
@@ -28,14 +27,13 @@ export function editCathegoryGenerator(defaultCathegoryName: string, blockedTitl
 export function deleteCathegoryGenerator(listener: any) {
   return {
     form: new FormConfig(
-      "deleteChapter",
       [
         new ParagraphFieldConfig(
           "Möchten Sie diese Kategorie wirklich löschen?",
           {}
         ),
       ],
-      { title: "Kategorie Hinzufügen" }
+      { title: "Kategorie löschen" }
     ),
     listener: listener,
   }
@@ -45,14 +43,13 @@ export function addCathegoryGenerator(defaultCathegoryName: string, blockedTitle
   
   const config = {
     form: new FormConfig(
-      "addCath",
       [
-        new TextInputConfig("name", { name: "Kapitelname" }, [
+        new TextInputConfig("title", { name: "Kapitelname" }, [
           new Required("Bitte geben Sie einen Namen ein"),
           new NotInList("Diese Kategorie gibt es schon", blockedTitles),
         ]),
       ],
-      { title: "Kategorie Hinzufügen" }
+      { title: "Kategorie hinzufügen" }
     ),
     listener: listener
   }

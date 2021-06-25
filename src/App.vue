@@ -9,12 +9,11 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import FinderService from "./shared/DynamicForm/services/Finder.service";
 @Component  
 export default class App extends Vue {
   constructor() {
     super();
-    FinderService.finder.createStatus();
+    this.$store.commit("loadConfig");
   }
 }
   </script>

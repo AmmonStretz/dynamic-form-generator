@@ -45,7 +45,7 @@ import ValueFieldComponent from "./ValueFields/ValueField.vue";
 import ContentFieldComponent from "./ContentFields/ContentField.vue";
 import { FieldConfig, FieldStatus } from "./Field.config";
 import FieldLoopComponent from "./FieldLoop/FieldLoop.vue";
-import { WizardConfig } from "../Wizard/Wizard.config";
+import { FinderConfig } from "../Finder/Finder.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -59,7 +59,7 @@ import { WizardConfig } from "../Wizard/Wizard.config";
 export default class FieldComponent extends Vue {
   @Prop() private config!: FieldConfig;
 
-  @Prop() public root!: WizardConfig;
+  @Prop() public root!: FinderConfig;
 
   get visibility(): any {
     if (this.config.visible.calc) {

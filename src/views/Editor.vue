@@ -1,6 +1,7 @@
 <template>
   <div class="editor">
     <div class="chapter-view">
+      <button @click="log">print</button>
       <FinderContentEditor :config="config" />
     </div>
     <SidebarMenu/>
@@ -26,27 +27,21 @@ import { SidebarMenuConfig } from "../shared/Editor/SidebarMenu/SidebarMenu.conf
   },
 })
 export default class Editor extends Vue {
-  public config: FinderConfig = FinderService.finder;
+  public $store: any;
+  get config(): FinderConfig{
+    console.log(this.$store)
+    return this.$store.getters.config;
+  }
+
   constructor() {
     super();
   }
-  // public config: WizardConfig = this.generateWizard();
-
-  // generateWizard(): WizardConfig {
-  //   let wizard = WizardParser.parseFromJSON(config);
-  //   wizard.createStatus();
-  //   console.log(1,wizard);
-
-  //   // INIT status or load from Cookie
-  //   return wizard;
-  // }
-
-  // statusChange(status: WizardStatus) {}
-  // cancel() {
-  // }
-  // submit(status: WizardStatus) {
-  //   console.log("submit", status);
-  // }
+  mounted(){
+    
+  }
+  log(){
+    console.log(this.config);
+  }
 }
 </script>
 

@@ -1,21 +1,20 @@
 import { FieldConfig, FieldStatus } from '../Field/Field.config';
-import { FieldGroupConfig, FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.config';
+import { FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.config';
 // import { FieldLoopConfig, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
-import { ValueFieldConfig, ValueFieldStatus } from '../Field/ValueFields/ValueField.config';
-import { WizardConfig, WizardStatus } from '../Wizard/Wizard.config';
-import { ContentFieldConfig, ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
+import { ValueFieldStatus } from '../Field/ValueFields/ValueField.config';
+import { ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Status } from '../status';
 import { Config } from '../config';
+import { ChapterConfig, ChapterStatus } from '../Chapter/Chapter.config';
 
 export class FormStatus extends Status {
 
-  public parent: WizardStatus;
+  public parent: ChapterStatus;
   public children: FieldStatus[] = [];
   public config: FormConfig;
   constructor(
-    public key: string,
     public isValid?: boolean,
     public isVisible: boolean = true,
   ) {
@@ -97,11 +96,10 @@ export class FormStatus extends Status {
 
 export class FormConfig extends Config {
   private type: string = 'Form';
-  public parent: WizardConfig;
+  public parent: ChapterConfig;
   public status: FormStatus;
 
   constructor(
-    public key: string,
     public fields: FieldConfig[],
     public settings: {
       title?: string,
@@ -110,13 +108,13 @@ export class FormConfig extends Config {
     public visible: BooleanCondition = new BooleanConst(true)
   ) {
     super();
-
+    this.type = 'Form'
     this.fields.forEach(field => {
       field.parent = this;
     });
   }
   createStatus() {
-    this.status = new FormStatus(this.key);
+    this.status = new FormStatus();
     this.status.config = this;
     this.fields.forEach(field => {
       field.createStatus();
@@ -125,7 +123,7 @@ export class FormConfig extends Config {
     });
   }
 
-  get root(): WizardConfig {
+  get root(): any {
     return this.parent;
   }
 

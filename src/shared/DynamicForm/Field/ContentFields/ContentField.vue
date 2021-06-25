@@ -17,10 +17,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import { WizardConfig } from "../../Wizard/Wizard.config";
 import { ContentFieldConfig } from "./ContentField.config";
 import ParagraphFieldComponent from "./Paragraph/Paragraph.vue";
 import HyperlinkFieldComponent from "./Hyperlink/Hyperlink.vue";
+import { FinderConfig } from "../../Finder/Finder.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -32,7 +32,7 @@ import HyperlinkFieldComponent from "./Hyperlink/Hyperlink.vue";
 export default class ContentFieldComponent extends Vue {
   @Prop() private config!: ContentFieldConfig;
 
-  @Prop() public root!: WizardConfig;
+  @Prop() public root!: FinderConfig;
 
   get visibility(): any {
     if (this.config.visible.calc) {

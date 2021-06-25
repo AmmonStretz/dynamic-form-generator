@@ -19,8 +19,8 @@ import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import FieldComponent from "../Field/Field.vue";
 import { FormConfig, FormStatus } from "./Form.config";
 import { ValueFieldStatus } from "../Field/ValueFields/ValueField.config";
-import { WizardConfig } from "../Wizard/Wizard.config";
 import { ContentFieldConfig } from "../Field/ContentFields/ContentField.config";
+import { ChapterConfig } from "../Chapter/Chapter.config";
 
 @Component({
   components: {
@@ -30,7 +30,7 @@ import { ContentFieldConfig } from "../Field/ContentFields/ContentField.config";
 export default class FormComponent extends Vue {
 
   @Prop() public config!: FormConfig;
-  @Prop() public root!: WizardConfig;
+  @Prop() public root!: ChapterConfig;
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): FormStatus {
@@ -58,7 +58,7 @@ export default class FormComponent extends Vue {
 
   checkValidity(): boolean {
     for (let i = 0; i < this.config.fields.length; i++) {
-      if(this.config.fields instanceof ContentFieldConfig) {
+      if(!(this.config.fields instanceof ContentFieldConfig)) {
         const status = this.config.fields[i].status;
         if (status.isVisible && !status.isValid) {
           return false;

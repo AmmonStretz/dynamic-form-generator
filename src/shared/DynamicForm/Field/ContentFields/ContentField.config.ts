@@ -8,9 +8,10 @@ export class ContentFieldStatus extends FieldStatus {
     return this;
   }
   getValueByKey(path: string): any {
+    // splits path around the first slash
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];
-    after = after?after:'';
+    after = after ? after : '';
     if (current == 'Root:') {
       return this.config.root.status.getValueByKey(after);
     } else if (current == '..') {

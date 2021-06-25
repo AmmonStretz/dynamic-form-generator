@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { WizardConfig } from "../../Wizard/Wizard.config";
+import { FinderConfig } from "../../Finder/Finder.config";
 import { FieldGroupConfig, FieldGroupStatus } from "./FieldGroup.config";
 // import FieldComponent from "../Field.vue";
 
@@ -31,7 +31,7 @@ import { FieldGroupConfig, FieldGroupStatus } from "./FieldGroup.config";
 })
 export default class FieldGroupComponent extends Vue {
   @Prop() public config!: FieldGroupConfig;
-  @Prop() public root!: WizardConfig;
+  @Prop() public root!: FinderConfig;
 
   constructor() {
     super();

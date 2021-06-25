@@ -1,8 +1,8 @@
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { Config } from '../config';
+import { FinderConfig } from '../Finder/Finder.config';
 import { FormConfig } from '../Form/Form.config';
 import { Status } from '../status';
-import { WizardConfig } from '../Wizard/Wizard.config';
 import { FieldGroupConfig } from './FieldGroup/FieldGroup.config';
 // import { ValueField } from "./ValueFields/ValueField.dto";
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
@@ -38,7 +38,7 @@ export abstract class FieldConfig extends Config{
     super();
   }
 
-  get root(): WizardConfig {
+  get root(): FinderConfig {
     return this.parent.root;
   }
 

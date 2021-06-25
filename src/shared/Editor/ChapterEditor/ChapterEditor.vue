@@ -21,7 +21,7 @@
         </button>
       </div>
     </header>
-    <div class="content">
+    <div class="content" v-if="loaded">
       <div class="chapter-list">
         <div
           class="chapter-box"
@@ -32,11 +32,19 @@
           <ChapterEditorComponent
             v-bind:config="subChapter"
             :ref="i"
-            @event="listener"
+            @change="reload"
           ></ChapterEditorComponent>
         </div>
       </div>
-      <div class="add-content" v-if="config.children.length == 0"></div>
+      <div class="pages" v-if="config.children.length == 0">
+        <PageEditorComponent
+          v-for="(page, i) in config.pages"
+          :key="'page_' + i"
+          :index="i"
+          :config="page"
+          @change="reload"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -44,6 +52,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
+import { FormConfig } from "../../DynamicForm/Form/Form.config";
+import PageEditorComponent from "../PageEditor/PageEditor.vue";
 
 import {
   addCathegoryGenerator,
@@ -55,6 +65,7 @@ import {
   name: "ChapterEditorComponent",
   components: {
     ChapterEditorComponent,
+    PageEditorComponent,
   },
 })
 export default class ChapterEditorComponent extends Vue {
@@ -73,65 +84,79 @@ export default class ChapterEditorComponent extends Vue {
         this.config.settings.title,
         titles,
         (status: any) => {
+          const title: string = status.getValueByKey("title");
+          let position: number = status.getValueByKey("position");
+
+          if (position == null || position == undefined) position = 1;
+          const empty = new FormConfig([], {});
           if (this.config instanceof ChapterConfig) {
-            if (this.config.isRoot) {
-              let newChild =new ChapterConfig(status.children[0].value, [], {
-                title: status.children[0].value,
-              })
-              newChild.parent = this.config;
-              
-              this.config.children.push(
-                newChild
-              );
-            } else {
-              const newChild = new ChapterConfig(status.children[1].value, [], {
-                title: status.children[1].value,
-              });
-              newChild.parent = this.config;
-              if (status.children[0].value == 1) {
-                this.config.children.push(newChild);
+            const newChild = new ChapterConfig([], [], { title });
+            if (position == 1) {
+              // add inside
+              if (this.config.pages.length > 0) {
+                this.config.pages.forEach((page: FormConfig) => {
+                  newChild.addPage(page);
+                });
               } else {
-                let index = (
-                  this.config.parent as ChapterConfig
-                ).children.indexOf(this.config);
-                if (status.children[0].value == 0) {
-                  (this.config.parent as ChapterConfig).children.splice(
-                    index,
-                    0,
-                    newChild
-                  );
-                } else if (status.children[0].value == 2) {
-                  (this.config.parent as ChapterConfig).children.splice(
-                    index + 1,
-                    0,
-                    newChild
-                  );
-                }
+                newChild.addPage(empty);
+              }
+              this.config.pages = [];
+              this.config.addChapter(newChild);
+            } else {
+              let index = (
+                this.config.parent as ChapterConfig
+              ).children.indexOf(this.config);
+
+              newChild.addPage(empty);
+              if (position == 0) {
+                // add before
+
+                (this.config.parent as ChapterConfig).addChapter(
+                  newChild,
+                  index
+                );
+              } else if (position == 2) {
+                // add after
+                (this.config.parent as ChapterConfig).addChapter(
+                  newChild,
+                  index + 1
+                );
               }
             }
           }
+          this.change();
         },
         this.config.isRoot
       )
     );
   }
   deleteChapter() {
-    let titles = [""];
-    this.config.children.forEach(function (chapter: ChapterConfig) {
-      titles.push(chapter.settings.title);
-    });
     this.$store.commit(
       "openMenu",
       deleteCathegoryGenerator((status: any) => {
-        this.event("delete");
+        // this.event("delete");
+        if (this.config.parent instanceof ChapterConfig) {
+          for (let i = 0; i < this.config.parent.children.length; i++) {
+            const chapter = this.config.parent.children[i];
+            if (chapter === this.config) {
+              this.config.parent.children.splice(i, 1);
+            }
+          }
+          if (this.config.parent.children.length == 0) {
+            // TODO: change status and config children and
+            this.config.parent.pages = [new FormConfig([], {})];
+            this.config.parent.createStatus();
+          }
+        }
+        this.change();
       })
     );
   }
   edit() {
     let titles = [""];
-    if(this.config.parent instanceof ChapterConfig){
+    if (this.config.parent instanceof ChapterConfig) {
       this.config.parent.children.forEach((chapter: ChapterConfig) => {
-        if(this.config.settings.title != chapter.settings.title){
+        if (this.config.settings.title != chapter.settings.title) {
           titles.push(chapter.settings.title);
         }
       });
@@ -142,30 +167,24 @@ export default class ChapterEditorComponent extends Vue {
         this.config.settings.title,
         titles,
         (status: any) => {
-          this.config.settings.title = status.children[0].value;
+          this.config.settings.title = status.getValueByKey("title");
+          this.change();
         }
       )
     );
   }
-  @Emit("event")
-  event(eventType: string): { type: string; target: ChapterConfig } {
-    return { type: eventType, target: this.config };
+
+  loaded = true;
+  reload() {
+    this.loaded = false;
+    // TODO: Kapitel rerendering https://morioh.com/p/08963bf07353
+    this.$nextTick(() => {
+      this.loaded = true;
+    });
   }
-  listener(event: { type: string; target: ChapterConfig }) {
-    if (event.type == "delete") {
-      for (let i = 0; i < this.config.children.length; i++) {
-        const chapter = this.config.children[i];
-        if (chapter === event.target) {
-          this.config.children.splice(i, 1);
-        }
-      }
-    }
-    if (event.type == "add-after") {
-      console.log("add-after");
-    }
-    if (event.type == "add-before") {
-      console.log("add-before");
-    }
+  @Emit("change")
+  change() {
+    return;
   }
 }
 </script>

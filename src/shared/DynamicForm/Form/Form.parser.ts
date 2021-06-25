@@ -13,7 +13,6 @@ export class FormParser {
   public static parseFromJSON(json: any): FormConfig {
     if (!json.visible) json.visible = { type: "boolean-const", value: true };
     return new FormConfig(
-      json.key,
       FieldParser.parseFromJSONArray(json.fields),
       json.settings,
       BooleanConditionParser.fromJson(json.visible)
