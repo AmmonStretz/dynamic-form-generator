@@ -43,14 +43,13 @@ export default class FinderComponent extends Vue {
   @Prop() public config!: FinderConfig;
   public $refs: any;
 
+private loaded = true;
   public get currentStatus() {
     return this.config.status;
   }
 
   @Emit("change")
   onChange(status: ChapterStatus): FinderStatus {
-    console.log(status);
-    
     this.config.chapter.status = status;
     return this.config.status;
   }
@@ -59,7 +58,6 @@ export default class FinderComponent extends Vue {
   submit() {
     return this.config.status;
   }
-
   onBefore() {}
   next(): boolean {
     if (!!this.config.chapter) {

@@ -14,11 +14,26 @@ export class ChapterStatus extends Status {
     super();
   }
   public update(): ChapterStatus {
+    let valide = true;
     if (this.children.length > 0) {
-      this.children.forEach(child => child.update());
-    } else {
-      this.pages.forEach(page => page.update());
+      this.children.forEach(child => {
+        const childStatus = child.update();
+        if (!childStatus.isValid && childStatus.isVisible) {
+          valide = false;
+        }
+      });
+    } else if (this.pages.length > 0) {
+      this.pages.forEach(page => {
+        const pageStatus = page.update();
+        if (!pageStatus.isValid && pageStatus.isVisible) {
+          valide = false;
+        }
+      });
     }
+    this.isValid = valide;
+    // this.isVisible = this.config.visible.calc(
+    //   (key: string) => this.getValueByKey(key)
+    // );
     return this;
   }
   public showAllErrors(): void {
@@ -39,10 +54,10 @@ export class ChapterStatus extends Status {
       return this.parent.getValueByKey(after);
     } else if (+current != NaN && typeof +current == "number") {
       const index = +current;
-      if(index <= this.pages.length-1){
+      if (index <= this.pages.length - 1) {
         this.pages[index].getValueByKey(after)
       }
-      if(index <= this.children.length-1){
+      if (index <= this.children.length - 1) {
         this.children[index].getValueByKey(after);
       }
     }
@@ -79,7 +94,7 @@ export class ChapterConfig extends Config {
 
   addPage(form: FormConfig, index: number = null) {
     form.parent = this;
-    if(index == null){
+    if (index == null) {
       this.pages.push(form);
     } else {
       this.pages.splice(index, 0, form)
@@ -87,7 +102,7 @@ export class ChapterConfig extends Config {
   }
   addChapter(chapter: ChapterConfig, index: number = null) {
     chapter.parent = this;
-    if(index == null){
+    if (index == null) {
       this.children.push(chapter);
     } else {
       this.children.splice(index, 0, chapter)

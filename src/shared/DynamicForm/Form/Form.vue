@@ -32,9 +32,17 @@ export default class FormComponent extends Vue {
   @Prop() public config!: FormConfig;
   @Prop() public root!: ChapterConfig;
 
+  mounted() {
+    if (this.config.visible.calc) {
+      this.config.status.isVisible = this.config.visible.calc((key) =>
+        this.config.status.getValueByKey(key)
+      );
+    }
+    this.config.status.isValid = this.checkValidity();
+  }
+
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): FormStatus {
-    
     const index: number = this.config.fields.findIndex(
       (field) => field.status.key == status.key
     );
@@ -46,16 +54,7 @@ export default class FormComponent extends Vue {
     }
     return this.config.status;
   }
-
-  mounted() {
-    if (this.config.visible.calc) {
-      this.config.status.isVisible = this.config.visible.calc((key) =>
-        this.config.status.getValueByKey(key)
-      );
-    }
-    this.config.status.isValid = this.checkValidity();
-  }
-
+  
   checkValidity(): boolean {
     for (let i = 0; i < this.config.fields.length; i++) {
       if(!(this.config.fields instanceof ContentFieldConfig)) {

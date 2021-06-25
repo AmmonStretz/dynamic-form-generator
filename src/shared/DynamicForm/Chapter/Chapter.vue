@@ -22,6 +22,7 @@
         v-on:change="onChange"
       ></FormComponent>
     </div>
+    <div v-if="!loaded"></div>
   </div>
 </template>
 
@@ -43,6 +44,7 @@ export default class ChapterComponent extends Vue {
   @Prop() public config!: ChapterConfig;
   @Prop() public root!: FinderConfig;
   public $refs: any;
+  private loaded = true;
 
   public get currentStatus() {
     return this.config.status;
@@ -60,27 +62,37 @@ export default class ChapterComponent extends Vue {
     let size = this.config.pages.length;
     let next = true;
     let validChild = true;
+        this.root.status.update();
+        this.root.status.showAllErrors();
     if (this.hasChildren) {
       next = this.$refs["chapter_" + this.config.status.index][0].next();
       size = this.config.children.length;
-      validChild = this.currentStatus.children[this.config.status.index].isValid;
-    } else if(this.hasPages) {
-      validChild = this.currentStatus.pages[this.config.status.index].isValid;
+      validChild =
+        this.currentStatus.children[this.config.status.index].isValid;
+        debugger;
+    } else if (this.hasPages) {
+      validChild =
+        this.$refs["page_" + this.config.status.index][0].checkValidity();
     }
-    // this.currentStatus.isValid
     if (next && this.config.status.index < size - 1) {
-      if(validChild){
+      if (validChild) {
         this.config.status.index++;
       } else {
-        this.root.status.update()
-        this.root.status.showAllErrors();
       }
     } else if (next && this.config.status.index == size - 1) {
+      this.reload();
       return true;
     }
+    this.reload();
     return false;
   }
 
+  reload() {
+    this.loaded = false;
+    this.$nextTick(() => {
+      this.loaded = true;
+    });
+  }
 
   @Emit("change")
   onChange(status: ChapterStatus | FormStatus): ChapterStatus {
@@ -122,7 +134,6 @@ export default class ChapterComponent extends Vue {
     }
     return true;
   }
-
 }
 </script>
 
