@@ -46,17 +46,13 @@ export default {
           let placeholder: TextInputConfig = (form.fields[2] as TextInputConfig);
           placeholder.settings.default = current.settings.placeholder;
 
-          let question: TextInputConfig = (form.fields[3] as TextInputConfig);
-          question.settings.default = current.settings.question;
-
-          let description: TextAreaConfig = (form.fields[4] as TextAreaConfig);
+          let description: TextAreaConfig = (form.fields[3] as TextAreaConfig);
           description.settings.default = current.settings.description;
 
           form.fields = [];
           form.fields.push(key);
           form.fields.push(name);
           form.fields.push(placeholder);
-          form.fields.push(question);
           form.fields.push(description);
           form.createStatus();
           return form;

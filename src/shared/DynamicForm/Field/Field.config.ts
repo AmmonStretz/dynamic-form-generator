@@ -20,7 +20,6 @@ export abstract class FieldStatus extends Status {
 
 export interface FieldSettings{
   placeholder?: string,
-  question?: string,
   description?: string,
   name?: string
 }
