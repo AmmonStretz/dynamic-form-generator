@@ -17,7 +17,7 @@ export function editCathegoryGenerator(defaultCathegoryName: string, blockedTitl
           ]
         ),
       ],
-      { title: "Kategorie Bearbeiten" }
+      { title: "Kategorie bearbeiten" }
     ),
     listener: listener,
   }

@@ -91,7 +91,7 @@ export function editFieldGenerator(currentField: FieldConfig, listener: any) {
         new SelectConfig('type', selectOptions, selectSettings),
         new FieldGroupConfig('config', fields,{})
       ],
-      { title: "Feld hinzufügen" }
+      { title: "Feld bearbeiten" }
     ),
     listener: (status: Status)=>{
       const currentStatus = status.children[1].children[status.getValueByKey('type')];

@@ -49,7 +49,7 @@ export function editPageGenerator(defaultCathegoryName: string, listener: any) {
           ]
         ),
       ],
-      { title: "Seite Bearbeiten" }
+      { title: "Seite bearbeiten" }
     ),
     listener: listener,
   }
