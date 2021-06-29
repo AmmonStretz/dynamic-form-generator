@@ -51,7 +51,7 @@ export default class FieldLoopComponent extends Vue {
 //   }
 
 //   checkValidity(): boolean {
-//     if (this.config.field.status.isVisible && !this.config.field.status.isValid) {
+//     if (this.config.field.status.visible && !this.config.field.status.isValid) {
 //       return false;
 //     }
 //     return true;

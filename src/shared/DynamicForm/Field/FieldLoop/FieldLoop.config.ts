@@ -15,9 +15,9 @@
 //   constructor(
 //     public key: string,
 //     public isValid?: boolean,
-//     public isVisible: boolean = true,
+//     public visible: boolean = true,
 //   ) {
-//     super(key, isValid, isVisible);
+//     super(key, isValid, visible);
 //   }
 //   public update(): FieldLoopStatus {
 //     this.config.updateFields()
@@ -33,12 +33,14 @@
 //       if (child instanceof FieldLoopStatus) {
 //         childStatus = (child as FieldLoopStatus).update();
 //       }
-//       if (!childStatus.isValid && !!childStatus.isVisible) {
+//       if (!childStatus.isValid && !!childStatus.visible) {
 //         valide = false;
 //       }
 //     });
 //     this.isValid = valide;
-//     this.isVisible = this.config.visible.calc(this.getValueByKey);
+//     this.visible =  = this.config.visible.calc((key) =>
+      // this.config.status.getValueByKey(key)
+      // );
 //     return this;
 //   }
 
@@ -142,7 +144,7 @@
 //   public updateValidity() {
 
 //     if (this.field instanceof ValueFieldConfig) {
-//       if (!this.field.status.isVisible) {
+//       if (!this.field.status.visible) {
 //         this.status.isValid = true;
 //       }
 //     } else if (this.field instanceof FieldGroupConfig) {

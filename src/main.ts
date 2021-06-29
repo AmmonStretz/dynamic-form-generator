@@ -15,9 +15,9 @@ import TextInputPlugin from './shared/DynamicForm/Field/ValueFields/TextInput';
 
 Vue.config.productionTip = false;
 
-(Vue as any).valueFields = [];
-(Vue as any).contentFields = [];
+(Vue as any).fieldPlugins = [];
 (Vue as any).fieldParser = {};
+Vue.prototype.$test = 123;
 
 // CONTENT FIELD PLUGINS
 

@@ -9,7 +9,7 @@ export class ChapterStatus extends Status {
   constructor(
     public index: number,
     public isValid?: boolean,
-    public isVisible: boolean = true,
+    public visible: boolean = true,
   ) {
     super();
   }
@@ -18,20 +18,20 @@ export class ChapterStatus extends Status {
     if (this.children.length > 0) {
       this.children.forEach(child => {
         const childStatus = child.update();
-        if (!childStatus.isValid && childStatus.isVisible) {
+        if (!childStatus.isValid && childStatus.visible) {
           valide = false;
         }
       });
     } else if (this.pages.length > 0) {
       this.pages.forEach(page => {
         const pageStatus = page.update();
-        if (!pageStatus.isValid && pageStatus.isVisible) {
+        if (!pageStatus.isValid && pageStatus.visible) {
           valide = false;
         }
       });
     }
     this.isValid = valide;
-    // this.isVisible = this.config.visible.calc(
+    // this.visible = this.config.visible.calc(
     //   (key: string) => this.getValueByKey(key)
     // );
     return this;

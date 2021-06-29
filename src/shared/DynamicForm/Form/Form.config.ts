@@ -16,33 +16,35 @@ export class FormStatus extends Status {
   public config: FormConfig;
   constructor(
     public isValid?: boolean,
-    public isVisible: boolean = true,
+    public visible: boolean = true,
   ) {
     super();
   }
   public update(): FormStatus {
     let valide = true;
+  
     this.children.forEach(child => {
       let childStatus: any;
       if (child instanceof ValueFieldStatus) {
-        childStatus = (child as ValueFieldStatus<any>).update();
+        childStatus = child.update();
       }
       if (child instanceof FieldGroupStatus) {
-        childStatus = (child as FieldGroupStatus).update();
+      
+        childStatus = child.update();
       }
       // if (child instanceof FieldLoopStatus) {
       //   childStatus = (child as FieldLoopStatus).update();
       // }
       if (child instanceof ContentFieldStatus) {
-        (child as ContentFieldStatus).update();
+        child.update();
         return;
       }
-      if (!childStatus.isValid && childStatus.isVisible) {
+      if (!childStatus.isValid && childStatus.visible) {
         valide = false;
       }
     });
     this.isValid = valide;
-    this.isVisible = this.config.visible.calc(
+    this.visible = this.config.visible.calc(
       (key: string) => this.getValueByKey(key)
     );
     return this;
@@ -62,7 +64,7 @@ export class FormStatus extends Status {
   }
   
   getValueByKey(path: string): any {
-
+  
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];
     after = after ? after : '';     
@@ -77,7 +79,7 @@ export class FormStatus extends Status {
         // TODO: if path ends here
         if (current == child.key) {
           if (child instanceof FieldGroupStatus) {
-            return (child as FieldGroupStatus).getValueByKey(after);
+            return child.getValueByKey(after);
           } 
           // else if (child instanceof FieldLoopStatus) {
           //   return (child as FieldLoopStatus).getValueByKey(after);

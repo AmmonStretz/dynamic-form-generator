@@ -36,10 +36,10 @@ export default class ContentFieldComponent extends Vue {
 
   get visibility(): any {
     if (this.config.visible.calc) {
-      this.config.status.isVisible = this.config.visible.calc((key) =>
+      this.config.status.visible = this.config.visible.calc((key) =>
         this.config.status.getValueByKey(key)
       );
-      return this.config.status.isVisible;
+      return this.config.status.visible;
     }
     return true;
   }

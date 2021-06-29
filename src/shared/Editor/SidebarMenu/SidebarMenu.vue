@@ -39,7 +39,7 @@ export default class SidebarMenuComponent extends Vue {
     // TODO: Validation & Error handling Close Menu
     this.config.form.status.showAllErrors();
     this.config.form.status.update();
-    if (this.config.form.status.isValid || !this.config.form.status.isVisible) {
+    if (this.config.form.status.isValid || !this.config.form.status.visible) {
       this.config.listener(this.config.form.status);
       this.config = null;
     } else {

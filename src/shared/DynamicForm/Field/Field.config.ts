@@ -11,7 +11,7 @@ export abstract class FieldStatus extends Status {
   constructor(
     public key: string,
     public isValid?: boolean,
-    public isVisible: boolean = true,
+    public visible: boolean = true,
   ) {
     super();
   }

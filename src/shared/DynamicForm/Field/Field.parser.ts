@@ -30,7 +30,7 @@ export class FieldParser {
   public static parseFromJSON(json: jsonStructure): FieldConfig {
     if (!json.visible) json.visible = { type: "boolean-const", value: true };
     if (!json.condition) json.condition = { type: "number-const", value: 0 };
-    if(json.type in PluginService.fieldParser){
+    if(json.type in PluginService.fieldParser){      
       return PluginService.fieldParser[json.type](json);
     }
     switch (json.type) {

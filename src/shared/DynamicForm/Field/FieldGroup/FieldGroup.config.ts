@@ -11,9 +11,9 @@ export class FieldGroupStatus extends FieldStatus {
   constructor(
     public key: string,
     public isValid?: boolean,
-    public isVisible: boolean = true,
+    public visible: boolean = true,
   ) {
-    super(key, isValid, isVisible);
+    super(key, isValid, visible);
   }
   public update(): FieldGroupStatus {
     let valide = true;
@@ -28,13 +28,14 @@ export class FieldGroupStatus extends FieldStatus {
       // if (child instanceof FieldLoopStatus) {
       //   childStatus = (child as FieldLoopStatus).update();
       // }
-      if (!childStatus.isValid && !!childStatus.isVisible) {
+      if (!childStatus.isValid && !!childStatus.visible) {
         valide = false;
       }
     });
     this.isValid = valide;
-    this.isVisible = this.config.visible.calc(this
-    .getValueByKey);
+    this.visible = this.config.visible.calc((key) =>
+      this.config.status.getValueByKey(key)
+    );
     return this;
   }
 
@@ -53,13 +54,14 @@ export class FieldGroupStatus extends FieldStatus {
   getValueByKey(path: string): any {
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];
-    after = after?after:'';
+    after = after ? after : '';
     // TODO: if path ends here
     if (current == 'Root:') {
       return this.config.root.status.getValueByKey(after);
     } else if (current == '..') {
       return this.parent.getValueByKey(after);
     } else {
+
       for (const key in this.children) {
         if (Object.prototype.hasOwnProperty.call(this.children, key)) {
           const child = this.children[key];
@@ -120,7 +122,7 @@ export class FieldGroupConfig extends FieldConfig {
   public updateValidity() {
     this.fields.forEach(field => {
       if (field instanceof ValueFieldConfig) {
-        if (!field.status.isVisible) {
+        if (!field.status.visible) {
           this.status.isValid = true;
         }
       } else if (field instanceof FieldGroupConfig) {

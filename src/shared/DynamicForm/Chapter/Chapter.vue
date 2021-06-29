@@ -69,7 +69,6 @@ export default class ChapterComponent extends Vue {
       size = this.config.children.length;
       validChild =
         this.currentStatus.children[this.config.status.index].isValid;
-        debugger;
     } else if (this.hasPages) {
       validChild =
         this.$refs["page_" + this.config.status.index][0].checkValidity();
@@ -117,7 +116,7 @@ export default class ChapterComponent extends Vue {
       for (let i = 0; i < this.config.pages.length; i++) {
         if (!(this.config.pages instanceof FormConfig)) {
           const status = this.config.pages[i].status;
-          if (status.isVisible && !status.isValid) {
+          if (status.visible && !status.isValid) {
             return false;
           }
         }
@@ -126,7 +125,7 @@ export default class ChapterComponent extends Vue {
       for (let i = 0; i < this.config.children.length; i++) {
         if (!(this.config.children instanceof ChapterConfig)) {
           const status = this.config.children[i].status;
-          if (status.isVisible && !status.isValid) {
+          if (status.visible && !status.isValid) {
             return false;
           }
         }

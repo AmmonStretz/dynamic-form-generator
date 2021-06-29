@@ -14,13 +14,13 @@ export class ValueFieldStatus<T> extends FieldStatus {
     public isValid?: boolean,
     public showErrors?: boolean,
     public errors?: { message: string, type: string }[],
-    public isVisible: boolean = true,
+    public visible: boolean = true,
   ) {
-    super(key, isValid, isVisible);
+    super(key, isValid, visible);
   }
 
   public update(): FieldStatus {
-    this.isVisible = this.config.visible.calc((key: string) => this.getValueByKey(key));
+    this.visible = this.config.visible.calc((key: string) => this.getValueByKey(key));
     return this;
   }
 

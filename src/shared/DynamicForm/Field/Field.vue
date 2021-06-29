@@ -63,15 +63,16 @@ export default class FieldComponent extends Vue {
 
   get visibility(): any {
     if (this.config.visible.calc) {
-      this.config.status.isVisible = this.config.visible.calc((key) =>
+      this.config.status.visible = this.config.visible.calc((key) =>
         this.config.status.getValueByKey(key)
       );
-      return this.config.status.isVisible;
+      return this.config.status.visible;
     }
     return true;
   }
 
   get isContentField() {
+    // TODO: make generic
     return ['paragraph', 'hyperlink'].indexOf(this.config.type)>=0;
   }
   get isValueField() {

@@ -1,5 +1,12 @@
 <template>
   <div class="value-field">
+    <!-- TODO: dynamic generation -->
+    <!-- <component
+      v-if="config.type == 'textInput'"
+      :is="'TextInputComponent'"
+      v-bind:config="config"
+      @change="onChange"
+    ></component> -->
     <NumberInputComponent
       v-if="config.type == 'numberInput'"
       v-bind:config="config"
@@ -50,6 +57,7 @@ import SelectComponent from "./Select/Select.vue";
 import RadioButtonListComponent from "./RadioButtonList/RadioButtonList.vue";
 import { ValueFieldStatus, ValueFieldConfig } from "./ValueField.config";
 import { FinderConfig } from "../../Finder/Finder.config";
+import { PluginService } from "../../services/Plugin.service";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -69,17 +77,17 @@ export default class FieldComponent extends Vue {
 
   get visibility(): any {
     if((this.config.visible).calc){
-      this.config.status.isVisible = this.config.visible.calc(
+      this.config.status.visible = this.config.visible.calc(
         (key) => this.config.status.getValueByKey(key)
       );
-      return this.config.status.isVisible
+      return this.config.status.visible
     }
     return true;
   }
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): ValueFieldStatus<any> {
-    this.$forceUpdate();
+    //this.config.Root.status.update();
     return status;
   }
 }

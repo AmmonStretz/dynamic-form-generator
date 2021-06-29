@@ -2,7 +2,7 @@
   <div class="page">
     <header>
       <h2>
-        Seite {{ index + 1 }}: <span>{{ config.settings.title }}</span>
+        Seite {{ index + 1 }}: <span>{{ config.settings.name }}</span>
       </h2>
       <button @click="addNewPage()">
         <img src="../../../assets/icons/add.svg" alt="" />
@@ -14,6 +14,13 @@
         <img src="../../../assets/icons/delete.svg" alt="" />
       </button>
     </header>
+    <div class="content">
+      <FieldEditorComponent
+        v-for="(field, i) in config.fields"
+          :key="i"
+          :config="field"
+        />
+    </div>
   </div>
 </template>
 
@@ -22,6 +29,7 @@ import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
+import FieldEditorComponent from '../FieldEditor/FieldEditor.vue';
 import {
   addPageGenerator,
   deletePageGenerator,
@@ -29,7 +37,9 @@ import {
 } from "./sidebar-menu.forms";
 
 @Component({
-  components: {},
+  components: {
+    FieldEditorComponent
+  },
 })
 export default class PageEditorComponent extends Vue {
   @Prop() public config!: FormConfig;

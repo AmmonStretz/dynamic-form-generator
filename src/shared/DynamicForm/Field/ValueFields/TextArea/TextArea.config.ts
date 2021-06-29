@@ -5,7 +5,7 @@ import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../Value
 
 export interface TextAreaSettings extends ValueFieldSettings<string> {
   name: string,
-  description: string,
+  description?: string,
 }
 
 export class TextAreaConfig extends ValueFieldConfig<string> {

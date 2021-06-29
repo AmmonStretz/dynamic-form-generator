@@ -28,8 +28,7 @@ const FORM_00: any = {
   key: 'firstForm',
   fields: [
     STRING_INPUT_00,
-    STRING_INPUT_00,
-    STRING_INPUT_00,
+    CHECKBOX_00
   ],
   settings: {
     title: 'Name der Seite 1'
@@ -48,7 +47,7 @@ export const finderConfig: any = {
   chapter: {
     children: [{
       children: [{
-        pages: [],
+        pages: [FORM_00],
         children: [],
         settings: { title: 'Kapitel A1' }
       }],

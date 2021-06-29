@@ -4,7 +4,7 @@ import { FieldConfig, FieldSettings, FieldStatus } from '../Field.config';
 export class ContentFieldStatus extends FieldStatus {
   public config: ContentFieldConfig;
   public update(): FieldStatus {
-    this.isVisible = this.config.visible.calc((key: string) => this.parent.getValueByKey(key));
+    this.visible = this.config.visible.calc((key: string) => this.parent.getValueByKey(key));
     return this;
   }
   getValueByKey(path: string): any {

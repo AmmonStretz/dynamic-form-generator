@@ -39,7 +39,6 @@ export function deleteCathegoryGenerator(listener: any) {
   }
 }
 export function addCathegoryGenerator(defaultCathegoryName: string, blockedTitles: string[], listener: any, isRoot: boolean) {
-  console.log(blockedTitles);
   
   const config = {
     form: new FormConfig(

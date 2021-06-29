@@ -34,7 +34,7 @@ export default class FormComponent extends Vue {
 
   mounted() {
     if (this.config.visible.calc) {
-      this.config.status.isVisible = this.config.visible.calc((key) =>
+      this.config.status.visible = this.config.visible.calc((key) =>
         this.config.status.getValueByKey(key)
       );
     }
@@ -43,15 +43,17 @@ export default class FormComponent extends Vue {
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): FormStatus {
+    this.config.status.update();
     const index: number = this.config.fields.findIndex(
       (field) => field.status.key == status.key
     );
     this.config.fields[index].status = status;
     this.config.status.children[index] = status;
     this.config.status.isValid = this.checkValidity();
-    if(this.root){
-      this.root.status.update();
-    }
+    // if(this.root){
+    //   this.root.status.update();
+    // }
+    
     return this.config.status;
   }
   
@@ -59,7 +61,7 @@ export default class FormComponent extends Vue {
     for (let i = 0; i < this.config.fields.length; i++) {
       if(!(this.config.fields instanceof ContentFieldConfig)) {
         const status = this.config.fields[i].status;
-        if (status.isVisible && !status.isValid) {
+        if (status.visible && !status.isValid) {
           return false;
         }
       }
