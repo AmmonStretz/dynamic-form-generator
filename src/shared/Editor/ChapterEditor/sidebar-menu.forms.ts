@@ -55,7 +55,7 @@ export function addCathegoryGenerator(defaultCathegoryName: string, blockedTitle
   if(!isRoot) {
     config.form.fields.unshift(new RadioButtonListConfig(
       'position',
-      [{name: 'vorher', value: 0}, {name: 'als Unterkategorie', value: 1}, {name: 'nacher', value: 2}],
+      [{name: 'vorher', value: 0}, {name: 'als Unterkategorie', value: 1}, {name: 'nachher', value: 2}],
       {}
     ))
   }

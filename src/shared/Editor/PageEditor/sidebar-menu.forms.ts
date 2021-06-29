@@ -9,7 +9,7 @@ export function addPageGenerator(listener: any) {
       [
         new RadioButtonListConfig(
           'position',
-          [{ name: 'vorher', value: 0 }, { name: 'nacher', value: 1 }],
+          [{ name: 'vorher', value: 0 }, { name: 'nachher', value: 1 }],
           {}
         ),
         new TextInputConfig("title", { name: "Titel" }, [
