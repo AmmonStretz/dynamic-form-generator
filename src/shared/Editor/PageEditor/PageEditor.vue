@@ -20,6 +20,11 @@
           :key="i"
           :config="field"
         />
+      <div class="empty-content" v-if="config.fields.length == 0">
+      <button  @click="addField()">
+        <img src="../../../assets/icons/add.svg" alt="" />
+      </button>
+      </div>
     </div>
   </div>
 </template>
@@ -27,9 +32,11 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
+import { FieldConfig } from "../../DynamicForm/Field/Field.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
 import FieldEditorComponent from '../FieldEditor/FieldEditor.vue';
+import { addFieldGenerator } from "../FieldEditor/sidebar-menu.forms";
 import {
   addPageGenerator,
   deletePageGenerator,
@@ -113,6 +120,17 @@ export default class PageEditorComponent extends Vue {
     );
   }
 
+
+  public addField() {
+    this.$store.commit(
+      "openMenu",
+      addFieldGenerator((field: FieldConfig) => {
+        field.parent = this.config;
+        this.config.fields.push(field);
+      })
+    );
+  }
+
   @Emit("change")
   change() {
     return;
@@ -125,5 +143,11 @@ export default class PageEditorComponent extends Vue {
   padding: 24px;
   box-shadow: #00000045 0px 4px 10px;
   margin-bottom: 32px;
+  .content {
+    .empty-content {
+      padding: 16px;
+      border: black dotted 2px;
+    }
+  }
 }
 </style>

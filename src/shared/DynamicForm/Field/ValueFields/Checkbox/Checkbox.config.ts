@@ -8,8 +8,7 @@ export class CheckboxConfig extends ValueFieldConfig<boolean> {
     public key: string,
     public settings: ValueFieldSettings<boolean>,
     public validators: Validator<boolean>[] = [],
-    public visible: BooleanCondition = new BooleanConst(true),
-    status?: ValueFieldStatus<boolean>,
+    public visible: BooleanCondition = new BooleanConst(true)
   ) {
     super(
       key,
