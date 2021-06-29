@@ -1,5 +1,4 @@
 import { ParagraphFieldConfig } from "@/shared/DynamicForm/Field/ContentFields/Paragraph/Paragraph.config";
-import RadioButtonList from "@/shared/DynamicForm/Field/ValueFields/RadioButtonList";
 import { RadioButtonListConfig } from "@/shared/DynamicForm/Field/ValueFields/RadioButtonList/RadioButtonList.config";
 import { TextInputConfig } from "@/shared/DynamicForm/Field/ValueFields/TextInput/TextInput.config";
 import { FormConfig } from "@/shared/DynamicForm/Form/Form.config";
@@ -36,6 +35,7 @@ export function deleteCathegoryGenerator(listener: any) {
       { title: "Kategorie löschen" }
     ),
     listener: listener,
+    settings: {confirmName: 'Löschen'}
   }
 }
 export function addCathegoryGenerator(defaultCathegoryName: string, blockedTitles: string[], listener: any, isRoot: boolean) {

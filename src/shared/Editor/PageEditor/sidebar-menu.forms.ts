@@ -1,9 +1,7 @@
 import { ParagraphFieldConfig } from "@/shared/DynamicForm/Field/ContentFields/Paragraph/Paragraph.config";
-import RadioButtonList from "@/shared/DynamicForm/Field/ValueFields/RadioButtonList";
 import { RadioButtonListConfig } from "@/shared/DynamicForm/Field/ValueFields/RadioButtonList/RadioButtonList.config";
 import { TextInputConfig } from "@/shared/DynamicForm/Field/ValueFields/TextInput/TextInput.config";
 import { FormConfig } from "@/shared/DynamicForm/Form/Form.config";
-import { NotInList, Required } from "@/shared/DynamicForm/Validators";
 
 export function addPageGenerator(listener: any) {
   const config = {
@@ -36,6 +34,7 @@ export function deletePageGenerator(listener: any) {
       { title: "Seite löschen" }
     ),
     listener: listener,
+    settings: {confirmName: 'Löschen'}
   }
 }
 
