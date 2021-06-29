@@ -4,8 +4,6 @@ import { FinderConfig } from '../Finder/Finder.config';
 import { FormConfig } from '../Form/Form.config';
 import { Status } from '../status';
 import { FieldGroupConfig } from './FieldGroup/FieldGroup.config';
-// import { ValueField } from "./ValueFields/ValueField.dto";
-// import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 
 export abstract class FieldStatus extends Status {
   constructor(
