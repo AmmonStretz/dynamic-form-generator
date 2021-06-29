@@ -1,47 +1,15 @@
 <template>
   <div class="value-field">
-    <!-- TODO: dynamic generation -->
-    <!-- <component
-      v-if="config.type == 'textInput'"
-      :is="'TextInputComponent'"
+    <component
+      v-if="plugin.length > 0"
+      :is="plugin[0].component.name"
       v-bind:config="config"
       @change="onChange"
-    ></component> -->
-    <NumberInputComponent
-      v-if="config.type == 'numberInput'"
-      v-bind:config="config"
-      v-on:change="onChange"
-    ></NumberInputComponent>
-    <TextInputComponent
-      v-if="config.type == 'textInput'"
-      v-bind:config="config"
-      v-on:change="onChange"
-    ></TextInputComponent>
-    <TextAreaComponent
-      v-if="config.type == 'textArea'"
-      v-bind:config="config"
-      v-on:change="onChange"
-    ></TextAreaComponent>
-    <NumberRangeComponent
-      v-if="config.type == 'numberRange'"
-      v-bind:config="config"
-      v-on:change="onChange"
-    ></NumberRangeComponent>
-    <CheckboxComponent
-      v-if="config.type == 'checkbox'"
-      v-bind:config="config"
-      v-on:change="onChange"
-    ></CheckboxComponent>
-    <SelectComponent
-      v-if="config.type == 'select'"
-      v-bind:config="config"
-      v-on:change="onChange"
-    ></SelectComponent>
-    <RadioButtonListComponent
-      v-if="config.type == 'radioButtonList'"
-      v-bind:config="config"
-      v-on:change="onChange"
-    ></RadioButtonListComponent>
+    ></component>
+    <div v-if="plugin.length == 0">
+      Fehler: Diese Komponente kann aufgrund eines Versionsunterschieds nicht
+      angezeigt werden!
+    </div>
     <p if="config.settings.description">{{ config.settings.description }}</p>
   </div>
 </template>
@@ -76,13 +44,20 @@ export default class FieldComponent extends Vue {
   @Prop() public root!: FinderConfig;
 
   get visibility(): any {
-    if((this.config.visible).calc){
-      this.config.status.visible = this.config.visible.calc(
-        (key) => this.config.status.getValueByKey(key)
+    if (this.config.visible.calc) {
+      this.config.status.visible = this.config.visible.calc((key) =>
+        this.config.status.getValueByKey(key)
       );
-      return this.config.status.visible
+      return this.config.status.visible;
     }
     return true;
+  }
+
+  get plugin() {
+    return (Vue as any).fieldPlugins.filter(
+      (plugin: any) =>
+        plugin.type == "valueField" && plugin.key == this.config.type
+    );
   }
 
   @Emit("change")

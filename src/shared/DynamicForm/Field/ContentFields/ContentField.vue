@@ -1,17 +1,11 @@
 <template>
   <div class="content-field" v-if="visibility">
-    <ParagraphFieldComponent
-      v-if="config.type == 'paragraph'"
+    <component
+      v-if="plugin.length > 0"
+      :is="plugin[0].component.name"
       v-bind:config="config"
       v-bind:root="root"
-    >
-    </ParagraphFieldComponent>
-    <HyperlinkFieldComponent
-      v-if="config.type == 'hyperlink'"
-      v-bind:config="config"
-      v-bind:root="root"
-    >
-    </HyperlinkFieldComponent>
+    ></component>
   </div>
 </template>
 
@@ -21,7 +15,6 @@ import { ContentFieldConfig } from "./ContentField.config";
 import ParagraphFieldComponent from "./Paragraph/Paragraph.vue";
 import HyperlinkFieldComponent from "./Hyperlink/Hyperlink.vue";
 import { FinderConfig } from "../../Finder/Finder.config";
-// Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
   components: {
@@ -33,6 +26,13 @@ export default class ContentFieldComponent extends Vue {
   @Prop() private config!: ContentFieldConfig;
 
   @Prop() public root!: FinderConfig;
+
+  get plugin() {
+    return (Vue as any).fieldPlugins.filter(
+      (plugin: any) =>
+        plugin.type == "contentField" && plugin.key == this.config.type
+    );
+  }
 
   get visibility(): any {
     if (this.config.visible.calc) {

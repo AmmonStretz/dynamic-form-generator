@@ -46,6 +46,8 @@ import ContentFieldComponent from "./ContentFields/ContentField.vue";
 import { FieldConfig, FieldStatus } from "./Field.config";
 import FieldLoopComponent from "./FieldLoop/FieldLoop.vue";
 import { FinderConfig } from "../Finder/Finder.config";
+import { ContentFieldConfig } from "./ContentFields/ContentField.config";
+import { ValueFieldConfig } from "./ValueFields/ValueField.config";
 // Vue.component('FieldComponent')
 @Component({
   name: "FieldComponent",
@@ -72,11 +74,10 @@ export default class FieldComponent extends Vue {
   }
 
   get isContentField() {
-    // TODO: make generic
-    return ['paragraph', 'hyperlink'].indexOf(this.config.type)>=0;
+    return this.config instanceof ContentFieldConfig
   }
   get isValueField() {
-    return !(['paragraph', 'hyperlink', 'fieldGroup', 'fieldLoop'].indexOf(this.config.type)>=0);
+    return this.config instanceof ValueFieldConfig;
   }
 
   @Emit("change")
