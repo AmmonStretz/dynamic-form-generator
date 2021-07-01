@@ -19,7 +19,6 @@ export default {
           new TextInputConfig("key", { name: "Key" }, []),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("placeholder", { name: "Platzhalter" }, []),
-          new TextInputConfig("question", { name: "Frage" }, []),
           new TextAreaConfig("description", { name: "Beschreibung" }, []),
         ], {}), generator: (formStatus: Status) => {
           console.log({

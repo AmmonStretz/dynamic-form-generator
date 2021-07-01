@@ -1,11 +1,12 @@
 <template>
-  <p class="paragraph">
-    {{config.text}}
-  </p>
+  <div class="paragraph">
+    <h3 v-if="config.settings.name">{{config.settings.name}}</h3>
+    <p v-html="config.text"></p>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { FinderConfig } from "../../../Finder/Finder.config";
 import { ParagraphFieldConfig } from "./Paragraph.config";
 // Vue.component('FieldComponent')

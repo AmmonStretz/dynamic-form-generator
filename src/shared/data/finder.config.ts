@@ -4,12 +4,21 @@ const REQUIRED = {
   message: 'Bitte füll dieses Feld aus'
 };
 
+const PARAGRAPH_00: any = {
+  type: 'paragraph',
+  text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+  settings: {
+    name: 'Titel des Absatzes'
+  }
+}
+
 const STRING_INPUT_00: any = {
   type: 'numberInput',
   key: 'Y',
   settings: {
-    name: 'text',
-    description: 'muss ausgefült werden',
+    name: 'Alter',
+    description: 'Bitte füllen Sie dieses Feld aus mit einer Zahl größergleich 0',
+    placeholder: 'Zahl'
   },
   validators: [REQUIRED]
 }
@@ -17,8 +26,7 @@ const CHECKBOX_00: any = {
   type: 'checkbox',
   key: 'A',
   settings: {
-    name: 'Überspringen?',
-    description: 'Soll Seite zwei übersprungen werden?',
+    name: 'Sind Sie ein Mensch?',
     default: false
   },
   validators: []
@@ -31,15 +39,15 @@ const FORM_00: any = {
     CHECKBOX_00
   ],
   settings: {
-    title: 'Name der Seite 1'
+    title: 'Persönliche Daten'
   }
 };
 const FORM_01: any = {
   fields: [
-    CHECKBOX_00,
+    PARAGRAPH_00
   ],
   settings: {
-    title: 'Name der Seite 2'
+    title: 'Informationstext'
   }
 };
 
@@ -47,7 +55,7 @@ export const finderConfig: any = {
   chapter: {
     children: [{
       children: [{
-        pages: [FORM_00],
+        pages: [FORM_00, FORM_01],
         children: [],
         settings: { title: 'Kapitel A1' }
       }],
@@ -87,7 +95,7 @@ export const finderConfig: any = {
   //   }
   // }],
   settings: {
-    title: 'Bafögantrag',
+    title: 'Name der Fragestrecke',
     submitButtonText: "Fertig",
     prevButtonText: "Zurück",
     nextButtonText: "Weiter",

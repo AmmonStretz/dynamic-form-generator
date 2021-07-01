@@ -15,22 +15,37 @@ export default {
       'contentField',
       {
         form: new FieldGroupConfig('paragraph-form', [
-          new TextInputConfig("title", { name: "Titel" }, []),
+          new TextInputConfig("name", { name: "Name" }, []),
           new TextAreaConfig("text", { name: "Text", description: 'Dieses Feld definiert den Inhalt des Absatzes.' }, []),
         ], {}), generator: (formStatus: Status) => {
           return new ParagraphFieldConfig(
             formStatus.getValueByKey('text'),
-            {}
+            { name: formStatus.getValueByKey('name') }
           )
         }, fill: (current: ParagraphFieldConfig, form: FieldGroupConfig) => {
-          console.log('paragraph', current, form);
+          let name: TextInputConfig = (form.fields[0] as TextInputConfig);
+          name.settings.default = current.settings.name;
+
+          let text: TextAreaConfig = (form.fields[1] as TextAreaConfig);
+          text.settings.default = current.text;
+
+          form.fields = [];
+          form.fields.push(name);
+          form.fields.push(text);
+          form.createStatus();
           return form;
         }
       },
       (json: any) => {
+        console.log(new ParagraphFieldConfig(
+          json.text,
+          json.settings,
+          BooleanConditionParser.fromJson(json.visible)
+        ));
+        
         return new ParagraphFieldConfig(
           json.text,
-          json.config,
+          json.settings,
           BooleanConditionParser.fromJson(json.visible)
         );
       }
