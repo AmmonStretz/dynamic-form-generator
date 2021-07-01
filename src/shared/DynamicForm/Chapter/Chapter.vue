@@ -1,6 +1,6 @@
 <template>
   <div class="chapter">
-    <h2 v-if="config.settings.title">
+    <h2 v-if="config.settings.title && config.settings.showTitle">
       {{ config.settings.title }}
     </h2>
     <div v-for="(subChapter, i) in config.children" :key="i">

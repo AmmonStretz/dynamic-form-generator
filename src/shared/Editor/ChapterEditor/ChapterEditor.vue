@@ -165,9 +165,11 @@ export default class ChapterEditorComponent extends Vue {
       "openMenu",
       editCathegoryGenerator(
         this.config.settings.title,
+        this.config.settings.showTitle,
         titles,
         (status: any) => {
           this.config.settings.title = status.getValueByKey("title");
+          this.config.settings.showTitle = status.getValueByKey("showTitle");
           this.change();
         }
       )

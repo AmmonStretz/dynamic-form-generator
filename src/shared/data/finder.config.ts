@@ -57,9 +57,9 @@ export const finderConfig: any = {
       children: [{
         pages: [FORM_00, FORM_01],
         children: [],
-        settings: { title: 'Kapitel A1' }
+        settings: { title: 'Kapitel A1', showTitle: true }
       }],
-      settings: { title: 'Kapitel A' }
+      settings: { title: 'Kapitel A', showTitle: true }
     },
     // {
     //   children: [],

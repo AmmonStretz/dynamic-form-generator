@@ -76,6 +76,7 @@ export class ChapterConfig extends Config {
     public pages: FormConfig[],
     public settings: {
       title?: string,
+      showTitle?: boolean
     },
   ) {
     super();
