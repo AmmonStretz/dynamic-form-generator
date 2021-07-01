@@ -5,6 +5,7 @@
       v-bind:config="config"
       v-on:change="statusChange"
       v-on:submit="submit"
+      v-on:cancel="cancel"
     ></FinderComponent>
   </div>
 </template>
@@ -14,7 +15,6 @@ import { Component, Vue } from "vue-property-decorator";
 import { FinderConfig, FinderStatus } from "../shared/DynamicForm/Finder/Finder.config";
 // import { JsonParser } from "@/shared/DynamicForm/parser";
 import FinderComponent from "../shared/DynamicForm/Finder/Finder.vue";
-import FinderService from "../shared/DynamicForm/services/Finder.service";
 
 @Component({
   components: {
@@ -36,8 +36,11 @@ export default class Home extends Vue {
 
   statusChange(status: FinderStatus) {}
   cancel() {
+    console.log('cancel');
+    
   }
   submit(status: FinderStatus) {
+    console.log('submit', status);
   }
 }
 </script>

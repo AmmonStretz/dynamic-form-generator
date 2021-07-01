@@ -10,7 +10,7 @@
         ref="chapter"
       ></ChapterComponent>
     <div>
-      <button type="button" v-on:click="onBefore()">
+      <button type="button" v-on:click="previous()">
         {{
           config.settings.prevButtonText
             ? config.settings.prevButtonText
@@ -58,17 +58,21 @@ private loaded = true;
   submit() {
     return this.config.status;
   }
-  onBefore() {}
-  next(): boolean {
-    if (!!this.config.chapter) {
-      this.$refs.chapter.next();
-      return false;
-    }
-    return true;
+  @Emit("cancel")
+  cancel() {
+    return this.config.status;
   }
-  reset() {
-    // this.$refs.forEach(ref => {
-    // });
+  previous() {
+    if(this.$refs.chapter.previous()) {
+      this.cancel();
+    }
+  }
+  next(): void {
+    if (!!this.config.chapter) {
+      if(this.$refs.chapter.next() && this.config.status.chapter.isValid) {
+        this.submit();
+      }
+    }
   }
 }
 </script>

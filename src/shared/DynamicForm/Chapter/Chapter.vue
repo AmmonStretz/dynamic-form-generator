@@ -57,13 +57,31 @@ export default class ChapterComponent extends Vue {
     // TODO: abfangen wenn beides gesetzt
     return this.config.children.length > 0;
   }
+  previous(): boolean {
+    if (this.hasPages) {
+      if (this.config.status.index == 0) {
+        return true;
+      } else {
+        this.config.status.index--;
+        this.reload();
+      }
+    } else if (this.hasChildren) {
+      if (this.$refs["chapter_" + this.config.status.index][0].previous()) {
+        if (this.config.status.index == 0) {
+          return true;
+        } else {
+          this.config.status.index--;
+          this.reload();
+        }
+      }
+    }
+  }
   next(): boolean {
-    const title = this.config.settings.title;
     let size = this.config.pages.length;
     let next = true;
     let validChild = true;
-        this.root.status.update();
-        this.root.status.showAllErrors();
+    this.root.status.update();
+    this.root.status.showAllErrors();
     if (this.hasChildren) {
       next = this.$refs["chapter_" + this.config.status.index][0].next();
       size = this.config.children.length;
