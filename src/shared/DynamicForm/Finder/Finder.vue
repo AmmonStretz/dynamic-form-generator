@@ -4,6 +4,7 @@
       {{ config.settings.title }}
     </h1>
       <ChapterComponent
+        v-if="loaded"
         v-bind:config="config.chapter"
         v-bind:root="config"
         v-on:change="onChange"
@@ -69,10 +70,18 @@ private loaded = true;
   }
   next(): void {
     if (!!this.config.chapter) {
+      this.reload();
       if(this.$refs.chapter.next() && this.config.status.chapter.isValid) {
         this.submit();
       }
     }
+  }
+  reload() {
+    this.loaded = false;
+    // TODO: Kapitel rerendering https://morioh.com/p/08963bf07353
+    this.$nextTick(() => {
+      this.loaded = true;
+    });
   }
 }
 </script>
