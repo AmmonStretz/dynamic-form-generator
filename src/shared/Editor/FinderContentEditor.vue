@@ -2,6 +2,9 @@
   <div class="finder-editor">
     <h1 v-if="config.settings.title">
       {{ config.settings.title }}
+      <button @click="editFinder()">
+        <img src="../../assets/icons/settings.svg" alt="" />
+      </button>
     </h1>
     <ChapterEditorComponent
     v-if="loaded"
@@ -18,6 +21,8 @@ import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../DynamicForm/Chapter/Chapter.config";
 import ChapterEditorComponent from "./ChapterEditor/ChapterEditor.vue";
 import { FinderConfig } from "../DynamicForm/Finder/Finder.config";
+import { FormConfig } from "../DynamicForm/Form/Form.config";
+import { TextInputConfig } from "../DynamicForm/Field/ValueFields/TextInput/TextInput.config";
 
 @Component({
   components: {
@@ -65,6 +70,32 @@ export default class FinderContentEditorComponent extends Vue {
       this.loaded = true;
     });
   }
+  editFinder() {
+    this.$store.commit(
+      "openMenu",
+      this.editFinderGenerator()
+    );
+  }
+  editFinderGenerator() {
+  return {
+    form: new FormConfig(
+      [
+        new TextInputConfig(
+          "title",
+          { name: "Titel", default: this.config.settings.title },
+          []
+        ),
+      ],
+      { title: "Fragestrecke bearbeiten" }
+    ),
+    listener: (status: any) => {
+        let newSettings = this.config.settings;
+        const title: string = status.getValueByKey("title");
+        this.config.settings.title = title;
+        this.config.settings = newSettings;
+      },
+  }
+}
 }
 </script>
 
