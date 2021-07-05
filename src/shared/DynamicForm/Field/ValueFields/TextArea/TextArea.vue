@@ -3,6 +3,7 @@
     <label v-if="config.settings && config.settings.name" :for="config.key">{{
       config.settings.name
     }}</label>
+    {{config.settings.placeholder}}
     <textarea
       v-if="config.status"
       ref="input"
