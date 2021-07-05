@@ -1,7 +1,7 @@
 import { FieldPlugin } from '@/shared/DynamicForm/Plugin/FieldPlugin.class';
 import { PluginService } from '@/shared/DynamicForm/services/Plugin.service';
 import { Status } from '@/shared/DynamicForm/status';
-import { ValidatorParser } from '@/shared/DynamicForm/Validators';
+import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
 import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boolean.class';
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';

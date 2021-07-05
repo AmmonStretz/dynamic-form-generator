@@ -5,7 +5,6 @@
     }}</label>
     <textarea
       v-if="config.status"
-      :type="config.settings.textType"
       ref="input"
       :id="config.key"
       :placeholder="config.settings.placeholder"
@@ -44,12 +43,6 @@ export default class TextAreaComponent extends Vue {
   setBlur() {
     this.config.status.showErrors = true;
     this.updateStatus();
-  }
-
-  get textType() {
-    return !this.config.validators.find((validator) => validator.type == "isEmail")
-      ? "text"
-      : "email";
   }
 
   @Emit("change")

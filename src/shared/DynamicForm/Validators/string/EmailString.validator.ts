@@ -1,10 +1,21 @@
-import { Validator, ValidatorTypes } from '../validators.class';
+import { ValidatorPlugin } from '../../Plugin/ValidatorPlugin';
+import { Validator } from '../validators.class';
 
-export default class EmailString extends Validator<string> {
+export default {
+  install: (Vue: any, options: any) => {
+    new ValidatorPlugin(
+      'string',
+      'isEmail',
+      (message: string) => new EmailString(message)
+    )
+   }
+}
+
+export class EmailString extends Validator<string> {
   constructor(
     public message: string,
   ) {
-    super(ValidatorTypes.EMAIL_STRING, message);
+    super('isEmail', message);
   }
   public isValid(value: string): boolean {
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -13,7 +24,7 @@ export default class EmailString extends Validator<string> {
 
   public toJson() {
     return {
-      type: ValidatorTypes.EMAIL_STRING,
+      type: 'isEmail',
       message: this.message
     }
   }

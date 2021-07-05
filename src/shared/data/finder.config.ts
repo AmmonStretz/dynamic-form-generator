@@ -3,6 +3,10 @@ const REQUIRED = {
   type: 'required',
   message: 'Bitte füll dieses Feld aus'
 };
+const IS_EMAIL = {
+  type: 'isEmail',
+  message: 'Ist keine Email.'
+};
 
 const PARAGRAPH_00: any = {
   type: 'paragraph',
@@ -13,14 +17,16 @@ const PARAGRAPH_00: any = {
 }
 
 const STRING_INPUT_00: any = {
-  type: 'numberInput',
+  type: 'textInput',
   key: 'Y',
   settings: {
     name: 'Alter',
     description: 'Bitte füllen Sie dieses Feld aus mit einer Zahl größergleich 0',
-    placeholder: 'Zahl'
+    placeholder: 'Zahl',
+    maxLength: 20,
+    showLength: true,
   },
-  validators: [REQUIRED]
+  validators: []
 }
 const CHECKBOX_00: any = {
   type: 'checkbox',

@@ -1,37 +1,19 @@
 <template>
   <div class="text-input">
-    <label v-if="config.settings && config.settings.name" :for="config.key">{{
-      config.settings.name
-    }}</label>
+    <label v-if="config.settings && config.settings.name" :for="config.key">{{config.settings.name}}:</label>
     <input
-      v-if="config.status"
-      :type="textType"
+      v-if="config && config.status"
+      type="text"
       ref="input"
       :id="config.key"
       :placeholder="config.settings.placeholder"
+      :maxlength="config.settings.maxLength"
       v-model="config.status.value"
       @focus="updateStatus()"
       @blur="setBlur()"
-      :class="{ show: config.status.showErrors, valid: config.status.isValid }"
+      :class="{'show': config.status.showErrors, 'valid': config.status.isValid}"
     />
-    <textarea
-      v-if="config.status && config.settings.textType == 'textarea'"
-      :type="config.settings.textType"
-      ref="input"
-      :id="config.key"
-      :placeholder="config.settings.placeholder"
-      v-model="config.status.value"
-      @focus="updateStatus()"
-      @blur="setBlur()"
-      :class="{ show: config.status.showErrors, valid: config.status.isValid }"
-    />
-    <span v-if="config.settings.unit">{{ config.settings.unit }}</span
-    ><br />
-    <div
-      v-if="config.status.showErrors && config.status.errors && config.status.errors[0]"
-    >
-      {{ config.status.errors[0].message }}
-    </div>
+    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -42,10 +24,11 @@ import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
-  name: "TextInputComponent",
+  name: 'TextInputComponent'
 })
 export default class TextInputComponent extends Vue {
   @Prop() private config!: TextInputConfig;
+
   public $refs: any;
 
   mounted() {
@@ -56,19 +39,9 @@ export default class TextInputComponent extends Vue {
     this.config.status.showErrors = true;
     this.updateStatus();
   }
-
-  get textType() {
-    return !this.config.validators.find((validator) => validator.type == "isEmail")
-      ? "text"
-      : "email";
-  }
-
   @Emit("change")
   updateStatus(): ValueFieldStatus<string> {
-    this.config.status.errors = Validator.checkFieldValidity(
-      this.config.status.value,
-      this.config.validators
-    );
+    this.config.status.errors = Validator.checkFieldValidity(this.config.status.value, this.config.validators);
     this.config.status.isValid = this.config.status.errors.length == 0;
     return this.config.status;
   }

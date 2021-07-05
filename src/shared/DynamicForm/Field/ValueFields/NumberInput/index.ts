@@ -1,10 +1,11 @@
 import { FieldPlugin } from '@/shared/DynamicForm/Plugin/FieldPlugin.class';
 import { Status } from '@/shared/DynamicForm/status';
-import { ValidatorParser } from '@/shared/DynamicForm/Validators';
+import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
 import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boolean.class';
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { TextAreaConfig } from '../TextArea/TextArea.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';
+import { ValidationListConfig } from '../ValidationList/ValidationList.config';
 import { NumberInputConfig } from './NumberInput.config';
 import NumberInputFieldComponent from './NumberInput.vue';
 
@@ -14,23 +15,21 @@ export default {
       NumberInputFieldComponent,
       'numberInput',
       'valueField',
-      { //TODO: multiple links
+      {
         form: new FieldGroupConfig('number-input-form', [
           new TextInputConfig("key", { name: "Key" }, []),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("placeholder", { name: "Platzhalter" }, []),
           new TextAreaConfig("description", { name: "Beschreibung" }, []),
+          new ValidationListConfig('validators', 'number', { name: 'Validators'})
         ], {}), generator: (formStatus: Status) => {
-          console.log({
-            name: formStatus.getValueByKey('name'),
-            description: formStatus.getValueByKey('description')
-          })
           return new NumberInputConfig(
             formStatus.getValueByKey('key'),
             {
               name: formStatus.getValueByKey('name'),
               description: formStatus.getValueByKey('description')
-            }
+            },
+            formStatus.getValueByKey('validators'),
           )
         }, fill: (current: NumberInputConfig, form: FieldGroupConfig) => {
           
@@ -45,12 +44,16 @@ export default {
 
           let description: TextAreaConfig = (form.fields[3] as TextAreaConfig);
           description.settings.default = current.settings.description;
+          
+          let validators: ValidationListConfig = (form.fields[4] as ValidationListConfig);
+          validators.settings.default = current.validators? current.validators: [];
 
           form.fields = [];
           form.fields.push(key);
           form.fields.push(name);
           form.fields.push(placeholder);
           form.fields.push(description);
+          form.fields.push(validators);
           form.createStatus();
           return form;
         }

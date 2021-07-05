@@ -2,6 +2,12 @@ import Vue from 'vue';
 import router from './router';
 import store from './store';
 import Vuex from 'vuex';
+
+import RequiredValidatorPlugin from './shared/DynamicForm/Validators/any/Required.validator';
+import MinNumberValidatorPlugin from './shared/DynamicForm/Validators/number/MinNumber.validator';
+import MaxNumberValidatorPlugin from './shared/DynamicForm/Validators/number/MaxNumber.validator';
+import IsEmailValidatorPlugin from './shared/DynamicForm/Validators/string/EmailString.validator';
+
 import ParagraphPlugin from './shared/DynamicForm/Field/ContentFields/Paragraph';
 import HyperlinkPlugin from './shared/DynamicForm/Field/ContentFields/Hyperlink';
 
@@ -13,11 +19,21 @@ import SelectPlugin from './shared/DynamicForm/Field/ValueFields/Select';
 import TextAreaPlugin from './shared/DynamicForm/Field/ValueFields/TextArea';
 import TextInputPlugin from './shared/DynamicForm/Field/ValueFields/TextInput';
 
+import ValidationListPlugin from './shared/DynamicForm/Field/ValueFields/ValidationList';
+
 Vue.config.productionTip = false;
 
 (Vue as any).fieldPlugins = [];
 (Vue as any).fieldParser = {};
-Vue.prototype.$test = 123;
+
+// VALIDATOR PLUGINS
+// any
+Vue.use(RequiredValidatorPlugin)
+// number
+Vue.use(MinNumberValidatorPlugin)
+Vue.use(MaxNumberValidatorPlugin)
+// string
+Vue.use(IsEmailValidatorPlugin)
 
 // CONTENT FIELD PLUGINS
 
@@ -33,6 +49,7 @@ Vue.use(RadioButtonListPlugin);
 Vue.use(SelectPlugin);
 Vue.use(TextAreaPlugin);
 Vue.use(TextInputPlugin);
+Vue.use(ValidationListPlugin);
 
 Vue.use(Vuex)
 import App from './App.vue';

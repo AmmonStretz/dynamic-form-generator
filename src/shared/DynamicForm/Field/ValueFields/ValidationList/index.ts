@@ -1,39 +1,36 @@
 import { FieldPlugin } from '@/shared/DynamicForm/Plugin/FieldPlugin.class';
-import { Status } from '@/shared/DynamicForm/status';
-import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
 import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boolean.class';
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';
-import { CheckboxConfig } from './Checkbox.config';
-import CheckboxFieldComponent from './Checkbox.vue';
+import ValidationListComponent from './ValidationList.vue';
+import { ValidationListConfig } from './ValidationList.config';
+import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
 
 export default {
   install: (Vue: any, options: any) => {
-    (Vue as any).fieldPlugins.push(new FieldPlugin<CheckboxConfig>(
-      CheckboxFieldComponent,
-      'checkbox',
+    (Vue as any).fieldPlugins.push(new FieldPlugin<ValidationListConfig>(
+      ValidationListComponent,
+      'validation-list',
       'valueField',
-      { //TODO: multiple links
+      {
         form: new FieldGroupConfig('checkbox-form', [
           new TextInputConfig("key", { name: "Key" }, []),
-        ], {}), generator: (formStatus: Status) => {
-          return new CheckboxConfig(
-            formStatus.getValueByKey('key'),
-            {}
-          )
-        }, fill: (current: CheckboxConfig, form: FieldGroupConfig) => {
-          console.log('checkbox', current, form);
+        ], {}),
+        generator: null,
+        fill: (current: ValidationListConfig, form: FieldGroupConfig) => {
           return form;
         }
       },
       (json: any) => {
-        return new CheckboxConfig(
+        return new ValidationListConfig(
           json.key,
+          json.validationType,
           json.settings,
           ValidatorParser.parseFromJSONArray(json.validators),
           BooleanConditionParser.fromJson(json.visible),
         );
-      }
+      },
+      false
     ));
   }
 }

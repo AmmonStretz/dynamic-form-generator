@@ -1,11 +1,16 @@
-import { Validator, ValidatorTypes } from '../validators.class';
+import { Validator } from '../validators.class';
 
-export default class NotInList extends Validator<string> {
+/**
+ * private Validator
+ * TODO: make Plugin
+ */
+
+export class NotInList extends Validator<string> {
   constructor(
     public message: string,
     public value: string[]
   ) {
-    super(ValidatorTypes.NOT_IN_LIST, message);
+    super('notInList', message);
   }
   public isValid(value: string): boolean {
     return !this.value.includes(value);
@@ -13,7 +18,7 @@ export default class NotInList extends Validator<string> {
 
   public toJson() {
     return {
-      type: ValidatorTypes.NOT_IN_LIST,
+      type: 'notInList',
       message: this.message,
       value: this.value,
     }

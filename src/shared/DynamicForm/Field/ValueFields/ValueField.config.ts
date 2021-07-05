@@ -1,5 +1,5 @@
 import { BooleanCondition } from "@/shared/ts-condition-parser/condition.class";
-import { Validator } from "../../Validators";
+import { Validator } from "../../Validators/validators.class";
 import { FieldConfig, FieldSettings, FieldStatus } from "../Field.config";
 
 export interface ValueFieldSettings<T> extends FieldSettings {

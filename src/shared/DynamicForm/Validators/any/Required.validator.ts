@@ -1,10 +1,22 @@
-import { Validator, ValidatorTypes } from '../validators.class';
+import { Validator } from '../validators.class';
+import { ValidatorPlugin } from "@/shared/DynamicForm/Plugin/ValidatorPlugin"
+
+export default {
+  install: (Vue: any, options: any) => {
+    new ValidatorPlugin(
+      'any',
+      'required',
+      (message: string) => new Required(message),
+      'Dieses Feld muss ausgefüllt werden'
+    )
+   }
+}
 
 export class Required extends Validator<any> {
   constructor(
     public message: string,
   ) {
-    super(ValidatorTypes.REQUIRED, message);
+    super('required', message);
   }
   public isValid(value: any): boolean {
     return value != null && value != undefined && value != "" || value == 0;
@@ -12,7 +24,7 @@ export class Required extends Validator<any> {
 
   public toJson() {
     return {
-      type: ValidatorTypes.REQUIRED,
+      type: 'required',
       message: this.message
     }
   }

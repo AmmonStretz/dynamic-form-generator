@@ -16,9 +16,10 @@
     </header>
     <div class="content">
       <FieldEditorComponent
-        v-for="(field, i) in config.fields"
+          v-for="(field, i) in config.fields"
           :key="i"
           :config="field"
+          @change="onFieldChange"
         />
       <div class="empty-content" v-if="config.fields.length == 0">
       <button  @click="addField()">
@@ -26,6 +27,7 @@
       </button>
       </div>
     </div>
+    <div v-if="!loaded"></div>
   </div>
 </template>
 
@@ -120,6 +122,9 @@ export default class PageEditorComponent extends Vue {
     );
   }
 
+  onFieldChange(config: FieldConfig) {
+    this.reload();
+  }
 
   public addField() {
     this.$store.commit(
@@ -134,6 +139,14 @@ export default class PageEditorComponent extends Vue {
   @Emit("change")
   change() {
     return;
+  }
+  
+  private loaded = true;
+  reload() {
+    this.loaded = false;
+    this.$nextTick(() => {
+      this.loaded = true;
+    });
   }
 }
 </script>

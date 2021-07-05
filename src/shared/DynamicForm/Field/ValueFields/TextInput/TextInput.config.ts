@@ -1,11 +1,11 @@
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
+import { Validator } from '../../../Validators/validators.class';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
-import { Validator } from '../../../Validators/validators.class';
-import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
 export interface TextInputSettings extends ValueFieldSettings<string> {
-  name?: string,
-  description?: string,
+  maxLength?: number
+  showLength?: boolean
 }
 
 export class TextInputConfig extends ValueFieldConfig<string> {
@@ -15,7 +15,8 @@ export class TextInputConfig extends ValueFieldConfig<string> {
     public validators: Validator<string>[] = [],
     public visible: BooleanCondition = new BooleanConst(true),
   ) {
-    super(key,
+    super(
+      key,
       'textInput',
       settings,
       validators,
@@ -25,7 +26,7 @@ export class TextInputConfig extends ValueFieldConfig<string> {
   public createStatus() {
     this.status = new ValueFieldStatus<string>(
       this.key,
-      this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null,
+      this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null
     )
     this.status.config = this;
   }

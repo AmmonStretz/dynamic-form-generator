@@ -3,7 +3,8 @@ import { CheckboxConfig } from "@/shared/DynamicForm/Field/ValueFields/Checkbox/
 import { RadioButtonListConfig } from "@/shared/DynamicForm/Field/ValueFields/RadioButtonList/RadioButtonList.config";
 import { TextInputConfig } from "@/shared/DynamicForm/Field/ValueFields/TextInput/TextInput.config";
 import { FormConfig } from "@/shared/DynamicForm/Form/Form.config";
-import { NotInList, Required } from "@/shared/DynamicForm/Validators";
+import { Required } from "@/shared/DynamicForm/Validators/any/Required.validator";
+import { NotInList } from "@/shared/DynamicForm/Validators/string/NotInList.validator";
 
 export function editCathegoryGenerator(defaultCathegoryName: string, showTitle: boolean, blockedTitles: string[], listener: any) {
   return {

@@ -17,7 +17,8 @@ export class FieldPlugin<C extends FieldConfig> {
     public key: string,
     public type: string,
     public editor: { form: FieldGroupConfig, generator: (status: FieldGroupStatus)=>C, fill?: (current: C, form: FieldGroupConfig) => FieldGroupConfig},
-    public parser: (json: any) => C
+    public parser: (json: any) => C,
+    public isPublic: boolean = true,
   ) {
     Vue.component(component.name, component);
     PluginService.fieldParser[key] = this.parser;

@@ -1,8 +1,11 @@
 import { FieldPlugin } from '@/shared/DynamicForm/Plugin/FieldPlugin.class';
 import { Status } from '@/shared/DynamicForm/status';
-import { ValidatorParser } from '@/shared/DynamicForm/Validators';
+import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
 import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boolean.class';
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
+import { NumberInputConfig } from '../NumberInput/NumberInput.config';
+import { TextAreaConfig } from '../TextArea/TextArea.config';
+import { ValidationListConfig } from '../ValidationList/ValidationList.config';
 import { TextInputConfig } from './TextInput.config';
 import TextInputFieldComponent from './TextInput.vue';
 
@@ -15,13 +18,49 @@ export default {
       { //TODO: multiple links
         form: new FieldGroupConfig('text-input-form', [
           new TextInputConfig("key", { name: "Key" }, []),
+          new TextInputConfig("name", { name: "Name" }, []),
+          new TextInputConfig("placeholder", { name: "Platzhalter" }, []),
+          new TextAreaConfig("description", { name: "Beschreibung" }, []),
+          new NumberInputConfig("maxLength", { name: "Maximale Anzahl Zeichen" }, []),
+          new ValidationListConfig('validators', 'string', { name: 'Validators'})
         ], {}), generator: (formStatus: Status) => {
           return new TextInputConfig(
             formStatus.getValueByKey('key'),
-            {}
+            {
+              name: formStatus.getValueByKey('name'),
+              description: formStatus.getValueByKey('description'),
+              maxLength: formStatus.getValueByKey('maxLength')
+            },
+            formStatus.getValueByKey('validators'),
           )
         }, fill: (current: TextInputConfig, form: FieldGroupConfig) => {
-          console.log('textInput', current, form);
+          
+          let key: TextInputConfig = (form.fields[0] as TextInputConfig);
+          key.settings.default = current.key;
+
+          let name: TextInputConfig = (form.fields[1] as TextInputConfig);
+          name.settings.default = current.settings.name;
+
+          let placeholder: TextInputConfig = (form.fields[2] as TextInputConfig);
+          placeholder.settings.default = current.settings.placeholder;
+
+          let description: TextAreaConfig = (form.fields[3] as TextAreaConfig);
+          description.settings.default = current.settings.description;
+
+          let maxLength: NumberInputConfig = (form.fields[4] as NumberInputConfig);
+          maxLength.settings.default = current.settings.maxLength;
+          
+          let validators: ValidationListConfig = (form.fields[5] as ValidationListConfig);
+          validators.settings.default = current.validators? current.validators: [];
+
+          form.fields = [];
+          form.fields.push(key);
+          form.fields.push(name);
+          form.fields.push(placeholder);
+          form.fields.push(description);
+          form.fields.push(maxLength);
+          form.fields.push(validators);
+          form.createStatus();
           return form;
         }
       },

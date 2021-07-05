@@ -63,8 +63,13 @@ export default class FieldEditorComponent extends Vue {
             this.config.parent.fields[i] = field;
           }
         }
+        this.onChange();
       })
     );
+  }
+  @Emit('change')
+  onChange(): FieldConfig {
+    return this.config;
   }
 }
 </script>
