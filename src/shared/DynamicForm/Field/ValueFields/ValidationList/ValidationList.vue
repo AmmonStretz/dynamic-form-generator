@@ -28,8 +28,10 @@
         placeholder="Fehlermeldung"
         @change="change"
       />
+    <button type="button" @click="removeValidator(i)"><img src="../../../../../assets/icons/delete.svg" alt="" /></button>
     </div>
-    <div @click="addValidator">add</div>
+    <button type="button" @click="addValidator">
+        <img src="../../../../../assets/icons/add.svg" alt="" /></button>
   </div>
 </template>
 
@@ -90,6 +92,10 @@ export default class ValidationListComponent extends Vue {
       message: this.possibleValidators[0].defaultMessage,
       value: this.possibleValidators[0].defaultValue,
     });
+    this.change();
+  }
+  removeValidator(i: number) {
+    this.validators.splice(i, 1);
     this.change();
   }
 
