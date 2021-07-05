@@ -21,6 +21,7 @@ export default {
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("placeholder", { name: "Platzhalter" }, []),
           new TextAreaConfig("description", { name: "Beschreibung" }, []),
+          new TextAreaConfig("default", { name: "Default" }, []),
           new NumberInputConfig("maxLength", { name: "Maximale Anzahl Zeichen" }, []),
           new ValidationListConfig('validators', 'string', { name: 'Validators'})
         ], {}), generator: (formStatus: Status) => {
@@ -29,6 +30,8 @@ export default {
             {
               name: formStatus.getValueByKey('name'),
               description: formStatus.getValueByKey('description'),
+              default: formStatus.getValueByKey('default'),
+              placeholder: formStatus.getValueByKey('placeholder'),
               maxLength: formStatus.getValueByKey('maxLength')
             },
             formStatus.getValueByKey('validators'),
@@ -47,10 +50,13 @@ export default {
           let description: TextAreaConfig = (form.fields[3] as TextAreaConfig);
           description.settings.default = current.settings.description;
 
-          let maxLength: NumberInputConfig = (form.fields[4] as NumberInputConfig);
+          let defaultValue: TextAreaConfig = (form.fields[4] as TextAreaConfig);
+          defaultValue.settings.default = current.settings.default;
+
+          let maxLength: NumberInputConfig = (form.fields[5] as NumberInputConfig);
           maxLength.settings.default = current.settings.maxLength;
           
-          let validators: ValidationListConfig = (form.fields[5] as ValidationListConfig);
+          let validators: ValidationListConfig = (form.fields[6] as ValidationListConfig);
           validators.settings.default = current.validators? current.validators: [];
 
           form.fields = [];
@@ -58,6 +64,7 @@ export default {
           form.fields.push(name);
           form.fields.push(placeholder);
           form.fields.push(description);
+          form.fields.push(defaultValue);
           form.fields.push(maxLength);
           form.fields.push(validators);
           form.createStatus();
