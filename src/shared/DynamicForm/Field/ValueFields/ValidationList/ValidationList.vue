@@ -90,6 +90,7 @@ export default class ValidationListComponent extends Vue {
       message: this.possibleValidators[0].defaultMessage,
       value: this.possibleValidators[0].defaultValue,
     });
+    this.change();
   }
 
   selected(a: any, i: number) {
