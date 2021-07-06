@@ -36,14 +36,6 @@ export class ChapterStatus extends Status {
     // );
     return this;
   }
-  public showAllErrors(): void {
-
-    if (this.children.length > 0) {
-      this.children[this.index].showAllErrors();
-    } else {
-      this.pages[this.index].showAllErrors();
-    }
-  }
 
   getValueByKey(path: string): any {
     let current = path.split(/\/(.+)/)[0];

@@ -21,11 +21,8 @@ export class ValueFieldStatus<T> extends FieldStatus {
 
   public update(): FieldStatus {
     this.visible = this.config.visible.calc((key: string) => this.getValueByKey(key));
-    return this;
-  }
-
-  public showAllErrors(): void {
     this.showErrors = true;
+    return this;
   }
   
   getValueByKey(path: string): any {

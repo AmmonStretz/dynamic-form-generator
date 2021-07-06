@@ -81,7 +81,6 @@ export default class ChapterComponent extends Vue {
     let next = true;
     let validChild = true;
     this.root.status.update();
-    this.root.status.showAllErrors();
     if (this.hasChildren) {
       next = this.$refs["chapter_" + this.config.status.index][0].next();
       size = this.config.children.length;

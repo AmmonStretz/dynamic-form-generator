@@ -39,18 +39,6 @@ export class FieldGroupStatus extends FieldStatus {
     return this;
   }
 
-  public showAllErrors(): void {
-    this.children.forEach(child => {
-      if (child instanceof ValueFieldStatus) {
-        (child as ValueFieldStatus<any>).showAllErrors();
-      } else if (child instanceof FieldGroupStatus) {
-        (child as FieldGroupStatus).showAllErrors();
-      }
-      //  else if (child instanceof FieldLoopStatus) {
-      //   (child as FieldLoopStatus).showAllErrors();
-      // }
-    });
-  }
   getValueByKey(path: string): any {
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];

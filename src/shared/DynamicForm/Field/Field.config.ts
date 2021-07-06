@@ -13,7 +13,6 @@ export abstract class FieldStatus extends Status {
   ) {
     super();
   }
-  public showAllErrors(): void {}
 }
 
 export interface FieldSettings{

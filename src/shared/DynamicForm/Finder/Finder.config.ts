@@ -11,9 +11,6 @@ export class FinderStatus extends Status {
     this.chapter.update();
     return this;
   }
-  public showAllErrors(): void {
-    this.chapter.showAllErrors();
-  }
 
   getValueByKey(path: string): any {
     // TODO: return key
