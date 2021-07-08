@@ -69,6 +69,17 @@ export abstract class BooleanConditionParser {
           );
         }
       }
+      if (json.left.type.startsWith("boolean") && json.left.type.startsWith("boolean")) {
+        if (
+          BooleanConditionParser.containsParser(json.left.type) &&
+          BooleanConditionParser.containsParser(json.right.type)
+        ) {
+          return new Equal(
+            BooleanConditionParser.fromJson(json.left),
+            BooleanConditionParser.fromJson(json.right)
+          );
+        }
+      }
       if (
         NumberConditionParser.containsParser(json.left.type) &&
         NumberConditionParser.containsParser(json.right.type)
@@ -80,6 +91,28 @@ export abstract class BooleanConditionParser {
       }
     },
     [BooleanConditionType.NE]: (json: any) => {
+      if (json.left.type.startsWith("string") && json.left.type.startsWith("string")) {
+        if (
+          StringConditionParser.containsParser(json.left.type) &&
+          StringConditionParser.containsParser(json.right.type)
+        ) {
+          return new NotEqual(
+            StringConditionParser.fromJson(json.left),
+            StringConditionParser.fromJson(json.right)
+          );
+        }
+      }
+      if (json.left.type.startsWith("boolean") && json.left.type.startsWith("boolean")) {
+        if (
+          BooleanConditionParser.containsParser(json.left.type) &&
+          BooleanConditionParser.containsParser(json.right.type)
+        ) {
+          return new NotEqual(
+            BooleanConditionParser.fromJson(json.left),
+            BooleanConditionParser.fromJson(json.right)
+          );
+        }
+      }
       if (
         NumberConditionParser.containsParser(json.left.type) &&
         NumberConditionParser.containsParser(json.right.type)
