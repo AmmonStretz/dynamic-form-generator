@@ -30,6 +30,10 @@ export class RadioButtonListConfig extends ValueFieldConfig<number> {
     this.status.config = this;
   }
 
+  public getAllPaths(rootPath: string): { path: string, type: string}[] {
+    return [{path: rootPath+this.key, type: 'number'}];
+  }
+
   public toJson() {
 
 

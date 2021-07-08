@@ -51,11 +51,9 @@ export class FormStatus extends Status {
   }
   
   getValueByKey(path: string): any {
-  
     let current = path.split(/\/(.+)/)[0];
     let after = path.split(/\/(.+)/)[1];
-    after = after ? after : '';     
-    
+    after = after ? after : '';
     if (current == 'Root:') {
       return this.config.root.status.getValueByKey(after);
     } else if (current == '..') {
@@ -110,6 +108,19 @@ export class FormConfig extends Config {
       field.status.parent = this.status;
       this.status.children.push(field.status);
     });
+  }
+
+  public getAllPaths(rootPath: string): { path: string, type: string}[] {
+    let paths: { path: string, type: string}[] = [];
+    this.fields.forEach(field => {
+      field.getAllPaths(rootPath).forEach( p => {
+        paths.push({
+          path: p.path,
+          type: p.type
+        })
+      })
+    });
+    return paths;
   }
 
   get root(): any {

@@ -27,6 +27,9 @@ export class ValidationListConfig extends ValueFieldConfig<Validator<any>[]> {
     )
     this.status.config = this;
   }
+  public getAllPaths(rootPath: string): { path: string, type: string}[] {
+    return [];
+  }
 
   public toJson() {
     return {

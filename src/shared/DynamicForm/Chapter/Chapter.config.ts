@@ -47,10 +47,10 @@ export class ChapterStatus extends Status {
     } else if (+current != NaN && typeof +current == "number") {
       const index = +current;
       if (index <= this.pages.length - 1) {
-        this.pages[index].getValueByKey(after)
+        return this.pages[index].getValueByKey(after)
       }
       if (index <= this.children.length - 1) {
-        this.children[index].getValueByKey(after);
+        return this.children[index].getValueByKey(after);
       }
     }
     return null;
@@ -125,6 +125,29 @@ export class ChapterConfig extends Config {
     } else {
       return this === chapter;
     }
+  }
+  public getAllPaths(rootPath: string): { path: string, type: string}[] {
+    let paths: { path: string, type: string}[] = [];
+    if(this.children.length){
+      this.children.forEach((child, i) => {
+        child.getAllPaths(rootPath+i+'/').forEach(path => {
+          paths.push({
+            path: path.path,
+            type: path.type
+          })
+        });
+      });
+    } else if(this.pages.length) {
+      this.pages.forEach((page, i) => {
+        page.getAllPaths(rootPath+i+'/').forEach(path => {
+          paths.push({
+            path: path.path,
+            type: path.type
+          })
+        });
+      });
+    }
+    return paths;
   }
   public toJson(): any {
     return {

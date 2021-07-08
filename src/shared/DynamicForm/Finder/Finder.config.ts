@@ -14,7 +14,13 @@ export class FinderStatus extends Status {
 
   getValueByKey(path: string): any {
     // TODO: return key
-    return null;
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    if (current == 'Root:' || current == '..' || current == '.') {
+      return this.config.status.getValueByKey(after);
+    } else {
+      return this.chapter.getValueByKey(path);
+    }
   }
 };
 
@@ -43,6 +49,11 @@ export class FinderConfig extends Config {
     this.chapter.status.parent = this.status;
     this.status.chapter = this.chapter.status;
   }
+
+  public getAllPaths(): { path: string, type: string}[] {
+    return this.chapter.getAllPaths('Root:/');
+  }
+
   public toJson() {
     return {
       type: this.type,

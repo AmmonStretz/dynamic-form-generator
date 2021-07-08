@@ -106,6 +106,20 @@ export class FieldGroupConfig extends FieldConfig {
       this.status.children.push(field.status);
     });
   }
+  public getAllPaths(rootPath: string): { path: string, type: string}[] {
+    let paths: { path: string, type: string}[] = [];
+    if(this.fields.length){
+      this.fields.filter(field => !(field instanceof ContentFieldConfig)).forEach((field) => {
+        field.getAllPaths(rootPath+field.key+'/').forEach(path => {
+          paths.push({
+            path: path.path,
+            type: path.type
+          })
+        });
+      });
+    }
+    return paths;
+  }
 
   public updateValidity() {
     this.fields.forEach(field => {

@@ -26,6 +26,9 @@ export class CheckboxConfig extends ValueFieldConfig<boolean> {
     )
     this.status.config = this;
   }
+  public getAllPaths(rootPath: string): { path: string, type: string}[] {
+    return [{ path: rootPath+this.key, type: 'boolean'}];
+  }
 
   public toJson() {
     return {

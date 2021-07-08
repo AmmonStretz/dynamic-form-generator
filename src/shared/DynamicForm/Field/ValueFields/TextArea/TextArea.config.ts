@@ -30,6 +30,10 @@ export class TextAreaConfig extends ValueFieldConfig<string> {
     this.status.config = this;
   }
 
+  public getAllPaths(rootPath: string): { path: string, type: string}[] {
+    return [{path: rootPath+this.key, type: 'string'}];
+  }
+
   public toJson() {
     return {
       type: this.type,

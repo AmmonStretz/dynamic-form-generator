@@ -24,23 +24,20 @@ export class ValueFieldStatus<T> extends FieldStatus {
     this.showErrors = true;
     return this;
   }
-  
+
   getValueByKey(path: string): any {
-      let current = path.split(/\/(.+)/)[0];
-      let after = path.split(/\/(.+)/)[1];
-      after = after?after:'';
-      // console.log('ValueField', path, 123);
-      
-      // return null;
-      if (current == 'Root:') {
-        return this.config.root.status.getValueByKey(after);
-      } else if (current == '..') {
-        return this.parent.getValueByKey(after);
-      } else if (current == '') {
-        return this.value;
-      }
-      return null;
+    let current = path.split(/\/(.+)/)[0];
+    let after = path.split(/\/(.+)/)[1];
+    after = after ? after : '';
+    if (current == 'Root:') {
+      return this.config.Root.status.getValueByKey(after);
+    } else if (current == '..') {
+      return this.parent.getValueByKey(after);
+    } else if (current == '') {
+      return this.value;
     }
+    return null;
+  }
 }
 
 export abstract class ValueFieldConfig<T> extends FieldConfig {
