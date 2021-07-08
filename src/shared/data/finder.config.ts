@@ -18,19 +18,20 @@ const PARAGRAPH_00: any = {
 
 const STRING_INPUT_00: any = {
   type: 'textInput',
-  key: 'Y',
+  key: 'StringInput',
   settings: {
-    name: 'Alter',
-    description: 'Bitte füllen Sie dieses Feld aus mit einer Zahl größergleich 0',
-    placeholder: 'Zahl',
-    maxLength: 20,
+    name: 'Name',
+    description: 'Bitte tragen Sie hier ihren vollständigen Namen ein.',
+    placeholder: 'Vor- und Nachname',
+    maxLength: 30,
     showLength: true,
   },
-  validators: []
+  validators: [REQUIRED],
+  visible: { type: 'EQ', left: { type: 'boolean-var', key: 'Root:/0/0/0/CheckboxInput' }, right: { type: 'boolean-const', value: false } }
 }
 const CHECKBOX_00: any = {
   type: 'checkbox',
-  key: 'A',
+  key: 'CheckboxInput',
   settings: {
     name: 'Sind Sie ein Mensch?',
     default: false
@@ -41,8 +42,8 @@ const CHECKBOX_00: any = {
 const FORM_00: any = {
   key: 'firstForm',
   fields: [
+    CHECKBOX_00,
     STRING_INPUT_00,
-    CHECKBOX_00
   ],
   settings: {
     title: 'Persönliche Daten'
