@@ -85,12 +85,13 @@ export default class ChapterEditorComponent extends Vue {
         titles,
         (status: any) => {
           const title: string = status.getValueByKey("title");
+          const showTitle: boolean = status.getValueByKey("showTitle");
           let position: number = status.getValueByKey("position");
 
           if (position == null || position == undefined) position = 1;
           const empty = new FormConfig([], {});
           if (this.config instanceof ChapterConfig) {
-            const newChild = new ChapterConfig([], [], { title });
+            const newChild = new ChapterConfig([], [], { title, showTitle: showTitle });
             if (position == 1) {
               // add inside
               if (this.config.pages.length > 0) {

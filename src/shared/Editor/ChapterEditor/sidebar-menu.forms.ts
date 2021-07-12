@@ -15,11 +15,11 @@ export function editCathegoryGenerator(defaultCathegoryName: string, showTitle: 
           { name: "Kapitelname", default: defaultCathegoryName },
           [
             new Required("Bitte geben Sie einen Namen ein"),
-            new NotInList("Diese Kategorie gibt es schon", blockedTitles),
+            // new NotInList("Diese Kategorie gibt es schon", blockedTitles), TODO:
           ]
         ),
         new CheckboxConfig(
-          'showName',
+          'showTitle',
           { default: showTitle, name: 'Titel anzeigen?' }
         )
       ],
@@ -53,6 +53,10 @@ export function addCathegoryGenerator(defaultCathegoryName: string, blockedTitle
           new Required("Bitte geben Sie einen Namen ein"),
           new NotInList("Diese Kategorie gibt es schon", blockedTitles),
         ]),
+        new CheckboxConfig(
+          'showTitle',
+          { default: true, name: 'Titel anzeigen?' }
+        )
       ],
       { title: "Kategorie hinzufügen" }
     ),
