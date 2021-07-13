@@ -19,7 +19,7 @@ export class Required extends Validator<any> {
     super('required', message);
   }
   public isValid(value: any): boolean {
-    return value != null && value != undefined && value != "" || value == 0;
+    return (value != null && value != undefined && value != "" && !isNaN(value)) || isNaN(value);
   }
 
   public toJson() {
