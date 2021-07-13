@@ -31,10 +31,6 @@ export default class Checkbox extends Vue {
   @Prop() public status: ValueFieldStatus<boolean>;
   public $refs: any;
 
-  mounted() {
-    this.onChange();
-  }
-
   @Emit("change")
   onChange(): ValueFieldStatus<boolean> {
     this.status.errors = Validator.checkFieldValidity(

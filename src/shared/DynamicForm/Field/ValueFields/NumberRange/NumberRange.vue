@@ -37,14 +37,6 @@ export default class NumberRange extends Vue {
   
   public $refs: any;
 
-  mounted() {
-    if ("default" in this.config.settings) {
-      this.config.status.value = this.config.settings.default;
-    } else {
-      this.config.status.value = this.config.settings.min;
-    }
-    this.updateStatus();
-  }
   setBlur() {
     this.config.status.showErrors = true;
     this.updateStatus();

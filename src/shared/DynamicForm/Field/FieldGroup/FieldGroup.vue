@@ -28,10 +28,6 @@ export default class FieldGroup extends Vue {
   @Prop() public config!: FieldGroupConfig;
   @Prop() public root!: FinderConfig;
 
-  constructor() {
-    super();
-  }
-
   @Emit("change")
   onChange(status: FieldGroupStatus): FieldGroupStatus {
     this.config.updateValidity();

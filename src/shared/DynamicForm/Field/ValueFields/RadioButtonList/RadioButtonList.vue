@@ -37,14 +37,6 @@ export default class RadioButtonList extends Vue {
 
   public $refs: any;
 
-  mounted() {
-    this.config.status.key = this.config.key;
-    if(this.config.settings.default){
-      this.config.status.value = this.config.settings.default
-    }
-    this.updateStatus();
-  }
-
   setBlur() {
     this.config.status.showErrors = true;
     this.updateStatus();

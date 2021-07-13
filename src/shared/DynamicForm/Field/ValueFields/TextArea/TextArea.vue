@@ -38,10 +38,6 @@ export default class TextArea extends Vue {
   @Prop() public status: ValueFieldStatus<string>;
   public $refs: any;
 
-  mounted() {
-    this.updateStatus();
-  }
-
   setBlur() {
     this.config.status.showErrors = true;
     this.updateStatus();

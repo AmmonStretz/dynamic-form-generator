@@ -32,10 +32,6 @@ export default class TextInput extends Vue {
 
   public $refs: any;
 
-  mounted() {
-    this.updateStatus();
-  }
-
   setBlur() {
     this.config.status.showErrors = true;
     this.updateStatus();

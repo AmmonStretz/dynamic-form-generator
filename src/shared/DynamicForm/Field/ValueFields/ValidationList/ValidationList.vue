@@ -83,7 +83,6 @@ export default class ValidationList extends Vue {
       }
     });
             }
-    this.change();
   }
 
   addValidator() {

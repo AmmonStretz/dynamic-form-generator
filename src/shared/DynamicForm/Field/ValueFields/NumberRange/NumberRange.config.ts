@@ -3,7 +3,7 @@ import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class
 import { Validator } from '../../../Validators/validators.class';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
 
-export interface NumberRangeSettings  extends ValueFieldSettings<number> {
+export interface NumberRangeSettings extends ValueFieldSettings<number> {
   unit?: string,
   min: number,
   max: number,
@@ -26,15 +26,24 @@ export class NumberRangeConfig extends ValueFieldConfig<number> {
     );
   }
   public createStatus() {
+    let startValue: number = this.settings.min;
+    if (
+      this.settings.default != null &&
+      this.settings.default != undefined &&
+      this.settings.default > this.settings.min
+      && this.settings.default < this.settings.max
+    ) {
+      startValue = this.settings.default;
+    }
     this.status = new ValueFieldStatus<number>(
       this.key,
-      this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null
+      startValue
     )
     this.status.config = this;
   }
 
-  public getAllPaths(rootPath: string): { path: string, type: string}[] {
-    return [{path: rootPath+this.key, type: 'number'}];
+  public getAllPaths(rootPath: string): { path: string, type: string }[] {
+    return [{ path: rootPath + this.key, type: 'number' }];
   }
 
   public toJson() {
