@@ -2,7 +2,7 @@
   <div class="page">
     <header>
       <h2>
-        Seite {{ index + 1 }}: <span>{{ config.settings.name }}</span>
+        Seite {{ index + 1 }}: <span>{{ config.settings.title }}</span>
       </h2>
       <button @click="addNewPage()">
         <img src="../../../assets/icons/add.svg" alt="" />

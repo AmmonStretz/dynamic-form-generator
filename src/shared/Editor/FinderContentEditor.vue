@@ -31,6 +31,7 @@ import { TextInputConfig } from "../DynamicForm/Field/ValueFields/TextInput/Text
 export default class FinderContentEditor extends Vue {
   @Prop() public config!: FinderConfig;
   public $refs: any;
+  public $store: any;
   public loaded =  true;
   // public menuStructure: any = [
   //   {
