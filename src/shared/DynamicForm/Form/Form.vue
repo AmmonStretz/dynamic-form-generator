@@ -5,7 +5,7 @@
       v-for="(field, index) in config.fields"
       :key="index"
       v-bind:config="field"
-      v-bind:status="field.status"
+      v-bind:status="status.children[index]"
       v-bind:root="root"
       v-on:change="onChange"
       ref="childs"
@@ -21,6 +21,7 @@ import { FormConfig, FormStatus } from "./Form.config";
 import { ValueFieldStatus } from "../Field/ValueFields/ValueField.config";
 import { ContentFieldConfig } from "../Field/ContentFields/ContentField.config";
 import { ChapterConfig } from "../Chapter/Chapter.config";
+import { FinderConfig } from "../Finder/Finder.config";
 
 @Component({
   components: {
@@ -30,7 +31,8 @@ import { ChapterConfig } from "../Chapter/Chapter.config";
 export default class FormComponent extends Vue {
 
   @Prop() public config!: FormConfig;
-  @Prop() public root!: ChapterConfig;
+  @Prop() public root!: FinderConfig;
+  @Prop() public status!: FormStatus;
 
   mounted() {
     if (this.config.visible.calc) {

@@ -7,7 +7,7 @@ import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 
 export class FieldGroupStatus extends FieldStatus {
-  public config: FieldGroupConfig;
+  declare public config: FieldGroupConfig;
   constructor(
     public key: string,
     public isValid?: boolean,
@@ -15,18 +15,18 @@ export class FieldGroupStatus extends FieldStatus {
   ) {
     super(key, isValid, visible);
   }
-  public update(): FieldGroupStatus {
+  public update(showErrors: boolean = false): FieldGroupStatus {
     let valide = true;
     this.children.forEach(child => {
       let childStatus: FieldStatus;
       if (child instanceof ValueFieldStatus) {
-        childStatus = (child as ValueFieldStatus<any>).update();
+        childStatus = (child as ValueFieldStatus<any>).update(showErrors);
       }
       if (child instanceof FieldGroupStatus) {
-        childStatus = (child as FieldGroupStatus).update();
+        childStatus = (child as FieldGroupStatus).update(showErrors);
       }
       // if (child instanceof FieldLoopStatus) {
-      //   childStatus = (child as FieldLoopStatus).update();
+      //   childStatus = (child as FieldLoopStatus).update(showErrors);
       // }
       if (!childStatus.isValid && !!childStatus.visible) {
         valide = false;
@@ -80,7 +80,7 @@ export interface FieldGroupSettings extends ValueFieldSettings<{ [key: string]: 
 
 export class FieldGroupConfig extends FieldConfig {
 
-  public status: FieldGroupStatus;
+  declare public status: FieldGroupStatus;
   constructor(
     public key: string,
     public fields: FieldConfig[],

@@ -19,19 +19,19 @@
 //   ) {
 //     super(key, isValid, visible);
 //   }
-//   public update(): FieldLoopStatus {
+//   public update(showErrors: boolean = false): FieldLoopStatus {
 //     this.config.updateFields()
 //     let valide = true;
 //     this.children.forEach(child => {
 //       let childStatus: FieldStatus;
 //       if (child instanceof ValueFieldStatus) {
-//         childStatus = (child as ValueFieldStatus<any>).update();
+//         childStatus = (child as ValueFieldStatus<any>).update(showErrors);
 //       }
 //       if (child instanceof FieldGroupStatus) {
-//         childStatus = (child as FieldGroupStatus).update();
+//         childStatus = (child as FieldGroupStatus).update(showErrors);
 //       }
 //       if (child instanceof FieldLoopStatus) {
-//         childStatus = (child as FieldLoopStatus).update();
+//         childStatus = (child as FieldLoopStatus).update(showErrors);
 //       }
 //       if (!childStatus.isValid && !!childStatus.visible) {
 //         valide = false;

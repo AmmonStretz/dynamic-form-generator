@@ -28,6 +28,7 @@ import { ValueFieldStatus } from "../ValueField.config";
 })
 export default class TextInputComponent extends Vue {
   @Prop() private config!: TextInputConfig;
+  @Prop() public status: ValueFieldStatus<string>;
 
   public $refs: any;
 
@@ -43,6 +44,7 @@ export default class TextInputComponent extends Vue {
   updateStatus(): ValueFieldStatus<string> {
     this.config.status.errors = Validator.checkFieldValidity(this.config.status.value, this.config.validators);
     this.config.status.isValid = this.config.status.errors.length == 0;
+    this.status = this.config.status;
     return this.config.status;
   }
 }

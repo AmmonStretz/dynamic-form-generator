@@ -2,8 +2,8 @@ import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { FieldConfig, FieldSettings, FieldStatus } from '../Field.config';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 export class ContentFieldStatus extends FieldStatus {
-  public config: ContentFieldConfig;
-  public update(): FieldStatus {
+  declare public config: ContentFieldConfig;
+  public update(showErrors: boolean = false): FieldStatus {
     this.visible = this.config.visible.calc((key: string) => this.parent.getValueByKey(key));
     return this;
   }

@@ -3,7 +3,8 @@
     <component
       v-if="plugin.length > 0"
       :is="plugin[0].component.name"
-      v-bind:config="config"
+      :config="config"
+      :status = "currentStatus"
       @change="onChange"
     ></component>
     <div v-if="plugin.length == 0">
@@ -41,7 +42,15 @@ import { PluginService } from "../../services/Plugin.service";
 })
 export default class FieldComponent extends Vue {
   @Prop() private config!: ValueFieldConfig<any>;
+  @Prop() public status!: ValueFieldStatus<any>;
   @Prop() public root!: FinderConfig;
+
+  public set currentStatus(status: ValueFieldStatus<any>) {
+    this.status = status;
+  }
+  public get currentStatus(): ValueFieldStatus<any> {
+    return this.status;
+  }
 
   get visibility(): any {
     if (this.config.visible.calc) {
@@ -62,7 +71,6 @@ export default class FieldComponent extends Vue {
 
   @Emit("change")
   onChange(status: ValueFieldStatus<any>): ValueFieldStatus<any> {
-    //this.config.Root.status.update();
     return status;
   }
 }

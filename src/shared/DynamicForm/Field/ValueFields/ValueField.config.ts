@@ -7,7 +7,7 @@ export interface ValueFieldSettings<T> extends FieldSettings {
 }
 
 export class ValueFieldStatus<T> extends FieldStatus {
-  public config: ValueFieldConfig<T>;
+  declare public config: ValueFieldConfig<T>;
   constructor(
     public key: string,
     public value: T,
@@ -19,9 +19,11 @@ export class ValueFieldStatus<T> extends FieldStatus {
     super(key, isValid, visible);
   }
 
-  public update(): FieldStatus {
+  public update(showErrors: boolean = false): FieldStatus {
     this.visible = this.config.visible.calc((key: string) => this.getValueByKey(key));
-    this.showErrors = true;
+    if(showErrors){
+      this.showErrors = true;
+    }
     return this;
   }
 
@@ -42,7 +44,7 @@ export class ValueFieldStatus<T> extends FieldStatus {
 
 export abstract class ValueFieldConfig<T> extends FieldConfig {
 
-  public status: ValueFieldStatus<T>;
+  declare public status: ValueFieldStatus<T>;
   constructor(
     public key: string,
     public type: string,

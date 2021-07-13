@@ -34,6 +34,7 @@ import { ValueFieldStatus } from "../ValueField.config";
 })
 export default class SelectComponent extends Vue {
   @Prop() private config!: SelectConfig;
+  @Prop() public status: ValueFieldStatus<number>;
 
   public $refs: any;
 
@@ -57,6 +58,7 @@ export default class SelectComponent extends Vue {
       this.config.validators
     );
     this.config.status.isValid = this.config.status.errors.length == 0;
+    this.status = this.config.status;
     return this.config.status;
   }
 }

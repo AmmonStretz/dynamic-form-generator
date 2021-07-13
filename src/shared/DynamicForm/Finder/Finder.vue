@@ -4,9 +4,9 @@
       {{ config.settings.title }}
     </h1>
       <ChapterComponent
-        v-if="loaded"
         v-bind:config="config.chapter"
         v-bind:root="config"
+        v-bind:status="status.chapter"
         v-on:change="onChange"
         ref="chapter"
       ></ChapterComponent>
@@ -42,9 +42,9 @@ import { FinderConfig, FinderStatus } from "./Finder.config";
 })
 export default class FinderComponent extends Vue {
   @Prop() public config!: FinderConfig;
+  public status: FinderStatus = this.config.status;
   public $refs: any;
 
-private loaded = true;
   public get currentStatus() {
     return this.config.status;
   }
@@ -52,6 +52,7 @@ private loaded = true;
   @Emit("change")
   onChange(status: ChapterStatus): FinderStatus {
     this.config.chapter.status = status;
+    this.status.chapter = status;
     return this.config.status;
   }
 
@@ -70,18 +71,10 @@ private loaded = true;
   }
   next(): void {
     if (!!this.config.chapter) {
-      this.reload();
       if(this.$refs.chapter.next() && this.config.status.chapter.isValid) {
         this.submit();
       }
     }
-  }
-  reload() {
-    this.loaded = false;
-    // TODO: Kapitel rerendering https://morioh.com/p/08963bf07353
-    this.$nextTick(() => {
-      this.loaded = true;
-    });
   }
 }
 </script>

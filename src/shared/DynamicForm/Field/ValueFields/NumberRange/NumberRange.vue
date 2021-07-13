@@ -33,6 +33,7 @@ import { ValueFieldStatus } from "../ValueField.config";
 export default class NumberRangeComponent extends Vue {
 
   @Prop() private config!: NumberRangeConfig;
+  @Prop() public status: ValueFieldStatus<number>;
   
   public $refs: any;
 
@@ -52,6 +53,7 @@ export default class NumberRangeComponent extends Vue {
   updateStatus(): ValueFieldStatus<number> {
     let errors = Validator.checkFieldValidity(this.config.status.value, this.config.validators);
     this.config.status.isValid = errors.length == 0;
+    this.status = this.config.status;
     return this.config.status;
   }
 }

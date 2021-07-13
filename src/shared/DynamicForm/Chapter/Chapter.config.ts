@@ -13,18 +13,18 @@ export class ChapterStatus extends Status {
   ) {
     super();
   }
-  public update(): ChapterStatus {
+  public update(showErrors: boolean = false): ChapterStatus {
     let valide = true;
     if (this.children.length > 0) {
       this.children.forEach(child => {
-        const childStatus = child.update();
+        const childStatus = child.update(showErrors);
         if (!childStatus.isValid && childStatus.visible) {
           valide = false;
         }
       });
     } else if (this.pages.length > 0) {
       this.pages.forEach(page => {
-        const pageStatus = page.update();
+        const pageStatus = page.update(showErrors);
         if (!pageStatus.isValid && pageStatus.visible) {
           valide = false;
         }
@@ -60,8 +60,8 @@ export class ChapterStatus extends Status {
 
 export class ChapterConfig extends Config {
   private type: string = 'Chapter';
-  public status: ChapterStatus;
-  public parent: ChapterConfig | FinderConfig;
+  declare public status: ChapterStatus;
+  declare public parent: ChapterConfig | FinderConfig;
 
   constructor(
     public children: ChapterConfig[],

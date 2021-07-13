@@ -28,6 +28,7 @@ import { ValueFieldStatus } from "../ValueField.config";
 })
 export default class CheckboxComponent extends Vue {
   @Prop() private config!: CheckboxConfig;
+  @Prop() public status: ValueFieldStatus<boolean>;
   public $refs: any;
 
   mounted() {
@@ -36,12 +37,13 @@ export default class CheckboxComponent extends Vue {
 
   @Emit("change")
   onChange(): ValueFieldStatus<boolean> {
-    this.config.status.errors = Validator.checkFieldValidity(
-      this.config.status.value,
+    this.status.errors = Validator.checkFieldValidity(
+      this.status.value,
       this.config.validators
     );
-    this.config.status.isValid = this.config.status.errors.length == 0;    
-    return this.config.status;
+    this.status.isValid = this.status.errors.length == 0;    
+    this.config.status = this.status;
+    return this.status;
   }
 }
 </script>

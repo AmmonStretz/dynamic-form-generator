@@ -4,6 +4,7 @@
       v-if="isValueField"
       v-bind:config="config"
       v-bind:root="root"
+      v-bind:status="status"
       v-on:change="onChange"
       ref="child"
     ></ValueFieldComponent>
@@ -11,6 +12,7 @@
       v-if="config.type == 'fieldGroup'"
       v-bind:config="config"
       v-bind:root="root"
+      v-bind:status="status"
       v-on:change="onChange"
       ref="child"
     ></FieldGroupComponent>
@@ -18,6 +20,7 @@
       v-if="config.type == 'fieldLoop'"
       v-bind:config="config"
       v-bind:root="root"
+      v-bind:status="status"
       v-on:change="onChange"
       ref="child"
     ></FieldLoopComponent>
@@ -25,6 +28,7 @@
       v-if="config.type == 'fieldLoop'"
       v-bind:config="config"
       v-bind:root="root"
+      v-bind:status="status"
       v-on:change="onChange"
       ref="child"
     ></FieldLoopComponent> -->
@@ -32,6 +36,7 @@
       v-if="isContentField"
       v-bind:config="config"
       v-bind:root="root"
+      v-bind:status="status"
       ref="child"
     >
     </ContentFieldComponent>
@@ -60,7 +65,7 @@ import { ValueFieldConfig } from "./ValueFields/ValueField.config";
 })
 export default class FieldComponent extends Vue {
   @Prop() private config!: FieldConfig;
-
+  @Prop() public status!: FieldStatus;
   @Prop() public root!: FinderConfig;
 
   get visibility(): any {

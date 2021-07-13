@@ -48,6 +48,7 @@ import { ValidationListConfig } from "./ValidationList.config";
 })
 export default class ValidationListComponent extends Vue {
   @Prop() private config!: ValidationListConfig;
+  @Prop() public status: ValueFieldStatus<Validator<any>[]>;
   public $refs: any;
   public validators: {
     id: number;
@@ -123,6 +124,7 @@ export default class ValidationListComponent extends Vue {
       this.config.validators
     );
     this.config.status.isValid = this.config.status.errors.length == 0;
+    this.status = this.config.status;
     return this.config.status;
   }
 }

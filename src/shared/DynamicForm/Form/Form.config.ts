@@ -11,32 +11,32 @@ import { ChapterConfig, ChapterStatus } from '../Chapter/Chapter.config';
 
 export class FormStatus extends Status {
 
-  public parent: ChapterStatus;
+  declare public parent: ChapterStatus;
   public children: FieldStatus[] = [];
-  public config: FormConfig;
+  declare public config: FormConfig;
   constructor(
     public isValid?: boolean,
     public visible: boolean = true,
   ) {
     super();
   }
-  public update(): FormStatus {
+  public update(showErrors: boolean = false): FormStatus {
     let valide = true;
   
     this.children.forEach(child => {
       let childStatus: any;
       if (child instanceof ValueFieldStatus) {
-        childStatus = child.update();
+        childStatus = child.update(showErrors);
       }
       if (child instanceof FieldGroupStatus) {
       
-        childStatus = child.update();
+        childStatus = child.update(showErrors);
       }
       // if (child instanceof FieldLoopStatus) {
-      //   childStatus = (child as FieldLoopStatus).update();
+      //   childStatus = (child as FieldLoopStatus).update(showErrors);
       // }
       if (child instanceof ContentFieldStatus) {
-        child.update();
+        child.update(showErrors);
         return;
       }
       if (!childStatus.isValid && childStatus.visible) {
@@ -83,8 +83,8 @@ export class FormStatus extends Status {
 
 export class FormConfig extends Config {
   private type: string = 'Form';
-  public parent: ChapterConfig;
-  public status: FormStatus;
+  declare public parent: ChapterConfig;
+  declare public status: FormStatus;
 
   constructor(
     public fields: FieldConfig[],

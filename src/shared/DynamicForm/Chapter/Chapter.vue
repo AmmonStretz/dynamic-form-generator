@@ -8,6 +8,7 @@
       <ChapterComponent
         v-if="i == currentStatus.index"
         v-bind:config="subChapter"
+        v-bind:status="status.children[i]"
         v-bind:root="root"
         :ref="'chapter_' + i"
         v-on:change="onChange"
@@ -17,12 +18,12 @@
       <FormComponent
         v-if="i == currentStatus.index"
         v-bind:config="page"
+        v-bind:status="status.pages[i]"
         v-bind:root="root"
         :ref="'page_' + i"
         v-on:change="onChange"
       ></FormComponent>
     </div>
-    <div v-if="!loaded"></div>
   </div>
 </template>
 
@@ -42,9 +43,9 @@ import { ChapterConfig, ChapterStatus } from "./Chapter.config";
 })
 export default class ChapterComponent extends Vue {
   @Prop() public config!: ChapterConfig;
+  @Prop() public status!: ChapterStatus;
   @Prop() public root!: FinderConfig;
   public $refs: any;
-  private loaded = true;
 
   public get currentStatus() {
     return this.config.status;
@@ -63,7 +64,6 @@ export default class ChapterComponent extends Vue {
         return true;
       } else {
         this.config.status.index--;
-        this.reload();
       }
     } else if (this.hasChildren) {
       if (this.$refs["chapter_" + this.config.status.index][0].previous()) {
@@ -71,7 +71,6 @@ export default class ChapterComponent extends Vue {
           return true;
         } else {
           this.config.status.index--;
-          this.reload();
         }
       }
     }
@@ -94,20 +93,12 @@ export default class ChapterComponent extends Vue {
       if (validChild) {
         this.config.status.index++;
       } else {
+        this.root.status.update(true);
       }
     } else if (next && this.config.status.index == size - 1) {
-      this.reload();
       return true;
     }
-    this.reload();
     return false;
-  }
-
-  reload() {
-    this.loaded = false;
-    this.$nextTick(() => {
-      this.loaded = true;
-    });
   }
 
   @Emit("change")

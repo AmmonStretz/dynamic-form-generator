@@ -7,8 +7,8 @@ export class FinderStatus extends Status {
   constructor() {
     super();
   }
-  public update(): FinderStatus {
-    this.chapter.update();
+  public update(showErrors: boolean = false): FinderStatus {
+    this.chapter.update(showErrors);
     return this;
   }
 
@@ -27,7 +27,7 @@ export class FinderStatus extends Status {
 
 export class FinderConfig extends Config {
   private type: string = 'Finder';
-  public status: FinderStatus;
+  declare public status: FinderStatus;
   constructor(
     public chapter: ChapterConfig,
     public settings: {

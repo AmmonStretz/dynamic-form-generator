@@ -35,6 +35,7 @@ import { ValueFieldStatus } from "../ValueField.config";
 })
 export default class TextAreaComponent extends Vue {
   @Prop() private config!: TextAreaConfig;
+  @Prop() public status: ValueFieldStatus<string>;
   public $refs: any;
 
   mounted() {
@@ -53,6 +54,7 @@ export default class TextAreaComponent extends Vue {
       this.config.validators
     );
     this.config.status.isValid = this.config.status.errors.length == 0;
+    this.status = this.config.status;
     return this.config.status;
   }
 }
