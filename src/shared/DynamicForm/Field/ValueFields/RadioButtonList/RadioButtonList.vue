@@ -29,9 +29,9 @@ import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
-  name: "RadioButtonListComponent",
+  name: "RadioButtonList",
 })
-export default class RadioButtonListComponent extends Vue {
+export default class RadioButtonList extends Vue {
   @Prop() private config!: RadioButtonListConfig;
   @Prop() public status: ValueFieldStatus<number>;
 

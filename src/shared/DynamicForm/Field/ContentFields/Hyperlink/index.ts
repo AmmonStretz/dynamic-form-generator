@@ -5,12 +5,12 @@ import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { TextAreaConfig } from '../../ValueFields/TextArea/TextArea.config';
 import { TextInputConfig } from '../../ValueFields/TextInput/TextInput.config';
 import { HyperlinkFieldConfig } from './Hyperlink.config';
-import HyperlinkFieldComponent from './Hyperlink.vue';
+import HyperlinkField from './Hyperlink.vue';
 
 export default {
   install: (Vue: any, options: any) => {
     (Vue as any).fieldPlugins.push(new FieldPlugin<HyperlinkFieldConfig>(
-      HyperlinkFieldComponent,
+      HyperlinkField,
       'hyperlink',
       'contentField',
       { //TODO: multiple links

@@ -1,12 +1,12 @@
 <template>
   <div class="home">
     <!-- <Child :status="status"  @statusChange="statusChange"/> -->
-    <FinderComponent
+    <Finder
       v-if="!!config"
       v-bind:config="config"
       v-on:submit="submit"
       v-on:cancel="cancel"
-    ></FinderComponent>
+    ></Finder>
   </div>
 </template>
 
@@ -14,12 +14,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import { FinderConfig, FinderStatus } from "../shared/DynamicForm/Finder/Finder.config";
 // import { JsonParser } from "@/shared/DynamicForm/parser";
-import FinderComponent from "../shared/DynamicForm/Finder/Finder.vue";
+import Finder from "../shared/DynamicForm/Finder/Finder.vue";
 import Child from './Child.vue';
 
 @Component({
   components: {
-    FinderComponent,
+    Finder,
     Child
   },
 })

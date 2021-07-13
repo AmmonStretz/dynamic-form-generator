@@ -5,24 +5,24 @@
     </h2>
     <div v-for="(subChapter, i) in config.children" :key="i">
       <!-- v-on:change="onChange" -->
-      <ChapterComponent
+      <Chapter
         v-if="i == currentStatus.index"
         v-bind:config="subChapter"
         v-bind:status="status.children[i]"
         v-bind:root="root"
         :ref="'chapter_' + i"
         v-on:change="onChange"
-      ></ChapterComponent>
+      ></Chapter>
     </div>
     <div v-for="(page, i) in config.pages" :key="i">
-      <FormComponent
+      <Form
         v-if="i == currentStatus.index"
         v-bind:config="page"
         v-bind:status="status.pages[i]"
         v-bind:root="root"
         :ref="'page_' + i"
         v-on:change="onChange"
-      ></FormComponent>
+      ></Form>
     </div>
   </div>
 </template>
@@ -31,17 +31,17 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FinderConfig } from "../Finder/Finder.config";
 import { FormConfig, FormStatus } from "../Form/Form.config";
-import FormComponent from "../Form/Form.vue";
+import Form from "../Form/Form.vue";
 import { ChapterConfig, ChapterStatus } from "./Chapter.config";
 
 @Component({
-  name: "ChapterComponent",
+  name: "Chapter",
   components: {
-    FormComponent,
-    ChapterComponent,
+    Form,
+    Chapter,
   },
 })
-export default class ChapterComponent extends Vue {
+export default class Chapter extends Vue {
   @Prop() public config!: ChapterConfig;
   @Prop() public status!: ChapterStatus;
   @Prop() public root!: FinderConfig;

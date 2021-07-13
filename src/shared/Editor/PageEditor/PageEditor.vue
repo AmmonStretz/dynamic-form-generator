@@ -15,7 +15,7 @@
       </button>
     </header>
     <div class="content">
-      <FieldEditorComponent
+      <FieldEditor
           v-for="(field, i) in config.fields"
           :key="i"
           :config="field"
@@ -37,7 +37,7 @@ import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
 import { FieldConfig } from "../../DynamicForm/Field/Field.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
-import FieldEditorComponent from '../FieldEditor/FieldEditor.vue';
+import FieldEditor from '../FieldEditor/FieldEditor.vue';
 import { addFieldGenerator } from "../FieldEditor/sidebar-menu.forms";
 import {
   addPageGenerator,
@@ -46,11 +46,12 @@ import {
 } from "./sidebar-menu.forms";
 
 @Component({
+  name: 'PageEditor',
   components: {
-    FieldEditorComponent
+    FieldEditor
   },
 })
-export default class PageEditorComponent extends Vue {
+export default class PageEditor extends Vue {
   @Prop() public config!: FormConfig;
   @Prop() public index: number;
 

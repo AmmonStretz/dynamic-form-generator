@@ -24,9 +24,9 @@ import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
-  name: 'TextInputComponent'
+  name: 'TextInput'
 })
-export default class TextInputComponent extends Vue {
+export default class TextInput extends Vue {
   @Prop() private config!: TextInputConfig;
   @Prop() public status: ValueFieldStatus<string>;
 

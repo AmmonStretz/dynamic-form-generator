@@ -4,13 +4,13 @@ import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boo
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { TextAreaConfig } from '../../ValueFields/TextArea/TextArea.config';
 import { TextInputConfig } from '../../ValueFields/TextInput/TextInput.config';
-import { ParagraphFieldConfig } from './Paragraph.config';
-import ParagraphFieldComponent from './Paragraph.vue';
+import { ParagraphConfig } from './Paragraph.config';
+import ParagraphField from './Paragraph.vue';
 
 export default {
   install: (Vue: any, options: any) => {
-    (Vue as any).fieldPlugins.push(new FieldPlugin<ParagraphFieldConfig>(
-      ParagraphFieldComponent,
+    (Vue as any).fieldPlugins.push(new FieldPlugin<ParagraphConfig>(
+      ParagraphField,
       'paragraph',
       'contentField',
       {
@@ -18,11 +18,11 @@ export default {
           new TextInputConfig("name", { name: "Name" }, []),
           new TextAreaConfig("text", { name: "Text", description: 'Dieses Feld definiert den Inhalt des Absatzes.' }, []),
         ], {}), generator: (formStatus: Status) => {
-          return new ParagraphFieldConfig(
+          return new ParagraphConfig(
             formStatus.getValueByKey('text'),
             { name: formStatus.getValueByKey('name') }
           )
-        }, fill: (current: ParagraphFieldConfig, form: FieldGroupConfig) => {
+        }, fill: (current: ParagraphConfig, form: FieldGroupConfig) => {
           let name: TextInputConfig = (form.fields[0] as TextInputConfig);
           name.settings.default = current.settings.name;
 
@@ -37,13 +37,7 @@ export default {
         }
       },
       (json: any) => {
-        console.log(new ParagraphFieldConfig(
-          json.text,
-          json.settings,
-          BooleanConditionParser.fromJson(json.visible)
-        ));
-        
-        return new ParagraphFieldConfig(
+        return new ParagraphConfig(
           json.text,
           json.settings,
           BooleanConditionParser.fromJson(json.visible)

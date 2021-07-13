@@ -6,12 +6,12 @@ import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boo
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';
 import { SelectConfig } from './Select.config';
-import SelectFieldComponent from './Select.vue';
+import Select from './Select.vue';
 
 export default {
   install: (Vue: any, options: any) => {
     (Vue as any).fieldPlugins.push(new FieldPlugin<SelectConfig>(
-      SelectFieldComponent,
+      Select,
       'select',
       'valueField',
       { //TODO: multiple options with loop

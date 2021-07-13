@@ -7,12 +7,12 @@ import { TextAreaConfig } from '../TextArea/TextArea.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';
 import { ValidationListConfig } from '../ValidationList/ValidationList.config';
 import { NumberInputConfig } from './NumberInput.config';
-import NumberInputFieldComponent from './NumberInput.vue';
+import NumberInput from './NumberInput.vue';
 
 export default {
   install: (Vue: any, options: any) => {
     (Vue as any).fieldPlugins.push(new FieldPlugin<NumberInputConfig>(
-      NumberInputFieldComponent,
+      NumberInput,
       'numberInput',
       'valueField',
       {

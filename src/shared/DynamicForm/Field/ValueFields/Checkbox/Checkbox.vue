@@ -24,9 +24,9 @@ import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
-  name: "CheckboxComponent",
+  name: "Checkbox",
 })
-export default class CheckboxComponent extends Vue {
+export default class Checkbox extends Vue {
   @Prop() private config!: CheckboxConfig;
   @Prop() public status: ValueFieldStatus<boolean>;
   public $refs: any;

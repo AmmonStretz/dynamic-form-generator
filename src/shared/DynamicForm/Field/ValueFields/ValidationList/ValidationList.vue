@@ -44,9 +44,9 @@ import { ValueFieldStatus } from "../ValueField.config";
 import { ValidationListConfig } from "./ValidationList.config";
 
 @Component({
-  name: "ValidationListComponent",
+  name: "ValidationList",
 })
-export default class ValidationListComponent extends Vue {
+export default class ValidationList extends Vue {
   @Prop() private config!: ValidationListConfig;
   @Prop() public status: ValueFieldStatus<Validator<any>[]>;
   public $refs: any;

@@ -17,30 +17,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import NumberInputComponent from "./NumberInput/NumberInput.vue";
-import TextInputComponent from "./TextInput/TextInput.vue";
-import TextAreaComponent from "./TextArea/TextArea.vue";
-import NumberRangeComponent from "./NumberRange/NumberRange.vue";
-import CheckboxComponent from "./Checkbox/Checkbox.vue";
-import SelectComponent from "./Select/Select.vue";
-import RadioButtonListComponent from "./RadioButtonList/RadioButtonList.vue";
 import { ValueFieldStatus, ValueFieldConfig } from "./ValueField.config";
 import { FinderConfig } from "../../Finder/Finder.config";
-import { PluginService } from "../../services/Plugin.service";
-// Vue.component('FieldComponent')
 @Component({
-  name: "FieldComponent",
-  components: {
-    NumberInputComponent,
-    TextInputComponent,
-    TextAreaComponent,
-    NumberRangeComponent,
-    CheckboxComponent,
-    SelectComponent,
-    RadioButtonListComponent,
-  },
+  name: "ValueField",
+  components: {},
 })
-export default class FieldComponent extends Vue {
+export default class ValueField extends Vue {
   @Prop() private config!: ValueFieldConfig<any>;
   @Prop() public status!: ValueFieldStatus<any>;
   @Prop() public root!: FinderConfig;
@@ -50,16 +33,6 @@ export default class FieldComponent extends Vue {
   }
   public get currentStatus(): ValueFieldStatus<any> {
     return this.status;
-  }
-
-  get visibility(): any {
-    if (this.config.visible.calc) {
-      this.config.status.visible = this.config.visible.calc((key) =>
-        this.config.status.getValueByKey(key)
-      );
-      return this.config.status.visible;
-    }
-    return true;
   }
 
   get plugin() {

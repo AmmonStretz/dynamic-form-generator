@@ -28,9 +28,9 @@ import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
-  name: 'NumberRangeComponent'
+  name: 'NumberRange'
 })
-export default class NumberRangeComponent extends Vue {
+export default class NumberRange extends Vue {
 
   @Prop() private config!: NumberRangeConfig;
   @Prop() public status: ValueFieldStatus<number>;

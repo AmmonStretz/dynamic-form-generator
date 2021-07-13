@@ -1,7 +1,6 @@
 <template>
   <div class="editor">
     <div class="chapter-view">
-      <button @click="log">print</button>
       <FinderContentEditor :config="config" />
     </div>
     <SidebarMenu/>
@@ -11,17 +10,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FinderConfig } from "../shared/DynamicForm/Finder/Finder.config";
-import FormComponent from "../shared/DynamicForm/Form/Form.vue";
-import FinderService from "../shared/DynamicForm/services/Finder.service";
-import ChapterEditorComponent from "../shared/Editor/ChapterEditor/ChapterEditor.vue";
 import SidebarMenu from "../shared/Editor/SidebarMenu/SidebarMenu.vue";
 import FinderContentEditor from "../shared/Editor/FinderContentEditor.vue";
-import { SidebarMenuConfig } from "../shared/Editor/SidebarMenu/SidebarMenu.config";
 
 @Component({
+  name: 'Editor',
   components: {
-    ChapterEditorComponent,
-    FormComponent,
     FinderContentEditor,
     SidebarMenu
   },
@@ -31,16 +25,6 @@ export default class Editor extends Vue {
   get config(): FinderConfig{
     console.log(this.$store)
     return this.$store.getters.config;
-  }
-
-  constructor() {
-    super();
-  }
-  mounted(){
-    
-  }
-  log(){
-    console.log(this.config);
   }
 }
 </script>

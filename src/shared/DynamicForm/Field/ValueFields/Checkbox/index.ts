@@ -5,12 +5,12 @@ import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boo
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';
 import { CheckboxConfig } from './Checkbox.config';
-import CheckboxFieldComponent from './Checkbox.vue';
+import Checkbox from './Checkbox.vue';
 
 export default {
   install: (Vue: any, options: any) => {
     (Vue as any).fieldPlugins.push(new FieldPlugin<CheckboxConfig>(
-      CheckboxFieldComponent,
+      Checkbox,
       'checkbox',
       'valueField',
       { //TODO: multiple links

@@ -31,9 +31,9 @@ import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
-  name: "TextAreaComponent",
+  name: "TextArea",
 })
-export default class TextAreaComponent extends Vue {
+export default class TextArea extends Vue {
   @Prop() private config!: TextAreaConfig;
   @Prop() public status: ValueFieldStatus<string>;
   public $refs: any;

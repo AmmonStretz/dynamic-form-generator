@@ -7,12 +7,12 @@ import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { NumberInputConfig } from '../NumberInput/NumberInput.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';
 import { NumberRangeConfig } from './NumberRange.config';
-import NumberRangeFieldComponent from './NumberRange.vue';
+import NumberRange from './NumberRange.vue';
 
 export default {
   install: (Vue: any, options: any) => {
     (Vue as any).fieldPlugins.push(new FieldPlugin<NumberRangeConfig>(
-      NumberRangeFieldComponent,
+      NumberRange,
       'numberRange',
       'valueField',
       {

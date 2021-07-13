@@ -1,4 +1,4 @@
-import { ParagraphFieldConfig } from "@/shared/DynamicForm/Field/ContentFields/Paragraph/Paragraph.config";
+import { ParagraphConfig } from "@/shared/DynamicForm/Field/ContentFields/Paragraph/Paragraph.config";
 import { RadioButtonListConfig } from "@/shared/DynamicForm/Field/ValueFields/RadioButtonList/RadioButtonList.config";
 import { TextInputConfig } from "@/shared/DynamicForm/Field/ValueFields/TextInput/TextInput.config";
 import { FormConfig } from "@/shared/DynamicForm/Form/Form.config";
@@ -26,7 +26,7 @@ export function deletePageGenerator(listener: any) {
   return {
     form: new FormConfig(
       [
-        new ParagraphFieldConfig(
+        new ParagraphConfig(
           "Möchten Sie diese Seite wirklich löschen?",
           {}
         ),

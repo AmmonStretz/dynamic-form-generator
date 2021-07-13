@@ -7,12 +7,12 @@ import { NumberInputConfig } from '../NumberInput/NumberInput.config';
 import { TextAreaConfig } from '../TextArea/TextArea.config';
 import { ValidationListConfig } from '../ValidationList/ValidationList.config';
 import { TextInputConfig } from './TextInput.config';
-import TextInputFieldComponent from './TextInput.vue';
+import TextInput from './TextInput.vue';
 
 export default {
   install: (Vue: any, options: any) => {
     (Vue as any).fieldPlugins.push(new FieldPlugin<TextInputConfig>(
-      TextInputFieldComponent,
+      TextInput,
       'textInput',
       'valueField',
       { //TODO: multiple links

@@ -1,4 +1,4 @@
-import { ParagraphFieldConfig } from "@/shared/DynamicForm/Field/ContentFields/Paragraph/Paragraph.config";
+import { ParagraphConfig } from "@/shared/DynamicForm/Field/ContentFields/Paragraph/Paragraph.config";
 import { FieldConfig } from "@/shared/DynamicForm/Field/Field.config";
 import { FieldGroupConfig } from "@/shared/DynamicForm/Field/FieldGroup/FieldGroup.config";
 import { SelectConfig } from "@/shared/DynamicForm/Field/ValueFields/Select/Select.config";
@@ -49,7 +49,7 @@ export function deleteFieldGenerator(listener: any) {
   return {
     form: new FormConfig(
       [
-        new ParagraphFieldConfig(
+        new ParagraphConfig(
           "Möchten Sie dieses Feld wirklich löschen?",
           {}
         ),

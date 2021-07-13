@@ -2,14 +2,14 @@
   <div class="field-group" :class="{ horizontal: config.settings.horizontal }">
     <h2 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h2>
     <div class="content">
-      <FieldComponent
+      <Field
         v-for="(field, index) in config.fields"
         :key="index"
         v-bind:config="field"
         v-bind:status="field.status"
         v-bind:root="root"
         v-on:change="onChange"
-      ></FieldComponent>
+      ></Field>
     </div>
     <br />
     <p if="config.settings.description">{{ config.settings.description }}</p>
@@ -20,16 +20,11 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FinderConfig } from "../../Finder/Finder.config";
 import { FieldGroupConfig, FieldGroupStatus } from "./FieldGroup.config";
-// import FieldComponent from "../Field.vue";
 
-// Vue.component('FieldGroupComponent')
 @Component({
-  name: "FieldGroupComponent",
-  components: {
-    // FieldComponent,
-  },
+  name: "FieldGroup",
 })
-export default class FieldGroupComponent extends Vue {
+export default class FieldGroup extends Vue {
   @Prop() public config!: FieldGroupConfig;
   @Prop() public root!: FinderConfig;
 
@@ -58,7 +53,7 @@ export default class FieldGroupComponent extends Vue {
 
   beforeCreate() {
     if (this.$options.components)
-      (this.$options.components.FieldComponent as any) = require("../Field.vue").default;
+      (this.$options.components.Field as any) = require("../Field.vue").default;
   }
 }
 </script>

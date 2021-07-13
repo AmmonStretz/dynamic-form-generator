@@ -29,15 +29,15 @@
           :key="i"
         >
           <!-- v-on:change="onChange" -->
-          <ChapterEditorComponent
+          <ChapterEditor
             v-bind:config="subChapter"
             :ref="i"
             @change="reload"
-          ></ChapterEditorComponent>
+          ></ChapterEditor>
         </div>
       </div>
       <div class="pages" v-if="config.children.length == 0">
-        <PageEditorComponent
+        <PageEditor
           v-for="(page, i) in config.pages"
           :key="'page_' + i"
           :index="i"
@@ -53,7 +53,7 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
-import PageEditorComponent from "../PageEditor/PageEditor.vue";
+import PageEditor from "../PageEditor/PageEditor.vue";
 
 import {
   addCathegoryGenerator,
@@ -62,13 +62,13 @@ import {
 } from "./sidebar-menu.forms";
 
 @Component({
-  name: "ChapterEditorComponent",
+  name: "ChapterEditor",
   components: {
-    ChapterEditorComponent,
-    PageEditorComponent,
+    ChapterEditor,
+    PageEditor,
   },
 })
-export default class ChapterEditorComponent extends Vue {
+export default class ChapterEditor extends Vue {
   @Prop() public config!: ChapterConfig;
   public $refs: any;
   public $store: any;

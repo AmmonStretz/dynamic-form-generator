@@ -12,17 +12,12 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { ContentFieldConfig } from "./ContentField.config";
-import ParagraphFieldComponent from "./Paragraph/Paragraph.vue";
-import HyperlinkFieldComponent from "./Hyperlink/Hyperlink.vue";
 import { FinderConfig } from "../../Finder/Finder.config";
 @Component({
-  name: "FieldComponent",
-  components: {
-    ParagraphFieldComponent,
-    HyperlinkFieldComponent,
-  },
+  name: "ContentField",
+  components: {},
 })
-export default class ContentFieldComponent extends Vue {
+export default class ContentField extends Vue {
   @Prop() private config!: ContentFieldConfig;
 
   @Prop() public root!: FinderConfig;

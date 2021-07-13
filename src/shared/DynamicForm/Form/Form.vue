@@ -1,7 +1,7 @@
 <template>
   <form class="form" v-if="config && config.status && value">
     <h2 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h2>
-    <FieldComponent
+    <Field
       v-for="(field, index) in config.fields"
       :key="index"
       v-bind:config="field"
@@ -9,26 +9,25 @@
       v-bind:root="root"
       v-on:change="onChange"
       ref="childs"
-    ></FieldComponent>
+    ></Field>
     <p if="config.settings.description">{{ config.settings.description }}</p>
   </form>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
-import FieldComponent from "../Field/Field.vue";
+import Field from "../Field/Field.vue";
 import { FormConfig, FormStatus } from "./Form.config";
 import { ValueFieldStatus } from "../Field/ValueFields/ValueField.config";
 import { ContentFieldConfig } from "../Field/ContentFields/ContentField.config";
-import { ChapterConfig } from "../Chapter/Chapter.config";
 import { FinderConfig } from "../Finder/Finder.config";
 
 @Component({
   components: {
-    FieldComponent,
+    Field,
   },
 })
-export default class FormComponent extends Vue {
+export default class Form extends Vue {
 
   @Prop() public config!: FormConfig;
   @Prop() public root!: FinderConfig;

@@ -24,9 +24,9 @@ import { Status } from "../../DynamicForm/status";
 import { addFieldGenerator, deleteFieldGenerator, editFieldGenerator } from "./sidebar-menu.forms";
 
 @Component({
-  components: {},
+  name: 'FieldEditor'
 })
-export default class FieldEditorComponent extends Vue {
+export default class FieldEditor extends Vue {
   @Prop() public config!: FieldConfig;
   public $store: any;
   public add() {

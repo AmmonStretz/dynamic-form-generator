@@ -6,12 +6,12 @@ import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boo
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';
 import { RadioButtonListConfig } from './RadioButtonList.config';
-import RadioButtonListFieldComponent from './RadioButtonList.vue';
+import RadioButtonList from './RadioButtonList.vue';
 
 export default {
   install: (Vue: any, options: any) => {
     (Vue as any).fieldPlugins.push(new FieldPlugin<RadioButtonListConfig>(
-      RadioButtonListFieldComponent,
+      RadioButtonList,
       'radioButtonList',
       'valueField',
       { //TODO: multiple radio buttons with loop

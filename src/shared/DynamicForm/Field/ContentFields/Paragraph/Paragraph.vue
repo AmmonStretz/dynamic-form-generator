@@ -8,14 +8,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { FinderConfig } from "../../../Finder/Finder.config";
-import { ParagraphFieldConfig } from "./Paragraph.config";
-// Vue.component('FieldComponent')
+import { ParagraphConfig } from "./Paragraph.config";
+
 @Component({
-  name: "FieldComponent",
+  name: "Paragraph",
   components: {},
 })
-export default class ParagraphFieldComponent extends Vue {
-  @Prop() private config!: ParagraphFieldConfig;
+export default class Paragraph extends Vue {
+  @Prop() private config!: ParagraphConfig;
   @Prop() public root!: FinderConfig;
 }
 </script>

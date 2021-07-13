@@ -6,30 +6,29 @@
         <img src="../../assets/icons/settings.svg" alt="" />
       </button>
     </h1>
-    <ChapterEditorComponent
-    v-if="loaded"
+    <ChapterEditor
+      v-if="loaded"
       v-bind:config="config.chapter"
       ref="chapter"
       @change="reload"
-    ></ChapterEditorComponent>
-    <!-- @event="listener" -->
+    ></ChapterEditor>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../DynamicForm/Chapter/Chapter.config";
-import ChapterEditorComponent from "./ChapterEditor/ChapterEditor.vue";
+import ChapterEditor from "./ChapterEditor/ChapterEditor.vue";
 import { FinderConfig } from "../DynamicForm/Finder/Finder.config";
 import { FormConfig } from "../DynamicForm/Form/Form.config";
 import { TextInputConfig } from "../DynamicForm/Field/ValueFields/TextInput/TextInput.config";
 
 @Component({
   components: {
-    ChapterEditorComponent,
+    ChapterEditor,
   },
 })
-export default class FinderContentEditorComponent extends Vue {
+export default class FinderContentEditor extends Vue {
   @Prop() public config!: FinderConfig;
   public $refs: any;
   public loaded =  true;

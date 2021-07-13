@@ -3,13 +3,13 @@
     <h1 v-if="config.settings.title">
       {{ config.settings.title }}
     </h1>
-      <ChapterComponent
+      <Chapter
         v-bind:config="config.chapter"
         v-bind:root="config"
         v-bind:status="status.chapter"
         v-on:change="onChange"
         ref="chapter"
-      ></ChapterComponent>
+      ></Chapter>
     <div>
       <button type="button" v-on:click="previous()">
         {{
@@ -31,16 +31,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { ChapterConfig, ChapterStatus } from "../Chapter/Chapter.config";
-import ChapterComponent from "../Chapter/Chapter.vue";
+import { ChapterStatus } from "../Chapter/Chapter.config";
+import Chapter from "../Chapter/Chapter.vue";
 import { FinderConfig, FinderStatus } from "./Finder.config";
 
 @Component({
   components: {
-    ChapterComponent,
+    Chapter,
   },
 })
-export default class FinderComponent extends Vue {
+export default class Finder extends Vue {
   @Prop() public config!: FinderConfig;
   public status: FinderStatus = this.config.status;
   public $refs: any;

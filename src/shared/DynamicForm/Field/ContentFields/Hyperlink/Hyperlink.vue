@@ -10,12 +10,11 @@
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { FinderConfig } from "../../../Finder/Finder.config";
 import { HyperlinkFieldConfig } from "./Hyperlink.config";
-// Vue.component('FieldComponent')
+
 @Component({
-  name: "FieldComponent",
-  components: {},
+  name: "HyperlinkField",
 })
-export default class HyperlinkFieldComponent extends Vue {
+export default class HyperlinkField extends Vue {
   @Prop() public config!: HyperlinkFieldConfig;
   @Prop() public root!: FinderConfig;
 }

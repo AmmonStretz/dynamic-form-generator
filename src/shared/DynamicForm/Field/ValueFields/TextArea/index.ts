@@ -3,16 +3,15 @@ import { Status } from '@/shared/DynamicForm/status';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
 import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boolean.class';
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
-import { NumberInputConfig } from '../NumberInput/NumberInput.config';
 import { TextInputConfig } from '../TextInput/TextInput.config';
 import { ValidationListConfig } from '../ValidationList/ValidationList.config';
 import { TextAreaConfig } from './TextArea.config';
-import TextAreaFieldComponent from './TextArea.vue';
+import TextArea from './TextArea.vue';
 
 export default {
   install: (Vue: any, options: any) => {
     (Vue as any).fieldPlugins.push(new FieldPlugin<TextAreaConfig>(
-      TextAreaFieldComponent,
+      TextArea,
       'textArea',
       'valueField',
       { //TODO: multiple links

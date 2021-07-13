@@ -1,29 +1,21 @@
 <template>
   <div class="field" v-if="visibility">
-    <ValueFieldComponent
+    <ValueField
       v-if="isValueField"
       v-bind:config="config"
       v-bind:root="root"
       v-bind:status="status"
       v-on:change="onChange"
       ref="child"
-    ></ValueFieldComponent>
-    <FieldGroupComponent
+    ></ValueField>
+    <FieldGroup
       v-if="config.type == 'fieldGroup'"
       v-bind:config="config"
       v-bind:root="root"
       v-bind:status="status"
       v-on:change="onChange"
       ref="child"
-    ></FieldGroupComponent>
-    <FieldLoopComponent
-      v-if="config.type == 'fieldLoop'"
-      v-bind:config="config"
-      v-bind:root="root"
-      v-bind:status="status"
-      v-on:change="onChange"
-      ref="child"
-    ></FieldLoopComponent>
+    ></FieldGroup>
     <!-- <FieldLoopComponent
       v-if="config.type == 'fieldLoop'"
       v-bind:config="config"
@@ -32,38 +24,38 @@
       v-on:change="onChange"
       ref="child"
     ></FieldLoopComponent> -->
-    <ContentFieldComponent
+    <ContentField
       v-if="isContentField"
       v-bind:config="config"
       v-bind:root="root"
       v-bind:status="status"
       ref="child"
     >
-    </ContentFieldComponent>
+    </ContentField>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
-import FieldGroupComponent from "./FieldGroup/FieldGroup.vue";
-import ValueFieldComponent from "./ValueFields/ValueField.vue";
-import ContentFieldComponent from "./ContentFields/ContentField.vue";
+import FieldGroup from "./FieldGroup/FieldGroup.vue";
+import ValueField from "./ValueFields/ValueField.vue";
+import ContentField from "./ContentFields/ContentField.vue";
 import { FieldConfig, FieldStatus } from "./Field.config";
-import FieldLoopComponent from "./FieldLoop/FieldLoop.vue";
+import FieldLoop from "./FieldLoop/FieldLoop.vue";
 import { FinderConfig } from "../Finder/Finder.config";
 import { ContentFieldConfig } from "./ContentFields/ContentField.config";
 import { ValueFieldConfig } from "./ValueFields/ValueField.config";
-// Vue.component('FieldComponent')
+
 @Component({
-  name: "FieldComponent",
+  name: "Field",
   components: {
-    ValueFieldComponent,
-    FieldGroupComponent,
-    FieldLoopComponent,
-    ContentFieldComponent,
+    ValueField,
+    FieldGroup,
+    FieldLoop,
+    ContentField,
   },
 })
-export default class FieldComponent extends Vue {
+export default class Field extends Vue {
   @Prop() private config!: FieldConfig;
   @Prop() public status!: FieldStatus;
   @Prop() public root!: FinderConfig;
