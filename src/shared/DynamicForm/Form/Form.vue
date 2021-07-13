@@ -1,11 +1,11 @@
 <template>
-  <form class="form" v-if="config && config.status">
+  <form class="form" v-if="config && config.status && value">
     <h2 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h2>
     <FieldComponent
       v-for="(field, index) in config.fields"
       :key="index"
       v-bind:config="field"
-      v-bind:status="status.children[index]"
+      v-bind:status="value.children[index]"
       v-bind:root="root"
       v-on:change="onChange"
       ref="childs"
@@ -33,8 +33,10 @@ export default class FormComponent extends Vue {
   @Prop() public config!: FormConfig;
   @Prop() public root!: FinderConfig;
   @Prop() public status!: FormStatus;
+  private value: FormStatus = null;
 
   mounted() {
+    this.value = this.status? this.status : this.config.status;
     if (this.config.visible.calc) {
       this.config.status.visible = this.config.visible.calc((key) =>
         this.config.status.getValueByKey(key)
