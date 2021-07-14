@@ -28,10 +28,13 @@
         placeholder="Fehlermeldung"
         @change="change"
       />
-    <button type="button" @click="removeValidator(i)"><img src="../../../../../assets/icons/delete.svg" alt="" /></button>
+      <button type="button" @click="removeValidator(i)">
+        <img src="../../../../../assets/icons/delete.svg" alt="" />
+      </button>
     </div>
     <button type="button" @click="addValidator">
-        <img src="../../../../../assets/icons/add.svg" alt="" /></button>
+      <img src="../../../../../assets/icons/add.svg" alt="" />
+    </button>
   </div>
 </template>
 
@@ -63,26 +66,29 @@ export default class ValidationList extends Vue {
     for (const key in PluginService.validators) {
       if (Object.prototype.hasOwnProperty.call(PluginService.validators, key)) {
         const element = PluginService.validators[key];
-        if (element.type == this.config.validationType || element.type == "any") {
+        if (
+          element.type == this.config.validationType ||
+          element.type == "any"
+        ) {
           this.possibleValidators.push(element);
         }
       }
     }
-    if(this.config.settings.default){
-
+    if (this.config.settings.default) {
       this.config.settings.default.forEach((validator) => {
         for (let i = 0; i < this.possibleValidators.length; i++) {
           if (this.possibleValidators[i].name == validator.type) {
             this.validators.push({
               id: i,
-            plugin: this.possibleValidators[i],
-            value: (validator as any).value,
-            message: validator.message,
-          });
+              plugin: this.possibleValidators[i],
+              value: (validator as any).value,
+              message: validator.message,
+            });
+          }
         }
-      }
-    });
-            }
+      });
+    }
+    this.change();
   }
 
   addValidator() {
@@ -124,6 +130,7 @@ export default class ValidationList extends Vue {
     );
     this.config.status.isValid = this.config.status.errors.length == 0;
     this.status = this.config.status;
+
     return this.config.status;
   }
 }
