@@ -23,7 +23,6 @@ import FinderContentEditor from "../shared/Editor/FinderContentEditor.vue";
 export default class Editor extends Vue {
   public $store: any;
   get config(): FinderConfig{
-    console.log(this.$store)
     return this.$store.getters.config;
   }
 }
@@ -33,7 +32,7 @@ export default class Editor extends Vue {
 .editor {
   display: grid;
   height: 100vh;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 1fr;
   .chapter-view {
     overflow: auto;
     padding: 100px;

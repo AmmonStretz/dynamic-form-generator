@@ -39,87 +39,87 @@ export abstract class BooleanConditionParser {
     //Comparators
     [BooleanConditionType.GT]: (json: any) =>
       new GreaterThan(
-        NumberConditionParser.fromJson(json.left),
-        NumberConditionParser.fromJson(json.right)
+        NumberConditionParser.fromJson(json.first),
+        NumberConditionParser.fromJson(json.second)
       ),
     [BooleanConditionType.GE]: (json: any) =>
       new GreaterEqual(
-        NumberConditionParser.fromJson(json.left),
-        NumberConditionParser.fromJson(json.right)
+        NumberConditionParser.fromJson(json.first),
+        NumberConditionParser.fromJson(json.second)
       ),
     [BooleanConditionType.LT]: (json: any) =>
       new LessThan(
-        NumberConditionParser.fromJson(json.left),
-        NumberConditionParser.fromJson(json.right)
+        NumberConditionParser.fromJson(json.first),
+        NumberConditionParser.fromJson(json.second)
       ),
     [BooleanConditionType.LE]: (json: any) =>
       new LessEqual(
-        NumberConditionParser.fromJson(json.left),
-        NumberConditionParser.fromJson(json.right)
+        NumberConditionParser.fromJson(json.first),
+        NumberConditionParser.fromJson(json.second)
       ),
     [BooleanConditionType.EQ]: (json: any) => {
-      if (json.left.type.startsWith("string") && json.left.type.startsWith("string")) {
+      if (json.first.type.startsWith("string") && json.first.type.startsWith("string")) {
         if (
-          StringConditionParser.containsParser(json.left.type) &&
-          StringConditionParser.containsParser(json.right.type)
+          StringConditionParser.containsParser(json.first.type) &&
+          StringConditionParser.containsParser(json.second.type)
         ) {
           return new Equal(
-            StringConditionParser.fromJson(json.left),
-            StringConditionParser.fromJson(json.right)
+            StringConditionParser.fromJson(json.first),
+            StringConditionParser.fromJson(json.second)
           );
         }
       }
-      if (json.left.type.startsWith("boolean") && json.left.type.startsWith("boolean")) {
+      if (json.first.type.startsWith("boolean") && json.first.type.startsWith("boolean")) {
         if (
-          BooleanConditionParser.containsParser(json.left.type) &&
-          BooleanConditionParser.containsParser(json.right.type)
+          BooleanConditionParser.containsParser(json.first.type) &&
+          BooleanConditionParser.containsParser(json.second.type)
         ) {
           return new Equal(
-            BooleanConditionParser.fromJson(json.left),
-            BooleanConditionParser.fromJson(json.right)
+            BooleanConditionParser.fromJson(json.first),
+            BooleanConditionParser.fromJson(json.second)
           );
         }
       }
       if (
-        NumberConditionParser.containsParser(json.left.type) &&
-        NumberConditionParser.containsParser(json.right.type)
+        NumberConditionParser.containsParser(json.first.type) &&
+        NumberConditionParser.containsParser(json.second.type)
       ) {
         return new Equal(
-          NumberConditionParser.fromJson(json.left),
-          NumberConditionParser.fromJson(json.right)
+          NumberConditionParser.fromJson(json.first),
+          NumberConditionParser.fromJson(json.second)
         );
       }
     },
     [BooleanConditionType.NE]: (json: any) => {
-      if (json.left.type.startsWith("string") && json.left.type.startsWith("string")) {
+      if (json.first.type.startsWith("string") && json.first.type.startsWith("string")) {
         if (
-          StringConditionParser.containsParser(json.left.type) &&
-          StringConditionParser.containsParser(json.right.type)
+          StringConditionParser.containsParser(json.first.type) &&
+          StringConditionParser.containsParser(json.second.type)
         ) {
           return new NotEqual(
-            StringConditionParser.fromJson(json.left),
-            StringConditionParser.fromJson(json.right)
+            StringConditionParser.fromJson(json.first),
+            StringConditionParser.fromJson(json.second)
           );
         }
       }
-      if (json.left.type.startsWith("boolean") && json.left.type.startsWith("boolean")) {
+      if (json.first.type.startsWith("boolean") && json.first.type.startsWith("boolean")) {
         if (
-          BooleanConditionParser.containsParser(json.left.type) &&
-          BooleanConditionParser.containsParser(json.right.type)
+          BooleanConditionParser.containsParser(json.first.type) &&
+          BooleanConditionParser.containsParser(json.second.type)
         ) {
           return new NotEqual(
-            BooleanConditionParser.fromJson(json.left),
-            BooleanConditionParser.fromJson(json.right)
+            BooleanConditionParser.fromJson(json.first),
+            BooleanConditionParser.fromJson(json.second)
           );
         }
       }
       if (
-        NumberConditionParser.containsParser(json.left.type) &&
-        NumberConditionParser.containsParser(json.right.type)
+        NumberConditionParser.containsParser(json.first.type) &&
+        NumberConditionParser.containsParser(json.second.type)
       ) {
         return new NotEqual(
-          NumberConditionParser.fromJson(json.left),
-          NumberConditionParser.fromJson(json.right)
+          NumberConditionParser.fromJson(json.first),
+          NumberConditionParser.fromJson(json.second)
         );
       }
     }

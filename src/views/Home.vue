@@ -28,10 +28,6 @@ export default class Home extends Vue {
   statusChange(status: {value: number, outerValue: number, valid: boolean}) {
     this.status = status;
   }
-  mounted(){
-    console.log(0, this.status);
-    
-  }
 
   public $store: any;
   get config(): FinderConfig{

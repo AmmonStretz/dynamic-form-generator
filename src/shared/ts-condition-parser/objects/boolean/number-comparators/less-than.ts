@@ -3,8 +3,8 @@ import { BooleanConditionType } from '../../../math-naming.class';
 import { NumberComparator, NumberCondition } from '../../../condition.class';
 
 export class LessThan extends NumberComparator {
-  constructor(left: NumberCondition, right: NumberCondition){
-    super(BooleanConditionType.LT, left, right)
+  constructor(first: NumberCondition, second: NumberCondition){
+    super(BooleanConditionType.LT, first, second)
   }
   calc(pointer: (key: string) => any): boolean {
     return this.first.calc(pointer) < this.second.calc(pointer);

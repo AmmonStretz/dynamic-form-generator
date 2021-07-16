@@ -27,7 +27,29 @@ const STRING_INPUT_00: any = {
     showLength: true,
   },
   validators: [REQUIRED],
-  visible: { type: 'EQ', left: { type: 'boolean-var', key: 'Root:/0/0/0/CheckboxInput' }, right: { type: 'boolean-const', value: false } }
+  visible: { type: 'boolean-and', operators: [{ type: 'EQ', first: { type: 'boolean-var', key: 'Root:/0/0/0/CheckboxInput' }, second: { type: 'boolean-const', value: false } }]}
+}
+const NUMBER_INPUT_00: any = {
+  type: 'numberInput',
+  key: 'Alter',
+  settings: {
+    name: 'Alter',
+    description: 'Bitte tragen Sie hier ihren vollständigen Namen ein.',
+    placeholder: 'Alter eintragen',
+    showLength: true,
+  },
+  validators: [REQUIRED]
+}
+const NUMBER_INPUT_01: any = {
+  type: 'numberInput',
+  key: 'Geld',
+  settings: {
+    name: 'Geld',
+    description: '',
+    placeholder: 'Geld eintragen',
+    showLength: true,
+  },
+  validators: [REQUIRED]
 }
 const CHECKBOX_00: any = {
   type: 'checkbox',
@@ -43,6 +65,8 @@ const FORM_00: any = {
   key: 'firstForm',
   fields: [
     CHECKBOX_00,
+    NUMBER_INPUT_00,
+    NUMBER_INPUT_01,
     STRING_INPUT_00,
   ],
   settings: {

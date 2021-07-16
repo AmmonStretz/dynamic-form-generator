@@ -20,6 +20,7 @@ import TextAreaPlugin from './shared/DynamicForm/Field/ValueFields/TextArea';
 import TextInputPlugin from './shared/DynamicForm/Field/ValueFields/TextInput';
 
 import ValidationListPlugin from './shared/DynamicForm/Field/ValueFields/ValidationList';
+import LogicInputPlugin from './shared/DynamicForm/Field/ValueFields/LogicInput';
 
 Vue.config.productionTip = false;
 
@@ -49,7 +50,10 @@ Vue.use(RadioButtonListPlugin);
 Vue.use(SelectPlugin);
 Vue.use(TextAreaPlugin);
 Vue.use(TextInputPlugin);
+
+// Private Plugins
 Vue.use(ValidationListPlugin);
+Vue.use(LogicInputPlugin);
 
 Vue.use(Vuex)
 import App from './App.vue';
