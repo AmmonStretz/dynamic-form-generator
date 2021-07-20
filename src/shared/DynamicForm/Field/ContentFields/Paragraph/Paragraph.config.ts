@@ -12,7 +12,7 @@ export class ParagraphConfig extends ContentFieldConfig {
   ) {
     super('paragraph', settings, visible);
   }
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
     this.status = new ContentFieldStatus(this.key);
     this.status.config = this;
   }

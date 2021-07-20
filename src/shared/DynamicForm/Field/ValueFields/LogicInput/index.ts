@@ -5,6 +5,7 @@ import { TextInputConfig } from '../TextInput/TextInput.config';
 import LogicInputComponent from './LogicInput.vue';
 import { LogicInputConfig } from './LogicInput.config';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
+import { Required } from '@/shared/DynamicForm/Validators';
 
 export default {
   install: (Vue: any, options: any) => {
@@ -14,7 +15,7 @@ export default {
       'valueField',
       {
         form: new FieldGroupConfig('logic-inoput-form', [
-          new TextInputConfig("key", { name: "Key" }, []),
+          new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
         ], {}),
         generator: null,
         fill: (current: LogicInputConfig, form: FieldGroupConfig) => {

@@ -20,10 +20,12 @@ export class LogicInputConfig extends ValueFieldConfig<BooleanCondition> {
     );
   }
 
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
+    let value: BooleanCondition = this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null;
     this.status = new ValueFieldStatus<BooleanCondition>(
       this.key,
-      null
+      value,
+      value != null
     )
     this.status.config = this;
   }

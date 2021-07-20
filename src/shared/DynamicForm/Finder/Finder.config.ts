@@ -41,11 +41,11 @@ export class FinderConfig extends Config {
     this.type = 'Finder'
     this.chapter.parent = this;
   }
-  createStatus() {
+  createStatus(overwrite: boolean = false) {
     // DEFAULT Status
     this.status = new FinderStatus();
     this.status.config = this;
-    this.chapter.createStatus();
+    this.chapter.createStatus(overwrite);
     this.chapter.status.parent = this.status;
     this.status.chapter = this.chapter.status;
   }

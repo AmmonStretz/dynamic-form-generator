@@ -20,7 +20,13 @@ export class ValueFieldStatus<T> extends FieldStatus {
   }
 
   public update(showErrors: boolean = false): FieldStatus {
+    
     this.visible = this.config.visible.calc((key: string) => this.getValueByKey(key));
+    this.config.status.errors = Validator.checkFieldValidity(
+      this.config.status.value,
+      this.config.validators
+    );
+    this.config.status.isValid = this.config.status.errors.length == 0;
     if(showErrors){
       this.showErrors = true;
     }

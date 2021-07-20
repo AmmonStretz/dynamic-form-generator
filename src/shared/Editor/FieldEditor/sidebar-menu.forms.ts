@@ -8,6 +8,7 @@ import { Equal } from "@/shared/ts-condition-parser/objects/boolean.class";
 import { NumberConst, NumberVar } from "@/shared/ts-condition-parser/objects/number.class";
 
 import { Vue } from "vue-property-decorator";
+import { config } from "vuex-module-decorators";
 
 export function addFieldGenerator(listener: any) {
 
@@ -99,6 +100,8 @@ export function editFieldGenerator(currentField: FieldConfig, listener: any) {
       listener(field.editor.generator(currentStatus));
     }
   }
-  
+  config.form.createStatus();
+  config.form.status.update(true)
+  console.log(config.form.status)
   return config;
 }

@@ -21,10 +21,12 @@ export class SelectConfig extends ValueFieldConfig<number> {
       visible
     );
   }
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
+    const value: number = this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null;
     this.status = new ValueFieldStatus<number>(
       this.key,
-      this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null,
+      value,
+      value != null
     )
     this.status.config = this;
   }

@@ -20,10 +20,11 @@ export class ValidationListConfig extends ValueFieldConfig<Validator<any>[]> {
     );
   }
 
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
     this.status = new ValueFieldStatus<Validator<any>[]>(
       this.key,
-      []
+      [],
+      true
     )
     this.status.config = this;
   }

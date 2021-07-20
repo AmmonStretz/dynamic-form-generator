@@ -25,7 +25,7 @@ export class NumberRangeConfig extends ValueFieldConfig<number> {
       visible
     );
   }
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
     let startValue: number = this.settings.min;
     if (
       this.settings.default != null &&
@@ -37,7 +37,8 @@ export class NumberRangeConfig extends ValueFieldConfig<number> {
     }
     this.status = new ValueFieldStatus<number>(
       this.key,
-      startValue
+      startValue,
+      true
     )
     this.status.config = this;
   }

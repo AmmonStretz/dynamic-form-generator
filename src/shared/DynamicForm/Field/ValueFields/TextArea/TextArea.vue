@@ -57,7 +57,7 @@ export default class TextArea extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
+textarea.show:not(.valid) {
   background-color: red;
 }
 </style>

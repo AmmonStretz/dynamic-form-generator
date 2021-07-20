@@ -20,6 +20,7 @@ export class FieldGroupStatus extends FieldStatus {
     this.children.forEach(child => {
       let childStatus: FieldStatus;
       if (child instanceof ValueFieldStatus) {
+        
         childStatus = (child as ValueFieldStatus<any>).update(showErrors);
       }
       if (child instanceof FieldGroupStatus) {
@@ -97,14 +98,21 @@ export class FieldGroupConfig extends FieldConfig {
       field.parent = this;
     });
   }
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
     this.status = new FieldGroupStatus(this.key);
     this.status.config = this;
+    let isValid = true;
     this.fields.forEach(field => {
-      field.createStatus();
+      if(!field.status){
+        field.createStatus(overwrite);
+      }
+      if(!field.status.isValid && field.status.visible){
+        isValid = false;
+      }
       field.status.parent = this.status;
       this.status.children.push(field.status);
     });
+    this.status.isValid = isValid;
   }
   public getAllPaths(rootPath: string): { path: string, type: string}[] {
     let paths: { path: string, type: string}[] = [];

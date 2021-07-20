@@ -36,7 +36,7 @@ export default class Home extends Vue {
   constructor() {
     super();
     let c = this.config;
-    c.createStatus();
+    c.createStatus(true);
     this.$store.commit("updateConfig", c);
   }
   

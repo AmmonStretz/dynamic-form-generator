@@ -100,11 +100,13 @@ export class FormConfig extends Config {
       field.parent = this;
     });
   }
-  createStatus() {
+  createStatus(overwrite: boolean = false) {
     this.status = new FormStatus();
     this.status.config = this;
     this.fields.forEach(field => {
-      field.createStatus();
+      if(!field.status || overwrite){
+        field.createStatus(overwrite);
+      }
       field.status.parent = this.status;
       this.status.children.push(field.status);
     });

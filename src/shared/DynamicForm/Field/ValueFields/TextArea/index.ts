@@ -1,5 +1,6 @@
 import { FieldPlugin } from '@/shared/DynamicForm/Plugin/FieldPlugin.class';
 import { Status } from '@/shared/DynamicForm/status';
+import { Required } from '@/shared/DynamicForm/Validators';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
 import { BooleanConditionParser } from '@/shared/ts-condition-parser/parsers/boolean.class';
 import { FieldGroupConfig } from '../../FieldGroup/FieldGroup.config';
@@ -16,7 +17,7 @@ export default {
       'valueField',
       { //TODO: multiple links
         form: new FieldGroupConfig('text-area-form', [
-          new TextInputConfig("key", { name: "Key" }, []),
+          new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("placeholder", { name: "Platzhalter" }, []),
           new TextAreaConfig("description", { name: "Beschreibung" }, []),

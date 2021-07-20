@@ -4,7 +4,7 @@ export abstract class Config {
   public status: Status;
   public parent: Config;
   public abstract settings: any;
-  public abstract createStatus(): void;
+  public abstract createStatus(overwrite: boolean): void;
   public abstract toJson(): any;
   public abstract getAllPaths(rootPath?: string): { path: string, type: string}[];
 

@@ -5,6 +5,7 @@ import { TextInputConfig } from '../TextInput/TextInput.config';
 import ValidationList from './ValidationList.vue';
 import { ValidationListConfig } from './ValidationList.config';
 import { ValidatorParser } from '@/shared/DynamicForm/Validators/validator.parser';
+import { Required } from '@/shared/DynamicForm/Validators';
 
 export default {
   install: (Vue: any, options: any) => {
@@ -14,7 +15,7 @@ export default {
       'valueField',
       {
         form: new FieldGroupConfig('checkbox-form', [
-          new TextInputConfig("key", { name: "Key" }, []),
+          new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
         ], {}),
         generator: null,
         fill: (current: ValidationListConfig, form: FieldGroupConfig) => {

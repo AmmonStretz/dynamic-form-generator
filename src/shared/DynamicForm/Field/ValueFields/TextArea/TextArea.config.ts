@@ -22,10 +22,12 @@ export class TextAreaConfig extends ValueFieldConfig<string> {
       visible,
     );
   }
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
+    let value = this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null
     this.status = new ValueFieldStatus<string>(
       this.key,
-      this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null,
+      value,
+      value != null
     )
     this.status.config = this;
   }

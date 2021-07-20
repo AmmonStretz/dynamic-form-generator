@@ -102,18 +102,18 @@ export class ChapterConfig extends Config {
     }
   }
 
-  createStatus() {
+  createStatus(overwrite: boolean = false) {
     // DEFAULT Status
     this.status = new ChapterStatus(0);
     this.status.config = this;
     this.children.forEach(subChapter => {
-      subChapter.createStatus();
+      subChapter.createStatus(overwrite);
       subChapter.parent = this;
       subChapter.status.parent = this.status;
       this.status.children.push(subChapter.status);
     });
     this.pages.forEach(page => {
-      page.createStatus();
+      page.createStatus(overwrite);
       page.status.parent = this.status;
       page.parent = this;
       this.status.pages.push(page.status);

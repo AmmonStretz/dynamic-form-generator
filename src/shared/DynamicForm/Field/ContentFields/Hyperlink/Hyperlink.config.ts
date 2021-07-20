@@ -11,7 +11,7 @@ export class HyperlinkFieldConfig extends ContentFieldConfig {
   ) {
     super('hyperlink', settings, visible);
   }
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
     this.status = new ContentFieldStatus(this.key);
     this.status.config = this;
   }

@@ -19,7 +19,7 @@ export class CheckboxConfig extends ValueFieldConfig<boolean> {
     );
   }
 
-  public createStatus() {
+  public createStatus(overwrite: boolean = false) {
     this.status = new ValueFieldStatus<boolean>(
       this.key,
       !!this.settings.default
