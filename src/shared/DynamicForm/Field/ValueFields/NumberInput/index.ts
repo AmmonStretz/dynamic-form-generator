@@ -22,6 +22,8 @@ export default {
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("placeholder", { name: "Platzhalter" }, []),
           new NumberInputConfig("default", { name: "Default" }, []),
+          new NumberInputConfig("min", { name: "Kleinster Wert" }, []),
+          new NumberInputConfig("max", { name: "Größter Wert" }, []),
           new TextAreaConfig("description", { name: "Beschreibung" }, []),
           new ValidationListConfig('validators', 'number', { name: 'Validators'})
         ], {}), generator: (formStatus: Status) => {
@@ -30,6 +32,8 @@ export default {
             {
               name: formStatus.getValueByKey('name'),
               description: formStatus.getValueByKey('description'),
+              min: formStatus.getValueByKey('min'),
+              max: formStatus.getValueByKey('max'),
               default: formStatus.getValueByKey('default')
             },
             formStatus.getValueByKey('validators'),
@@ -48,10 +52,16 @@ export default {
           let defaultValue: NumberInputConfig = (form.fields[3] as NumberInputConfig);
           defaultValue.settings.default = current.settings.default;
 
-          let description: TextAreaConfig = (form.fields[4] as TextAreaConfig);
+          let min: NumberInputConfig = (form.fields[4] as NumberInputConfig);
+          min.settings.default = current.settings.default;
+
+          let max: NumberInputConfig = (form.fields[5] as NumberInputConfig);
+          max.settings.default = current.settings.default;
+
+          let description: TextAreaConfig = (form.fields[6] as TextAreaConfig);
           description.settings.default = current.settings.description;
           
-          let validators: ValidationListConfig = (form.fields[5] as ValidationListConfig);
+          let validators: ValidationListConfig = (form.fields[7] as ValidationListConfig);
           validators.settings.default = current.validators? current.validators: [];
 
           form.fields = [];
@@ -59,6 +69,8 @@ export default {
           form.fields.push(name);
           form.fields.push(placeholder);
           form.fields.push(defaultValue);
+          form.fields.push(min);
+          form.fields.push(max);
           form.fields.push(description);
           form.fields.push(validators);
           return form;
