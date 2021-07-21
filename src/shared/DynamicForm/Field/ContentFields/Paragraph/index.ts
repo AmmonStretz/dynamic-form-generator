@@ -14,7 +14,7 @@ export default {
       'paragraph',
       'contentField',
       {
-        form: new FieldGroupConfig('paragraph-form', [
+        form: ()=> new FieldGroupConfig('paragraph-form', [
           new TextInputConfig("name", { name: "Name" }, []),
           new TextAreaConfig("text", { name: "Text", description: 'Dieses Feld definiert den Inhalt des Absatzes.' }, []),
         ], {}), generator: (formStatus: Status) => {

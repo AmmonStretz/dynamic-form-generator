@@ -14,7 +14,7 @@ export default {
       'logic-input',
       'valueField',
       {
-        form: new FieldGroupConfig('logic-inoput-form', [
+        form: ()=> new FieldGroupConfig('logic-inoput-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
         ], {}),
         generator: null,

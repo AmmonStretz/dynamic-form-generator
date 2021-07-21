@@ -14,7 +14,7 @@ export default {
       'validation-list',
       'valueField',
       {
-        form: new FieldGroupConfig('checkbox-form', [
+        form: ()=> new FieldGroupConfig('checkbox-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
         ], {}),
         generator: null,

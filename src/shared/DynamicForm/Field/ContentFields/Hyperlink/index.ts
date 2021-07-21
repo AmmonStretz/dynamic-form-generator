@@ -14,7 +14,7 @@ export default {
       'hyperlink',
       'contentField',
       { //TODO: multiple links
-        form: new FieldGroupConfig('hyperlink-form', [
+        form: () => new FieldGroupConfig('hyperlink-form', [
           new TextInputConfig("text", { name: "Text" }, []),
           new TextInputConfig("url", { name: "Url" }, []),
         ], {}), generator: (formStatus: Status) => {

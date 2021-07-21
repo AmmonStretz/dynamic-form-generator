@@ -17,7 +17,7 @@ export default {
       'select',
       'valueField',
       { //TODO: multiple options with loop
-        form: new FieldGroupConfig('select-form', [
+        form: ()=> new FieldGroupConfig('select-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("optionName", { name: "OptionName" }, []),

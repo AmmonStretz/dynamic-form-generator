@@ -17,7 +17,7 @@ export default {
       'textInput',
       'valueField',
       { //TODO: multiple links
-        form: new FieldGroupConfig('text-input-form', [
+        form: ()=> new FieldGroupConfig('text-input-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("placeholder", { name: "Platzhalter" }, []),

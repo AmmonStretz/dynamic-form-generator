@@ -1,7 +1,7 @@
 <template>
   <aside class="menu">
-    <div class="content" v-if="config">
-      <Form :config="config.form" ref="a" />
+    <div class="content" v-if="config && status">
+      <Form :config="config.form" :status="status" ref="a" />
       <button @click="closeSideMenu()">{{closeName}}</button>
       <button @click="validateSideMenu()">{{confirmName}}</button>
     </div>
@@ -12,6 +12,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { SidebarMenuConfig } from "./SidebarMenu.config";
 import Form from "../../DynamicForm/Form/Form.vue";
+import { FormStatus } from "../../DynamicForm/Form/Form.config";
 
 @Component({
   name: 'SidebarMenu',
@@ -21,6 +22,7 @@ import Form from "../../DynamicForm/Form/Form.vue";
 })
 export default class SidebarMenu extends Vue {
   public config: SidebarMenuConfig = null;
+  public status!: FormStatus;
   public $store: any;
 
   get confirmName(): string {
@@ -36,7 +38,11 @@ export default class SidebarMenu extends Vue {
   }
 
   listener(config: SidebarMenuConfig) {
-    config.form.createStatus();
+    if(!config.form.status){
+      config.form.createStatus();
+      config.form.status.update();
+    }
+    this.status = config.form.status;
     this.config = config;
   }
   closeSideMenu() {

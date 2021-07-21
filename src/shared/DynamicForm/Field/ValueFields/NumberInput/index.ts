@@ -17,7 +17,7 @@ export default {
       'numberInput',
       'valueField',
       {
-        form: new FieldGroupConfig('number-input-form', [
+        form: ()=> new FieldGroupConfig('number-input-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("placeholder", { name: "Platzhalter" }, []),
@@ -34,7 +34,8 @@ export default {
               description: formStatus.getValueByKey('description'),
               min: formStatus.getValueByKey('min'),
               max: formStatus.getValueByKey('max'),
-              default: formStatus.getValueByKey('default')
+              default: formStatus.getValueByKey('default'),
+              placeholder: formStatus.getValueByKey('placeholder')
             },
             formStatus.getValueByKey('validators'),
           )

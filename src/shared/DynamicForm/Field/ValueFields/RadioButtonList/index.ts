@@ -17,7 +17,7 @@ export default {
       'radioButtonList',
       'valueField',
       { //TODO: multiple radio buttons with loop
-        form: new FieldGroupConfig('radio-button-list-form', [
+        form: ()=> new FieldGroupConfig('radio-button-list-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("optionName", { name: "OptionName" }, []),

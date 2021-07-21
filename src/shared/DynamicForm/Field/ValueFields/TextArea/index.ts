@@ -16,13 +16,13 @@ export default {
       'textArea',
       'valueField',
       { //TODO: multiple links
-        form: new FieldGroupConfig('text-area-form', [
+        form: () => new FieldGroupConfig('text-area-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextInputConfig("placeholder", { name: "Platzhalter" }, []),
           new TextAreaConfig("description", { name: "Beschreibung" }, []),
           new TextAreaConfig("default", { name: "Default" }, []),
-          new ValidationListConfig('validators', 'string', { name: 'Validators'})
+          new ValidationListConfig('validators', 'string', { name: 'Validators' })
         ], {}), generator: (formStatus: Status) => {
           return new TextAreaConfig(
             formStatus.getValueByKey('key'),
@@ -49,9 +49,9 @@ export default {
 
           let defaultValue: TextAreaConfig = (form.fields[4] as TextAreaConfig);
           defaultValue.settings.default = current.settings.default;
-          
+
           let validators: ValidationListConfig = (form.fields[5] as ValidationListConfig);
-          validators.settings.default = current.validators? current.validators: [];
+          validators.settings.default = current.validators ? current.validators : [];
 
           form.fields = [];
           form.fields.push(key);
@@ -73,5 +73,5 @@ export default {
         );
       }
     ));
-   }
+  }
 }

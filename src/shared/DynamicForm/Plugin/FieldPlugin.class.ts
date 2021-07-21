@@ -16,7 +16,7 @@ export class FieldPlugin<C extends FieldConfig> {
     public component: VueConstructor<Vue>,
     public key: string,
     public type: string,
-    public editor: { form: FieldGroupConfig, generator: (status: FieldGroupStatus)=>C, fill?: (current: C, form: FieldGroupConfig) => FieldGroupConfig},
+    public editor: { form: () => FieldGroupConfig, generator: (status: FieldGroupStatus)=>C, fill?: (current: C, form: FieldGroupConfig) => FieldGroupConfig},
     public parser: (json: any) => C,
     public isPublic: boolean = true,
   ) {

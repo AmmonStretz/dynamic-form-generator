@@ -20,8 +20,9 @@ export function addFieldGenerator(listener: any) {
   (Vue as any).fieldPlugins.forEach((plugin: any, index: number) => {
     if(!!plugin.editor && plugin.isPublic){
       selectOptions.push({name: plugin.key, value: index})
-      plugin.editor.form.visible = new Equal(new NumberConst(index), new NumberVar('../../type'))
-      fields.push(plugin.editor.form)
+      let form: any = plugin.editor.form();
+      form.visible = new Equal(new NumberConst(index), new NumberVar('../../type'))
+      fields.push(form)
     }
   });
   
@@ -70,7 +71,7 @@ export function editFieldGenerator(currentField: FieldConfig, listener: any) {
   // generate Plugin Fields
   let fields: FieldConfig[] = [];
   (Vue as any).fieldPlugins.forEach((plugin: any, index: number) => {
-    let group = plugin.editor.form;
+    let group = plugin.editor.form();
     if(!!plugin.editor && plugin.isPublic){
       if(currentField.type === plugin.key){
         selectSettings['default'] = index;
@@ -102,6 +103,5 @@ export function editFieldGenerator(currentField: FieldConfig, listener: any) {
   }
   config.form.createStatus();
   config.form.status.update(true)
-  console.log(config.form.status)
   return config;
 }

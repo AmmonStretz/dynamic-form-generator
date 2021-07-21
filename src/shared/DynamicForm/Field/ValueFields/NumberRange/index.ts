@@ -18,7 +18,7 @@ export default {
       'numberRange',
       'valueField',
       {
-        form: new FieldGroupConfig('number-range-form', [
+        form: ()=> new FieldGroupConfig('number-range-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
           new TextInputConfig("name", { name: "name" }, []),
           new NumberInputConfig("min", { name: "Kleinster Wert" }, [new Required('Dieses Feld ist notwendig')]),

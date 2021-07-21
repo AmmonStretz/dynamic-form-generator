@@ -16,7 +16,7 @@ export default {
       'checkbox',
       'valueField',
       { //TODO: multiple links
-        form: new FieldGroupConfig('checkbox-form', [
+        form: ()=> new FieldGroupConfig('checkbox-form', [
           new TextInputConfig("key", { name: "Schlüssel" }, [new Required('Dieses Feld ist notwendig')]),
           new TextInputConfig("name", { name: "Name" }, []),
           new TextAreaConfig("description", { name: "Beschreibung" }, []),
