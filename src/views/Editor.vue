@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div class="editor-view">
     <div class="chapter-view">
       <FinderContentEditor :config="config" />
     </div>
@@ -14,13 +14,13 @@ import SidebarMenu from "../shared/Editor/SidebarMenu/SidebarMenu.vue";
 import FinderContentEditor from "../shared/Editor/FinderContentEditor.vue";
 
 @Component({
-  name: 'Editor',
+  name: 'EditorView',
   components: {
     FinderContentEditor,
     SidebarMenu
   },
 })
-export default class Editor extends Vue {
+export default class EditorView extends Vue {
   public $store: any;
   get config(): FinderConfig{
     return this.$store.getters.config;
@@ -29,7 +29,7 @@ export default class Editor extends Vue {
 </script>
 
 <style lang="scss">
-.editor {
+.editor-view {
   display: grid;
   height: 100vh;
   grid-template-columns: 1fr 1fr;

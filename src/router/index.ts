@@ -1,20 +1,20 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Home from '../views/Home.vue';
-import Editor from '../views/Editor.vue';
+import FinderView from "../views/Finder.vue";
+import EditorView from "../views/Editor.vue";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'FinderView',
+    component: FinderView,
   },
   {
     path: '/editor',
-    name: 'Editor',
-    component: Editor,
+    name: 'EditorView',
+    component: EditorView,
   },
 ];
 

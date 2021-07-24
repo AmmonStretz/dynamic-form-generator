@@ -1,6 +1,5 @@
 <template>
-  <div class="home">
-    <!-- <Child :status="status"  @statusChange="statusChange"/> -->
+  <div class="finder-view">
     <Finder
       v-if="!!config"
       v-bind:config="config"
@@ -15,15 +14,13 @@ import { Component, Vue } from "vue-property-decorator";
 import { FinderConfig, FinderStatus } from "../shared/DynamicForm/Finder/Finder.config";
 // import { JsonParser } from "@/shared/DynamicForm/parser";
 import Finder from "../shared/DynamicForm/Finder/Finder.vue";
-import Child from './Child.vue';
 
 @Component({
   components: {
-    Finder,
-    Child
+    Finder
   },
 })
-export default class Home extends Vue {
+export default class FinderView extends Vue {
   public status: {value: number, outerValue: number, valid: boolean} = {value: 0, outerValue: 100, valid: false};
   statusChange(status: {value: number, outerValue: number, valid: boolean}) {
     this.status = status;
