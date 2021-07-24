@@ -1,3 +1,5 @@
+import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Config } from '../config';
 import { FinderConfig } from '../Finder/Finder.config';
 import { FormConfig, FormStatus } from '../Form/Form.config';
@@ -6,6 +8,7 @@ import { Status } from '../status';
 export class ChapterStatus extends Status {
   public children: ChapterStatus[] = [];
   public pages: FormStatus[] = [];
+  declare public config: ChapterConfig;
   constructor(
     public index: number,
     public isValid?: boolean,
@@ -31,9 +34,9 @@ export class ChapterStatus extends Status {
       });
     }
     this.isValid = valide;
-    // this.visible = this.config.visible.calc(
-    //   (key: string) => this.getValueByKey(key)
-    // );
+    this.visible = this.config.visible.calc(
+      (key: string) => this.getValueByKey(key)
+    );
     return this;
   }
 
@@ -55,6 +58,81 @@ export class ChapterStatus extends Status {
     }
     return null;
   }
+
+  next(firstCall = true): boolean {
+    if (this.children.length > 0) {
+      for (let i = this.index; i < this.children.length; i++) {
+        if (this.children[i].visible) {
+          let overflow = !this.children[i].next(firstCall);
+          if (overflow) {
+            this.index = i;
+            return false; // no overflow
+          }
+        }
+        firstCall = false;
+      }
+    } else if (this.pages.length > 0) {
+      if (firstCall && !this.pages[this.index].isValid) {
+        return false;
+      }
+      for (
+        let i = this.index + (firstCall ? 1 : 0);
+        i < this.pages.length;
+        i++
+      ) {
+        if (this.pages[i].visible) {
+          this.index = i;
+          return false; // no overflow
+        }
+      }
+    }
+    return true;
+  }
+  previous(firstCall = true): boolean {
+    if (this.children.length > 0) {
+      for (let i = this.index; i >= 0; i--) {
+        if (this.children[i].visible) {
+          let overflow = !this.children[i].previous(firstCall);
+          if (overflow) {
+            this.index = i;
+            return false; // no overflow
+          }
+        }
+        firstCall = false;
+      }
+    } else if (this.pages.length > 0) {
+      for (let i = this.index - (firstCall ? 1 : 0); i >= 0; i--) {
+        if (this.pages[i].visible) {
+          this.index = i;
+          return false; // no overflow
+        }
+      }
+    }
+    return true;
+  }
+
+  checkValidity(): boolean {
+    if (this.pages.length > 0) {
+      for (let i = 0; i < this.config.pages.length; i++) {
+        if (!(this.config.pages instanceof FormConfig)) {
+          const status = this.config.pages[i].status;
+          if (status.visible && !status.isValid) {
+            return false;
+          }
+        }
+      }
+    } else if (this.children.length > 0) {
+      for (let i = 0; i < this.config.children.length; i++) {
+        if (!(this.config.children instanceof ChapterConfig)) {
+          const status = this.config.children[i].status;
+          if (status.visible && !status.isValid) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
 };
 
 
@@ -70,6 +148,7 @@ export class ChapterConfig extends Config {
       title?: string,
       showTitle?: boolean
     },
+    public visible: BooleanCondition = new BooleanConst(true)
   ) {
     super();
     this.type = 'Chapter'
@@ -126,20 +205,20 @@ export class ChapterConfig extends Config {
       return this === chapter;
     }
   }
-  public getAllPaths(rootPath: string): { path: string, type: string}[] {
-    let paths: { path: string, type: string}[] = [];
-    if(this.children.length){
+  public getAllPaths(rootPath: string): { path: string, type: string }[] {
+    let paths: { path: string, type: string }[] = [];
+    if (this.children.length) {
       this.children.forEach((child, i) => {
-        child.getAllPaths(rootPath+i+'/').forEach(path => {
+        child.getAllPaths(rootPath + i + '/').forEach(path => {
           paths.push({
             path: path.path,
             type: path.type
           })
         });
       });
-    } else if(this.pages.length) {
+    } else if (this.pages.length) {
       this.pages.forEach((page, i) => {
-        page.getAllPaths(rootPath+i+'/').forEach(path => {
+        page.getAllPaths(rootPath + i + '/').forEach(path => {
           paths.push({
             path: path.path,
             type: path.type
@@ -148,6 +227,12 @@ export class ChapterConfig extends Config {
       });
     }
     return paths;
+  }
+  get root(): any {
+    if (this.parent) {
+      return this.parent.root;
+    }
+    return this;
   }
   public toJson(): any {
     return {

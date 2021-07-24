@@ -19,6 +19,9 @@
         <button @click="deleteChapter()">
           <img src="../../../assets/icons/delete.svg" alt="" />
         </button>
+      <button @click="editVisibility()">
+        <img src="../../../assets/icons/visibility.svg" alt="" />
+      </button>
       </div>
     </header>
     <div class="content" v-if="loaded">
@@ -52,6 +55,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
+import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
+import { FinderConfig } from "../../DynamicForm/Finder/Finder.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
 import PageEditor from "../PageEditor/PageEditor.vue";
 
@@ -130,6 +135,32 @@ export default class ChapterEditor extends Vue {
         this.config.isRoot
       )
     );
+  }
+  editVisibility() {
+    let view = {
+      form: new FormConfig(
+        [
+          new LogicInputConfig('visibility', this.config.Root.getAllPaths(), {default: this.config.visible})
+        ],
+        { title: "Sichtbarkeit bearbeiten" }
+      ),
+      listener: (status: any) => {
+        this.config.visible = status.getValueByKey("visibility");
+        this.config.parent = this.config.parent;
+        if(this.config.parent instanceof FinderConfig){
+
+        } else if(this.config.parent instanceof ChapterConfig) {
+          for (let i = 0; i < this.config.parent.children.length; i++) {
+            const f = this.config.parent.children[i];
+            if (f == this.config) {
+              this.config.parent.children[i] = this.config;
+            }
+          }
+        }
+        this.change();
+      },
+    };
+    this.$store.commit("openMenu", view);
   }
   deleteChapter() {
     this.$store.commit(

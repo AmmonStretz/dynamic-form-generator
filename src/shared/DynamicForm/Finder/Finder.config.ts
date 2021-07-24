@@ -53,6 +53,9 @@ export class FinderConfig extends Config {
   public getAllPaths(): { path: string, type: string}[] {
     return this.chapter.getAllPaths('Root:/');
   }
+  get root(): any {
+    return this;
+  }
 
   public toJson() {
     return {

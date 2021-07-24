@@ -15,6 +15,20 @@ const PARAGRAPH_00: any = {
     name: 'Titel des Absatzes'
   }
 }
+const PARAGRAPH_01: any = {
+  type: 'paragraph',
+  text: 'Testtext',
+  settings: {
+    name: 'Titel des Absatzes'
+  }
+}
+const PARAGRAPH_02: any = {
+  type: 'paragraph',
+  text: 'blabla',
+  settings: {
+    name: 'Titel 02'
+  }
+}
 
 const STRING_INPUT_00: any = {
   type: 'textInput',
@@ -65,9 +79,9 @@ const FORM_00: any = {
   key: 'firstForm',
   fields: [
     CHECKBOX_00,
-    NUMBER_INPUT_00,
-    NUMBER_INPUT_01,
-    STRING_INPUT_00,
+    // NUMBER_INPUT_00,
+    // NUMBER_INPUT_01,
+    // STRING_INPUT_00,
   ],
   settings: {
     title: 'Persönliche Daten'
@@ -79,16 +93,37 @@ const FORM_01: any = {
   ],
   settings: {
     title: 'Informationstext'
-  }
+  },
+  visible: { type: 'boolean-and', operators: [{ type: 'EQ', first: { type: 'boolean-var', key: 'Root:/0/0/0/CheckboxInput' }, second: { type: 'boolean-const', value: true } }]}
+};
+const FORM_02: any = {
+  fields: [
+    PARAGRAPH_01
+  ],
+  settings: {
+    title: 'Informationstext 2'
+  },
+};
+const FORM_03: any = {
+  fields: [
+    PARAGRAPH_02
+  ],
+  settings: {
+    title: 'Information'
+  },
 };
 
 export const finderConfig: any = {
   chapter: {
     children: [{
       children: [{
-        pages: [FORM_00, FORM_01],
+        pages: [FORM_00, FORM_01, FORM_02],
         children: [],
         settings: { title: 'Kapitel A1', showTitle: true }
+      }, {
+        pages: [FORM_03],
+        children: [],
+        settings: { title: 'Kapitel A2', showTitle: true }
       }],
       settings: { title: 'Kapitel A', showTitle: true }
     },

@@ -58,49 +58,7 @@ export default class Chapter extends Vue {
     // TODO: abfangen wenn beides gesetzt
     return this.config.children.length > 0;
   }
-  previous(): boolean {
-    if (this.hasPages) {
-      if (this.config.status.index == 0) {
-        return true;
-      } else {
-        this.config.status.index--;
-      }
-    } else if (this.hasChildren) {
-      if (this.$refs["chapter_" + this.config.status.index][0].previous()) {
-        if (this.config.status.index == 0) {
-          return true;
-        } else {
-          this.config.status.index--;
-        }
-      }
-    }
-  }
-  next(): boolean {
-    let size = this.config.pages.length;
-    let next = true;
-    let validChild = true;
-    this.root.status.update();
-    if (this.hasChildren) {
-      next = this.$refs["chapter_" + this.config.status.index][0].next();
-      size = this.config.children.length;
-      validChild =
-        this.currentStatus.children[this.config.status.index].isValid;
-    } else if (this.hasPages) {
-      validChild =
-        this.$refs["page_" + this.config.status.index][0].checkValidity();
-    }
-    if (next && this.config.status.index < size - 1) {
-      if (validChild) {
-        this.config.status.index++;
-      } else {
-        this.root.status.update(true);
-      }
-    } else if (next && this.config.status.index == size - 1) {
-      return true;
-    }
-    return false;
-  }
-
+  
   @Emit("change")
   onChange(status: ChapterStatus | FormStatus): ChapterStatus {
     const index: number = this.currentStatus.index;

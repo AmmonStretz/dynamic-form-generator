@@ -2,7 +2,7 @@ import { FieldConfig, FieldStatus } from '../Field/Field.config';
 import { FieldGroupStatus } from '../Field/FieldGroup/FieldGroup.config';
 // import { FieldLoopConfig, FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
 import { ValueFieldStatus } from '../Field/ValueFields/ValueField.config';
-import { ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
+import { ContentFieldConfig, ContentFieldStatus } from '../Field/ContentFields/ContentField.config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Status } from '../status';
@@ -126,7 +126,10 @@ export class FormConfig extends Config {
   }
 
   get root(): any {
-    return this.parent;
+    if (this.parent) {
+      return this.parent.root;
+    }
+    return this;
   }
 
   public toJson() {

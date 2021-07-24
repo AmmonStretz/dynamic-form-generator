@@ -49,8 +49,13 @@ export default class Finder extends Vue {
     return this.config.status;
   }
 
+  mounted() {
+    this.status.update();
+  }
+
   @Emit("change")
   onChange(status: ChapterStatus): FinderStatus {
+    this.status.update();
     this.config.chapter.status = status;
     this.status.chapter = status;
     return this.config.status;
@@ -65,13 +70,14 @@ export default class Finder extends Vue {
     return this.config.status;
   }
   previous() {
-    if(this.$refs.chapter.previous()) {
+    if(this.status.chapter.previous()) {
       this.cancel();
     }
   }
   next(): void {
     if (!!this.config.chapter) {
-      if(this.$refs.chapter.next() && this.config.status.chapter.isValid) {
+      this.status.update(true);
+      if(this.status.chapter.next() && this.config.status.chapter.isValid) {
         this.submit();
       }
     }
