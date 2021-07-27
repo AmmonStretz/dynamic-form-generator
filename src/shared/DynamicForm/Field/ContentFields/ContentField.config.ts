@@ -1,4 +1,5 @@
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
+import { Path } from '../../config';
 import { FieldConfig, FieldSettings, FieldStatus } from '../Field.config';
 // import { FieldGroupStatus } from './FieldGroup/FieldGroup.dto';
 export class ContentFieldStatus extends FieldStatus {
@@ -30,7 +31,7 @@ export abstract class ContentFieldConfig extends FieldConfig {
   ) {
     super(type, '', settings, visible);
   }
-  public getAllPaths(rootPath: string): { path: string, type: string}[] {
-    return [];
+  public getAllPaths(key: string): Path {
+    return null;
   }
 }

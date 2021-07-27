@@ -2,6 +2,7 @@ import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../Value
 import { Validator } from '../../../Validators/validators.class';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
+import { Path } from '@/shared/DynamicForm/config';
 
 export interface NumberInputSettings extends ValueFieldSettings<number> {
   unit?: string,
@@ -34,8 +35,8 @@ export class NumberInputConfig extends ValueFieldConfig<number> {
     this.status.config = this;
   }
 
-  public getAllPaths(rootPath: string): { path: string, type: string}[] {
-    return [{path: rootPath+this.key, type: 'number'}];
+  public getAllPaths(key: string): Path {
+    return new Path( this.settings.name, key, 'number-var');
   }
   public toJson() {
     return {

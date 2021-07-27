@@ -6,7 +6,7 @@ import { ContentFieldConfig, ContentFieldStatus } from '../Field/ContentFields/C
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Status } from '../status';
-import { Config } from '../config';
+import { Config, Path } from '../config';
 import { ChapterConfig, ChapterStatus } from '../Chapter/Chapter.config';
 
 export class FormStatus extends Status {
@@ -112,17 +112,12 @@ export class FormConfig extends Config {
     });
   }
 
-  public getAllPaths(rootPath: string): { path: string, type: string}[] {
-    let paths: { path: string, type: string}[] = [];
-    this.fields.forEach(field => {
-      field.getAllPaths(rootPath).forEach( p => {
-        paths.push({
-          path: p.path,
-          type: p.type
-        })
-      })
+  public getAllPaths(key: string): Path {
+    let path: Path = new Path( this.settings.title, key);
+    this.fields.filter(field => !(field instanceof ContentFieldConfig)).forEach(field => {
+      path.subpaths.push(field.getAllPaths(field.key))
     });
-    return paths;
+    return path;
   }
 
   get root(): any {

@@ -1,6 +1,6 @@
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
-import { Config } from '../config';
+import { Config, Path } from '../config';
 import { FinderConfig } from '../Finder/Finder.config';
 import { FormConfig, FormStatus } from '../Form/Form.config';
 import { Status } from '../status';
@@ -205,28 +205,18 @@ export class ChapterConfig extends Config {
       return this === chapter;
     }
   }
-  public getAllPaths(rootPath: string): { path: string, type: string }[] {
-    let paths: { path: string, type: string }[] = [];
+  public getAllPaths(key: string): Path {
+    let path = new Path(this.settings.title, key);
     if (this.children.length) {
       this.children.forEach((child, i) => {
-        child.getAllPaths(rootPath + i + '/').forEach(path => {
-          paths.push({
-            path: path.path,
-            type: path.type
-          })
-        });
+        path.subpaths.push(child.getAllPaths(i + ''));
       });
     } else if (this.pages.length) {
       this.pages.forEach((page, i) => {
-        page.getAllPaths(rootPath + i + '/').forEach(path => {
-          paths.push({
-            path: path.path,
-            type: path.type
-          })
-        });
+        path.subpaths.push(page.getAllPaths(i + ''));
       });
     }
-    return paths;
+    return path;
   }
   get root(): any {
     if (this.parent) {

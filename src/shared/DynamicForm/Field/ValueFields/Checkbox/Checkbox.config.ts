@@ -1,3 +1,4 @@
+import { Path } from '@/shared/DynamicForm/config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Validator } from '../../../Validators/validators.class';
@@ -27,8 +28,9 @@ export class CheckboxConfig extends ValueFieldConfig<boolean> {
     this.status.config = this;
     this.status.isValid = true;
   }
-  public getAllPaths(rootPath: string): { path: string, type: string}[] {
-    return [{ path: rootPath+this.key, type: 'boolean'}];
+  public getAllPaths(key: string): Path {
+    return new Path(this.settings.name, key, 'boolean-var');
+
   }
 
   public toJson() {

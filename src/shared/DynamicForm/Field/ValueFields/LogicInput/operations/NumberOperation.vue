@@ -5,15 +5,18 @@
         {{ comparator.name }}
       </option>
     </select>
-    <select v-model="selected" v-if="config" @change="updateParsed">
-      <option v-for="(path, j) in paths" :key="j" :value="j">
-        {{ path.name }}
-      </option>
-    </select>
+    <PathSelector
+      v-if="config"
+      :path="config.options"
+      :value="value.second"
+      filter="number-var"
+      :additionalOperations="additionalOperations"
+      @change="selectSecond"
+    />
     <input
       type="number"
-      v-if="selected == 0"
-      v-model="secondValue"
+      v-if="second && second.type == 'number-const'"
+      v-model="second.value"
       @change="updateParsed"
     />
   </div>
@@ -40,9 +43,13 @@ import {
   NumberVar,
 } from "../../../../../ts-condition-parser/objects/number.class";
 import { NumberConditionParser } from "../../../../../ts-condition-parser/parsers/number.class";
+import PathSelector from "./../PathSelector/PathSelector.vue";
 
 @Component({
-  name: "BooleanOperation",
+  name: "NumberOperation",
+  components: {
+    PathSelector,
+  },
 })
 export default class NumberOperation extends Vue {
   @Prop() private config!: LogicInputConfig;
@@ -51,17 +58,9 @@ export default class NumberOperation extends Vue {
     type: string;
     second: any;
   };
-
-  get paths() {
-    let a: any[] = [{ name: "Eingabewert", type: "number-const", value: "" }];
-    this.config.options
-      .filter((option) => option.type == "number")
-      .forEach((option) => {
-        a.push({ type: "number-var", value: option.path, name: option.path });
-      });
-
-    return a;
-  }
+  public additionalOperations: any[] = [
+    { name: "Engabewert", type: "number-const", value: 0 },
+  ];
 
   comparators: any[] = [
     {
@@ -89,30 +88,33 @@ export default class NumberOperation extends Vue {
       type: "GE",
     },
   ];
-
-  private selected: number = null;
+  private second: { name: string; type: string; value: any } = null;
   private type: number = null;
-  private secondValue: number = null;
 
   public $refs: any;
   public $store: any;
 
   updateParsed() {
-    if (this.selected != null && this.type != null) {
+    if (this.second != null && this.type != null) {
       this.change();
     }
   }
-
+  selectSecond(second: { name: string; type: string; value: any }) {
+    this.second = second;
+    if (this.second != null && this.type != null) {
+      this.change();
+    }
+  }
   @Emit("change")
   change(): BooleanCondition {
     const first: NumberCondition = NumberConditionParser.fromJson(
       this.value.first
     );
     let second: NumberCondition;
-    if (this.paths[this.selected].type == "number-const") {
-      second = new NumberConst(this.secondValue);
+    if (this.second.type == "number-const") {
+      second = new NumberConst(this.second.value);
     } else {
-      second = new NumberVar(this.paths[this.selected].value);
+      second = new NumberVar(this.second.value);
     }
     switch (this.comparators[this.type].type) {
       case "EQ":
@@ -140,21 +142,13 @@ export default class NumberOperation extends Vue {
         }
       }
     }
-
     if (this.value.second) {
       if (this.value.second.type == "number-const") {
-        this.selected = 0;
-        this.secondValue = this.value.second.value;
-      }
-      for (let i = 0; i < this.paths.length; i++) {
-        const path = this.paths[i];
-
-        if (
-          path.type == this.value.second.type &&
-          path.value == this.value.second.value
-        ) {
-          this.selected = i;
-        }
+        this.second = {
+          type: "number-const",
+          value: this.value.second.value,
+          name: "Eingabewert",
+        };
       }
     }
   }

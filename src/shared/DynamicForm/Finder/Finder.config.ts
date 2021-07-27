@@ -1,4 +1,4 @@
-import { Config } from '../config';
+import { Config, Path } from '../config';
 import { Status } from '../status';
 import { ChapterConfig, ChapterStatus } from '../Chapter/Chapter.config';
 
@@ -50,8 +50,8 @@ export class FinderConfig extends Config {
     this.status.chapter = this.chapter.status;
   }
 
-  public getAllPaths(): { path: string, type: string}[] {
-    return this.chapter.getAllPaths('Root:/');
+  public getAllPaths(): Path {
+    return this.chapter.getAllPaths('Root:');
   }
   get root(): any {
     return this;

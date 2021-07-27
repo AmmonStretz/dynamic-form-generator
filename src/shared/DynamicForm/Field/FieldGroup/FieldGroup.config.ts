@@ -5,6 +5,7 @@ import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../Value
 import { ContentFieldConfig, ContentFieldStatus } from '../ContentFields/ContentField.config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
+import { Path } from '../../config';
 
 export class FieldGroupStatus extends FieldStatus {
   declare public config: FieldGroupConfig;
@@ -20,7 +21,6 @@ export class FieldGroupStatus extends FieldStatus {
     this.children.forEach(child => {
       let childStatus: FieldStatus;
       if (child instanceof ValueFieldStatus) {
-        
         childStatus = (child as ValueFieldStatus<any>).update(showErrors);
       }
       if (child instanceof FieldGroupStatus) {
@@ -103,10 +103,10 @@ export class FieldGroupConfig extends FieldConfig {
     this.status.config = this;
     let isValid = true;
     this.fields.forEach(field => {
-      if(!field.status){
+      if (!field.status) {
         field.createStatus(overwrite);
       }
-      if(!field.status.isValid && field.status.visible){
+      if (!field.status.isValid && field.status.visible) {
         isValid = false;
       }
       field.status.parent = this.status;
@@ -114,19 +114,14 @@ export class FieldGroupConfig extends FieldConfig {
     });
     this.status.isValid = isValid;
   }
-  public getAllPaths(rootPath: string): { path: string, type: string}[] {
-    let paths: { path: string, type: string}[] = [];
-    if(this.fields.length){
+  public getAllPaths(key: string): Path {
+    let path = new Path(this.settings.title, key);
+    if (this.fields.length) {
       this.fields.filter(field => !(field instanceof ContentFieldConfig)).forEach((field) => {
-        field.getAllPaths(rootPath+field.key+'/').forEach(path => {
-          paths.push({
-            path: path.path,
-            type: path.type
-          })
-        });
+        path.subpaths.push(field.getAllPaths(field.key))
       });
     }
-    return paths;
+    return path;
   }
 
   public updateValidity() {

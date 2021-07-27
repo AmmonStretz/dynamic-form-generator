@@ -1,3 +1,4 @@
+import { Path } from '@/shared/DynamicForm/config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Validator } from '../../../Validators/validators.class';
@@ -43,8 +44,8 @@ export class NumberRangeConfig extends ValueFieldConfig<number> {
     this.status.config = this;
   }
 
-  public getAllPaths(rootPath: string): { path: string, type: string }[] {
-    return [{ path: rootPath + this.key, type: 'number' }];
+  public getAllPaths(key: string): Path {
+    return new Path( this.settings.name, key, 'number-var');
   }
 
   public toJson() {

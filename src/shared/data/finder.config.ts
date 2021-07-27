@@ -79,9 +79,9 @@ const FORM_00: any = {
   key: 'firstForm',
   fields: [
     CHECKBOX_00,
-    // NUMBER_INPUT_00,
-    // NUMBER_INPUT_01,
-    // STRING_INPUT_00,
+    NUMBER_INPUT_00,
+    NUMBER_INPUT_01,
+    STRING_INPUT_00,
   ],
   settings: {
     title: 'Persönliche Daten'

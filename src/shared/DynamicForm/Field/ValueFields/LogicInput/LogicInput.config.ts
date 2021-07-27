@@ -1,3 +1,4 @@
+import { Path } from '@/shared/DynamicForm/config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Validator } from '../../../Validators/validators.class';
@@ -6,7 +7,7 @@ import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../Value
 export class LogicInputConfig extends ValueFieldConfig<BooleanCondition> {
   constructor(
     public key: string,
-    public options: { path: string, type: string }[],
+    public options: Path,
     public settings: ValueFieldSettings<BooleanCondition>,
     public validators: Validator<BooleanCondition>[] = [],
     public visible: BooleanCondition = new BooleanConst(true)
@@ -29,8 +30,8 @@ export class LogicInputConfig extends ValueFieldConfig<BooleanCondition> {
     )
     this.status.config = this;
   }
-  public getAllPaths(rootPath: string): { path: string, type: string }[] {
-    return [];
+  public getAllPaths(rootPath: string): Path {
+    return null;
   }
 
   public toJson() {

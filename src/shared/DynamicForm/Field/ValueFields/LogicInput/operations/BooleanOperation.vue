@@ -5,11 +5,7 @@
         {{ comparator.name }}
       </option>
     </select>
-    <select v-model="selected" v-if="config" @change="updateParsed">
-      <option v-for="(path, j) in paths" :key="j" :value="j">
-        {{ path.name }}
-      </option>
-    </select>
+    <PathSelector v-if="config" :path="config.options" :value="value.second" filter="boolean-var" :additionalOperations="additionalOperations" @change="selectSecond"/>
   </div>
 </template>
 
@@ -24,9 +20,13 @@ import {
 } from "../../../../../ts-condition-parser/objects/boolean.class";
 import { LogicInputConfig } from "../LogicInput.config";
 import { BooleanConditionParser } from "../../../../../ts-condition-parser/parsers/boolean.class";
+import PathSelector from "./../PathSelector/PathSelector.vue";
 
 @Component({
   name: "BooleanOperation",
+  components: {
+    PathSelector
+  }
 })
 export default class BooleanOperation extends Vue {
   @Prop() private config!: LogicInputConfig;
@@ -35,20 +35,10 @@ export default class BooleanOperation extends Vue {
     type: string;
     second: any;
   };
-
-  get paths() {
-    let a: any[] = [
+  public additionalOperations: any[] = [
       { name: "Wahr", type: "boolean-const", value: true },
       { name: "Falsch", type: "boolean-const", value: false },
     ];
-    this.config.options
-      .filter((option) => option.type == "boolean")
-      .forEach((option) => {
-        a.push({ type: "boolean-var", value: option.path, name: option.path });
-      });
-
-    return a;
-  }
 
   comparators: any[] = [
     {
@@ -61,14 +51,21 @@ export default class BooleanOperation extends Vue {
     },
   ];
 
-  private selected: number = null;
+  private second: { name: string, type: string, value: any } = null;
   private type: number = null;
 
   public $refs: any;
   public $store: any;
 
+  selectSecond(second: { name: string, type: string, value: any }) {
+    this.second = second;
+    if (this.second != null && this.type != null) {
+      this.change();
+    }
+  }
+
   updateParsed() {
-    if (this.selected != null && this.type != null) {
+    if (this.second != null && this.type != null) {
       this.change();
     }
   }
@@ -79,12 +76,12 @@ export default class BooleanOperation extends Vue {
       this.value.first
     );
     let second: BooleanCondition;
-    switch (this.paths[this.selected].type) {
+    switch (this.second.type) {
       case "boolean-const":
-        second = new BooleanConst(this.paths[this.selected].value);
+        second = new BooleanConst(this.second.value);
         break;
       default:
-        second = new BooleanVar(this.paths[this.selected].value);
+        second = new BooleanVar(this.second.value);
     }
     switch (this.comparators[this.type].type) {
       case "EQ":
@@ -102,18 +99,6 @@ export default class BooleanOperation extends Vue {
         const comparator = this.comparators[i];
         if (comparator.type == this.value.type) {
           this.type = i;
-        }
-      }
-    }
-
-    if (this.value.second) {
-      for (let i = 0; i < this.paths.length; i++) {
-        const path = this.paths[i];
-        if (
-          path.type == this.value.second.type &&
-          path.value == this.value.second.value
-        ) {
-          this.selected = i;
         }
       }
     }

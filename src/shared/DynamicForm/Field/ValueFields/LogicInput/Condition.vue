@@ -1,16 +1,6 @@
 <template>
   <div class="condition">
-    <select
-      name=""
-      id=""
-      v-if="value"
-      v-model="selectedPath"
-      @change="selectPath()"
-    >
-      <option v-for="(path, j) in config.options" :key="j" :value="j">
-        {{ path.path }}
-      </option>
-    </select>
+    <PathSelector v-if="value" :path="config.options" :value="value.first" @change="selectPath"/>
     <BooleanOperation
       v-if="
         operation && operation.first && operation.first.type == 'boolean-var'
@@ -50,6 +40,7 @@ import { LogicInputConfig } from "./LogicInput.config";
 import BooleanOperation from "./operations/BooleanOperation.vue";
 import StringOperation from "./operations/StringOperation.vue";
 import NumberOperation from "./operations/NumberOperation.vue";
+import PathSelector from "./PathSelector/PathSelector.vue";
 import { BooleanVar } from "../../../../ts-condition-parser/objects/boolean.class";
 import { NumberVar } from "../../../../ts-condition-parser/objects/number.class";
 import { StringVar } from "../../../../ts-condition-parser/objects/string.class";
@@ -60,6 +51,7 @@ import { StringVar } from "../../../../ts-condition-parser/objects/string.class"
     BooleanOperation,
     StringOperation,
     NumberOperation,
+    PathSelector
   },
 })
 export default class ConditionComponent extends Vue {
@@ -70,7 +62,6 @@ export default class ConditionComponent extends Vue {
   get paths() {
     return this.config.options;
   }
-  private selectedPath: number = null;
   private operation: {
     first: Condition<any>;
     type: string;
@@ -84,25 +75,15 @@ export default class ConditionComponent extends Vue {
 
   mounted() {
     this.operation = this.value;
-    if (this.value?.first?.key && this.value?.first?.type) {
-      for (let i = 0; i < this.paths.length; i++) {
-        const path = this.paths[i];
-        if (
-          this.value.first.key == path.path &&
-          this.value.first.type == path.type + "-var"
-        ) {
-          this.selectedPath = i;
-        }
-      }
-    }
   }
-  selectPath() {
-    if (this.paths[this.selectedPath].type == "boolean") {
-      this.operation.first = new BooleanVar(this.paths[this.selectedPath].path);
-    } else if (this.paths[this.selectedPath].type == "number") {
-      this.operation.first = new NumberVar(this.paths[this.selectedPath].path);
-    } else if (this.paths[this.selectedPath].type == "string") {
-      this.operation.first = new StringVar(this.paths[this.selectedPath].path);
+  selectPath(path: {name: string, value: string, type: string}) {
+    this.operation = {first: null, type: null, second: null};
+    if(path.type == 'boolean-var'){
+      this.operation.first = new BooleanVar(path.value);
+    } else if (path.type == 'number-var'){
+      this.operation.first = new NumberVar(path.value);
+    } else if (path.type == 'string-var'){
+      this.operation.first = new StringVar(path.value);
     }
     this.operation.type = null;
     this.operation.second = null;
