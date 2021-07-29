@@ -1,32 +1,43 @@
 <template>
   <div class="condition">
-    <PathSelector v-if="value" :path="config.options" :value="value.first" @change="selectPath"/>
-    <BooleanOperation
-      v-if="
-        operation && operation.first && operation.first.type == 'boolean-var'
-      "
-      :config="config"
-      :value="operation"
-      @change="change"
-    />
+    <div class="content">
+      <PathSelector
+        v-if="value"
+        :path="config.options"
+        :value="value.first"
+        @change="selectPath"
+      />
+      <BooleanOperation
+        v-if="
+          operation && operation.first && operation.first.type == 'boolean-var'
+        "
+        :config="config"
+        :value="operation"
+        @change="change"
+      />
 
-    <StringOperation
-      v-if="
-        operation && operation.first && operation.first.type == 'string-var'
-      "
-      :config="config"
-      :value="operation"
-      @change="change"
-    />
-
-    <NumberOperation
-      v-if="
-        operation && operation.first && operation.first.type == 'number-var'
-      "
-      :config="config"
-      :value="operation"
-      @change="change"
-    />
+      <StringOperation
+        v-if="
+          operation && operation.first && operation.first.type == 'string-var'
+        "
+        :config="config"
+        :value="operation"
+        @change="change"
+      />
+      <NumberOperation
+        v-if="
+          operation && operation.first && operation.first.type == 'number-var'
+        "
+        :config="config"
+        :value="operation"
+        @change="change"
+      />
+    </div>
+    <nav>
+      <button type="button" class="btn-round" @click="deleteCondition">
+        <img src="../../../../../assets/icons/close.svg" alt="" />
+      </button>
+    </nav>
   </div>
 </template>
 
@@ -51,7 +62,7 @@ import { StringVar } from "../../../../ts-condition-parser/objects/string.class"
     BooleanOperation,
     StringOperation,
     NumberOperation,
-    PathSelector
+    PathSelector,
   },
 })
 export default class ConditionComponent extends Vue {
@@ -76,18 +87,20 @@ export default class ConditionComponent extends Vue {
   mounted() {
     this.operation = this.value;
   }
-  selectPath(path: {name: string, value: string, type: string}) {
-    this.operation = {first: null, type: null, second: null};
-    if(path.type == 'boolean-var'){
+  selectPath(path: { name: string; value: string; type: string }) {
+    this.operation = { first: null, type: null, second: null };
+    if (path.type == "boolean-var") {
       this.operation.first = new BooleanVar(path.value);
-    } else if (path.type == 'number-var'){
+    } else if (path.type == "number-var") {
       this.operation.first = new NumberVar(path.value);
-    } else if (path.type == 'string-var'){
+    } else if (path.type == "string-var") {
       this.operation.first = new StringVar(path.value);
     }
     this.operation.type = null;
     this.operation.second = null;
   }
+  @Emit("delete")
+  deleteCondition() {}
   @Emit("change")
   change(condition: BooleanCondition): {
     index: number;
@@ -101,8 +114,24 @@ export default class ConditionComponent extends Vue {
 <style scoped lang="scss">
 .condition {
   display: flex;
-}
-input.show:not(.valid) {
-  background-color: red;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 8px;
+  .content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-round {
+    border: none;
+    outline: none;
+    background-color: white;
+    margin-left: 16px;
+    padding: 10px;
+    border-radius: 50%;
+    img {
+      display: block;
+    }
+  }
 }
 </style>

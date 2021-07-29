@@ -64,5 +64,6 @@ export default class SidebarMenu extends Vue {
 
 <style scoped lang="scss">
 aside.menu {
+  padding: 0 1rem;
 }
 </style>

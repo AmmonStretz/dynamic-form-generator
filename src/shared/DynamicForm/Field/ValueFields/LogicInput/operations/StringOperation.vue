@@ -124,7 +124,8 @@ export default class StringOperation extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
+.string-operation {
+  display: flex;
+  gap: 8px;
 }
 </style>

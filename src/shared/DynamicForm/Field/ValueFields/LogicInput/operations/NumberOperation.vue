@@ -156,7 +156,8 @@ export default class NumberOperation extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
+.number-operation {
+  display: flex;
+  gap: 8px;
 }
 </style>

@@ -6,12 +6,13 @@
         <option value="boolean-or">ODER</option>
       </select>
       <div class="description" v-html="description"></div>
+
+      <button type="button" class="btn-round" v-if="!isRoot" @click="deleteCondition">
+        <img src="../../../../../assets/icons/close.svg" alt="" />
+      </button>
     </header>
     <main v-if="value">
-      <div class="condition" v-for="(condition, i) in value.operators" :key="i">
-        <button type="button" @click="deleteCondition(i)">
-          <img src="../../../../../assets/icons/delete.svg" alt="" />
-        </button>
+      <div v-for="(condition, i) in value.operators" :key="i">
         <Condition
           :config="config"
           :value="condition"
@@ -19,6 +20,7 @@
             condition.type != 'boolean-and' && condition.type != 'boolean-or'
           "
           @change="changeOperator"
+          @delete="deleteCondition(i)"
           :ref="i"
           :index="i"
         />
@@ -34,7 +36,7 @@
         />
       </div>
       <nav>
-        <button type="button" v-if="!navIsOpen" @click="navIsOpen = true">
+        <button type="button" class="btn-round" v-if="!navIsOpen" @click="navIsOpen = true">
           <img src="../../../../../assets/icons/add.svg" alt="" />
         </button>
         <button type="button" v-if="navIsOpen" @click="addOperation()">
@@ -56,6 +58,7 @@ import BooleanOperation from "./operations/BooleanOperation.vue";
 import Condition from "./Condition.vue";
 import { And, Or } from "../../../../ts-condition-parser/objects/boolean.class";
 import { BooleanConditionParser } from "../../../../ts-condition-parser/parsers/boolean.class";
+import LogicInputComponent from "./LogicInput.vue";
 
 @Component({
   name: "Combination",
@@ -73,8 +76,8 @@ export default class Combination extends Vue {
   parsedConditions: BooleanCondition[] = [];
 
   get description() {
-    if (!this.value) return "aaa";
-    return this.value.type == "booleanand"
+    if (!this.value) return "error";
+    return this.value.type == "boolean-and"
       ? "<b>Alle</b> der <b>" +
           this.value.operators.length +
           "</b> folgenden Aussage müssen wahr sein."
@@ -89,6 +92,9 @@ export default class Combination extends Vue {
   addCombination() {
     this.navIsOpen = false;
     this.value.operators.push({ type: "boolean-and", operators: [] });
+  }
+  get isRoot() {
+    return this.$parent instanceof LogicInputComponent;
   }
   mounted() {
     this.parsedConditions = [];
@@ -122,17 +128,34 @@ export default class Combination extends Vue {
 
 <style scoped lang="scss">
 .combination {
+  .btn-round {
+    border: none;
+    outline: none;
+    background-color: white;
+    margin-left: 16px;
+    padding: 10px;
+    border-radius: 50%;
+    img {
+      display: block;
+    }
+  }
   header {
     display: flex;
     gap: 8px;
     align-items: center;
   }
   main {
+    border-left: 2px solid black;
     padding: 16px 0 0 32px;
-    > .condition {
-      padding: 4px 0 4px 4px;
-      outline: solid 1px black;
-      margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-left: 8px;
+    gap: 8px;
+    .content {
+      display: flex;
+      align-items: center;
     }
   }
 }

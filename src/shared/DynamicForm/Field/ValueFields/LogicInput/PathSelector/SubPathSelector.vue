@@ -1,5 +1,5 @@
 <template>
-  <div class="subpath-selector">
+  <div class="subpath-selector" :class="{ end: !!path.type }">
     <div v-if="!path.type">
       {{ path.name ? path.name : path.key ? path.key : "Leer" }}
     </div>
@@ -66,5 +66,20 @@ export default class SubPathSelector extends Vue {
 
 <style scoped lang="scss">
 .subpath-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  & > .selector-content {
+    padding-left: 8px;
+  }
+  &.subpath-selector {
+    font-size: 0.9rem;
+    padding: 4px;
+    &.end {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+  }
 }
 </style>

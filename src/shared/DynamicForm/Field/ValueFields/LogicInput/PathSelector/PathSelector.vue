@@ -1,18 +1,18 @@
 <template>
   <div class="path-selector">
-    <div>
-      <button type="button" @click="isOpen = !isOpen">
-        {{ selected.name ? selected.name : "leer" }}
-      </button>
-    </div>
+    <button type="button" @click="isOpen = !isOpen">
+      {{ selected.name ? selected.name : "leer" }}
+    </button>
     <div class="selector-content" v-if="isOpen">
-      <div
-        class="additional-operation"
-        v-for="(additional, i) in additionalOperations"
-        @click="change(additional)"
-        :key="i"
-      >
-        {{ additional.name }}
+      <div class="additional-operations" v-if="additionalOperations">
+        <div
+          class="additional-operation"
+          v-for="(additional, i) in additionalOperations"
+          @click="change(additional)"
+          :key="i"
+        >
+          {{ additional.name }}
+        </div>
       </div>
       <SubPathSelector
         v-for="(subpath, j) in path.subpaths"
@@ -97,5 +97,32 @@ export default class PathSelector extends Vue {
 
 <style scoped lang="scss">
 .path-selector {
+  position: relative;
+  button {
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+  }
+  & > .selector-content {
+    padding: 8px;
+    z-index: 100;
+    position: absolute;
+    background: white;
+    text-align: left;
+    .additional-operations {
+      border-bottom: 1px solid black;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-block: 8px;
+      .additional-operation {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+    }
+  }
 }
 </style>
