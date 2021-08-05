@@ -18,6 +18,7 @@ import RadioButtonListPlugin from './shared/DynamicForm/Field/ValueFields/RadioB
 import SelectPlugin from './shared/DynamicForm/Field/ValueFields/Select';
 import TextAreaPlugin from './shared/DynamicForm/Field/ValueFields/TextArea';
 import TextInputPlugin from './shared/DynamicForm/Field/ValueFields/TextInput';
+import EmailInputPlugin from './shared/DynamicForm/Field/ValueFields/EmailInput';
 
 import ValidationListPlugin from './shared/DynamicForm/Field/ValueFields/ValidationList';
 import LogicInputPlugin from './shared/DynamicForm/Field/ValueFields/LogicInput';
@@ -50,6 +51,7 @@ Vue.use(RadioButtonListPlugin);
 Vue.use(SelectPlugin);
 Vue.use(TextAreaPlugin);
 Vue.use(TextInputPlugin);
+Vue.use(EmailInputPlugin);
 
 // Private Plugins
 Vue.use(ValidationListPlugin);
