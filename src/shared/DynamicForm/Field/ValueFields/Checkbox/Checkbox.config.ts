@@ -28,8 +28,12 @@ export class CheckboxConfig extends ValueFieldConfig<boolean> {
     this.status.config = this;
     this.status.isValid = true;
   }
-  public getAllPaths(key: string): Path {
-    return new Path(this.settings.name, key, 'boolean-var');
+  public getAllPaths(key: string, parentPath?: string): Path {
+    let complete = key;
+    if (parentPath) {
+      complete = parentPath + '/' + key;
+    }
+    return new Path(this.settings.name, key, 'boolean-var', [], complete);
 
   }
 

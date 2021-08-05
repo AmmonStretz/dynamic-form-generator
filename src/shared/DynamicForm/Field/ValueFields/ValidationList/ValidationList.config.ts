@@ -29,7 +29,7 @@ export class ValidationListConfig extends ValueFieldConfig<Validator<any>[]> {
     )
     this.status.config = this;
   }
-  public getAllPaths(key: string): Path {
+  public getAllPaths(key: string, parentPath?: string): Path {
     return null;
   }
 

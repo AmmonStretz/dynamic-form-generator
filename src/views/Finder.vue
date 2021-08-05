@@ -27,6 +27,7 @@ export default class FinderView extends Vue {
   }
 
   public $store: any;
+  public $router: any;
   get config(): FinderConfig{
     return this.$store.getters.config;
   }
@@ -39,10 +40,10 @@ export default class FinderView extends Vue {
   
   cancel() {
     console.log('cancel');
-    
   }
   submit(status: FinderStatus) {
     console.log('submit', status);
+    this.$router.push('result');
   }
 }
 </script>

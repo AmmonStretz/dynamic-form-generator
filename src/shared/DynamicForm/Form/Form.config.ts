@@ -112,10 +112,14 @@ export class FormConfig extends Config {
     });
   }
 
-  public getAllPaths(key: string): Path {
-    let path: Path = new Path( this.settings.title, key);
+  public getAllPaths(key: string, parentPath?: string): Path {
+    let complete = key;
+    if (parentPath) {
+      complete = parentPath + '/' + key;
+    }
+    let path: Path = new Path( this.settings.title, key, null, [], complete);
     this.fields.filter(field => !(field instanceof ContentFieldConfig)).forEach(field => {
-      path.subpaths.push(field.getAllPaths(field.key))
+      path.subpaths.push(field.getAllPaths(field.key, complete))
     });
     return path;
   }

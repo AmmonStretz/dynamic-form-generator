@@ -25,7 +25,7 @@ export class TextInputConfig extends ValueFieldConfig<string> {
     );
   }
   public createStatus(overwrite: boolean = false) {
-    let value: string = this.settings?.default!=null && this.settings?.default!=undefined ? this.settings.default : null;
+    let value: string = this.settings?.default != null && this.settings?.default != undefined ? this.settings.default : null;
     this.status = new ValueFieldStatus<string>(
       this.key,
       value,
@@ -34,8 +34,12 @@ export class TextInputConfig extends ValueFieldConfig<string> {
     this.status.config = this;
   }
 
-  public getAllPaths(key: string): Path {
-    return new Path( this.settings.name, key, 'string-var');
+  public getAllPaths(key: string, parentPath?: string): Path {
+    let complete = key;
+    if (parentPath) {
+      complete = parentPath + '/' + key;
+    }
+    return new Path(this.settings.name, key, 'string-var', [], complete);
   }
 
   public toJson() {

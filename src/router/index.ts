@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import FinderView from "../views/Finder.vue";
 import EditorView from "../views/Editor.vue";
+import ResultView from "../views/Result.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes: Array<RouteConfig> = [
     path: '/editor',
     name: 'EditorView',
     component: EditorView,
+  },
+  {
+    path: '/result',
+    name: 'ResultView',
+    component: ResultView,
   },
 ];
 

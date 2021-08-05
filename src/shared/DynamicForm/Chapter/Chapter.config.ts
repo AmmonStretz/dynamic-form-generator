@@ -205,15 +205,19 @@ export class ChapterConfig extends Config {
       return this === chapter;
     }
   }
-  public getAllPaths(key: string): Path {
-    let path = new Path(this.settings.title, key);
+  public getAllPaths(key: string, parentPath?: string): Path {
+    let complete = key;
+    if (parentPath) {
+      complete = parentPath + '/' + key;
+    }
+    let path = new Path(this.settings.title, key, null, [], complete);
     if (this.children.length) {
       this.children.forEach((child, i) => {
-        path.subpaths.push(child.getAllPaths(i + ''));
+        path.subpaths.push(child.getAllPaths(i + '', complete));
       });
     } else if (this.pages.length) {
       this.pages.forEach((page, i) => {
-        path.subpaths.push(page.getAllPaths(i + ''));
+        path.subpaths.push(page.getAllPaths(i + '', complete));
       });
     }
     return path;

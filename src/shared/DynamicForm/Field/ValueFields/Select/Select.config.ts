@@ -32,8 +32,12 @@ export class SelectConfig extends ValueFieldConfig<number> {
     this.status.config = this;
   }
 
-  public getAllPaths(key: string): Path {
-    return new Path( this.settings.name, key, 'number-var');
+  public getAllPaths(key: string, parentPath?: string): Path {
+    let complete = key;
+    if (parentPath) {
+      complete = parentPath + '/' + key;
+    }
+    return new Path( this.settings.name, key, 'number-var', [], complete);
   }
 
   public toJson() {

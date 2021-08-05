@@ -30,7 +30,7 @@ export class LogicInputConfig extends ValueFieldConfig<BooleanCondition> {
     )
     this.status.config = this;
   }
-  public getAllPaths(rootPath: string): Path {
+  public getAllPaths(rootPath: string, parentPath?: string): Path {
     return null;
   }
 

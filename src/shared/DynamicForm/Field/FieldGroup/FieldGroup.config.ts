@@ -20,18 +20,21 @@ export class FieldGroupStatus extends FieldStatus {
     let valide = true;
     this.children.forEach(child => {
       let childStatus: FieldStatus;
+
       if (child instanceof ValueFieldStatus) {
         childStatus = (child as ValueFieldStatus<any>).update(showErrors);
-      }
-      if (child instanceof FieldGroupStatus) {
+        if (!childStatus.isValid && !!childStatus.visible) {
+          valide = false;
+        }
+      } else if (child instanceof FieldGroupStatus) {
         childStatus = (child as FieldGroupStatus).update(showErrors);
+        if (!childStatus.isValid && !!childStatus.visible) {
+          valide = false;
+        }
       }
-      // if (child instanceof FieldLoopStatus) {
+      // else if (child instanceof FieldLoopStatus) {
       //   childStatus = (child as FieldLoopStatus).update(showErrors);
       // }
-      if (!childStatus.isValid && !!childStatus.visible) {
-        valide = false;
-      }
     });
     this.isValid = valide;
     this.visible = this.config.visible.calc((key) =>
@@ -114,11 +117,15 @@ export class FieldGroupConfig extends FieldConfig {
     });
     this.status.isValid = isValid;
   }
-  public getAllPaths(key: string): Path {
-    let path = new Path(this.settings.title, key);
+  public getAllPaths(key: string, parentPath?: string): Path {
+    let complete = key;
+    if (parentPath) {
+      complete = parentPath + '/' + key;
+    }
+    let path = new Path(this.settings.title, key, null, [], complete);
     if (this.fields.length) {
       this.fields.filter(field => !(field instanceof ContentFieldConfig)).forEach((field) => {
-        path.subpaths.push(field.getAllPaths(field.key))
+        path.subpaths.push(field.getAllPaths(field.key, complete))
       });
     }
     return path;

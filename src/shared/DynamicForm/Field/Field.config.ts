@@ -23,8 +23,8 @@ export interface FieldSettings{
 
 export abstract class FieldConfig extends Config{
 
-  public parent: FormConfig | FieldGroupConfig;
-  public status: FieldStatus;
+  declare public parent: FormConfig | FieldGroupConfig;
+  declare public status: FieldStatus;
   constructor(
     public type: string,
     public key: string,

@@ -31,7 +31,7 @@ export abstract class ContentFieldConfig extends FieldConfig {
   ) {
     super(type, '', settings, visible);
   }
-  public getAllPaths(key: string): Path {
+  public getAllPaths(key: string, parentPath?: string): Path {
     return null;
   }
 }
