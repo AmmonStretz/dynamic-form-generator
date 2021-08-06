@@ -35,7 +35,8 @@ export default class EditorView extends Vue {
   grid-template-columns: 1fr 1fr;
   .chapter-view {
     overflow: auto;
-    padding: 100px;
+    padding: 100px 32px;
+    background-color: #eee;
     .chapter-list {
       display: flex;
       flex-direction: column;
@@ -47,7 +48,7 @@ export default class EditorView extends Vue {
     }
   }
   aside {
-    background-color: lightgray;
+    background-color: white;
   }
 }
 </style>

@@ -5,7 +5,9 @@ export class Path {
     public name: string,
     public key: string,
     public type: string = null,
-    public subpaths: Path[] = []) { }
+    public subpaths: Path[] = [],
+    public complete?: string
+    ) { }
 
   // Returns the name value and type of a paths end
   select(key: string): {
@@ -39,7 +41,7 @@ export abstract class Config {
   public abstract settings: any;
   public abstract createStatus(overwrite: boolean): void;
   public abstract toJson(): any;
-  public abstract getAllPaths(key?: string): Path;
+  public abstract getAllPaths(key?: string, parentPath?: string): Path;
 
   public get Root(): Config {
     if (!this.parent) {

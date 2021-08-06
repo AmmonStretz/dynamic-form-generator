@@ -10,18 +10,14 @@
         {{ config.settings.title }}
       </h3>
       <div class="line">
-        <button @click="createNewSubchapter()">
-          <img src="../../../assets/icons/add.svg" alt="" />
-        </button>
-        <button @click="edit()">
-          <img src="../../../assets/icons/settings.svg" alt="" />
-        </button>
-        <button @click="deleteChapter()">
-          <img src="../../../assets/icons/delete.svg" alt="" />
-        </button>
-      <button @click="editVisibility()">
-        <img src="../../../assets/icons/visibility.svg" alt="" />
-      </button>
+        <ElementMenu
+          :listeners="{
+            add: [{ name: 'add', click: createNewSubchapter }],
+            edit: [{ name: 'edit', click: edit }],
+            delete: [{ name: 'delete', click: deleteChapter }],
+            visibility: [{ name: 'visibility', click: editVisibility }],
+          }"
+        />
       </div>
     </header>
     <div class="content" v-if="loaded">
@@ -59,6 +55,7 @@ import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput
 import { FinderConfig } from "../../DynamicForm/Finder/Finder.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
 import PageEditor from "../PageEditor/PageEditor.vue";
+import ElementMenu from "../ElementMenu/ElementMenu.vue";
 
 import {
   addCathegoryGenerator,
@@ -71,6 +68,7 @@ import {
   components: {
     ChapterEditor,
     PageEditor,
+    ElementMenu,
   },
 })
 export default class ChapterEditor extends Vue {
@@ -96,7 +94,10 @@ export default class ChapterEditor extends Vue {
           if (position == null || position == undefined) position = 1;
           const empty = new FormConfig([], {});
           if (this.config instanceof ChapterConfig) {
-            const newChild = new ChapterConfig([], [], { title, showTitle: showTitle });
+            const newChild = new ChapterConfig([], [], {
+              title,
+              showTitle: showTitle,
+            });
             if (position == 1) {
               // add inside
               if (this.config.pages.length > 0) {
@@ -140,16 +141,17 @@ export default class ChapterEditor extends Vue {
     let view = {
       form: new FormConfig(
         [
-          new LogicInputConfig('visibility', this.config.Root.getAllPaths(), {default: this.config.visible})
+          new LogicInputConfig("visibility", this.config.Root.getAllPaths(), {
+            default: this.config.visible,
+          }),
         ],
         { title: "Sichtbarkeit bearbeiten" }
       ),
       listener: (status: any) => {
         this.config.visible = status.getValueByKey("visibility");
         this.config.parent = this.config.parent;
-        if(this.config.parent instanceof FinderConfig){
-
-        } else if(this.config.parent instanceof ChapterConfig) {
+        if (this.config.parent instanceof FinderConfig) {
+        } else if (this.config.parent instanceof ChapterConfig) {
           for (let i = 0; i < this.config.parent.children.length; i++) {
             const f = this.config.parent.children[i];
             if (f == this.config) {
@@ -271,7 +273,6 @@ export default class ChapterEditor extends Vue {
       }
       button {
         display: none;
-        z-index: 100;
         padding: 10px;
         border: none;
         cursor: pointer;

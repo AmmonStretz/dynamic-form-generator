@@ -1,31 +1,35 @@
 <template>
-  <div class="page">
+  <div class="group" :class="{dark: !(depth%2)}">
     <header>
       <h2>
-        Seite {{ index + 1 }}: <span>{{ config.settings.title }}</span>
+        Gruppe: <span>{{ config.settings.title }}</span>
       </h2>
         <ElementMenu
           :listeners="{
-            add: [{ name: 'Seite', click: addNewPage }, { name: 'Feld', click: addField }],
-            edit: [{ name: 'edit', click: editPage }],
-            delete: [{ name: 'delete', click: deletePage }],
+            add: [{ name: 'Feld', click: addField }, { name: 'Gruppe', click: addNewGroup }],
+            edit: [{ name: 'edit', click: editGroup }],
+            delete: [{ name: 'delete', click: deleteGroup }],
             visibility: [{ name: 'visibility', click: editVisibility }],
           }"
         />
     </header>
     <div class="content">
-      <div v-for="(field, i) in config.fields" :key="i">
+      <div
+        v-for="(field, i) in config.fields"
+        :key="i"
+      >
+
         <FieldEditor
           v-if="field.type != 'fieldGroup'"
           :config="field"
           @change="onFieldChange"
-          :depth="0"
+          :depth="depth+1"
         />
         <FieldGroupEditor
           v-if="field.type == 'fieldGroup'"
           :config="field"
           @change="onFieldChange"
-          :depth="0"
+          :depth="depth+1"
         />
       </div>
       <div class="empty-content" v-if="config.fields.length == 0">
@@ -42,69 +46,58 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
 import { FieldConfig } from "../../DynamicForm/Field/Field.config";
+import { FieldGroupConfig } from "../../DynamicForm/Field/FieldGroup/FieldGroup.config";
 import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
 import FieldEditor from "../FieldEditor/FieldEditor.vue";
-import FieldGroupEditor from "../FieldGroupEditor/FieldGroupEditor.vue";
-import ElementMenu from "../ElementMenu/ElementMenu.vue";
 import { addFieldGenerator } from "../FieldEditor/sidebar-menu.forms";
 import {
-  addPageGenerator,
-  deletePageGenerator,
-  editPageGenerator,
+  addFieldGroupGenerator,
+  deleteFieldGroupGenerator,
+  editFieldGroupGenerator,
 } from "./sidebar-menu.forms";
+import ElementMenu from "../ElementMenu/ElementMenu.vue";
 
 @Component({
-  name: "PageEditor",
+  name: "FieldGroupEditor",
   components: {
     FieldEditor,
-    FieldGroupEditor,
-    ElementMenu,
+    ElementMenu
   },
 })
-export default class PageEditor extends Vue {
-  @Prop() public config!: FormConfig;
-  @Prop() public index: number;
+export default class FieldGroupEditor extends Vue {
+  @Prop() public config!: FieldGroupConfig;
+  @Prop() public depth!: boolean;
 
   public $refs: any;
   public $store: any;
-  private updated = true;
 
-  mounted() {}
-
-  deletePage() {
+  deleteGroup() {
     this.$store.commit(
       "openMenu",
-      deletePageGenerator((status: Status) => {
-        for (let i = 0; i < this.config.parent.pages.length; i++) {
-          const chapter = this.config.parent.pages[i];
-          if (chapter === this.config) {
-            this.config.parent.pages.splice(i, 1);
+      deleteFieldGroupGenerator((status: Status) => {
+        for (let i = 0; i < this.config.parent.fields.length; i++) {
+          const field = this.config.parent.fields[i];
+          if (field === this.config) {
+            this.config.parent.fields.splice(i, 1);
           }
         }
-        if (this.config.parent.pages.length == 0) {
-          this.config.parent.addPage(new FormConfig([], {}));
-        }
-        this.change();
+        // this.change();
       })
     );
   }
 
-  editPage() {
+  editGroup() {
     this.$store.commit(
       "openMenu",
-      editPageGenerator(this.config.settings.title, (status: any) => {
+      editFieldGroupGenerator(this.config.settings.title, (status: any) => {
         let newSettings = this.config.settings;
         const title: string = status.getValueByKey("title");
-        this.config.settings.title = title;
-        // this.$store.commit("updateConfig", this.config.Root);
-        // let index = (this.config.parent as ChapterConfig).pages.indexOf(
-        //   this.config
-        // );
+        const key: string = status.getValueByKey("key");
+        newSettings.title = title;
+        this.config.key = key;
         this.config.settings = newSettings;
-
-        //this.updated = !this.updated;
         this.change();
       })
     );
@@ -123,10 +116,10 @@ export default class PageEditor extends Vue {
       listener: (status: any) => {
         this.config.visible = status.getValueByKey("visibility");
         this.config.parent = this.config.parent;
-        for (let i = 0; i < this.config.parent.pages.length; i++) {
-          const f = this.config.parent.pages[i];
+        for (let i = 0; i < this.config.parent.fields.length; i++) {
+          const f = this.config.parent.fields[i];
           if (f == this.config) {
-            this.config.parent.pages[i] = this.config;
+            this.config.parent.fields[i] = this.config;
           }
         }
         this.change();
@@ -134,27 +127,18 @@ export default class PageEditor extends Vue {
     };
     this.$store.commit("openMenu", view);
   }
-  addNewPage() {
+  addNewGroup() {
+    
     this.$store.commit(
       "openMenu",
-      addPageGenerator((status: Status) => {
+      addFieldGroupGenerator((status: Status) => {
         const title: string = status.getValueByKey("title");
-        const position: number = status.getValueByKey("position");
-        const config = new FormConfig([], { title });
-        config.parent = this.config.parent;
-
-        let index = (this.config.parent as ChapterConfig).pages.indexOf(
-          this.config
-        );
-        if (position == 0) {
-          (this.config.parent as ChapterConfig).pages.splice(index, 0, config);
-        } else if (position == 1) {
-          (this.config.parent as ChapterConfig).pages.splice(
-            index + 1,
-            0,
-            config
-          );
-        }
+        const key: string = status.getValueByKey("key");
+        const config: FieldGroupConfig = new FieldGroupConfig(key, [], {
+          title: title,
+        });
+        config.parent = this.config;
+        this.config.parent.fields.push(config);
         this.change();
       })
     );
@@ -165,6 +149,7 @@ export default class PageEditor extends Vue {
   }
 
   public addField() {
+    
     this.$store.commit(
       "openMenu",
       addFieldGenerator((field: FieldConfig) => {
@@ -190,25 +175,13 @@ export default class PageEditor extends Vue {
 </script>
 
 <style scoped lang="scss">
-.page {
-  padding: 16px;
-  margin-bottom: 32px;
-  border-radius: 4px;
+.group {
+  padding: 24px;
+  // box-shadow: #00000045 0px 4px 10px;
   background-color: white;
-  box-shadow: #00000026 0 3px 0 0px;
-  header {
-    display: flex;
-    gap: 16px;
-    justify-content: space-between;
-    align-items: center;
-    height: 44px;
-    h2 {
-      font-size: 24px;
-      margin: 0;
-    }
-    &:not(:hover) .element-menu{
-      display: none
-    }
+  border-radius: 4px;box-shadow: #00000026 0 3px 0 0px;
+  &.dark {
+    background: #eee;
   }
   .content {
     display: flex;
@@ -218,6 +191,20 @@ export default class PageEditor extends Vue {
     .empty-content {
       padding: 16px;
       border: black dotted 2px;
+    }
+  }
+  header {
+    display: flex;
+    gap: 16px;
+    height: 44px;
+    justify-content: space-between;
+    align-items: center;
+    h2 {
+      font-size: 24px;
+      margin: 0;
+    }
+    &:not(:hover) .element-menu{
+      display: none
     }
   }
 }

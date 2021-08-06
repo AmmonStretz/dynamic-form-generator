@@ -1,21 +1,17 @@
 <template>
-  <div class="field">
+  <div class="field" :class="{dark: !(depth%2)}">
     <header>
-      <h2>
+      <h3>
         {{ config.type }}: <span>{{ config.settings.name }}</span>
-      </h2>
-      <button @click="add">
-        <img src="../../../assets/icons/add.svg" alt="" />
-      </button>
-      <button @click="editField">
-        <img src="../../../assets/icons/settings.svg" alt="" />
-      </button>
-      <button @click="deleteField">
-        <img src="../../../assets/icons/delete.svg" alt="" />
-      </button>
-      <button @click="editVisibility">
-        <img src="../../../assets/icons/visibility.svg" alt="" />
-      </button>
+      </h3>
+      <ElementMenu
+        :listeners="{
+          add: [{name: 'add', click: add}],
+          edit: [{name: 'edit', click: editField}],
+          delete: [{name: 'delete', click: deleteField}],
+          visibility: [{name: 'visibility', click: editVisibility}],
+        }"
+      />
     </header>
   </div>
 </template>
@@ -26,6 +22,7 @@ import { FieldConfig } from "../../DynamicForm/Field/Field.config";
 import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
+import ElementMenu from "../ElementMenu/ElementMenu.vue";
 import {
   addFieldGenerator,
   deleteFieldGenerator,
@@ -33,10 +30,14 @@ import {
 } from "./sidebar-menu.forms";
 
 @Component({
-  name: 'FieldEditor'
+  name: 'FieldEditor',
+  components: {
+    ElementMenu
+  }
 })
 export default class FieldEditor extends Vue {
   @Prop() public config!: FieldConfig;
+  @Prop() public depth!: boolean;
   public $store: any;
   public add() {
     this.$store.commit(
@@ -107,8 +108,26 @@ export default class FieldEditor extends Vue {
 
 <style scoped lang="scss">
 .field {
-  padding: 24px;
-  box-shadow: #00000045 0px 4px 10px;
-  margin-bottom: 32px;
+  padding: 16px;
+  // box-shadow: #00000045 0px 4px 10px;
+  border-radius: 4px;box-shadow: #00000026 0 3px 0 0px;
+  background-color: white;
+  &.dark {
+    background: #eee;
+  }
+  header {
+    display: flex;
+    gap: 16px;
+    height: 44px;
+    justify-content: space-between;
+    align-items: center;
+    h2 {
+      font-size: 24px;
+      margin: 0;
+    }
+    &:not(:hover) .element-menu{
+      display: none
+    }
+  }
 }
 </style>

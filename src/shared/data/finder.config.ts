@@ -74,12 +74,21 @@ const CHECKBOX_00: any = {
   },
   validators: []
 };
+const GROUP_00: any = {
+  type: 'fieldGroup', key:'GROUP',
+  fields: [
+    NUMBER_INPUT_00
+  ],
+  settings: {
+    title: 'Gruppenname'
+  }
+}
 
 const FORM_00: any = {
   key: 'firstForm',
   fields: [
     CHECKBOX_00,
-    NUMBER_INPUT_00,
+    GROUP_00,
     NUMBER_INPUT_01,
     STRING_INPUT_00,
   ],
