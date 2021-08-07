@@ -1,9 +1,11 @@
 <template>
   <div class="chapter">
     <header class="root-header" v-if="config.isRoot">
-      <button @click="createNewSubchapter()">
-        <img src="../../../assets/icons/add.svg" alt="" />
-      </button>
+      <ElementMenu
+          :listeners="{
+            add: [{ name: 'add', click: createNewSubchapter }],
+          }"
+        />
     </header>
     <header class="chapter-header" v-if="!config.isRoot">
       <h3 v-if="config.settings.title">

@@ -6,7 +6,7 @@
       </h2>
         <ElementMenu
           :listeners="{
-            add: [{ name: 'Seite', click: addNewPage }, { name: 'Feld', click: addField }],
+            add: [{ name: 'Seite', click: addPage }, { name: 'Feld', click: addField }, { name: 'Gruppe', click: addGroup }],
             edit: [{ name: 'edit', click: editPage }],
             delete: [{ name: 'delete', click: deletePage }],
             visibility: [{ name: 'visibility', click: editVisibility }],
@@ -43,7 +43,7 @@ import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
 import { FieldConfig } from "../../DynamicForm/Field/Field.config";
 import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
-import { FormConfig } from "../../DynamicForm/Form/Form.config";
+import { FormConfig, FormStatus } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
 import FieldEditor from "../FieldEditor/FieldEditor.vue";
 import FieldGroupEditor from "../FieldGroupEditor/FieldGroupEditor.vue";
@@ -54,6 +54,8 @@ import {
   deletePageGenerator,
   editPageGenerator,
 } from "./sidebar-menu.forms";
+import { addFieldGroupGenerator } from "../FieldGroupEditor/sidebar-menu.forms";
+import { FieldGroupConfig } from "../../DynamicForm/Field/FieldGroup/FieldGroup.config";
 
 @Component({
   name: "PageEditor",
@@ -98,13 +100,7 @@ export default class PageEditor extends Vue {
         let newSettings = this.config.settings;
         const title: string = status.getValueByKey("title");
         this.config.settings.title = title;
-        // this.$store.commit("updateConfig", this.config.Root);
-        // let index = (this.config.parent as ChapterConfig).pages.indexOf(
-        //   this.config
-        // );
         this.config.settings = newSettings;
-
-        //this.updated = !this.updated;
         this.change();
       })
     );
@@ -134,7 +130,7 @@ export default class PageEditor extends Vue {
     };
     this.$store.commit("openMenu", view);
   }
-  addNewPage() {
+  addPage() {
     this.$store.commit(
       "openMenu",
       addPageGenerator((status: Status) => {
@@ -159,6 +155,23 @@ export default class PageEditor extends Vue {
       })
     );
   }
+  addGroup() {
+    this.$store.commit(
+      "openMenu",
+      addFieldGroupGenerator(
+        (status: FormStatus) => {
+          const title: string = status.getValueByKey("title");
+          const key: string = status.getValueByKey("key");
+          const group: FieldGroupConfig = new FieldGroupConfig(key, [], {
+            title: title,
+          });
+          group.parent = this.config;
+          this.config.fields.push(group);
+        },
+        []
+      )
+    );
+  }
 
   onFieldChange(config: FieldConfig) {
     this.reload();
@@ -167,10 +180,18 @@ export default class PageEditor extends Vue {
   public addField() {
     this.$store.commit(
       "openMenu",
-      addFieldGenerator((field: FieldConfig) => {
+      addFieldGenerator((status: FormStatus) => {
+        const currentStatus =
+          status.children[status.children.length - 1].children[
+            status.getValueByKey("type")
+          ];
+        let field = (Vue as any).fieldPlugins[
+          status.getValueByKey("type")
+        ].editor.generator(currentStatus)
+
         field.parent = this.config;
         this.config.fields.push(field);
-      })
+      }, [])
     );
   }
 

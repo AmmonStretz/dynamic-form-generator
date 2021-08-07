@@ -1,15 +1,15 @@
 <template>
-  <div class="field" :class="{dark: !(depth%2)}">
+  <div class="field" :class="{ dark: !(depth % 2) }">
     <header>
       <h3>
         {{ config.type }}: <span>{{ config.settings.name }}</span>
       </h3>
       <ElementMenu
         :listeners="{
-          add: [{name: 'add', click: add}],
-          edit: [{name: 'edit', click: editField}],
-          delete: [{name: 'delete', click: deleteField}],
-          visibility: [{name: 'visibility', click: editVisibility}],
+          add: [{ name: 'Feld', click: add },{ name: 'Gruppe', click: addGroup }],
+          edit: [{ name: 'edit', click: editField }],
+          delete: [{ name: 'delete', click: deleteField }],
+          visibility: [{ name: 'visibility', click: editVisibility }],
         }"
       />
     </header>
@@ -19,10 +19,12 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FieldConfig } from "../../DynamicForm/Field/Field.config";
+import { FieldGroupConfig } from "../../DynamicForm/Field/FieldGroup/FieldGroup.config";
 import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
-import { FormConfig } from "../../DynamicForm/Form/Form.config";
+import { FormConfig, FormStatus } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
 import ElementMenu from "../ElementMenu/ElementMenu.vue";
+import { addFieldGroupGenerator } from "../FieldGroupEditor/sidebar-menu.forms";
 import {
   addFieldGenerator,
   deleteFieldGenerator,
@@ -30,10 +32,10 @@ import {
 } from "./sidebar-menu.forms";
 
 @Component({
-  name: 'FieldEditor',
+  name: "FieldEditor",
   components: {
-    ElementMenu
-  }
+    ElementMenu,
+  },
 })
 export default class FieldEditor extends Vue {
   @Prop() public config!: FieldConfig;
@@ -42,10 +44,59 @@ export default class FieldEditor extends Vue {
   public add() {
     this.$store.commit(
       "openMenu",
-      addFieldGenerator((field: FieldConfig) => {
-        field.parent = this.config.parent;
-        this.config.parent.fields.push(field);
-      })
+      addFieldGenerator(
+        (status: FormStatus) => {
+          const position: number = status.getValueByKey("position");
+          console.log(position);
+
+          const currentStatus =
+            status.children[status.children.length - 1].children[
+              status.getValueByKey("type")
+            ];
+          let field = (Vue as any).fieldPlugins[
+            status.getValueByKey("type")
+          ].editor.generator(currentStatus);
+
+          let index = this.config.parent.fields.indexOf(this.config);
+          field.parent = this.config.parent;
+          if (position == 0) {
+            this.config.parent.fields.splice(index, 0, field);
+          } else if (position == 1) {
+            this.config.parent.fields.splice(index + 1, 0, field);
+          }
+        },
+        [
+          { name: "vorher", value: 0 },
+          { name: "nachher", value: 1 },
+        ]
+      )
+    );
+  }
+  addGroup() {
+    this.$store.commit(
+      "openMenu",
+      addFieldGroupGenerator(
+        (status: FormStatus) => {
+          const title: string = status.getValueByKey("title");
+          const key: string = status.getValueByKey("key");
+          const group: FieldGroupConfig = new FieldGroupConfig(key, [], {
+            title: title,
+          });
+          const position: number = status.getValueByKey("position");
+
+          let index = this.config.parent.fields.indexOf(this.config);
+          group.parent = this.config.parent;
+          if (position == 0) {
+            this.config.parent.fields.splice(index, 0, group);
+          } else if (position == 1) {
+            this.config.parent.fields.splice(index + 1, 0, group);
+          }
+        },
+        [
+          { name: "vorher", value: 0 },
+          { name: "nachher", value: 1 },
+        ]
+      )
     );
   }
   deleteField() {
@@ -81,7 +132,9 @@ export default class FieldEditor extends Vue {
     let view = {
       form: new FormConfig(
         [
-          new LogicInputConfig('visibility', this.config.Root.getAllPaths(), {default: this.config.visible})
+          new LogicInputConfig("visibility", this.config.Root.getAllPaths(), {
+            default: this.config.visible,
+          }),
         ],
         { title: "Sichtbarkeit bearbeiten" }
       ),
@@ -110,7 +163,8 @@ export default class FieldEditor extends Vue {
 .field {
   padding: 16px;
   // box-shadow: #00000045 0px 4px 10px;
-  border-radius: 4px;box-shadow: #00000026 0 3px 0 0px;
+  border-radius: 4px;
+  box-shadow: #00000026 0 3px 0 0px;
   background-color: white;
   &.dark {
     background: #eee;
@@ -125,8 +179,8 @@ export default class FieldEditor extends Vue {
       font-size: 24px;
       margin: 0;
     }
-    &:not(:hover) .element-menu{
-      display: none
+    &:not(:hover) .element-menu {
+      display: none;
     }
   }
 }

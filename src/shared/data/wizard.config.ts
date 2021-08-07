@@ -1,7 +1,8 @@
 
 import { defaultWizardConfig } from './default.wizard.config';
 import { afqWizardConfig } from './afq.wizard.config';
-import { finderConfig } from './finder.config';
+//import { finderConfig } from './finder.config';
+import { finderConfig } from './uetze.config';
 
 // TODO: This config will be stored outside the ui
 

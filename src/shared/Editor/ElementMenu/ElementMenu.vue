@@ -86,6 +86,7 @@ export default class ElementMenu extends Vue {
     padding: 10px;
     border-radius: 5px;
     background-color: #eee;
+    box-shadow: #00000026 0 3px 0 0px;
     cursor: pointer;
     &:hover {
       background-color: #ddd;

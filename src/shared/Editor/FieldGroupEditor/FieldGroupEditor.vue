@@ -1,35 +1,34 @@
 <template>
-  <div class="group" :class="{dark: !(depth%2)}">
+  <div class="group" :class="{ dark: !(depth % 2) }">
     <header>
       <h2>
         Gruppe: <span>{{ config.settings.title }}</span>
       </h2>
-        <ElementMenu
-          :listeners="{
-            add: [{ name: 'Feld', click: addField }, { name: 'Gruppe', click: addNewGroup }],
-            edit: [{ name: 'edit', click: editGroup }],
-            delete: [{ name: 'delete', click: deleteGroup }],
-            visibility: [{ name: 'visibility', click: editVisibility }],
-          }"
-        />
+      <ElementMenu
+        :listeners="{
+          add: [
+            { name: 'Feld', click: addField },
+            { name: 'Gruppe', click: addGroup },
+          ],
+          edit: [{ name: 'edit', click: editGroup }],
+          delete: [{ name: 'delete', click: deleteGroup }],
+          visibility: [{ name: 'visibility', click: editVisibility }],
+        }"
+      />
     </header>
     <div class="content">
-      <div
-        v-for="(field, i) in config.fields"
-        :key="i"
-      >
-
+      <div v-for="(field, i) in config.fields" :key="i">
         <FieldEditor
           v-if="field.type != 'fieldGroup'"
           :config="field"
           @change="onFieldChange"
-          :depth="depth+1"
+          :depth="depth + 1"
         />
         <FieldGroupEditor
           v-if="field.type == 'fieldGroup'"
           :config="field"
           @change="onFieldChange"
-          :depth="depth+1"
+          :depth="depth + 1"
         />
       </div>
       <div class="empty-content" v-if="config.fields.length == 0">
@@ -44,11 +43,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
 import { FieldConfig } from "../../DynamicForm/Field/Field.config";
 import { FieldGroupConfig } from "../../DynamicForm/Field/FieldGroup/FieldGroup.config";
 import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
-import { FormConfig } from "../../DynamicForm/Form/Form.config";
+import { FormConfig, FormStatus } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
 import FieldEditor from "../FieldEditor/FieldEditor.vue";
 import { addFieldGenerator } from "../FieldEditor/sidebar-menu.forms";
@@ -63,7 +61,7 @@ import ElementMenu from "../ElementMenu/ElementMenu.vue";
   name: "FieldGroupEditor",
   components: {
     FieldEditor,
-    ElementMenu
+    ElementMenu,
   },
 })
 export default class FieldGroupEditor extends Vue {
@@ -127,20 +125,36 @@ export default class FieldGroupEditor extends Vue {
     };
     this.$store.commit("openMenu", view);
   }
-  addNewGroup() {
-    
+  addGroup() {
     this.$store.commit(
       "openMenu",
-      addFieldGroupGenerator((status: Status) => {
-        const title: string = status.getValueByKey("title");
-        const key: string = status.getValueByKey("key");
-        const config: FieldGroupConfig = new FieldGroupConfig(key, [], {
-          title: title,
-        });
-        config.parent = this.config;
-        this.config.parent.fields.push(config);
-        this.change();
-      })
+      addFieldGroupGenerator(
+        (status: FormStatus) => {
+          const title: string = status.getValueByKey("title");
+          const key: string = status.getValueByKey("key");
+          const group: FieldGroupConfig = new FieldGroupConfig(key, [], {
+            title: title,
+          });
+          const position: number = status.getValueByKey("position");
+
+          let index = this.config.parent.fields.indexOf(this.config);
+          group.parent = this.config.parent;
+          if (position == 0) {
+            this.config.parent.fields.splice(index, 0, group);
+          } else if (position == 1) {
+            this.config.parent.fields.splice(index + 1, 0, group);
+          } else if (position == 2) {
+            this.config.fields.push(group);
+            group.parent = this.config;
+          }
+          this.change();
+        },
+        [
+          { name: "vorher", value: 0 },
+          { name: "innen", value: 2 },
+          { name: "nachher", value: 1 },
+        ]
+      )
     );
   }
 
@@ -149,13 +163,40 @@ export default class FieldGroupEditor extends Vue {
   }
 
   public addField() {
-    
     this.$store.commit(
       "openMenu",
-      addFieldGenerator((field: FieldConfig) => {
-        field.parent = this.config;
-        this.config.fields.push(field);
-      })
+      addFieldGenerator(
+        (status: FormStatus) => {
+          const position: number = status.getValueByKey("position");
+          console.log(position);
+
+          const currentStatus =
+            status.children[status.children.length - 1].children[
+              status.getValueByKey("type")
+            ];
+          let field = (Vue as any).fieldPlugins[
+            status.getValueByKey("type")
+          ].editor.generator(currentStatus);
+
+          let index = this.config.parent.fields.indexOf(this.config);
+
+          if (position == 0) {
+            field.parent = this.config.parent;
+            this.config.parent.fields.splice(index, 0, field);
+          } else if (position == 1) {
+            field.parent = this.config.parent;
+            this.config.parent.fields.splice(index + 1, 0, field);
+          } else if (position == 2) {
+            this.config.fields.push(field);
+            field.parent = this.config;
+          }
+        },
+        [
+          { name: "vorher", value: 0 },
+          { name: "innen", value: 2 },
+          { name: "nachher", value: 1 },
+        ]
+      )
     );
   }
 
@@ -179,7 +220,8 @@ export default class FieldGroupEditor extends Vue {
   padding: 24px;
   // box-shadow: #00000045 0px 4px 10px;
   background-color: white;
-  border-radius: 4px;box-shadow: #00000026 0 3px 0 0px;
+  border-radius: 4px;
+  box-shadow: #00000026 0 3px 0 0px;
   &.dark {
     background: #eee;
   }
@@ -203,8 +245,8 @@ export default class FieldGroupEditor extends Vue {
       font-size: 24px;
       margin: 0;
     }
-    &:not(:hover) .element-menu{
-      display: none
+    &:not(:hover) .element-menu {
+      display: none;
     }
   }
 }
