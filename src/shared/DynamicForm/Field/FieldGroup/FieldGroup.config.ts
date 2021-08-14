@@ -1,11 +1,11 @@
 import { FieldStatus } from '../Field.config';
 import { FieldConfig } from '../Field.config';
-// import { FieldLoopConfig, FieldLoopStatus } from '../FieldLoop/FieldLoop.config';
 import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueFields/ValueField.config';
 import { ContentFieldConfig, ContentFieldStatus } from '../ContentFields/ContentField.config';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
 import { Path } from '../../config';
+import { FieldLoopConfig, FieldLoopStatus } from '../FieldLoop/FieldLoop.config';
 
 export class FieldGroupStatus extends FieldStatus {
   declare public config: FieldGroupConfig;
@@ -32,9 +32,9 @@ export class FieldGroupStatus extends FieldStatus {
           valide = false;
         }
       }
-      // else if (child instanceof FieldLoopStatus) {
-      //   childStatus = (child as FieldLoopStatus).update(showErrors);
-      // }
+      else if (child instanceof FieldLoopStatus) {
+        childStatus = (child as FieldLoopStatus).update(showErrors);
+      }
     });
     this.isValid = valide;
     this.visible = this.config.visible.calc((key) =>
@@ -65,9 +65,9 @@ export class FieldGroupStatus extends FieldStatus {
             } else if (child instanceof FieldGroupStatus) {
               return (child as FieldGroupStatus).getValueByKey(after);
             }
-            // else if (child instanceof FieldLoopStatus) {
-            //   return (child as FieldLoopStatus).getValueByKey(after);
-            // }
+            else if (child instanceof FieldLoopStatus) {
+              return (child as FieldLoopStatus).getValueByKey(after);
+            }
           }
         }
       }
@@ -131,27 +131,6 @@ export class FieldGroupConfig extends FieldConfig {
     return path;
   }
 
-  public updateValidity() {
-    this.fields.forEach(field => {
-      if (field instanceof ValueFieldConfig) {
-        if (!field.status.visible) {
-          this.status.isValid = true;
-        }
-      } else if (field instanceof FieldGroupConfig) {
-        (field as FieldGroupConfig).updateValidity();
-        if (!field.visible) {
-          this.status.isValid = true;
-        }
-      }
-      // else if (field instanceof FieldLoopConfig) {
-      //   (field as FieldLoopConfig).updateValidity();
-      //   if (!field.visible) {
-      //     this.status.isValid = true;
-      //   }
-      // }
-    });
-  }
-
   public toJson() {
     let fields: any[] = [];
     this.fields.forEach(field => {
@@ -160,6 +139,7 @@ export class FieldGroupConfig extends FieldConfig {
 
     return {
       type: this.type,
+      key: this.key,
       fields: fields,
       settings: this.settings,
       visible: this.visible,

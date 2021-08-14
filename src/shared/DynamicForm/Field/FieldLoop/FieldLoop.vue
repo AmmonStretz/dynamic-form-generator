@@ -1,66 +1,65 @@
 <template>
-  <!-- <div class="field-group" :class="{ horizontal: config.settings.horizontal }">
+  <div class="field-loop" :class="{ horizontal: config.settings.horizontal }">
     <h2 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h2>
     <div class="content">
-      <FieldComponent
+      <Field
         v-for="(field, index) in config.fields"
         :key="index"
         v-bind:config="field"
+        v-bind:status="status.children[index]"
         v-bind:root="root"
-        v-on:change="onChange"
-      ></FieldComponent>
+        v-on:change="onChange(index, $event)"
+      ></Field>
     </div>
     <br />
     <p if="config.settings.description">{{ config.settings.description }}</p>
-  </div> -->
-  <div></div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-// import { WizardConfig } from "../../Wizard/Wizard.config";
-// import { FieldLoopConfig, FieldLoopStatus } from "./FieldLoop.config";
-// import FieldComponent from "../Field.vue";
+import { FinderConfig } from "../../Finder/Finder.config";
+import { FieldStatus } from "../Field.config";
+import { FieldLoopConfig, FieldLoopStatus } from "./FieldLoop.config";
 
-// Vue.component('FieldLoopComponent')
 @Component({
-  name: "FieldLoopComponent",
-  components: {
-    // FieldComponent,
-  },
+  name: "FieldLoop",
 })
-export default class FieldLoopComponent extends Vue {
-//   @Prop() public config!: FieldLoopConfig;
-//   @Prop() public root!: WizardConfig;
+export default class FieldLoop extends Vue {
+  @Prop() public config!: FieldLoopConfig;
+  @Prop() public status!: FieldLoopStatus;
+  @Prop() public root!: FinderConfig;
 
-//   constructor() {
-//     super();
-//   }
+  mounted() {
+    this.config.generateFields();
+  }
+  updated() {
+    
+  }
 
-//   mounted() {
-//     this.config.updateFields();
-//     this.$forceUpdate();
-//   }
+  @Emit("change")
+  onChange(index: number, status: FieldStatus): FieldLoopStatus {
+    // this.config.status.update();
+    // const index: number = this.config.fields.findIndex(field=>field.status.key == status.key);
+    this.config.fields[index].status = status;
+    this.config.status.isValid = this.checkValidity();
+    return this.config.status;
+  }
 
-//   @Emit("change")
-//   onChange(status: FieldLoopStatus): FieldLoopStatus {
-//     this.config.updateValidity();
-//     this.config.field.status = status;
-//     this.config.status.isValid = this.checkValidity();
-//     return this.config.status;
-//   }
+  checkValidity(): boolean {
+    for (let i = 0; i < this.config.fields.length; i++) {
+      const field = this.config.fields[i];
+      if (field.status.visible && !field.status.isValid) {
+        return false;
+      }
+    }
+    return true;
+  }
 
-//   checkValidity(): boolean {
-//     if (this.config.field.status.visible && !this.config.field.status.isValid) {
-//       return false;
-//     }
-//     return true;
-//   }
-
-//   beforeCreate() {
-//     if (this.$options.components)
-//       (this.$options.components.FieldComponent as any) = require("../Field.vue").default;
-//   }
+  beforeCreate() {
+    if (this.$options.components)
+      (this.$options.components.Field as any) = require("../Field.vue").default;
+  }
 }
 </script>
 

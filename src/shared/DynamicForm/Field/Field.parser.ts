@@ -1,6 +1,6 @@
 import { FieldConfig } from "./Field.config";
 import { FieldGroupConfig } from "./FieldGroup/FieldGroup.config";
-// import { FieldLoopConfig } from "./FieldLoop/FieldLoop.config";
+import { FieldLoopConfig } from "./FieldLoop/FieldLoop.config";
 import { PluginService } from "../services/Plugin.service";
 import { BooleanConditionParser } from "@/shared/ts-condition-parser/parsers/boolean.class";
 import { NumberConditionParser } from "@/shared/ts-condition-parser/parsers/number.class";
@@ -34,14 +34,14 @@ export class FieldParser {
       return PluginService.fieldParser[json.type](json);
     }
     switch (json.type) {
-      // case 'fieldLoop':
-      //   return new FieldLoopConfig(
-      //     json.key,
-      //     this.parseFromJSON(json.field),
-      //     json.settings,
-      //     BooleanConditionParser.fromJson(json.visible),
-      //     NumberConditionParser.fromJson(json.condition)
-      //   );
+      case 'fieldLoop':
+        return new FieldLoopConfig(
+          json.key,
+          this.parseFromJSON(json.field),
+          json.settings,
+          BooleanConditionParser.fromJson(json.visible),
+          NumberConditionParser.fromJson(json.condition)
+        );
       case 'fieldGroup':
         // validate settings
         return new FieldGroupConfig(

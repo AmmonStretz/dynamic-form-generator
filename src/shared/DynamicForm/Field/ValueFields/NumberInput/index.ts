@@ -54,10 +54,10 @@ export default {
           defaultValue.settings.default = current.settings.default;
 
           let min: NumberInputConfig = (form.fields[4] as NumberInputConfig);
-          min.settings.default = current.settings.default;
+          min.settings.default = current.settings.min;
 
           let max: NumberInputConfig = (form.fields[5] as NumberInputConfig);
-          max.settings.default = current.settings.default;
+          max.settings.default = current.settings.max;
 
           let description: TextAreaConfig = (form.fields[6] as TextAreaConfig);
           description.settings.default = current.settings.description;

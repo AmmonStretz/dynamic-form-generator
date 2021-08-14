@@ -4,6 +4,7 @@ import { FinderConfig } from '../Finder/Finder.config';
 import { FormConfig } from '../Form/Form.config';
 import { Status } from '../status';
 import { FieldGroupConfig } from './FieldGroup/FieldGroup.config';
+import { FieldLoopConfig } from './FieldLoop/FieldLoop.config';
 
 export abstract class FieldStatus extends Status {
   constructor(
@@ -23,7 +24,7 @@ export interface FieldSettings{
 
 export abstract class FieldConfig extends Config{
 
-  declare public parent: FormConfig | FieldGroupConfig;
+  declare public parent: FormConfig | FieldGroupConfig | FieldLoopConfig;
   declare public status: FieldStatus;
   constructor(
     public type: string,

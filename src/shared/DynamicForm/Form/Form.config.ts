@@ -8,6 +8,7 @@ import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class
 import { Status } from '../status';
 import { Config, Path } from '../config';
 import { ChapterConfig, ChapterStatus } from '../Chapter/Chapter.config';
+import { FieldLoopStatus } from '../Field/FieldLoop/FieldLoop.config';
 
 export class FormStatus extends Status {
 
@@ -32,9 +33,9 @@ export class FormStatus extends Status {
       
         childStatus = child.update(showErrors);
       }
-      // if (child instanceof FieldLoopStatus) {
-      //   childStatus = (child as FieldLoopStatus).update(showErrors);
-      // }
+      if (child instanceof FieldLoopStatus) {
+        childStatus = (child as FieldLoopStatus).update(showErrors);
+      }
       if (child instanceof ContentFieldStatus) {
         child.update(showErrors);
         return;
@@ -66,9 +67,9 @@ export class FormStatus extends Status {
           if (child instanceof FieldGroupStatus) {
             return child.getValueByKey(after);
           } 
-          // else if (child instanceof FieldLoopStatus) {
-          //   return (child as FieldLoopStatus).getValueByKey(after);
-          // } 
+          else if (child instanceof FieldLoopStatus) {
+            return (child as FieldLoopStatus).getValueByKey(after);
+          } 
           else if (child instanceof ContentFieldStatus) {
             return (child as ContentFieldStatus).getValueByKey(after);
           } else if (child instanceof ValueFieldStatus) {

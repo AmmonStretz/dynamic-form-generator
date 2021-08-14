@@ -16,14 +16,14 @@
       v-on:change="onChange"
       ref="child"
     ></FieldGroup>
-    <!-- <FieldLoopComponent
+    <FieldLoop
       v-if="config.type == 'fieldLoop'"
       v-bind:config="config"
       v-bind:root="root"
       v-bind:status="status"
       v-on:change="onChange"
       ref="child"
-    ></FieldLoopComponent> -->
+    ></FieldLoop>
     <ContentField
       v-if="isContentField"
       v-bind:config="config"

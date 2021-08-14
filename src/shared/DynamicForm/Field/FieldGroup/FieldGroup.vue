@@ -6,7 +6,7 @@
         v-for="(field, index) in config.fields"
         :key="index"
         v-bind:config="field"
-        v-bind:status="field.status"
+        v-bind:status="status.children[index]"
         v-bind:root="root"
         v-on:change="onChange"
       ></Field>
@@ -26,11 +26,12 @@ import { FieldGroupConfig, FieldGroupStatus } from "./FieldGroup.config";
 })
 export default class FieldGroup extends Vue {
   @Prop() public config!: FieldGroupConfig;
+  @Prop() public status!: FieldGroupStatus;
   @Prop() public root!: FinderConfig;
 
   @Emit("change")
   onChange(status: FieldGroupStatus): FieldGroupStatus {
-    this.config.updateValidity();
+    this.config.status.update();
     const index: number = this.config.fields.findIndex(field=>field.status.key == status.key);
     this.config.fields[index].status = status;
     this.config.status.isValid = this.checkValidity();

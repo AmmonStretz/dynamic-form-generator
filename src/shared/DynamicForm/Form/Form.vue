@@ -18,9 +18,9 @@
 import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import Field from "../Field/Field.vue";
 import { FormConfig, FormStatus } from "./Form.config";
-import { ValueFieldStatus } from "../Field/ValueFields/ValueField.config";
 import { ContentFieldConfig } from "../Field/ContentFields/ContentField.config";
 import { FinderConfig } from "../Finder/Finder.config";
+import { FieldStatus } from "../Field/Field.config";
 
 @Component({
   components: {
@@ -33,7 +33,6 @@ export default class Form extends Vue {
   @Prop() public root!: FinderConfig;
   @Prop() public status!: FormStatus;
   private value: FormStatus = null;
-
   mounted() {
     this.value = this.status? this.status : this.config.status;
     if (this.config.visible.calc) {
@@ -45,7 +44,7 @@ export default class Form extends Vue {
   }
 
   @Emit("change")
-  onChange(status: ValueFieldStatus<any>): FormStatus {
+  onChange(status: FieldStatus): FormStatus {
     this.config.status.update();
     const index: number = this.config.fields.findIndex(
       (field) => field.status.key == status.key
@@ -53,10 +52,7 @@ export default class Form extends Vue {
     this.config.fields[index].status = status;
     this.config.status.children[index] = status;
     this.config.status.isValid = this.checkValidity();
-    // if(this.root){
-    //   this.root.status.update();
-    // }
-    
+
     return this.config.status;
   }
   

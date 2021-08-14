@@ -47,8 +47,6 @@ export default class FieldEditor extends Vue {
       addFieldGenerator(
         (status: FormStatus) => {
           const position: number = status.getValueByKey("position");
-          console.log(position);
-
           const currentStatus =
             status.children[status.children.length - 1].children[
               status.getValueByKey("type")
