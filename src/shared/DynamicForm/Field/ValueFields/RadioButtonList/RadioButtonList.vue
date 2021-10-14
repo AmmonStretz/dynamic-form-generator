@@ -15,7 +15,8 @@
       ><br />
     </div>
     <div
-      v-if="config.status.showErrors && config.status.errors && config.status.errors[0]"
+       
+      class="error-message" v-if="config.status.showErrors && config.status.errors && config.status.errors[0]"
     >
       {{ config.status.errors[0].message }}
     </div>
@@ -56,7 +57,4 @@ export default class RadioButtonList extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
-}
 </style>

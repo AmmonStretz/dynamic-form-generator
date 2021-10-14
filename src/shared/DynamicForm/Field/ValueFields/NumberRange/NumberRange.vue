@@ -17,7 +17,8 @@
     {{config.status.value}}
     <span class="unit" v-if="!!config.settings.unit">{{config.settings.unit}}</span>
     <br>
-    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
+    <div  
+      class="error-message" v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -52,7 +53,4 @@ export default class NumberRange extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
-}
 </style>

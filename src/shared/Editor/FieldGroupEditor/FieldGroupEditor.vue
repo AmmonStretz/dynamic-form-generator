@@ -45,7 +45,7 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FieldConfig } from "../../DynamicForm/Field/Field.config";
 import { FieldGroupConfig } from "../../DynamicForm/Field/FieldGroup/FieldGroup.config";
-import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
+import { BooleanLogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/BooleanLogicInput/BooleanLogicInput.config";
 import { FormConfig, FormStatus } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
 import FieldEditor from "../FieldEditor/FieldEditor.vue";
@@ -105,7 +105,7 @@ export default class FieldGroupEditor extends Vue {
     let view = {
       form: new FormConfig(
         [
-          new LogicInputConfig("visibility", this.config.Root.getAllPaths(), {
+          new BooleanLogicInputConfig("visibility", this.config.Root.getAllPaths(), {
             default: this.config.visible,
           }),
         ],

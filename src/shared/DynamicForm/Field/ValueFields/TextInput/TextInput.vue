@@ -1,6 +1,8 @@
 <template>
   <div class="text-input">
-    <label v-if="config.settings && config.settings.name" :for="config.key">{{config.settings.name}}:</label>
+    <label v-if="config.settings && config.settings.name" :for="config.key"
+      >{{ config.settings.name }}:</label
+    >
     <input
       v-if="config && config.status"
       type="text"
@@ -11,9 +13,18 @@
       v-model="config.status.value"
       @focus="updateStatus()"
       @blur="setBlur()"
-      :class="{'show': config.status.showErrors, 'valid': config.status.isValid}"
+      :class="{ show: config.status.showErrors, valid: config.status.isValid }"
     />
-    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
+    <div
+      class="error-message"
+      v-if="
+        config.status.showErrors &&
+        config.status.errors &&
+        config.status.errors[0]
+      "
+    >
+      {{ config.status.errors[0].message }}
+    </div>
   </div>
 </template>
 
@@ -24,7 +35,7 @@ import { Validator } from "../../../Validators/validators.class";
 import { ValueFieldStatus } from "../ValueField.config";
 
 @Component({
-  name: 'TextInput'
+  name: "TextInput",
 })
 export default class TextInput extends Vue {
   @Prop() private config!: TextInputConfig;
@@ -38,7 +49,10 @@ export default class TextInput extends Vue {
   }
   @Emit("change")
   updateStatus(): ValueFieldStatus<string> {
-    this.config.status.errors = Validator.checkFieldValidity(this.config.status.value, this.config.validators);
+    this.config.status.errors = Validator.checkFieldValidity(
+      this.config.status.value,
+      this.config.validators
+    );
     this.config.status.isValid = this.config.status.errors.length == 0;
     this.status = this.config.status;
     return this.config.status;
@@ -47,7 +61,4 @@ export default class TextInput extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
-}
 </style>

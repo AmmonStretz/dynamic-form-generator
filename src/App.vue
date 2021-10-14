@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <router-view/>
+    <nav id="nav">
       <router-link to="/">Finder</router-link> |
       <router-link to="/editor">Editor</router-link>
-    </div>
-    <router-view/>
+    </nav>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 @Component  
 export default class App extends Vue {
+  $store: any;
   constructor() {
     super();
     this.$store.commit("loadConfig");
@@ -19,12 +20,12 @@ export default class App extends Vue {
   </script>
 
 <style lang="scss">
+@import './styles/index.scss';
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 #nav {

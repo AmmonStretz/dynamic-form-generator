@@ -127,7 +127,7 @@ export abstract class BooleanConditionParser {
   public static fromJson(json: any): BooleanCondition {
     return this.parsers[json.type](json);
   }
-  public static containsParser(type: string) {
+  public static containsParser(type: string): boolean {
     return type in this.parsers;
   }
 }

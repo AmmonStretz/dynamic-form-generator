@@ -63,9 +63,47 @@ const AGE: any = {
     showLength: true,
     min: 0,
     max: 18,
-    default: 10
+    default: 2
   },
   validators: [REQUIRED]
+}
+
+
+const TextInput: any = {
+  type: 'textInput',
+  key: 'TextInput',
+  settings: {
+    name: 'TextInput',
+    placeholder: 'test'
+  },
+  validators: [REQUIRED],
+}
+const NUMBER_INPUT: any = {
+  type: 'numberInput',
+  key: 'NumberInput',
+  settings: {
+    name: 'NumberInput',
+    placeholder: '0'
+  },
+  validators: [REQUIRED]
+}
+const LOOP_GROUP: any = {
+  type: 'fieldGroup',
+  key: 'loopGroup',
+  fields: [
+    TextInput,
+    NUMBER_INPUT
+  ],
+  settings: {
+    title: 'Vater'
+  }
+}
+const LOOP: any = {
+  type: 'fieldLoop',
+  key: 'loop',
+  settings: {},
+  field: LOOP_GROUP,
+  condition: { type: 'number-var', key: 'Root:/0/Alter' }
 }
 
 const PAGE_00: any = {
@@ -73,7 +111,8 @@ const PAGE_00: any = {
   fields: [
     PRENAME,
     SURENAME,
-    AGE
+    AGE,
+    // LOOP
   ],
   settings: {
     title: 'Daten des Kindes'
@@ -105,7 +144,7 @@ const EMAIL: any = {
   key: 'Email',
   settings: {
     name: 'Email',
-    description: 'Unter dieser Email sind Sie zu erreichen.',
+    description: 'Bitte geben Sie die Emailadresse an, unter der wir Sie erreichen können.',
     placeholder: 'aaa@bbb.de',
     maxLength: 100,
     default: 'cornelia-müller@gmail.com'

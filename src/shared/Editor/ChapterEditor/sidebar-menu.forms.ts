@@ -51,14 +51,14 @@ export function addCathegoryGenerator(defaultCathegoryName: string, blockedTitle
       [
         new TextInputConfig("title", { name: "Kapitelname" }, [
           new Required("Bitte geben Sie einen Namen ein"),
-          new NotInList("Diese Kategorie gibt es schon", blockedTitles),
+          new NotInList("Dieses Kapitel gibt es schon", blockedTitles),
         ]),
         new CheckboxConfig(
           'showTitle',
           { default: true, name: 'Titel anzeigen?' }
         )
       ],
-      { title: "Kategorie hinzufügen" }
+      { title: "Kapitel hinzufügen" }
     ),
     listener: listener
   }

@@ -7,23 +7,23 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { ValueFieldStatus } from "../ValueField.config";
-import { LogicInputConfig } from "./LogicInput.config";
-import { BooleanCondition } from "../../../../ts-condition-parser/condition.class";
-import Combination from "./Combination.vue";
+import { ValueFieldStatus } from "../../ValueField.config";
+import { BooleanLogicInputConfig } from "./BooleanLogicInput.config";
+import { BooleanCondition } from "../../../../../ts-condition-parser/condition.class";
+import Combination from "../Combination.vue";
 import {
   And,
   BooleanConst,
-} from "../../../../ts-condition-parser/objects/boolean.class";
+} from "../../../../../ts-condition-parser/objects/boolean.class";
 
 @Component({
-  name: "LogicInputComponent",
+  name: "BooleanLogicInputComponent",
   components: {
     Combination,
   },
 })
-export default class LogicInputComponent extends Vue {
-  @Prop() private config!: LogicInputConfig;
+export default class BooleanLogicInputComponent extends Vue {
+  @Prop() private config!: BooleanLogicInputConfig;
   public condition: { type: string; operators: any[] } =
     this.defaultCondition.toJson();
   public $refs: any;
@@ -53,7 +53,4 @@ export default class LogicInputComponent extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
-}
 </style>

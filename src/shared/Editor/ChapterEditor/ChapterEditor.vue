@@ -53,7 +53,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
-import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
+import { BooleanLogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/BooleanLogicInput/BooleanLogicInput.config";
 import { FinderConfig } from "../../DynamicForm/Finder/Finder.config";
 import { FormConfig } from "../../DynamicForm/Form/Form.config";
 import PageEditor from "../PageEditor/PageEditor.vue";
@@ -143,7 +143,7 @@ export default class ChapterEditor extends Vue {
     let view = {
       form: new FormConfig(
         [
-          new LogicInputConfig("visibility", this.config.Root.getAllPaths(), {
+          new BooleanLogicInputConfig("visibility", this.config.Root.getAllPaths(), {
             default: this.config.visible,
           }),
         ],

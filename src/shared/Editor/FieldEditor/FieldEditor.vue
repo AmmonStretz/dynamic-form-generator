@@ -6,13 +6,18 @@
       </h3>
       <ElementMenu
         :listeners="{
-          add: [{ name: 'Feld', click: add },{ name: 'Gruppe', click: addGroup }],
+          add: [
+            { name: 'Feld', click: add },
+            { name: 'Gruppe', click: addGroup },
+          ],
           edit: [{ name: 'edit', click: editField }],
           delete: [{ name: 'delete', click: deleteField }],
           visibility: [{ name: 'visibility', click: editVisibility }],
+          loop: [{ name: 'loop', click: createLoop }],
         }"
       />
     </header>
+    <div v-if="!loaded"></div>
   </div>
 </template>
 
@@ -20,15 +25,18 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FieldConfig } from "../../DynamicForm/Field/Field.config";
 import { FieldGroupConfig } from "../../DynamicForm/Field/FieldGroup/FieldGroup.config";
-import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
+import { FieldLoopConfig } from "../../DynamicForm/Field/FieldLoop/FieldLoop.config";
+import { BooleanLogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/BooleanLogicInput/BooleanLogicInput.config";
 import { FormConfig, FormStatus } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
+import { BooleanConst } from "../../ts-condition-parser/objects/boolean.class";
 import ElementMenu from "../ElementMenu/ElementMenu.vue";
 import { addFieldGroupGenerator } from "../FieldGroupEditor/sidebar-menu.forms";
 import {
   addFieldGenerator,
   deleteFieldGenerator,
   editFieldGenerator,
+  addFieldLoopGenerator,
 } from "./sidebar-menu.forms";
 
 @Component({
@@ -41,6 +49,50 @@ export default class FieldEditor extends Vue {
   @Prop() public config!: FieldConfig;
   @Prop() public depth!: boolean;
   public $store: any;
+  public createLoop() {
+    this.$store.commit(
+      "openMenu",
+      addFieldLoopGenerator((status: FormStatus) => {
+        
+        let loop = new FieldLoopConfig(
+          status.getValueByKey("key"),
+          this.config,
+          {},
+          new BooleanConst(true),
+          status.getValueByKey("counter")
+        );
+        loop.parent = this.config.parent;
+        if(this.config.parent instanceof FieldLoopConfig){
+          this.config.parent.field = loop;
+          }
+        else if(this.config.parent instanceof FormConfig){
+          for (let i = 0; i < this.config.parent.fields.length; i++) {
+            if(this.config.parent.fields[i] == this.config){
+              this.config.parent.fields[i] = loop;
+              break;
+            }
+          }
+        }
+        else if(this.config.parent instanceof FieldGroupConfig){
+          for (let i = 0; i < this.config.parent.fields.length; i++) {
+            if(this.config.parent.fields[i] == this.config){
+              this.config.parent.fields[i] = loop;
+              break;
+            }
+          }
+        } else {
+          console.log('error');
+          
+        }
+        this.config.parent = loop;
+        
+        
+        this.reload();
+        this.onChange();
+        
+      }, this.config.Root.getAllPaths())
+    );
+  }
   public add() {
     this.$store.commit(
       "openMenu",
@@ -101,10 +153,15 @@ export default class FieldEditor extends Vue {
     this.$store.commit(
       "openMenu",
       deleteFieldGenerator((status: Status) => {
-        for (let i = 0; i < this.config.parent.fields.length; i++) {
-          const field = this.config.parent.fields[i];
-          if (field === this.config) {
-            this.config.parent.fields.splice(i, 1);
+        if(this.config.parent instanceof FieldLoopConfig){
+          this.config.parent.field = null;
+          console.log('LOOP');
+        } else {
+          for (let i = 0; i < this.config.parent.fields.length; i++) {
+            const field = this.config.parent.fields[i];
+            if (field === this.config) {
+              this.config.parent.fields.splice(i, 1);
+            }
           }
         }
         // this.change();
@@ -130,9 +187,13 @@ export default class FieldEditor extends Vue {
     let view = {
       form: new FormConfig(
         [
-          new LogicInputConfig("visibility", this.config.Root.getAllPaths(), {
-            default: this.config.visible,
-          }),
+          new BooleanLogicInputConfig(
+            "visibility",
+            this.config.Root.getAllPaths(),
+            {
+              default: this.config.visible,
+            }
+          ),
         ],
         { title: "Sichtbarkeit bearbeiten" }
       ),
@@ -153,6 +214,13 @@ export default class FieldEditor extends Vue {
   @Emit("change")
   onChange(): FieldConfig {
     return this.config;
+  }
+  private loaded = true;
+  reload() {
+    this.loaded = false;
+    this.$nextTick(() => {
+      this.loaded = true;
+    });
   }
 }
 </script>

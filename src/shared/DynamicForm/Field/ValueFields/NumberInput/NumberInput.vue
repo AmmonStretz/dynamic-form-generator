@@ -13,7 +13,8 @@
       :class="{'show': config.status.showErrors, 'valid': config.status.isValid}"
     />
     <span v-if="config.settings.unit">{{config.settings.unit}}</span><br>
-    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
+    <div  
+      class="error-message" v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -54,7 +55,4 @@ export default class NumberInput extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
-}
 </style>

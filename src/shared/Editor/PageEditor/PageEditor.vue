@@ -16,13 +16,19 @@
     <div class="content">
       <div v-for="(field, i) in config.fields" :key="i">
         <FieldEditor
-          v-if="field.type != 'fieldGroup'"
+          v-if="field.type != 'fieldGroup' && field.type != 'fieldLoop'"
           :config="field"
           @change="onFieldChange"
           :depth="0"
         />
         <FieldGroupEditor
           v-if="field.type == 'fieldGroup'"
+          :config="field"
+          @change="onFieldChange"
+          :depth="0"
+        />
+        <FieldLoopEditor
+          v-if="field.type == 'fieldLoop'"
           :config="field"
           @change="onFieldChange"
           :depth="0"
@@ -42,11 +48,12 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { ChapterConfig } from "../../DynamicForm/Chapter/Chapter.config";
 import { FieldConfig } from "../../DynamicForm/Field/Field.config";
-import { LogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/LogicInput.config";
+import { BooleanLogicInputConfig } from "../../DynamicForm/Field/ValueFields/LogicInput/BooleanLogicInput/BooleanLogicInput.config";
 import { FormConfig, FormStatus } from "../../DynamicForm/Form/Form.config";
 import { Status } from "../../DynamicForm/status";
 import FieldEditor from "../FieldEditor/FieldEditor.vue";
 import FieldGroupEditor from "../FieldGroupEditor/FieldGroupEditor.vue";
+import FieldLoopEditor from "../FieldLoopEditor/FieldLoopEditor.vue";
 import ElementMenu from "../ElementMenu/ElementMenu.vue";
 import { addFieldGenerator } from "../FieldEditor/sidebar-menu.forms";
 import {
@@ -62,6 +69,7 @@ import { FieldGroupConfig } from "../../DynamicForm/Field/FieldGroup/FieldGroup.
   components: {
     FieldEditor,
     FieldGroupEditor,
+    FieldLoopEditor,
     ElementMenu,
   },
 })
@@ -110,7 +118,7 @@ export default class PageEditor extends Vue {
     let view = {
       form: new FormConfig(
         [
-          new LogicInputConfig("visibility", this.config.Root.getAllPaths(), {
+          new BooleanLogicInputConfig("visibility", this.config.Root.getAllPaths(), {
             default: this.config.visible,
           }),
         ],

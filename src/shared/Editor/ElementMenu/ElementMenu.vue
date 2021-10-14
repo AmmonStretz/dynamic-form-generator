@@ -40,6 +40,16 @@
         </button>
       </nav>
     </div>
+    <div>
+      <button v-if="!!listeners.loop" @click="click('loop')">
+        <img src="../../../assets/icons/loop.svg" />
+      </button>
+      <nav class="submenu" v-if="open == 'loop'">
+        <button v-for="(loop, a) in listeners.loop" :key="a" @click="open = null;loop.click()">
+          {{ loop.name }}
+        </button>
+      </nav>
+    </div>
   </div>
 </template>
 

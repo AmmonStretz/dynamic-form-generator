@@ -21,7 +21,8 @@ import TextInputPlugin from './shared/DynamicForm/Field/ValueFields/TextInput';
 import EmailInputPlugin from './shared/DynamicForm/Field/ValueFields/EmailInput';
 
 import ValidationListPlugin from './shared/DynamicForm/Field/ValueFields/ValidationList';
-import LogicInputPlugin from './shared/DynamicForm/Field/ValueFields/LogicInput';
+import BooleanLogicInputPlugin from './shared/DynamicForm/Field/ValueFields/LogicInput/BooleanLogicInput';
+import NumberLogicInputPlugin from './shared/DynamicForm/Field/ValueFields/LogicInput/NumberLogicInput';
 
 Vue.config.productionTip = false;
 
@@ -55,7 +56,8 @@ Vue.use(EmailInputPlugin);
 
 // Private Plugins
 Vue.use(ValidationListPlugin);
-Vue.use(LogicInputPlugin);
+Vue.use(BooleanLogicInputPlugin);
+Vue.use(NumberLogicInputPlugin);
 
 Vue.use(Vuex)
 import App from './App.vue';

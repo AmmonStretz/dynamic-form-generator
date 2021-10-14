@@ -32,7 +32,7 @@ import {
   Equal,
   NotEqual,
 } from "../../../../../ts-condition-parser/objects/boolean.class";
-import { LogicInputConfig } from "../LogicInput.config";
+import { BooleanLogicInputConfig } from "../BooleanLogicInput/BooleanLogicInput.config";
 import PathSelector from "./../PathSelector/PathSelector.vue";
 import { StringConditionParser } from "../../../../../ts-condition-parser/parsers/string.class";
 import { StringConst, StringVar } from "../../../../../ts-condition-parser/objects/string.class";
@@ -44,7 +44,7 @@ import { StringConst, StringVar } from "../../../../../ts-condition-parser/objec
   },
 })
 export default class StringOperation extends Vue {
-  @Prop() private config!: LogicInputConfig;
+  @Prop() private config!: BooleanLogicInputConfig;
   @Prop() private value: {
     first: any;
     type: string;

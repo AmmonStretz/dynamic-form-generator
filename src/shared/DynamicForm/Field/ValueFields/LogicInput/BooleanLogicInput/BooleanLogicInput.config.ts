@@ -1,10 +1,10 @@
 import { Path } from '@/shared/DynamicForm/config';
+import { Validator } from '@/shared/DynamicForm/Validators';
 import { BooleanCondition } from '@/shared/ts-condition-parser/condition.class';
 import { BooleanConst } from '@/shared/ts-condition-parser/objects/boolean.class';
-import { Validator } from '../../../Validators/validators.class';
-import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../ValueField.config';
+import { ValueFieldConfig, ValueFieldSettings, ValueFieldStatus } from '../../ValueField.config';
 
-export class LogicInputConfig extends ValueFieldConfig<BooleanCondition> {
+export class BooleanLogicInputConfig extends ValueFieldConfig<BooleanCondition> {
   constructor(
     public key: string,
     public options: Path,
@@ -14,7 +14,7 @@ export class LogicInputConfig extends ValueFieldConfig<BooleanCondition> {
   ) {
     super(
       key,
-      'logic-input',
+      'boolean-logic-input',
       settings,
       validators,
       visible

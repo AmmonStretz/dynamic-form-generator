@@ -1,6 +1,6 @@
 <template>
   <div class="field-group" :class="{ horizontal: config.settings.horizontal }">
-    <h2 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h2>
+    <h3 v-if="!!config.settings && !!config.settings.title">{{ config.settings.title }}</h3>
     <div class="content">
       <Field
         v-for="(field, index) in config.fields"

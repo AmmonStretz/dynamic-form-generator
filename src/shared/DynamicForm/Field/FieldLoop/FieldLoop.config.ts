@@ -56,7 +56,7 @@ export class FieldLoopStatus extends FieldStatus {
     if (index == 'Root:') {
       return this.config.root.status.getValueByKey(current + '/' + after);
     } else if (index == '..') {
-      return this.parent.getValueByKey(current + '/' + after);
+      return this.parent.getValueByKey(after);
     } else if (+index != NaN && typeof +index == "number" && this.children.length > +index) {
       const child = this.children[+index];
       if (child instanceof FieldStatus && current == child.key) {
@@ -99,6 +99,8 @@ export class FieldLoopConfig extends FieldConfig {
       settings,
       visible
     );
+    console.log(this.condition);
+    
     this.fields.forEach(field => {
       field.parent = this;
     });

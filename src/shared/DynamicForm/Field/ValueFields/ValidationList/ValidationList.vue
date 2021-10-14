@@ -137,7 +137,4 @@ export default class ValidationList extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
-}
 </style>

@@ -10,7 +10,7 @@
         v-on:change="onChange"
         ref="chapter"
       ></Chapter>
-    <div>
+    <nav>
       <button type="button" v-on:click="previous()">
         {{
           config.settings.prevButtonText
@@ -25,7 +25,7 @@
             : "Weiter"
         }}
       </button>
-    </div>
+    </nav>
   </div>
 </template>
 

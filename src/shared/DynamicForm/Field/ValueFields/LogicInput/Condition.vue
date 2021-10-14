@@ -47,7 +47,7 @@ import {
   BooleanCondition,
   Condition,
 } from "../../../../ts-condition-parser/condition.class";
-import { LogicInputConfig } from "./LogicInput.config";
+import { BooleanLogicInputConfig } from "./BooleanLogicInput/BooleanLogicInput.config";
 import BooleanOperation from "./operations/BooleanOperation.vue";
 import StringOperation from "./operations/StringOperation.vue";
 import NumberOperation from "./operations/NumberOperation.vue";
@@ -66,7 +66,7 @@ import { StringVar } from "../../../../ts-condition-parser/objects/string.class"
   },
 })
 export default class ConditionComponent extends Vue {
-  @Prop() private config!: LogicInputConfig;
+  @Prop() private config!: BooleanLogicInputConfig;
   @Prop() private value!: { type: string; first: any; second: any };
   @Prop() public index: number;
 

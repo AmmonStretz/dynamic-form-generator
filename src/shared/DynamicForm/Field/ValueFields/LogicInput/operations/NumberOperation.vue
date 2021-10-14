@@ -37,7 +37,7 @@ import {
   LessThan,
   NotEqual,
 } from "../../../../../ts-condition-parser/objects/boolean.class";
-import { LogicInputConfig } from "../LogicInput.config";
+import { BooleanLogicInputConfig } from "../BooleanLogicInput/BooleanLogicInput.config";
 import {
   NumberConst,
   NumberVar,
@@ -52,7 +52,7 @@ import PathSelector from "./../PathSelector/PathSelector.vue";
   },
 })
 export default class NumberOperation extends Vue {
-  @Prop() private config!: LogicInputConfig;
+  @Prop() private config!: BooleanLogicInputConfig;
   @Prop() private value: {
     first: any;
     type: string;

@@ -17,6 +17,7 @@
     <span v-if="config.settings.unit">{{ config.settings.unit }}</span
     ><br />
     <div
+      class="error-message"
       v-if="config.status.showErrors && config.status.errors && config.status.errors[0]"
     >
       {{ config.status.errors[0].message }}
@@ -57,7 +58,4 @@ export default class TextArea extends Vue {
 </script>
 
 <style scoped lang="scss">
-textarea.show:not(.valid) {
-  background-color: red;
-}
 </style>

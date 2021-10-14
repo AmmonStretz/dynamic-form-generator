@@ -18,7 +18,7 @@ import {
   Equal,
   NotEqual,
 } from "../../../../../ts-condition-parser/objects/boolean.class";
-import { LogicInputConfig } from "../LogicInput.config";
+import { BooleanLogicInputConfig } from "../BooleanLogicInput/BooleanLogicInput.config";
 import { BooleanConditionParser } from "../../../../../ts-condition-parser/parsers/boolean.class";
 import PathSelector from "./../PathSelector/PathSelector.vue";
 
@@ -29,7 +29,7 @@ import PathSelector from "./../PathSelector/PathSelector.vue";
   }
 })
 export default class BooleanOperation extends Vue {
-  @Prop() private config!: LogicInputConfig;
+  @Prop() private config!: BooleanLogicInputConfig;
   @Prop() private value: {
     first: any;
     type: string;

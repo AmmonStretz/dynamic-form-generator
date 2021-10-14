@@ -13,7 +13,8 @@
       @change="onChange()"
       :class="{ show: config.status.showErrors, valid: config.status.isValid }"
     /><br>
-    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
+    <div 
+      class="error-message" v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -45,7 +46,4 @@ export default class Checkbox extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
-}
 </style>

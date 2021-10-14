@@ -53,12 +53,12 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { BooleanCondition } from "../../../../ts-condition-parser/condition.class";
-import { LogicInputConfig } from "./LogicInput.config";
+import { BooleanLogicInputConfig } from "./BooleanLogicInput/BooleanLogicInput.config";
 import BooleanOperation from "./operations/BooleanOperation.vue";
 import Condition from "./Condition.vue";
 import { And, Or } from "../../../../ts-condition-parser/objects/boolean.class";
 import { BooleanConditionParser } from "../../../../ts-condition-parser/parsers/boolean.class";
-import LogicInputComponent from "./LogicInput.vue";
+import LogicInputComponent from "./BooleanLogicInput/BooleanLogicInput.vue";
 
 @Component({
   name: "Combination",
@@ -69,7 +69,7 @@ import LogicInputComponent from "./LogicInput.vue";
   },
 })
 export default class Combination extends Vue {
-  @Prop() private config!: LogicInputConfig;
+  @Prop() private config!: BooleanLogicInputConfig;
   @Prop() public value!: { type: string; operators: any[] };
   @Prop() public index: number;
   navIsOpen: boolean = false;

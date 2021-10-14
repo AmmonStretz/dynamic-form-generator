@@ -13,7 +13,8 @@
       @blur="setBlur()"
       :class="{'show': config.status.showErrors, 'valid': config.status.isValid}"
     />
-    <div v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
+    <div  
+      class="error-message" v-if="config.status.showErrors && config.status.errors && config.status.errors[0]">{{config.status.errors[0].message}}</div>
   </div>
 </template>
 
@@ -47,7 +48,4 @@ export default class EmailInput extends Vue {
 </script>
 
 <style scoped lang="scss">
-input.show:not(.valid) {
-  background-color: red;
-}
 </style>
